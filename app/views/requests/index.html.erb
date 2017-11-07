@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+<div class="card">
+	<div class="card-header">
+<h1 class="display-5">Requests</h1>
+<div>
+	<div class="card-body">
+<table class="table">
+  <thead>
+    <tr>
+      <th>Number</th>
+		<th>Requestor</th>
+		<th>Vehicle Number</th>
+      <th>Description</th>
+      <th>Special requets</th>
+      <th>Completion date</th>
+      <th>Point of Contact</th>
+		<th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @requests.each do |request| %>
+      <tr>
+        <td><%= request.number %></td>
+		  <td><%= request.user_id %></td>
+		  <td><%= request.vehicle_number%>
+        <td><%= request.description %></td>
+        <td><%= request.special_requets %></td>
+        <td><%= request.completion_date %></td>
+        <td><%= request.poc %></td>
+		  <td><%= request.track %></td>
+        <td><%= link_to 'Show', request, class: "btn btn-primary" %></td>
+        <td><%= link_to 'Edit', edit_request_path(request), class: "btn btn-primary" %></td>
+        <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Request', new_request_path, class: "btn btn-success" %>
+</div>
+</div>

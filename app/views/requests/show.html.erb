@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @request.number %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @request.description %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @request.track %>
+</p>
+
+<p>
+  <strong>Special requets:</strong>
+  <%= @request.special_requets %>
+</p>
+
+<p>
+  <strong>Completion date:</strong>
+  <%= @request.completion_date %>
+</p>
+
+<p>
+  <strong>Poc:</strong>
+  <%= @request.poc %>
+</p>
+
+<%= link_to 'Edit', edit_request_path(@request) %> |
+<%= link_to 'Back', requests_path %>

@@ -32,16 +32,26 @@
 	            <a class="dropdown-item" href="../requests/new">Submit a Request</a>
 	            <a class="dropdown-item" href="#">Request Status</a>
 	            <div class="dropdown-divider"></div>
-	            <a class="dropdown-item" href="../requests/index">Records</a>
+	            <a class="dropdown-item" href="../requests">Records</a>
 	          </div>
 	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">Inventory</a>
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="../vehicles" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	           Vehicles
+	          </a>
+	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	            <a class="dropdown-item" href="../vehicles/new">Add a Vehicle</a>
+	            <a class="dropdown-item" href="#">Update</a>
+	            <div class="dropdown-divider"></div>
+	            <a class="dropdown-item" href="../vehicles">Records</a>
+	          </div>
 	        </li>
 	      </ul>
 		<nav class="nav justify-content-end">
-			<ul class="navbar-nav">
+			<ul class="navbar-nav btn-group">
+			<%= link_to "All Users", all_users_path, class: "btn btn-primary"%>	
 	  	 <% if user_signed_in? %>
+		 <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-success" %>
 	  	 <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-danger"%>
 	  	 <% end %>
 	    </div>

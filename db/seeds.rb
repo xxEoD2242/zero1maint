@@ -6,4 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-tracker = Tracker.create([{track: 'New'}, {track: 'In-Progress'}, {track: 'Completed'}, {track: 'Overdue'}])
+
+
+vehicle_categories = VehicleCategory.create([{name: "RZR"}, {name: "Tour Car"}, {name: "Dirt Bike"}, {name: "Fleet Vehicle"}, {name: "Training Vehcile"}, {name: "Other"}])

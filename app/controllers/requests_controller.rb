@@ -1,28 +1,30 @@
 class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
   # GET /requests
   # GET /requests.json
   def index
     @requests = Request.all
+    
   end
 
   # GET /requests/1
   # GET /requests/1.json
   def show
-    @track = Tracker.all
+    @tracks = Tracker.all
+    
   end
 
   # GET /requests/new
   def new
     @request = Request.new
-    @track = Tracker.all
   end
 
   # GET /requests/1/edit
   def edit
     @requests = Request.find_by(params[:number])
-    @track = Tracker.where('id > ?', 1)
+    @tracks = Tracker.all
+    @vehicles = Vehicle.all
   end
 
   # POST /requests
@@ -70,9 +72,17 @@ class RequestsController < ApplicationController
     def set_request
       @request = Request.find(params[:id])
     end
+    
+    def set_vehicle
+      @vehicles = Vehicle.all
+    end
+    
+    def set_tracker
+      @tracks = Tracker.all
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_number, :track, :image, :user_id)
+      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_id, :tracker_id, :image, :user_id)
     end
 end

@@ -1,0 +1,30 @@
+<div class="jumbotron text-center">
+<h1 class="display-3">Zero 1 Employees</h1>
+</div>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Employee ID #</th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Date Joined</th>
+			<th>Requests</th>
+		</tr>
+	</thead>
+	<tbody>
+		
+			<% @users.each do |user| %>
+			<tr>
+			<td><%= user.emplyid %></td>
+			<td><%= user.name %></td>
+			<td><%= user.email %></td>
+			<td><%= user.created_at.strftime("%D")%>
+			<td>Put ID with link to each request</td>
+			<td><%= button_to "Delete User", registration_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %></td>
+		</tr>
+		<% end %>
+		
+	</tbody>
+</table>

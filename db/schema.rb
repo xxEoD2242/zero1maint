@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107165600) do
+ActiveRecord::Schema.define(version: 20171109180857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "mileages", force: :cascade do |t|
+    t.float "mileage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vehicle_id"
+  end
 
   create_table "order_statuses", force: :cascade do |t|
     t.string "order_status"
@@ -29,10 +36,10 @@ ActiveRecord::Schema.define(version: 20171107165600) do
     t.string "poc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "vehicle_number"
     t.string "image"
-    t.string "track"
-    t.integer "userid"
+    t.integer "user_id"
+    t.integer "vehicle_id"
+    t.integer "tracker_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -62,8 +69,28 @@ ActiveRecord::Schema.define(version: 20171107165600) do
     t.datetime "updated_at", null: false
     t.string "role"
     t.integer "emplyid"
+    t.string "name"
+    t.float "labor"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "vehicle_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string "car_id"
+    t.string "manufacturer"
+    t.integer "status"
+    t.string "vin_number"
+    t.date "registration_date"
+    t.string "plate_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vehicle_category_id"
   end
 
 end

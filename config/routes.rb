@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :vehicles
+  get 'all_users' => 'show_users#all_users'
+
   resources :requests
   
   get 'homepage' => 'welcome#homepage'

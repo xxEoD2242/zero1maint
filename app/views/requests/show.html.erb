@@ -1,8 +1,16 @@
 <p id="notice"><%= notice %></p>
 
+
+<div class="card">
+<div class="card-header">
+   <strong>Request Number:</strong>
+   <%= @request.number %>
+</div>	
+<div class="card-body">
+
 <p>
-  <strong>Number:</strong>
-  <%= @request.number %>
+  <strong>Vehicle Name:</strong>
+  <%= @request.vehicle.car_id%>
 </p>
 
 <p>
@@ -12,7 +20,7 @@
 
 <p>
   <strong>Status:</strong>
-  <%= @request.track %>
+  <%= @request.tracker.track %>
 </p>
 
 <p>
@@ -26,9 +34,11 @@
 </p>
 
 <p>
-  <strong>Poc:</strong>
+  <strong>POC:</strong>
   <%= @request.poc %>
 </p>
 
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+<%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success" %> |
+<%= link_to 'Back', requests_path, class: "btn btn-primary" %>
+</div>
+</div>

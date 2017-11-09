@@ -1,0 +1,63 @@
+<div class="card">
+<div class="card-body">
+<%= form_with(model: vehicle, local: true) do |form| %>
+  <% if vehicle.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+      <ul>
+      <% vehicle.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :car_id %>
+    <%= form.text_field :car_id, id: :vehicle_car_id, class: "form-control" %>
+  </div>
+
+  
+  
+<div class="form-group">
+	<%= form.label "Choose Vehicle Category" %>
+	<%= form.select :vehicle_category_id, @vehicle_category.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :vehicle_vehicle_category_id%>
+</div>
+
+  <div class="form-group">
+    <%= form.label :manufacturer %>
+    <%= form.text_field :manufacturer, id: :vehicle_manufacturer, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    Location
+  </div>
+
+  <div class="form-group">
+    <%= form.label :vin_number %>
+    <%= form.text_field :vin_number, id: :vehicle_vin_number, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :registration_date %>
+    <%= form.date_select :registration_date, id: :vehicle_registration_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :plate_number %>
+    <%= form.text_field :plate_number, id: :vehicle_plate_number, class: "form-control" %>
+  </div>
+
+
+  <div class="form-group">
+   This should be able to update the mileage table
+  </div>
+
+  <div class="form-group">
+    <%= form.submit "Create Vehicle", class: "btn btn-success" %>
+  </div>
+<% end %>
+
+</div>
+</div>

@@ -1,0 +1,53 @@
+<div class="card">
+
+<div class="card-header">
+<p id="notice"><%= notice %></p>
+  <h3>Car:
+  <%= @vehicle.car_id %></h3>
+</div>
+<div class="card-body">
+<p>
+  <strong>Car category:</strong>
+  <%= @vehicle_category.name %>
+</p>
+
+<p>
+  <strong>Manufacturer:</strong>
+  <%= @vehicle.manufacturer %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @vehicle.status %>
+</p>
+
+<p>
+  <strong>Vin number:</strong>
+  <%= @vehicle.vin_number %>
+</p>
+
+<p>
+  <strong>Registration date:</strong>
+  <%= @vehicle.registration_date %>
+</p>
+
+<p>
+  <strong>Plate number:</strong>
+  <%= @vehicle.plate_number %>
+</p>
+
+<p>
+  <strong>Work Orders:</strong>
+  <% @vehicle.requests.each do |request| %>
+  		  		<%= request.number %>
+  				<% end %><
+</p>
+
+<p>
+  <strong>Mileage:</strong>
+  <%= @vehicle.mileage.mileage %>
+</p>
+
+<%= link_to 'Edit', edit_vehicle_path(@vehicle) %> |
+<%= link_to 'Back', vehicles_path %>
+</div>

@@ -9,6 +9,7 @@
   <thead>
     <tr>
       <th>Car</th>
+		<th>Status</th>
       <th>Car Category</th>
       <th>Manufacturer</th>
       <th>Location</th>
@@ -20,15 +21,17 @@
   </thead>
 
   <tbody>
+	  
     <% @vehicles.each do |vehicle| %>
       <tr>
         <td><%= vehicle.car_id %></td>
+		  <td><%= vehicle.vehicle_status %></td>
         <td><%= vehicle.vehicle_category.name %></td>
         <td><%= vehicle.manufacturer %></td>
         <td><%= vehicle.location.locale %></td>
 
         <td><% vehicle.requests.each do |request| %>
-		  		<%= request.number %>
+		  		<%= link_to request.number, request, method: :get %>
 				<%= request.tracker.track%>
 				<% end %></td>
         <td><%= vehicle.mileage %></td>
@@ -37,12 +40,14 @@
       <%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
+	 
   </tbody>
+  
 </table>
-
-</div>
-</div>
 <%= link_to 'New Vehicle', new_vehicle_path, class: "btn btn-info" %>
+</div>
+</div>
+
 
 
 

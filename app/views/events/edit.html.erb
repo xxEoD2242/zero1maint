@@ -1,6 +1,65 @@
 <h1>Editing Event</h1>
 
-<%= render 'form', event: @event %>
+<%= form_with(model: @event, local: true) do |form| %>
+  <% if @event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% @event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.datetime_select :date, id: :event_date %>
+  </div>
+
+	<div class="form-group">
+	<%= form.label :status %>	
+	<%= form.select :status, Event::STATUSES, id: :event_status%>	
+	</div>
+	
+	
+
+  <div class="field">
+    <%= form.label :event_mileage %>
+    <%= form.number_field :event_mileage, id: :event_event_mileage %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location_id %>
+    <%= form.select :location_id, @location.collect { |l| [l.locale, l.id]}, id: :event_location_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :duration %>
+    <%= form.text_field :duration, id: :event_duration %>
+  </div>
+
+  <div class="field">
+    <%= form.label :event_type %>
+    <%= form.select :event_type, Event::EVENT_TYPES, id: :event_event_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :class_type %>
+    <%= form.select :class_type, Event::CLASS_TYPES, id: :event_class_type %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+	<div class="form-group">
+		<% @event.vehicles.each do |vehicle|%>
+		<%= vehicle.car_id %>
+		<% end %>
+	</div>
 
 <%= link_to 'Show', @event %> |
 <%= link_to 'Back', events_path %>

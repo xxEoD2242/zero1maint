@@ -6,13 +6,19 @@
 </p>
 
 <p>
+  <strong>Status:</strong>
+  <%= @event.status %>
+</p>
+
+
+<p>
   <strong>Event mileage:</strong>
   <%= @event.event_mileage %>
 </p>
 
 <p>
   <strong>Location:</strong>
-  <%= @event.location_id %>
+  <%= @event.location.locale %>
 </p>
 
 <p>
@@ -23,6 +29,13 @@
 <p>
   <strong>Event type:</strong>
   <%= @event.event_type %>
+</p>
+
+<p>
+	<strong>Vehicles:</strong>
+	<% @event.vehicles.each do |vehicle|%>
+	<%= vehicle.car_id %>
+	<% end %>
 </p>
 
 <p>

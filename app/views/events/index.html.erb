@@ -2,15 +2,17 @@
 
 <h1>Events</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Date</th>
-      <th>Event mileage</th>
+		<th>Status</th>
+      
       <th>Location</th>
       <th>Duration</th>
       <th>Event type</th>
       <th>Class type</th>
+		<th>Event mileage</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,15 +20,17 @@
   <tbody>
     <% @events.each do |event| %>
       <tr>
-        <td><%= event.date %></td>
-        <td><%= event.event_mileage %></td>
-        <td><%= event.location_id %></td>
+        <td><%= event.date.strftime('%D %I:%M%p') %></td>
+		  <td><%= event.status %></td>
+        
+        <td><%= event.location.locale%></td>
         <td><%= event.duration %></td>
         <td><%= event.event_type %></td>
         <td><%= event.class_type %></td>
+		  <td><%= event.event_mileage %></td>
         <td><%= link_to 'Show', event %></td>
         <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>

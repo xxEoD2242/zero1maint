@@ -8,6 +8,7 @@ class VehiclesController < ApplicationController
   # GET /vehicles.json
   def index
     @vehicles = Vehicle.all
+    @request = Request.all
   end
 
   # GET /vehicles/1
@@ -26,7 +27,7 @@ class VehiclesController < ApplicationController
 
   # GET /vehicles/1/edit
   def edit
-    
+    @location = Location.all
   end
 
   # POST /vehicles
@@ -85,6 +86,6 @@ class VehiclesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:car_id, :vehicle_category_id, :manufacturer, :status, :vin_number, :registration_date, :plate_number, :request_id, :mileage, :location_id)
+      params.require(:vehicle).permit(:car_id, :vehicle_category_id, :manufacturer, :vehicle_status, :vin_number, :registration_date, :plate_number, :request_id, :mileage, :location_id, :event_id)
     end
 end

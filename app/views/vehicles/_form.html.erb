@@ -25,13 +25,14 @@
 	<%= form.select :vehicle_category_id, @vehicle_category.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :vehicle_vehicle_category_id%>
 </div>
 
+<div class="form-group">
+	<%= form.label "Choose Location" %>
+	<%= form.select :location_id, @location.collect { |l| [l.locale, l.id]}, {include_blank: "Select Location"}, id: :vehicle_location_id%>
+</div>
+
   <div class="form-group">
     <%= form.label :manufacturer %>
     <%= form.text_field :manufacturer, id: :vehicle_manufacturer, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    Location
   </div>
 
   <div class="form-group">
@@ -51,7 +52,8 @@
 
 
   <div class="form-group">
-   This should be able to update the mileage table
+   <%= form.label :mileage %>
+	<%= form.number_field :mileage, id: :vehicle_mileage, class: "form-control"%>
   </div>
 
   <div class="form-group">

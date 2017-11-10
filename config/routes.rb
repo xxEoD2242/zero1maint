@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :events
   resources :vehicles
   get 'all_users' => 'show_users#all_users'
 

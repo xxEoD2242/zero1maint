@@ -12,6 +12,11 @@
 </p>
 
 <p>
+	<strong>Location:</strong>
+	<%= @vehicle.location.locale%>
+</p>
+
+<p>
   <strong>Manufacturer:</strong>
   <%= @vehicle.manufacturer %>
 </p>
@@ -37,15 +42,16 @@
 </p>
 
 <p>
-  <strong>Work Orders:</strong>
+  <strong>Work Orders: </strong>
   <% @vehicle.requests.each do |request| %>
   		  		<%= request.number %>
-  				<% end %><
+				(<%= request.tracker.track%>)
+  				<% end %>
 </p>
 
 <p>
   <strong>Mileage:</strong>
-  <%= @vehicle.mileage.mileage %>
+  <%= @vehicle.mileage %>
 </p>
 
 <%= link_to 'Edit', edit_vehicle_path(@vehicle) %> |

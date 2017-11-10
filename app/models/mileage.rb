@@ -1,3 +1,0 @@
-class Mileage < ApplicationRecord
-  
-end

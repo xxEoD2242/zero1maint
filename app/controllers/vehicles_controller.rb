@@ -1,11 +1,13 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new]
+  before_action :set_location, only: [:index, :show, :new, :edit]
+  
+ 
   # GET /vehicles
   # GET /vehicles.json
   def index
     @vehicles = Vehicle.all
-    @vehicle = Vehicle.all
   end
 
   # GET /vehicles/1
@@ -13,7 +15,10 @@ class VehiclesController < ApplicationController
   def show
     @vehicle_category = VehicleCategory.find(params[:id])
   end
-
+  
+  def update_mileage
+  end
+  
   # GET /vehicles/new
   def new
     @vehicle = Vehicle.new
@@ -73,9 +78,13 @@ class VehiclesController < ApplicationController
     def set_vehicle_category
       @vehicle_category = VehicleCategory.all
     end
+    
+    def set_location
+      @location = Location.all
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:car_id, :vehicle_category_id, :manufacturer, :status, :vin_number, :registration_date, :plate_number, :request_id, :mileage_id)
+      params.require(:vehicle).permit(:car_id, :vehicle_category_id, :manufacturer, :status, :vin_number, :registration_date, :plate_number, :request_id, :mileage, :location_id)
     end
 end

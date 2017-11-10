@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109180857) do
+ActiveRecord::Schema.define(version: 20171110011420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.datetime "date"
+    t.float "event_mileage"
+    t.integer "location_id"
+    t.float "duration"
+    t.string "event_type"
+    t.string "class_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "event_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "locale"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "mileages", force: :cascade do |t|
     t.float "mileage"
@@ -81,6 +99,13 @@ ActiveRecord::Schema.define(version: 20171109180857) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "vehicle_events", force: :cascade do |t|
+    t.integer "vehicle_id"
+    t.integer "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "vehicles", force: :cascade do |t|
     t.string "car_id"
     t.string "manufacturer"
@@ -91,6 +116,8 @@ ActiveRecord::Schema.define(version: 20171109180857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "vehicle_category_id"
+    t.integer "location_id"
+    t.float "mileage"
   end
 
 end

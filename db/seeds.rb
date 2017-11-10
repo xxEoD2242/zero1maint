@@ -7,5 +7,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-
-vehicle_categories = VehicleCategory.create([{name: "RZR"}, {name: "Tour Car"}, {name: "Dirt Bike"}, {name: "Fleet Vehicle"}, {name: "Training Vehcile"}, {name: "Other"}])
+locations = Location.create([{locale: "The Ranch"}, {locale: "RZR Base Camp"}, {locale: "Speedway"}, {locale: "Uvalde"}, {locale: "Other"}])

@@ -6,11 +6,12 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>Employee ID #</th>
+			<th>Employee ID</th>
 			<th>Name</th>
 			<th>Email</th>
 			<th>Date Joined</th>
 			<th>Requests</th>
+			<th>Labor Hours</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -21,8 +22,13 @@
 			<td><%= user.name %></td>
 			<td><%= user.email %></td>
 			<td><%= user.created_at.strftime("%D")%>
-			<td>Put ID with link to each request</td>
+			<td><% user.requests.each do |request| %>
+		  		<%= request.number %>
+				<%= request.tracker.track%>
+				<% end %></td>
+			<td><%= user.labor%>
 			<td><%= button_to "Delete User", registration_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %></td>
+			<td><%= link_to "Edit User", edit_user_registration_path, class: "btn btn-primary"%>
 		</tr>
 		<% end %>
 		

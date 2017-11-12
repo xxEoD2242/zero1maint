@@ -13,7 +13,7 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="">
     <%= form.label :date %>
     <%= form.datetime_select :date, id: :event_date %>
   </div>
@@ -25,41 +25,44 @@
 	
 	
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :event_mileage %>
     <%= form.number_field :event_mileage, id: :event_event_mileage %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :location_id %>
     <%= form.select :location_id, @location.collect { |l| [l.locale, l.id]}, id: :event_location_id %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :duration %>
     <%= form.text_field :duration, id: :event_duration %>
   </div>
+  
+<div class="form-group">
+	Vehicles: 
+	<% @event.vehicles.each do |vehicle|%>
+	<%= vehicle.car_id %>
+	<% end %>
+</div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :event_type %>
     <%= form.select :event_type, Event::EVENT_TYPES, id: :event_event_type %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :class_type %>
     <%= form.select :class_type, Event::CLASS_TYPES, id: :event_class_type %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group">
+    <%= form.submit "Update Event", class: "btn btn-success" %>
   </div>
 <% end %>
 
-	<div class="form-group">
-		<% @event.vehicles.each do |vehicle|%>
-		<%= vehicle.car_id %>
-		<% end %>
-	</div>
+	
 
 <%= link_to 'Show', @event %> |
 <%= link_to 'Back', events_path %>

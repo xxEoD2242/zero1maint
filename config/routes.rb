@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
+  
+  get 'all_users' => 'show_users#all_users'
+  get 'homepage' => 'welcome#homepage'
+  resources :requests
   resources :events
   resources :vehicles
-  get 'all_users' => 'show_users#all_users'
+  devise_for :users, :controllers => { :registrations => "users/registrations" }
 
-  resources :requests
   
-  get 'homepage' => 'welcome#homepage'
-
-  devise_for :users
-  
-  root to: 'welcome#homepage'
+  root 'welcome#homepage'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

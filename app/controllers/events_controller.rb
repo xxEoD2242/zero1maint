@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_action :set_vehicles, only: [:index, :show, :edit, :new]
   
  
-
+  
   # GET /events
   # GET /events.json
   def index
@@ -20,6 +20,7 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @vehicles = Vehicle.all
+    @vehicle_categories = VehicleCategory.all
   end
 
   # GET /events/1/edit
@@ -29,11 +30,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    veh_arr = Array.new
     @event = Event.new(event_params)
-    EventsVehicle.create
-    
-
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -50,6 +47,10 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
+        event_mileage = @event.event_mileage
+        @event.vehicles.each do |vehicle|
+          vehicle.update(mileage: (vehicle.mileage + event_mileage))
+        end
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -85,6 +86,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location_id, :duration, :event_type, :class_type, :status)
+      params.require(:event).permit(:date, :event_mileage, :location_id, :duration, :event_type, :class_type, :status, vehicle_ids: [])
     end
 end

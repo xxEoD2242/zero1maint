@@ -29,7 +29,6 @@
         <td><%= vehicle.vehicle_category.name %></td>
         <td><%= vehicle.manufacturer %></td>
         <td><%= vehicle.location.locale %></td>
-
         <td><% vehicle.requests.each do |request| %>
 		  		<%= link_to request.number, request, method: :get %>
 				<%= request.tracker.track%>

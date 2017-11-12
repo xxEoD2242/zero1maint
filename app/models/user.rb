@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
          
+         
+         ROLES = ['admin', 'employee']
          has_many :requests
         
          
@@ -11,15 +13,7 @@ class User < ApplicationRecord
            role == "admin"
          end
          
-         def creator?
-           role == "creator"
-         end
-         
-         def operator?
-           role == "operator"
-         end
-         
-         def mechanic?
-           role == "mechanic"
+         def employee?
+           role == "employee"
          end
 end

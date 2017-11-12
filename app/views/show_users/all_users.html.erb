@@ -27,8 +27,10 @@
 				<%= request.tracker.track%>
 				<% end %></td>
 			<td><%= user.labor%>
-			<td><%= button_to "Delete User", registration_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %></td>
-			<td><%= link_to "Edit User", edit_user_registration_path, class: "btn btn-primary"%>
+				<% if can? :destroy, User%>
+			<td><%= button_to "Delete User", registration_path(id: user.id), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %></td>
+			<%end%>
+			<td><%= link_to "Edit User", edit_user_registration_path(user: :id), class: "btn btn-primary"%>
 		</tr>
 		<% end %>
 		

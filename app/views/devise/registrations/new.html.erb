@@ -13,6 +13,11 @@
 	<%= f.text_field :name, class: "form-control" %>
 	</div>
 	
+   <div class="form-group">
+     <%= f.label :role %><br />
+     <%= f.select :role, User::ROLES, {include_blank: "Select Role"}%>
+   </div>
+	
   <div class="form-group">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, class: "form-control" %>

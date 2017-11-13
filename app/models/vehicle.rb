@@ -6,6 +6,8 @@ class Vehicle < ApplicationRecord
   has_many :requests
   belongs_to :location
   
+  paginates_per 5
+  
   accepts_nested_attributes_for :events
   
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold']

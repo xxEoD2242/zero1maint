@@ -3,6 +3,7 @@ class Event < ApplicationRecord
   has_many :events_vehicles
   has_many :vehicles, through: :events_vehicles
   
+  paginates_per 5
   
   accepts_nested_attributes_for :vehicles
   STATUSES = ['Scheduled', 'In-Progress', 'Completed', 'Cancelled']

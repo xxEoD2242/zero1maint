@@ -8,13 +8,15 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = Event.all.page(params[:page]).order(:created_at)
   end
 
   # GET /events/1
   # GET /events/1.json
   def show
   end
+  
+  
 
   # GET /events/new
   def new

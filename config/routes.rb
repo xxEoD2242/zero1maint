@@ -4,7 +4,13 @@ Rails.application.routes.draw do
   get 'homepage' => 'welcome#homepage'
   resources :requests
   resources :events
-  resources :vehicles
+  resources :vehicles do
+    collection do
+      get 'in_service'
+      get 'out_of_service'
+      get 'all_vehicles'
+    end
+  end
   devise_for :users, :controllers => { :registrations => "users/registrations" }
 
   

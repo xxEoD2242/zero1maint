@@ -1,23 +1,32 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
-  before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new]
+  before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show]
   before_action :set_location, only: [:index, :show, :new, :edit]
-  
+
  
   # GET /vehicles
   # GET /vehicles.json
   def index
-    @vehicles = Vehicle.all
+    @vehicles = Vehicle.all.page(params[:page])
     @request = Request.all
+    
   end
 
   # GET /vehicles/1
   # GET /vehicles/1.json
-  def show
-    @vehicle_category = VehicleCategory.find(params[:id])
+  def show 
   end
   
-  def update_mileage
+  def in_service
+    @in_service = Vehicle.where(vehicle_status: "In-Service").page(params[:page])
+  end
+  
+  def out_of_service
+    @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service").page(params[:page])
+  end
+  
+  def all_vehicles
+    @vehicles = Vehicle.all.page(params[:page])
   end
   
   # GET /vehicles/new

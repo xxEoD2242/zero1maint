@@ -1,0 +1,10 @@
+<div class="card">
+	<div class="card-header">
+		<h1 class="display-3">All Vehicles</h1>
+	</div>
+<div class="card-body">
+<%= render 'report_form', vehicle: @vehicles %>
+
+<%= paginate @vehicles%>
+</div>
+</div>

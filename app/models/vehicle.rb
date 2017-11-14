@@ -2,8 +2,10 @@ class Vehicle < ApplicationRecord
   has_many :events_vehicles
   has_many :events, through: :events_vehicles
   
+  
   has_many :requests
   has_many :programs, through: :requests
+  
  
   belongs_to :vehicle_category
   belongs_to :location

@@ -33,6 +33,11 @@ class RequestsController < ApplicationController
       if @request.save
         veh_mileage = @request.vehicle.mileage
         @request.update(request_mileage: (veh_mileage))
+        program = @request.program
+        vehicle = @request.vehicle
+        if program != nil
+          vehicle.update(needs_service: false)
+        end
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else

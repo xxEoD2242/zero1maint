@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'in_service'
       get 'out_of_service'
       get 'all_vehicles'
+      get 'needs_service'
     end
   end
   devise_for :users, :controllers => { :registrations => "users/registrations" }

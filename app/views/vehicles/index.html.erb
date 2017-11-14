@@ -2,54 +2,34 @@
 <div class="jumbotron">
 <h1 class="display-4">Vehicles</h1>
 </div>
-
+<div class="row">
+	<div class="col-md-6">
 <div class="card">
+	<div class="card-header">
+		<h4>Vehicle Options</h4>
+	</div>
 	<div class="card-body">
-<table class="table">
-  <thead>
-    <tr>
-      <th>Car</th>
-		<th>Status</th>
-      <th>Car Category</th>
-      <th>Manufacturer</th>
-      <th>Location</th>
 
-      <th>Work Orders</th>
-      <th>Mileage</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-	  
-    <% @vehicles.each do |vehicle| %>
-      <tr>
-        <td><%= vehicle.car_id %></td>
-		  <td><%= vehicle.vehicle_status %></td>
-        <td><%= vehicle.vehicle_category.name %></td>
-        <td><%= vehicle.manufacturer %></td>
-        <td><%= vehicle.location.locale %></td>
-        <td><% vehicle.requests.each do |request| %>
-		  		<%= link_to request.number, request, method: :get %>
-				<%= request.tracker.track%>
-				<% end %></td>
-        <td><%= vehicle.mileage %></td>
-      <td class="btn-group"><%= link_to 'Show', vehicle, class: "btn btn-primary " %>
-      <%= link_to 'Edit', edit_vehicle_path(vehicle), class: "btn btn-info" %>
-      <%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
-      </tr>
-    <% end %>
-	 
-  </tbody>
-  
-</table>
-<%= link_to 'New Vehicle', new_vehicle_path, class: "btn btn-info" %>
-<%= link_to 'In-Service Vehicles', in_service_vehicles_path, class: "btn btn-info" %>
-<%= link_to 'Out-Of-Service Vehicles', out_of_service_vehicles_path, class: "btn btn-warning"%>
+<%= link_to 'New Vehicle', new_vehicle_path, class: "btn btn-info " %> <br \>
+<%= link_to 'All Vehicles', all_vehicles_vehicles_path, class: "btn btn-info my-2" %> <br \>
+<%= link_to 'In-Service Vehicles', in_service_vehicles_path, class: "btn btn-info" %> <br \>
+<%= link_to 'Out-Of-Service Vehicles', out_of_service_vehicles_path, class: "btn btn-warning my-2"%>
 </div>
 </div>
 
-<%= paginate @vehicles%>
+</div>
+<div class="col-md-6">
+	<div class="card">
+		<div class="card-header">
+			<h4>Service Options</h4>
+		</div>
+		<div class="card-body">
+	These will be services
+	</div>
+	</div>
+</div>
+
+
 
 
 

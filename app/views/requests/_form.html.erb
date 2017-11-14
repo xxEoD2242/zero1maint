@@ -18,14 +18,17 @@
 	
 	<div class="form-group">
 		Current Status: <br \>
-	  <%= form.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id %>
+	  <%= form.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
 	</div>
 	
   <div class="form-group">
     <%= form.label "Work Order Number:" %>
     <%= form.number_field :number, id: :request_number, class: "form-control" %>
   </div>
-
+  
+  <div class="form-group">
+	  <%= form.select :program_id, @programs.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
+</div>
   <div class="form-group">
     <%= form.label :description %>
     <%= form.text_area :description, id: :request_description, class: "form-control" %>
@@ -39,7 +42,7 @@
 	
 	<div class="form-group">
 		<%= form.label "Choose Vehicle" %>
-		<%= form.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id %>
+		<%= form.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
 	</div>
 	
 	<%= form.hidden_field :user_id, value: current_user.id%>
@@ -48,6 +51,8 @@
     <%= form.label :special_requets %>
     <%= form.text_area :special_requets, id: :request_special_requets, class: "form-control" %>
   </div>
+  
+  <%= form.hidden_field :request_mileage, value: 0 %>
 
   <div class="form-group">
     <%= form.label :completion_date %>

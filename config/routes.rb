@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :programs
   get 'all_users' => 'show_users#all_users'
   get 'homepage' => 'welcome#homepage'
   resources :requests

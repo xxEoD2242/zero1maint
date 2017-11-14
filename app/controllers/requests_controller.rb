@@ -1,18 +1,16 @@
 class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
+  before_action :set_services, only: [:show, :index, :new, :edit]
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.all
-    
+    @requests = Request.all.page(params[:page])
   end
 
   # GET /requests/1
   # GET /requests/1.json
   def show
-    @tracks = Tracker.all
-    
   end
 
   # GET /requests/new
@@ -23,17 +21,18 @@ class RequestsController < ApplicationController
   # GET /requests/1/edit
   def edit
     @requests = Request.find_by(params[:number])
-    @tracks = Tracker.all
-    @vehicles = Vehicle.all
   end
 
   # POST /requests
   # POST /requests.json
   def create
     @request = Request.new(request_params)
-
+    
     respond_to do |format|
+      
       if @request.save
+        veh_mileage = @request.vehicle.mileage
+        @request.update(request_mileage: (veh_mileage))
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
@@ -80,9 +79,13 @@ class RequestsController < ApplicationController
     def set_tracker
       @tracks = Tracker.all
     end
+    
+    def set_services
+      @programs = Program.all
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_id, :tracker_id, :image, :user_id)
+      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_id, :tracker_id, :image, :user_id, :request_mileage, :program_id)
     end
 end

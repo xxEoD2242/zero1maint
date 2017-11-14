@@ -44,7 +44,7 @@
 <p>
   <strong>Work Orders: </strong>
   <% @vehicle.requests.each do |request| %>
-  		  		<%= request.number %>
+  		  		<%= link_to request.number, request, method: :get %>
 				(<%= request.tracker.track%>)
   				<% end %>
 </p>

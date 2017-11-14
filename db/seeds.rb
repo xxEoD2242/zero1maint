@@ -7,4 +7,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-locations = Location.create([{locale: "The Ranch"}, {locale: "RZR Base Camp"}, {locale: "Speedway"}, {locale: "Uvalde"}, {locale: "Other"}])
+programs = Program.create([{name: 'Air Filter Change'}, {name: 'A-Service'}, {name: 'Shock Service'}])

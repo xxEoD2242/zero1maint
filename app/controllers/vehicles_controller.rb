@@ -2,6 +2,7 @@ class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show]
   before_action :set_location, only: [:index, :show, :new, :edit]
+  before_action :needs_service, only: [:index]
  
   # GET /vehicles
   # GET /vehicles.json
@@ -15,6 +16,22 @@ class VehiclesController < ApplicationController
   # GET /vehicles/1.json
   def show
     @request = Request.all
+      #case @vehicle.programs
+      #when @vehicle.programs.exists?(8) == true
+      if @vehicle.requests.where(program_id: 8) != []
+        @a_service = (Program.find(8).interval - (@vehicle.mileage - @vehicle.requests.where(program_id: 8).last.request_mileage))
+        if @a_service < 0
+          # Request.create()
+        end
+      end
+        #when @vehicle.programs.exists?(9) == true
+          if @vehicle.requests.where(program_id: 9) != []
+        @shock_service = (Program.find(9).interval - (@vehicle.mileage - @vehicle.requests.where(program_id: 9).last.request_mileage))
+      end
+        #when @vehicle.programs.exists?(7) == true
+         if @vehicle.requests.where(program_id: 7) != [] 
+        @air_filter_service = (Program.find(7).interval - (@vehicle.mileage - @vehicle.requests.where(program_id: 7).last.request_mileage))
+     end 
   end
   
   def in_service
@@ -31,24 +48,16 @@ class VehiclesController < ApplicationController
   
   def needs_service
     
-  Vehicle.where(vehicle_status: "In-Service").each do |car|
-  Program.all.each do |program|
-  if car.programs.where(name: program.name) != []
-    if (car.programs.where(name: program.name).last.interval) - (car.mileage - car.programs.where(name: program.name).last.requests.last.request_mileage) < 0
-      car.update(needs_service: true)
-    end  
-    end
-  end
- end
+# Vehicle.where(vehicle_status: "In-Service").each do |car|
+#  Program.all.each do |program|
+#  if car.programs.where(name: program.name) != []
 
-     
-      
-      if @vehicles != []
-      
-      @a_service = Program.find(8).vehicles.where(needs_service: true)
-      @air_filter_service = Program.find(7).vehicles.where(needs_service: true)
-      @shock_service = Program.find(9).vehicles.where(needs_service: true)
-    end
+ #   if (car.programs.where(name: program.name).last.interval) - (car.mileage - car.programs.where(name: program.name).last.requests.last.request_mileage) < 0
+ #    car.update(needs_service: true)
+#    end  
+ #   end
+ # end
+ #end
    
   end
   # GET /vehicles/new

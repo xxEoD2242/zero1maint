@@ -3,7 +3,15 @@ Rails.application.routes.draw do
   resources :programs
   get 'all_users' => 'show_users#all_users'
   get 'homepage' => 'welcome#homepage'
-  resources :requests
+  resources :requests do
+    collection do
+      get 'a_service'
+      get 'shock_service'
+      get 'air_filter_service'
+      get 'dashboard'
+      get 'repairs'
+    end
+  end
   resources :events
   resources :vehicles do
     collection do

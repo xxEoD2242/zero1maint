@@ -32,11 +32,12 @@
   <strong>Status:</strong>
   <%= @request.tracker.track %>
 </p>
-
+<% if @request.program != nil %>
 <p>
 	<strong>Service Type:</strong>
 	<%= @request.program.name %>
 </p>
+<% end %>
 
 <p>
   <strong>Special requets:</strong>

@@ -2,6 +2,7 @@ class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
   before_action :set_services, only: [:show, :index, :new, :edit]
+ 
   # GET /requests
   # GET /requests.json
   def index
@@ -11,6 +12,22 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+  end
+  
+  def a_service
+    @a_service = Request.where(program_id: 8, tracker_id: 1)
+  end
+  
+  def shock_service
+    @shock_service = Request.where(program_id: 9, tracker_id: 1)
+  end
+  
+  def air_filter_service
+    @shock_service = Request.where(program_id: 7, tracker_id: 1)
+  end
+  
+  def dashboard
+    
   end
 
   # GET /requests/new
@@ -33,11 +50,6 @@ class RequestsController < ApplicationController
       if @request.save
         veh_mileage = @request.vehicle.mileage
         @request.update(request_mileage: (veh_mileage))
-        program = @request.program
-        vehicle = @request.vehicle
-        if program != nil
-          vehicle.update(needs_service: false)
-        end
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
@@ -52,6 +64,12 @@ class RequestsController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
+       status = @request.tracker_id
+       vehicle = @request.vehicle
+       if status == 3
+        vehicle.update(needs_service: false)
+        end
+        
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
       else

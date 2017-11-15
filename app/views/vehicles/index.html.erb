@@ -14,6 +14,7 @@
 <%= link_to 'All Vehicles', all_vehicles_vehicles_path, class: "btn btn-info my-2" %> <br \>
 <%= link_to 'In-Service Vehicles', in_service_vehicles_path, class: "btn btn-info" %> <br \>
 <%= link_to 'Out-Of-Service Vehicles', out_of_service_vehicles_path, class: "btn btn-warning my-2"%>
+
 </div>
 </div>
 
@@ -24,7 +25,7 @@
 			<h4>Service Options</h4>
 		</div>
 		<div class="card-body">
-	These will be services
+	<%= link_to 'Needs Service', needs_service_vehicles_path, class: "btn btn-info" %>
 	</div>
 	</div>
 </div>

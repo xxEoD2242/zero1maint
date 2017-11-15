@@ -1,0 +1,19 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Work Order Number</th>
+			<th>Vehicle</th>
+			<th>Mileage at Work Order</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<% request.each do |request|%>
+	<tr>
+		<td><%=request.number%></td>
+		<td><%=request.vehicle.car_id%></td>
+		<td><%=request.request_mileage%></td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>	

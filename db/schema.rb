@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114183730) do
+ActiveRecord::Schema.define(version: 20171117133536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,11 @@ ActiveRecord::Schema.define(version: 20171114183730) do
     t.float "mileage"
     t.string "vehicle_status"
     t.boolean "needs_service"
+    t.boolean "near_service"
+    t.boolean "a_service"
+    t.boolean "shock_service"
+    t.boolean "air_filter_service"
+    t.boolean "repair_needed"
   end
 
 end

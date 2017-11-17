@@ -8,7 +8,7 @@
 <div class="card-body">
 <p>
   <strong>Car category:</strong>
-  <%= @vehicle.vehicle_category.name %>
+  <%= @vehicle.vehicle_category.name%>
 </p>
 
 <p>
@@ -43,8 +43,8 @@
 
 <p>
   <strong>Work Orders: </strong>
-  <% @vehicle.requests.each do |request| %>
-  		  		<%= link_to request.number, request, method: :get %>
+  <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
+  		  		<%= link_to request.number, request, method: :get, class: "badge badge-dark" %>
 				(<%= request.tracker.track%>)
   				<% end %>
 </p>
@@ -53,11 +53,42 @@
 	<strong>Mileage To:</strong>
 	<ul class="list-group">
 	<li class="list-group-item"><strong>A-Service:</strong>
-	<%= @a_service %></li>
+	
+	<% if @vehicle.a_service == nil %>
+	No Data
+	<% elsif @vehicle.a_service == true%>
+			<strong style="text-color: red;">NEEDS SERVICE</strong>
+			<% else %>
+	<%= @a_service %>
+	<% end%></li>
 	<li class="list-group-item"><strong>Shock Service:</strong>
-	<%= @shock_service %></li>
+		<% if @vehicle.shock_service == nil %>
+		No Data
+		<% elsif @vehicle.shock_service == true %>
+		<strong style="text-color: red;">NEEDS SERVICE</strong>
+		<% else %>
+	<%= @shock_service %>
+		<% end %>
+</li>
 	<li class="list-group-item"><strong>Air Filter Service:</strong>
+		<% if @vehicle.air_filter_service == nil %>
+		No Data
+		<% elsif @vehicle.air_filter_service == true%>
+		<strong style="text-color: red;">NEEDS SERVICE</strong>
+		<% else %>
 	<%= @air_filter_service %></li>
+	<% end %>
+	
+	<li class="list-group-item"><strong>Repairs:</strong>
+		<% if @vehicle.repair_needed == nil %>
+		No Data
+		<% elsif @vehicle.repair_needed == true%>
+		Repairs-In-Progress
+		<% else %>
+		No Repairs Needed
+	</li>
+	<% end %>
+		
 </ul>
 </p>
 
@@ -66,6 +97,6 @@
   <%= @vehicle.mileage %>
 </p>
 
-<%= link_to 'Edit', edit_vehicle_path(@vehicle) %> |
-<%= link_to 'Back', vehicles_path %>
+<%= link_to 'Edit', edit_vehicle_path(@vehicle), class: "btn btn-info" %> |
+<%= link_to 'Back', vehicles_path, class: "btn btn-warning" %>
 </div>

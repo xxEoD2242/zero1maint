@@ -12,6 +12,7 @@
 			<th>Date Joined</th>
 			<th>Requests</th>
 			<th>Labor Hours</th>
+			<th colspan="3"><th>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,15 +23,15 @@
 			<td><%= user.name %></td>
 			<td><%= user.email %></td>
 			<td><%= user.created_at.strftime("%D")%>
-			<td><% user.requests.each do |request| %>
-		  		<%= request.number %>
+			<td><% user.requests.order(created_at: :asc).limit(3).each do |request| %>
+		  		<%= link_to request.number, request_path(id: request.id), class: "badge badge-info" %>
 				<%= request.tracker.track%>
 				<% end %></td>
 			<td><%= user.labor%>
 				<% if can? :destroy, User%>
-			<td><%= button_to "Delete User", registration_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %></td>
+			<td>Destroy User Path</td>
 			<%end%>
-			<td><%= link_to "Edit User", edit_user_registration_path(user), class: "btn btn-primary"%>
+			<td>Edit User Path
 		</tr>
 		<% end %>
 		

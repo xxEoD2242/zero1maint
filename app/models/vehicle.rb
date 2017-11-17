@@ -15,4 +15,5 @@ class Vehicle < ApplicationRecord
   accepts_nested_attributes_for :events
   
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold']
+  CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other']
 end

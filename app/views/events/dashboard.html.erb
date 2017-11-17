@@ -1,0 +1,63 @@
+<div class="jumbotron">
+	<h1 class="display-3">Events Dashboard</h1>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="list-group">
+			<a class="list-group-item list-group-item-action" href="../events/new">New Event</a>
+				<a class="list-group-item list-group-item-action" href="../events">All Events</a>
+				<a class="list-group-item list-group-item-action" href="../requests/shock_service">Scheduled Events</a>
+				<a class="list-group-item list-group-item-action" href="../requests/air_filter_service">Completed Events</a>
+			</div>
+			
+	</div>
+	<div class="col-md-6">
+			<div class="card">
+				<div class="card-header">
+					<strong>Most Recent Requests</strong>
+				</div>
+				<div class="card-body">
+					<% @events.all.order(created_at: :desc).limit(5).each do |event|%>
+					<div class="card m-2">
+						<div class="card-header">
+							<h4><%=link_to event.id, event_path(id: event.id), class: "badge badge-warning" %></div></h4>
+				<div class="card-body">
+				
+				<div class="row">
+					
+				<div class="col-md-6">
+					<ul class="list-group">
+					<li class="list-group-item d-flex justify-content-between align-items-center">Created On:
+						<span class="badge badge-info"><%= event.created_at.strftime('%D')%></span></li>
+					
+					<li class="list-group-item d-flex justify-content-between align-items-center">Location:
+					<span class="badge badge-info"><%= event.location.locale%></span></li>
+				
+				</div>
+				<div class="col-md-6">
+				
+					<li class="list-group-item d-flex justify-content-between align-items-center">Status:
+					<span class="badge badge-info"><%= event.status%></span></li>
+					<li class="list-group-item d-flex justify-content-between align-items-center">Mileage
+					<span class="badge badge-info"><%= event.event_mileage%></span></li>
+				</ul>
+				</div>
+			</div>
+				</div>
+			</div>
+			<% end %>
+				</div>
+			</div>
+		</div>
+	<div class="col-md-3">
+		<ul class="list-group">
+			
+				<li class="list-group-item d-flex justify-content-between align-items-center">Total Events<span class="badge badge-info"><%= @events.count %></span></li>
+				<li class="list-group-item d-flex justify-content-between align-items-center">Events Scheduled<span class="badge badge-info"><%= @scheduled_events.count %></span></li>
+				<li class="list-group-item d-flex justify-content-between align-items-center">Completed Events<span class="badge badge-info"><%= @completed_events.count %></span></li>
+			</div>
+			
+	</div>
+	
+</div>

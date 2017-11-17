@@ -12,16 +12,25 @@ Rails.application.routes.draw do
       get 'repairs'
     end
   end
-  resources :events
+  resources :events do
+    collection do
+     get 'dashboard' 
+    end
+  end
   resources :vehicles do
     collection do
       get 'in_service'
       get 'out_of_service'
       get 'all_vehicles'
       get 'needs_service'
+      get 'near_service_required'
     end
   end
-  devise_for :users, :controllers => { :registrations => "users/registrations" }
+  devise_for :users, :controllers => { :registrations => "users/registrations" } do
+    collection do
+      get ':id/edit'
+    end
+  end
 
   
   root 'welcome#homepage'

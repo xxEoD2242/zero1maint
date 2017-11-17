@@ -32,7 +32,7 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      can :manage, [Request, Event, Vehicle]
+      can :manage, [Request, Event, Vehicle, Program]
     end
   end
 end

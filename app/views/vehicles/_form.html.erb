@@ -14,53 +14,52 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :car_id %>
+   <strong><%= form.label "Car Number" %></strong>
     <%= form.text_field :car_id, id: :vehicle_car_id, class: "form-control" %>
   </div>
 
   <div class="form-group">
-	  <%= form.label :vehicle_status %>
-	  <%= form.select :vehicle_status, Vehicle::STATUSES, {include_blank: "Select Vehicle Status"}, id: :vehicle_vehicle_status %>
+	  <%= form.select :vehicle_status, Vehicle::STATUSES, {include_blank: "Select Vehicle Status"}, id: :vehicle_vehicle_status, class: "form-control" %>
   </div>
   
 <div class="form-group">
-	<%= form.label "Choose Vehicle Category" %>
-	<%= form.select :vehicle_category_id, @vehicle_category.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :vehicle_vehicle_category_id%>
+	<%= form.select :vehicle_category_id, @vehicle_category.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :vehicle_vehicle_category_id, class: "form-control"%>
 </div>
-
 <div class="form-group">
-	<%= form.label "Choose Location" %>
-	<%= form.select :location_id, @location.collect { |l| [l.locale, l.id]}, {include_blank: "Select Location"}, id: :vehicle_location_id %>
+	<%= form.select :location_id, @location.collect { |l| [l.locale, l.id]}, {include_blank: "Select Location"}, id: :vehicle_location_id, class: "form-control" %>
 </div>
 
   <div class="form-group">
-    <%= form.label :manufacturer %>
+    <strong><%= form.label :manufacturer %></strong>
     <%= form.text_field :manufacturer, id: :vehicle_manufacturer, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :vin_number %>
+   <strong> <%= form.label :vin_number %></strong>
     <%= form.text_field :vin_number, id: :vehicle_vin_number, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :registration_date %>
+    <strong><%= form.label :registration_date %></strong>
     <%= form.date_select :registration_date, id: :vehicle_registration_date, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :plate_number %>
+    <strong><%= form.label :plate_number %></strong>
     <%= form.text_field :plate_number, id: :vehicle_plate_number, class: "form-control" %>
   </div>
 
 
   <div class="form-group">
-   <%= form.label :mileage %>
+  <strong> <%= form.label :mileage %> </strong>
 	<%= form.number_field :mileage, id: :vehicle_mileage, class: "form-control"%>
   </div>
-
+<br \>
   <div class="form-group">
     <%= form.submit "Create Vehicle", class: "btn btn-success" %>
+  </div>
+  <div class="form-group d-flex justify-content-end">
+  <%= link_to 'Back', vehicles_path, class: "btn btn-info" %>
   </div>
 <% end %>
 

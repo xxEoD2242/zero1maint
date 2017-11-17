@@ -3,8 +3,11 @@
 <h1 class="text-center"> In-Service Vehicles </h1>
 </div>
 <div class="card-body">
-<%= render 'report_form', vehicle: @in_service %>
+<%= render 'service_needed_form', vehicle: @in_service_pages %>
+</div>
+<div class="container d-flex justify-content-between align-items-center mt-2">
+<%= paginate @in_service_pages %>
+<%= link_to 'Back', vehicles_path, class: "btn btn-info " %>
 </div>
 
-<%= paginate @in_service %>
 </div>

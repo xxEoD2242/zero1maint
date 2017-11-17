@@ -2,7 +2,7 @@ class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
   before_action :set_services, only: [:show, :index, :new, :edit]
- 
+  before_action :a_service, :shock_service, :air_filter_service, :repairs, only: [:dashboard]
   # GET /requests
   # GET /requests.json
   def index
@@ -23,10 +23,15 @@ class RequestsController < ApplicationController
   end
   
   def air_filter_service
-    @shock_service = Request.where(program_id: 7, tracker_id: 1)
+    @air_filter_service = Request.where(program_id: 7, tracker_id: 1)
+  end
+  
+  def repairs
+    @repairs = Request.where(program_id: 10, tracker_id: 1)
   end
   
   def dashboard
+    @requests = Request.all
     
   end
 
@@ -38,6 +43,7 @@ class RequestsController < ApplicationController
   # GET /requests/1/edit
   def edit
     @requests = Request.find_by(params[:number])
+  
   end
 
   # POST /requests
@@ -49,7 +55,11 @@ class RequestsController < ApplicationController
       
       if @request.save
         veh_mileage = @request.vehicle.mileage
+        vehicle = @request.vehicle
         @request.update(request_mileage: (veh_mileage))
+        if @request.program_id == 10 && @request.tracker_id == 1
+                  vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
+                end
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
@@ -64,10 +74,9 @@ class RequestsController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-       status = @request.tracker_id
-       vehicle = @request.vehicle
-       if status == 3
-        vehicle.update(needs_service: false)
+        vehicle = @request.vehicle
+        if @request.program_id == 10 && @request.tracker_id == 3
+          vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
         
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }

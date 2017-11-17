@@ -16,7 +16,11 @@ class EventsController < ApplicationController
   def show
   end
   
-  
+  def dashboard
+    @events = Event.all
+    @scheduled_events = Event.where(status: 'Scheduled')
+    @completed_events = Event.where(status: 'Completed')
+  end
 
   # GET /events/new
   def new

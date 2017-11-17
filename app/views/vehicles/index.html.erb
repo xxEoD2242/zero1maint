@@ -3,30 +3,85 @@
 <h1 class="display-4">Vehicles</h1>
 </div>
 <div class="row">
+	
+	<div class="col-md-3">
+		<div class="list-group">
+			<a class="list-group-item list-group-item-action" href="../vehicles/new">New Vehicle</a>
+				<a class="list-group-item list-group-item-action" href="../vehicles/all_vehicles">All Vehicles</a>
+				<a class="list-group-item list-group-item-action" 					href="../vehicles/in_service">In-Service Vehicles</a>
+				<a class="list-group-item list-group-item-action" 					href="../vehicles/out_of_service">Out-Of-Service Vehicles</a>
+				<a class="list-group-item list-group-item-action" 					href="../vehicles/needs_service">Needs Service Vehicles</a>
+				<a class="list-group-item list-group-item-action" 					href="../vehicles/near_service_required">Near Service Vehicles</a>
+			</div>
+	</div>
+	
 	<div class="col-md-6">
-<div class="card">
-	<div class="card-header">
-		<h4>Vehicle Options</h4>
+			<table class="table table-bordered table-responsive table-striped w-100%">
+			  <thead>
+			    <tr>
+			      <th scope="col">Category</th>
+					<th colspan="100%">Vehicles In-Service</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				  <% @vehicle_category.each do |category|%>
+			    <tr>
+			      <th scope="row"><%= category.name %></th>
+			      <% category.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
+					<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
+					
+					<% end %>
+			    </tr>
+			   <% end %>
+			  </tbody>
+			</table>
+		
 	</div>
-	<div class="card-body">
-
-<%= link_to 'New Vehicle', new_vehicle_path, class: "btn btn-info " %> <br \>
-<%= link_to 'All Vehicles', all_vehicles_vehicles_path, class: "btn btn-info my-2" %> <br \>
-<%= link_to 'In-Service Vehicles', in_service_vehicles_path, class: "btn btn-info" %> <br \>
-<%= link_to 'Out-Of-Service Vehicles', out_of_service_vehicles_path, class: "btn btn-warning my-2"%>
-
+<div class="col-md-3">
+	<ul class="list-group">
+		<li class="list-group-item d-flex justify-content-between align-items-center">Total Vehicles:	
+			<span class="badge badge-dark badge-pill"><%=@vehicles.count%></span></li>
+		<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles In-Service:	
+			<span class="badge badge-dark badge-pill"><%=@in_service.count%></span></li>
+		<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles Out-of-Service:
+			<span class="badge badge-dark badge-pill">	<%=@out_of_service.count%></span></li>
+		<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles Need Service: 
+			<span><%= link_to @vehicles.where(needs_service: true).count, needs_service_vehicles_path, class: "badge badge-dark badge-pill"%></span></li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles Near Service: 
+				<span><%= link_to @vehicles.where(near_service: true).count, near_service_required_vehicles_path, class: "badge badge-dark badge-pill"%></span></li>
+	</ul>
 </div>
 </div>
-
-</div>
-<div class="col-md-6">
-	<div class="card">
-		<div class="card-header">
-			<h4>Service Options</h4>
+<div class="row mt-4">
+	<div class="col-md-3">
+		
+	</div>
+	
+	<div class="col-md-6">
+			<table class="table table-bordered table-responsive table-striped w-100%">
+			  <thead>
+			    <tr>
+			      <th scope="col">Category</th>
+					<th colspan="100%">Vehicles Out-of-Service</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				  <% @vehicle_category.each do |category|%>
+			    <tr>
+			      <th scope="row"><%= category.name %></th>
+			      <% category.vehicles.where(vehicle_status: "Out-of-Service").each do |vehicle|%>
+					<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
+					
+					<% end %>
+			    </tr>
+			   <% end %>
+			  </tbody>
+			</table>
 		</div>
-		<div class="card-body">
-	<%= link_to 'Needs Service', needs_service_vehicles_path, class: "btn btn-info" %>
-	</div>
+	<div class="col-md-3">
+		<div class="card">
+			Example Example
+		</div>
 	</div>
 </div>
 

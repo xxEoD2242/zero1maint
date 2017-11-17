@@ -9,10 +9,11 @@
     <tr>
       <th>Work Order</th>
 		<th>Date Submitted</th>
+		<th>Type of Request</th>
 		<th>Status</th>
 		<th>Requestor</th>
 		<th>Vehicle Number</th>
-		<th>Vehicle Mileage at Work Order</th>
+		<th>Vehicle Mileage at WO</th>
       <th>Est. Completion Date</th>
       
 		
@@ -25,6 +26,7 @@
       <tr>
         <td><%= request.number %></td>
 		  <td><%= request.created_at.strftime("%D")%></td>
+		  <td><%= request.program.name %>
 		  <td><%= request.tracker.track %></td>
 		  <td><%= request.user.name %></td>
 		  <td><%= request.vehicle.car_id%></td>
@@ -32,7 +34,7 @@
         <td><%= request.completion_date %></td>
         <td class="btn-group"><%= link_to 'Show', request, class: "btn btn-primary " %>
         <%= link_to 'Edit', edit_request_path(request), class: "btn btn-info" %>
-        <%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+        </td>
       </tr>
     <% end %>
   </tbody>

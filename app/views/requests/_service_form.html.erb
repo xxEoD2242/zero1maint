@@ -4,15 +4,18 @@
 			<th>Work Order Number</th>
 			<th>Vehicle</th>
 			<th>Mileage at Work Order</th>
+			<th>Request Created At</th>
 			
 		</tr>
 	</thead>
 	<tbody>
 		<% request.each do |request|%>
 	<tr>
-		<td><%=request.number%></td>
+		<td><%= link_to request.number, request_path(request), class: "badge badge-info"%></td>
 		<td><%=request.vehicle.car_id%></td>
 		<td><%=request.request_mileage%></td>
+		<td><%=request.created_at.strftime('%D')%>
+		<td><%= link_to "Show", request_path(request), class: "btn btn-info"%></td>
 	</tr>
 	<% end %>
 	</tbody>

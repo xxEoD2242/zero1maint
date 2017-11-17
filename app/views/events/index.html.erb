@@ -38,6 +38,7 @@
 
 <br>
 
-<%= link_to 'New Event', new_event_path, class: "btn btn-success" %>
 
-<%= paginate @events%>
+<br>
+<%= paginate @events%> 
+<%= link_to 'back', dashboard_events_path, class: "btn btn-success" %>

@@ -1,64 +1,112 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
-  before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show]
+  before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show, :index]
   before_action :set_location, only: [:index, :show, :new, :edit]
-  before_action :needs_service, only: [:index]
+  before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service]
+  before_action :set_all_vehicles, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:show, :near_service_required]
+  before_action :mileage_calculation, only: [:dashboard, :needs_service]
  
   # GET /vehicles
   # GET /vehicles.json
   def index
-    @vehicles = Vehicle.all.page(params[:page])
+    @vehicles = Vehicle.all
     @request = Request.all
-    
+    @q = Vehicle.ransack(params[:q])
+    @cars = @q.result
   end
+  
 
+  def mileage_calculation
+    @vehicles = Vehicle.all
+    @vehicles.all.each do |vehicle|
+    if vehicle.requests.where(program_id: 8) != []
+      @a_service = (Program.find(8).interval - (vehicle.mileage - vehicle.requests.where(program_id: 8, tracker_id: 3).last.request_mileage))
+      if @a_service < 0
+        vehicle.update(needs_service: true, a_service: true)
+      elsif @a_service <= 100
+        vehicle.update(near_service: true)
+      else
+        vehicle.update(needs_service: false, a_service: false, near_service: false)
+      end
+    end
+      #when @vehicle.programs.exists?(9) == true
+        if vehicle.requests.where(program_id: 9) != []
+          @shock_service = (Program.find(9).interval - (vehicle.mileage - vehicle.requests.where(program_id: 9, tracker_id: 3).last.request_mileage))
+          if @shock_service < 0
+            vehicle.update(needs_service: true, shock_service: true)
+          elsif @shock_service <= 100
+            vehicle.update(near_service: true)
+          else
+            vehicle.update(needs_service: false, shock_service: false, near_service: false)
+          end
+        end
+      #when @vehicle.programs.exists?(7) == true
+       if vehicle.requests.where(program_id: 7) != [] 
+         @air_filter_service = (Program.find(7).interval - (vehicle.mileage - vehicle.requests.where(program_id: 7, tracker_id: 3).last.request_mileage))
+         if @air_filter_service < 0
+           vehicle.update(needs_service: true, air_filter_service: true)
+         elsif @air_filter_service <= 100
+           vehicle.update(near_service: true)
+         else
+           vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
+         end
+       end
+     end 
+  end
+  
+  def near_service_required
+  
+  @q = Vehicle.where(near_service: true).ransack(params[:q])
+  @vehicle_results = @q.result.page(params[:page])
+  end
   # GET /vehicles/1
   # GET /vehicles/1.json
   def show
     @request = Request.all
-      #case @vehicle.programs
-      #when @vehicle.programs.exists?(8) == true
-      if @vehicle.requests.where(program_id: 8) != []
-        @a_service = (Program.find(8).interval - (@vehicle.mileage - @vehicle.requests.where(program_id: 8).last.request_mileage))
-        if @a_service < 0
-          # Request.create()
+    if @vehicle.requests.where(program_id: 8) != []
+      if @a_service < 0
+        @vehicle.update(needs_service: true)
+      else
+        @vehicle.update(needs_service: false)
+      end
+    end
+        if @vehicle.requests.where(program_id: 9) != []
+          if @shock_service < 0
+            @vehicle.update(needs_service: true)
+          else
+            @vhecile.update(needs_service: false)
+          end
         end
-      end
-        #when @vehicle.programs.exists?(9) == true
-          if @vehicle.requests.where(program_id: 9) != []
-        @shock_service = (Program.find(9).interval - (@vehicle.mileage - @vehicle.requests.where(program_id: 9).last.request_mileage))
-      end
-        #when @vehicle.programs.exists?(7) == true
-         if @vehicle.requests.where(program_id: 7) != [] 
-        @air_filter_service = (Program.find(7).interval - (@vehicle.mileage - @vehicle.requests.where(program_id: 7).last.request_mileage))
-     end 
+       if @vehicle.requests.where(program_id: 7) != [] 
+         if @air_filter_service < 0
+           @vehicle.update(needs_service: true)
+         else
+           @vehicle.update(needs_service: false)
+         end
+       end 
+      
   end
   
   def in_service
-    @in_service = Vehicle.where(vehicle_status: "In-Service").page(params[:page])
+    @in_service = Vehicle.where(vehicle_status: "In-Service")
+    @in_service_pages = Vehicle.where(vehicle_status: "In-Service").page(params[:page])
   end
   
   def out_of_service
-    @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service").page(params[:page])
+    @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service")
+    @out_of_service_pages = Vehicle.where(vehicle_status: "Out-of-Service").page(params[:page])
   end
   
   def all_vehicles
     @vehicles = Vehicle.all.page(params[:page])
+    @q = Vehicle.ransack(params[:q])
+    @vehicle_results = @q.result.page(params[:page])
   end
   
   def needs_service
-    
-# Vehicle.where(vehicle_status: "In-Service").each do |car|
-#  Program.all.each do |program|
-#  if car.programs.where(name: program.name) != []
-
- #   if (car.programs.where(name: program.name).last.interval) - (car.mileage - car.programs.where(name: program.name).last.requests.last.request_mileage) < 0
- #    car.update(needs_service: true)
-#    end  
- #   end
- # end
- #end
    
+   @q = Vehicle.where(needs_service: true).ransack(params[:q])
+   @vehicle_results = @q.result.page(params[:page])
   end
   # GET /vehicles/new
   def new
@@ -84,6 +132,31 @@ class VehiclesController < ApplicationController
         format.json { render json: @vehicle.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  def a_service_calculation
+    @vehicles.all.each do |vehicle|
+      if vehicle.requests.where(program_id: 8, tracker_id: 3) != []
+    @a_service = (Program.find(8).interval - (vehicle.mileage - vehicle.requests.where(program_id: 8).last.request_mileage))
+  end
+end
+  end
+  
+  def shock_service_calculation
+    @vehicles.all.each do |vehicle|
+      if vehicle.requests.where(program_id: 9, tracker_id: 3) != []
+    @shock_service = (Program.find(9).interval - (vehicle.mileage - vehicle.requests.where(program_id: 9).last.request_mileage))
+  end
+end
+  end
+  
+  def air_filter_calculation
+    
+    @vehicles.all.each do |vehicle|
+      if vehicle.requests.where(program_id: 7, tracker_id: 3) != []
+     @air_filter_service = (Program.find(7).interval - (vehicle.mileage - vehicle.requests.where(program_id: 7).last.request_mileage))
+   end
+ end
   end
 
   # PATCH/PUT /vehicles/1
@@ -115,6 +188,11 @@ class VehiclesController < ApplicationController
     def set_vehicle
       @vehicle = Vehicle.find(params[:id])
     end
+    
+    def set_all_vehicles
+      @vehicles = Vehicle.all
+    end    
+
 
     def set_vehicle_category
       @vehicle_category = VehicleCategory.all
@@ -126,6 +204,6 @@ class VehiclesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:car_id, :vehicle_category_id, :manufacturer, :vehicle_status, :vin_number, :registration_date, :plate_number, :needs_service, :mileage, :location_id, :event_id, vehicle_ids: [])
+      params.require(:vehicle).permit(:car_id, :manufacturer, :repair_needed, :vehicle_status, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :needs_service, :mileage, :near_service, :a_service, :shock_service, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
     end
 end

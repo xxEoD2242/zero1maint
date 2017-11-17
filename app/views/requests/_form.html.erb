@@ -17,12 +17,12 @@
 	
 	
 	<div class="form-group">
-		Current Status: <br \>
+		<strong>Current Status: </strong> <br \>
 	  <%= form.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
 	</div>
 	
   <div class="form-group">
-    <%= form.label "Work Order Number:" %>
+    <strong><%= form.label "Work Order Number:" %></strong>
     <%= form.number_field :number, id: :request_number, class: "form-control" %>
   </div>
   
@@ -30,41 +30,42 @@
 	  <%= form.select :program_id, @programs.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
 </div>
   <div class="form-group">
-    <%= form.label :description %>
+    <strong><%= form.label :description %></strong>
     <%= form.text_area :description, id: :request_description, class: "form-control" %>
   </div>
   
- <div class="form-group">
+ <div class="form-group d-flex justify-content-bottom">
    <strong>Upload Product Image: </strong>
    <%= form.file_field :image %>
  </div>
 
 	
 	<div class="form-group">
-		<%= form.label "Choose Vehicle" %>
 		<%= form.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
 	</div>
 	
 	<%= form.hidden_field :user_id, value: current_user.id%>
 
   <div class="form-group">
-    <%= form.label :special_requets %>
+    <strong><%= form.label :special_requets %></strong>
     <%= form.text_area :special_requets, id: :request_special_requets, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :completion_date %>
+    <strong><%= form.label :completion_date %></strong>
     <%= form.date_select :completion_date, id: :request_completion_date, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label "Point of Contact" %>
+    <strong><%= form.label "Point of Contact" %></strong>
     <%= form.text_field :poc, id: :request_poc, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.submit "Submit Request", class: "btn btn-lg btn-info" %>
+    <%= form.submit "Submit Request", class: "btn btn-lg btn-success" %>
  </div>
 <% end %>
+<span class="container d-flex justify-content-end">
+<%= link_to 'Back', requests_path, class: "btn btn-info" %></span>
 </div>
 </div>

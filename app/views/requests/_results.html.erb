@@ -1,0 +1,22 @@
+<div class="container d-flex justify-content-between align-items-center">
+	<%= paginate @request_results%>
+	
+	<form class="form-inline">
+	<%= search_form_for q, :url => {:action => action } do |f|%>
+	<div class="form-group">
+	<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
+</div>
+
+	<div class="form-group">
+	<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+</div>
+
+<div class="form-group ml-3">
+	<%= f.submit "Find Vehicles", class: "btn btn-info"%>
+</div>
+<% end %>
+<br \>
+
+
+<%= link_to 'Back', dashboard_requests_path, class: "btn btn-info " %>
+</div>

@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 <div class="jumbotron">
-<h1 class="display-4">Vehicles</h1>
+<h1 class="display-2 text-center">Vehicles Dashboard</h1>
 </div>
 <div class="row">
 	
@@ -16,25 +16,7 @@
 	</div>
 	
 	<div class="col-md-6">
-			<table class="table table-bordered table-responsive table-striped w-100%">
-			  <thead>
-			    <tr>
-			      <th scope="col">Category</th>
-					<th colspan="100%">Vehicles In-Service</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-				  <% @vehicle_category.each do |category|%>
-			    <tr>
-			      <th scope="row"><%= category.name %></th>
-			      <% category.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
-					<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
-					
-					<% end %>
-			    </tr>
-			   <% end %>
-			  </tbody>
-			</table>
+			
 		
 	</div>
 <div class="col-md-3">
@@ -52,13 +34,33 @@
 	</ul>
 </div>
 </div>
-<div class="row mt-4">
-	<div class="col-md-3">
-		
-	</div>
-	
-	<div class="col-md-6">
-			<table class="table table-bordered table-responsive table-striped w-100%">
+<div class="row mt-4 mb-5">
+	<div class="col-md-4">
+		<div class="card">
+	<table class="table table-bordered table-responsive table-sm table-striped w-100%">
+	  <thead>
+	    <tr>
+	      <th scope="col">Category</th>
+			<th colspan="100%">Vehicles In-Service</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		  <% @vehicle_category.each do |category|%>
+	    <tr>
+	      <th scope="row"><%= category.name %></th>
+	      <% category.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
+			<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
+			
+			<% end %>
+	    </tr>
+	   <% end %>
+	  </tbody>
+	</table>
+</div>
+</div>
+	<div class="col-md-4">
+		<div class="card">
+			<table class="table table-bordered table-sm table-responsive table-striped w-100%">
 			  <thead>
 			    <tr>
 			      <th scope="col">Category</th>
@@ -78,9 +80,28 @@
 			  </tbody>
 			</table>
 		</div>
-	<div class="col-md-3">
+	</div>
+	<div class="col-md-4">
 		<div class="card">
-			Example Example
+			<table class="table table-bordered table-sm table-responsive table-striped w-100%">
+			  <thead>
+			    <tr>
+			      <th scope="col">Location</th>
+					<th colspan="100%">Vehicles By Location</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				  <% @location.each do |location|%>
+			    <tr>
+			      <th scope="row"><%= location.locale %></th>
+			      <% location.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
+					<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
+					
+					<% end %>
+			    </tr>
+			   <% end %>
+			  </tbody>
+			</table>
 		</div>
 	</div>
 </div>

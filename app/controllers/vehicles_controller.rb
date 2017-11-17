@@ -89,12 +89,14 @@ class VehiclesController < ApplicationController
   
   def in_service
     @in_service = Vehicle.where(vehicle_status: "In-Service")
-    @in_service_pages = Vehicle.where(vehicle_status: "In-Service").page(params[:page])
+    @q = Vehicle.where(vehicle_status: "In-Service").ransack(params[:q])
+    @vehicle_results = @q.result.page(params[:page])
   end
   
   def out_of_service
     @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service")
-    @out_of_service_pages = Vehicle.where(vehicle_status: "Out-of-Service").page(params[:page])
+    @q = Vehicle.where(vehicle_status: "Out-of-Service").ransack(params[:q])
+    @vehicle_results = @q.result.page(params[:page])
   end
   
   def all_vehicles

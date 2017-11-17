@@ -1,9 +1,5 @@
-<div class="card">
-	<div class="card-header">
-<h1 class="text-center"> Out-Of-Service Vehicles </h1>
-</div>
-<div class="card-body">
-<%= render 'service_needed_form', vehicle: @out_of_service_pages %>
-</div>
-<%= paginate @out_of_service_pages %>
+<div class="jumbotron text-center">
+<h1 class="display-3">Vehicles Out-of-Service:</h1>
+	<%= render 'service_needed_form', vehicle: @vehicle_results %>
+	<%= render 'results', q: @q, action: :out_of_service %>
 </div>

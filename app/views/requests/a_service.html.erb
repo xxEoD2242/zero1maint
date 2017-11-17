@@ -1,7 +1,8 @@
 <div class="jumbotron text-center">
-<h1 class="display-3">A-Service Requests</h1>
+<h1 class="display-3">All A-Service Requests</h1>
+	
+<%= render 'service_form', request: @request_results %>
+<br \>
+<%= render 'results', q: @q, action: :a_service %>
+
 </div>
-
-<%= render 'service_form', request: @a_service%>
-
-<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary" %>

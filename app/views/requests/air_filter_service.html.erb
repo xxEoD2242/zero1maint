@@ -1,7 +1,8 @@
 <div class="jumbotron text-center">
-<h1 class="display-3">Air Filter Requests</h1>
+<h1 class="display-3">Air Filter Service Requests</h1>
+	
+<%= render 'service_form', request: @request_results %>
+<br \>
+<%= render 'results', q: @q, action: :air_filter_service %>
+
 </div>
-
-<%= render 'service_form', request: @air_filter_service%>
-
-<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary" %>

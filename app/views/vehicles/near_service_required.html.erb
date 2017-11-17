@@ -2,24 +2,7 @@
 <h1 class="display-3">Vehicles Within 100 Miles of Service</h1>
 	
 	<%= render 'service_needed_form', vehicle: @vehicle_results %>
-	
-	<div class="form-group">
-	<%= search_form_for @q, :url => {:action => :near_service_required} do |f|%>
-	<div class="form-group">
-	<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), include_blank: true, class: "form-control" %>
-</div>
-
-<div class="form-group">
-	<%= f.submit "Find Vehicles", class: "btn btn-info"%>
-</div>
-<% end %>
-</div>
+	<%= render 'results', q: @q, action: :near_service_required %>
 
 
-
-<div class="container d-flex justify-content-between align-items-center mt-2">
-<%= paginate @vehicle_results%>
-
-<%= link_to 'Back', vehicles_path, class: "btn btn-info " %>
-</div>
 </div>

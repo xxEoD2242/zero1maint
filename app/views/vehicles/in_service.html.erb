@@ -1,13 +1,5 @@
-<div class="card">
-	<div class="card-header">
-<h1 class="text-center"> In-Service Vehicles </h1>
-</div>
-<div class="card-body">
-<%= render 'service_needed_form', vehicle: @in_service_pages %>
-</div>
-<div class="container d-flex justify-content-between align-items-center mt-2">
-<%= paginate @in_service_pages %>
-<%= link_to 'Back', vehicles_path, class: "btn btn-info " %>
-</div>
-
+<div class="jumbotron text-center">
+<h1 class="display-3">Vehicles In-Service:</h1>
+	<%= render 'service_needed_form', vehicle: @vehicle_results %>
+	<%= render 'results', q: @q, action: :in_service %>
 </div>

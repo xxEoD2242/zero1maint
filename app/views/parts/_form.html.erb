@@ -1,3 +1,6 @@
+<div class='card'>
+	<div class="card-body">
+
 <%= simple_form_for(@part) do |f| %>
   <%= f.error_notification %>
 
@@ -5,12 +8,14 @@
     <%= f.input :part_id %>
     <%= f.input :description %>
     <%= f.input :brand %>
-    <%= f.input :category %>
+    <%= f.select :category, Part::CATEGORIES, {include_blank: "Select Mechanical Category"}, class: "form-control my-2" %>
     <%= f.input :cost %>
     <%= f.input :quantity %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: "btn btn-success" %>
   </div>
 <% end %>
+</div>
+</div>

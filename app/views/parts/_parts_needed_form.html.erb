@@ -1,0 +1,36 @@
+<div class="card">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Part</th>
+		<th scope="col">Brand</th>
+		<th scope="col">Category</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Application</th>
+      <th scope="col">Work Orders</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% part.order(category: :asc).each do |part| %>
+      <tr>
+        <th scope="row"><%= part.part_id %></th>
+		  <td><%= part.brand %></td>
+        <td><%= part.category %></td>
+        <td><%= part.quantity %></td>
+		  <td colspan="1"></td>
+		   <td colspan="1"></td>
+        
+      <td><%= link_to 'Show', part, class: "btn btn-primary btn-sm" %>
+      <%= link_to 'Edit', edit_part_path(part), class: "btn btn-sm btn-info" %>
+     </td>
+      </tr>
+    <% end %> 
+  </tbody> 
+</table>
+</div>
+
+
+
+

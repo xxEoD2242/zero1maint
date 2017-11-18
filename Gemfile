@@ -6,9 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 
-gem 'activeadmin'
-gem 'draper'
-gem 'pundit'
+
 gem 'kaminari'
 gem 'carrierwave'
 gem 'carrierwave-imageoptimizer'

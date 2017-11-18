@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   
-  resources :parts
+  resources :parts do
+    collection do
+      get 'dashboard'
+      get 'quant_none'
+      get 'quant_low'
+    end
+  end
   resources :programs
   get 'all_users' => 'show_users#all_users'
   get 'homepage' => 'welcome#homepage'

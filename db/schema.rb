@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171117185303) do
+ActiveRecord::Schema.define(version: 20171118132007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,39 @@ ActiveRecord::Schema.define(version: 20171117185303) do
     t.string "order_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "part_orders", force: :cascade do |t|
+    t.integer "invoice_numb"
+    t.integer "part_id"
+    t.integer "quantity"
+    t.string "brand"
+    t.text "description"
+    t.string "category"
+    t.integer "user_id"
+    t.string "vendor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "part_requests", force: :cascade do |t|
+    t.integer "part_id"
+    t.integer "request_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.integer "part_id"
+    t.string "description"
+    t.string "brand"
+    t.string "category"
+    t.decimal "cost"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "quant_low"
+    t.boolean "quant_none"
   end
 
   create_table "programs", force: :cascade do |t|

@@ -1,37 +1,7 @@
-<p id="notice"><%= notice %></p>
+<div class="jumbotron">
+<h3 class="display-3 text-center">Parts Inventory</h3>
+<%= render 'parts_needed_form', part: @part_results%>
+<br \>
+<%= render 'results', q: @q, action: :index%>
 
-<h1>Parts</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Part</th>
-      <th>Description</th>
-      <th>Brand</th>
-      <th>Category</th>
-      <th>Cost</th>
-      <th>Quantity</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @parts.each do |part| %>
-      <tr>
-        <td><%= part.part_id %></td>
-        <td><%= part.description %></td>
-        <td><%= part.brand %></td>
-        <td><%= part.category %></td>
-        <td><%= part.cost %></td>
-        <td><%= part.quantity %></td>
-        <td><%= link_to 'Show', part %></td>
-        <td><%= link_to 'Edit', edit_part_path(part) %></td>
-        <td><%= link_to 'Destroy', part, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Part', new_part_path %>
+</div>

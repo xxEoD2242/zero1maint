@@ -1,9 +1,13 @@
-<p id="notice"><%= notice %></p>
-
-<p>
+<div class='jumbotron'>
+	
+<div class="card">
+	<div class="card-header">
+</h1>
   <strong>Part:</strong>
   <%= @part.part_id %>
-</p>
+</h1>
+</div>
+<div class="card-body">
 
 <p>
   <strong>Description:</strong>
@@ -30,5 +34,8 @@
   <%= @part.quantity %>
 </p>
 
-<%= link_to 'Edit', edit_part_path(@part) %> |
-<%= link_to 'Back', parts_path %>
+<%= link_to 'Edit', edit_part_path(@part), class: "btn btn-warning" %> |
+<%= link_to 'Back', dashboard_parts_path, class: "btn btn-info" %>
+</div>
+</div>
+</div>

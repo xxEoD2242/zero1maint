@@ -15,14 +15,15 @@
 	</div>
 	<div class="col-md-6">
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header text-center">
 					<strong>Most Recent Requests</strong>
 				</div>
 				<div class="card-body">
 					<% @requests.all.order(created_at: :desc).limit(5).each do |request|%>
 					<div class="card m-2">
 						<div class="card-header">
-							<h4><%=link_to request.number, request_path(id: request.id), class: "badge badge-warning" %></div></h4>
+							<h4><%=link_to request.number, request_path(id: request.id), class: "badge badge-warning" %></h4></div>
+							
 				<div class="card-body">
 				
 				<div class="row">
@@ -58,6 +59,7 @@
 				<li class="list-group-item d-flex justify-content-between 					align-items-center">Shock Service Requests: <span class="badge 					badge-dark"><%= @shock_service.where(tracker_id: 1).count%></span></li>
 				<li class="list-group-item d-flex justify-content-between 					align-items-center">Air Filter Requests: <span class="badge 					badge-dark"><%= @air_filter_service.where(tracker_id: 1).count%></span></li>
 				<li class="list-group-item d-flex justify-content-between 					align-items-center">Repair Requests: <span class="badge badge-dark"><%= 					@repairs.where(tracker_id: 1).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">Completed Requests: <span class="badge badge-dark"><%= 					@requests.where(tracker_id: 3).count%></span></li>
 			</ul>
 				
 		</div>

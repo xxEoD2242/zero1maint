@@ -1,5 +1,8 @@
-<p id="notice"><%= notice %></p>
-
+<div class="card">
+<div class="card-header">
+	<h3>Event: <%= @event.number %></h3>
+</div>
+<div class="card-body">
 <p>
   <strong>Date:</strong>
   <%= @event.date %>
@@ -43,5 +46,7 @@
   <%= @event.class_type %>
 </p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<%= link_to 'Edit', edit_event_path(@event), class: "btn btn-primary" %> |
+<%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
+</div>
+</div>

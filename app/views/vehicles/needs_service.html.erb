@@ -1,6 +1,13 @@
 <div class="jumbotron text-center">
 <h1 class="display-3">Needs Service:</h1>
 	<%= render 'service_needed_form', vehicle: @vehicle_results %>
+	<br \>
 	<%= render 'results', q: @q, action: :needs_service %>
+	
 </div>
+	<div class="container">
+	<strong>Download:</strong>
+	  <%= link_to "CSV", needs_service_vehicles_path(format: "csv"), class: "btn btn-info" %> |
+	  <%= link_to "Excel", needs_service_vehicles_path(format: "xls"), class: "btn btn-info" %>
+  </div>
 

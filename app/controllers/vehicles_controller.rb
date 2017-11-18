@@ -4,7 +4,7 @@ class VehiclesController < ApplicationController
   before_action :set_location, only: [:index, :show, :new, :edit]
   before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service]
   before_action :set_all_vehicles, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:show, :near_service_required]
-  before_action :mileage_calculation, only: [:dashboard, :needs_service]
+  before_action :mileage_calculation, only: [:dashboard, :near_service_required, :needs_service]
  
   # GET /vehicles
   # GET /vehicles.json
@@ -109,6 +109,11 @@ class VehiclesController < ApplicationController
    
    @q = Vehicle.where(needs_service: true).ransack(params[:q])
    @vehicle_results = @q.result.page(params[:page])
+   respond_to do |format|
+       format.html
+       format.csv { send_data @vehicle_results.to_csv }
+       format.xls 
+     end
   end
   # GET /vehicles/new
   def new

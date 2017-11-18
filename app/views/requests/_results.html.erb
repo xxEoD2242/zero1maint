@@ -7,16 +7,14 @@
 	<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
 </div>
 
-	<div class="form-group">
+	<div class="form-group ml-3">
 	<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 </div>
 
 <div class="form-group ml-3">
-	<%= f.submit "Find Vehicles", class: "btn btn-info"%>
+	<%= f.submit "Find Requests", class: "btn btn-info"%>
 </div>
 <% end %>
 <br \>
-
-
 <%= link_to 'Back', dashboard_requests_path, class: "btn btn-info " %>
 </div>

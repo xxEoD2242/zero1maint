@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :parts
   resources :programs
   get 'all_users' => 'show_users#all_users'
   get 'homepage' => 'welcome#homepage'
@@ -15,6 +16,8 @@ Rails.application.routes.draw do
   resources :events do
     collection do
      get 'dashboard' 
+     get 'completed_events'
+     get 'scheduled_events'
     end
   end
   resources :vehicles do
@@ -26,12 +29,7 @@ Rails.application.routes.draw do
       get 'near_service_required'
     end
   end
-  devise_for :users, :controllers => { :registrations => "users/registrations" } do
-    collection do
-      get ':id/edit'
-    end
-  end
-
+  devise_for :users, :controllers => { :registrations => "users/registrations" } 
   
   root 'welcome#homepage'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

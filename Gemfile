@@ -5,6 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+
+gem 'activeadmin'
+gem 'draper'
+gem 'pundit'
 gem 'kaminari'
 gem 'carrierwave'
 gem 'carrierwave-imageoptimizer'

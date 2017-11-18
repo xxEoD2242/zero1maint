@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="jumbotron text-center">
 	<h1 class="display-3">Events Dashboard</h1>
 </div>
 
@@ -7,8 +7,8 @@
 		<div class="list-group">
 			<a class="list-group-item list-group-item-action" href="../events/new">New Event</a>
 				<a class="list-group-item list-group-item-action" href="../events">All Events</a>
-				<a class="list-group-item list-group-item-action" href="../requests/shock_service">Scheduled Events</a>
-				<a class="list-group-item list-group-item-action" href="../requests/air_filter_service">Completed Events</a>
+				<a class="list-group-item list-group-item-action" href="../events/scheduled_events">Scheduled Events</a>
+				<a class="list-group-item list-group-item-action" href="../requests/completed_events">Completed Events</a>
 			</div>
 			
 	</div>
@@ -21,7 +21,7 @@
 					<% @events.all.order(created_at: :desc).limit(5).each do |event|%>
 					<div class="card m-2">
 						<div class="card-header">
-							<h4><%=link_to event.id, event_path(id: event.id), class: "badge badge-warning" %></div></h4>
+							<h4><%=link_to event.number, event_path(id: event.id), class: "badge badge-primary" %></h4></div>
 				<div class="card-body">
 				
 				<div class="row">
@@ -39,7 +39,7 @@
 				
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status:
 					<span class="badge badge-info"><%= event.status%></span></li>
-					<li class="list-group-item d-flex justify-content-between align-items-center">Mileage
+					<li class="list-group-item d-flex justify-content-between align-items-center">Mileage:
 					<span class="badge badge-info"><%= event.event_mileage%></span></li>
 				</ul>
 				</div>

@@ -8,7 +8,9 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all.page(params[:page]).order(:created_at)
+    @events = Event.all.order(:created_at)
+    @q = Event.order(:created_at).ransack(params[:q])
+    @event_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
   # GET /events/1
@@ -20,6 +22,18 @@ class EventsController < ApplicationController
     @events = Event.all
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
+  end
+  
+  def completed_events
+    
+    @q = Event.where(status: 'Completed').order(:created_at).ransack(params[:q])
+    @event_results = @q.result.includes(:vehicles).page(params[:page])
+  end
+  
+  def scheduled_events
+    
+    @q = Event.where(status: 'Scheduled').order(:created_at).ransack(params[:q])
+    @event_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
   # GET /events/new
@@ -54,9 +68,11 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update(event_params)
         event_mileage = @event.event_mileage
+        if @event.status == "Completed"
         @event.vehicles.each do |vehicle|
           vehicle.update(mileage: (vehicle.mileage + event_mileage))
         end
+      end
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -92,6 +108,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location_id, :duration, :event_type, :class_type, :status, vehicle_ids: [])
+      params.require(:event).permit(:date, :event_mileage, :location_id, :duration, :event_type, :class_type, :number, :status, vehicle_ids: [])
     end
 end

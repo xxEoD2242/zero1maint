@@ -1,0 +1,39 @@
+<div class="card">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Number</th>
+		<th scope="col">Status</th>
+      <th scope="col">Event Type</th>
+      <th scope="col">Location</th>
+      <th scope="col">Vehicles</th>
+      <th scope="col">Event Mileage</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% event.order(location_id: :asc).each do |event| %>
+      <tr>
+        <th scope="row"><%= event.number %></th>
+		  <td><%= event.status %></td>
+        <td><%= event.event_type%></td>
+        <td><%= event.location.locale %></td>
+        <td><% event.vehicles.order(car_id: :asc).limit(3).each do |vehicle| %>
+		  		<%= link_to vehicle.car_id, vehicle, method: :get, class: "badge badge-primary" %>
+				<% end %></td>
+        <td><%= event.event_mileage %></td>
+
+      <td><%= link_to 'Show', event, class: "btn btn-primary btn-sm" %>
+      <%= link_to 'Edit', edit_event_path(event), class: "btn btn-sm btn-info" %>
+		<%= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+     </td>
+      </tr>
+    <% end %> 
+  </tbody> 
+</table>
+</div>
+
+
+
+

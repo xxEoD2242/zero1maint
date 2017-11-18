@@ -16,4 +16,14 @@ class Vehicle < ApplicationRecord
   
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold']
   CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other']
+  
+  def self.to_csv(options = {})
+      CSV.generate do |csv|
+        csv << column_names
+        all.each do |vehicle|
+          csv << vehicle.attributes.values_at(*column_names)
+        end
+      end
+    end
+ 
 end

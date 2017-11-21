@@ -3,6 +3,8 @@ class RequestsController < ApplicationController
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
   before_action :set_services, only: [:show, :index, :new, :edit]
   before_action :a_service, :shock_service, :air_filter_service, :repairs, only: [:dashboard]
+  before_action :check_quant, only: [:show]
+ 
   # GET /requests
   # GET /requests.json
   def index
@@ -11,9 +13,16 @@ class RequestsController < ApplicationController
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
+  def completed_requests
+    @q = Request.where(tracker_id: 3).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
   # GET /requests/1
   # GET /requests/1.json
   def show
+    @part_items = PartItem.all
+    @q = Part.ransack(params[:q])
+    @parts = @q.result.page(params[:page])
   end
   
   def a_service
@@ -42,9 +51,41 @@ class RequestsController < ApplicationController
   
   def dashboard
     @requests = Request.all
-    
   end
+  
+  def add_to_request_part_order
+    part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity])
+    redirect_back(fallback_location: root_path)
+  end
+  
+  
+  
+  def add_parts
+    part_items = PartItem.all
+    if part_items.length != 0
+      @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: part_items.last.request_id))
 
+      part_items.each do |part_item|
+        part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
+        @part_order.order_items[part_item.part_id] = part_item.quantity 
+      end
+      @part_order.save
+
+      part_items.destroy_all
+      
+      @parts = @part_order.order_items.each do |order_item|
+      PartRequest.create(part_id: order_item.part_id, request_id: @request.id)
+    end
+      redirect_back(fallback_location: root_path)
+    end
+  end
+  
+  def check_quant
+    @part_quant = Part.where("quantity <= ?", 0)
+    if @part_quant.ids  == Part.ids
+      redirect_back(fallback_location: root_path)
+    end  
+  end
   # GET /requests/new
   def new
     @request = Request.new
@@ -53,7 +94,8 @@ class RequestsController < ApplicationController
   # GET /requests/1/edit
   def edit
     @requests = Request.find_by(params[:number])
-  
+    @q = Part.ransack(params[:q])
+    @parts = @q.result.page(params[:page])
   end
 
   # POST /requests
@@ -125,9 +167,9 @@ class RequestsController < ApplicationController
     def set_services
       @programs = Program.all
     end
-
     # Never trust parameters from the scary internet, only allow the white list through.
+    
     def request_params
-      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_id, :tracker_id, :image, :user_id, :request_mileage, :program_id)
+      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_id, :tracker_id, :image, :user_id, :request_mileage, :program_id, part_ids: [])
     end
 end

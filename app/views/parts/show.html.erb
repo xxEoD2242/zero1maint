@@ -4,7 +4,7 @@
 	<div class="card-header">
 </h1>
   <strong>Part:</strong>
-  <%= @part.part_id %>
+  <%= @part.part_numb %>
 </h1>
 </div>
 <div class="card-body">
@@ -32,6 +32,11 @@
 <p>
   <strong>Quantity:</strong>
   <%= @part.quantity %>
+</p>
+
+<p>
+	<strong>Application:</strong>
+	<%= @part.vehicle_category.name%>
 </p>
 
 <%= link_to 'Edit', edit_part_path(@part), class: "btn btn-warning" %> |

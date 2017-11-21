@@ -1,8 +1,8 @@
 <div class="jumbotron text-center">
-<h1 class="display-3">All Repair Requests</h1>
+<h1 class="display-3">Completed Requests</h1>
 	
 <%= render 'service_form', request: @request_results %>
 <br \>
-<%= render 'results', q: @q, action: :repairs %>
+<%= render 'results', q: @q, action: :completed_requests %>
 
 </div>

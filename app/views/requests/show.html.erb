@@ -1,13 +1,14 @@
-<p id="notice"><%= notice %></p>
-
-
+<div class="jumbotron">
+<div class="row">
+	<div class="col-md-12">
 <div class="card">
 <div class="card-header">
    <strong>Request Number:</strong>
    <%= @request.number %>
 </div>	
 <div class="card-body">
-
+<div class="row">
+	<div class="col-md-6">
 <p>
   <strong>Vehicle Name:</strong>
   <%= @request.vehicle.car_id%>
@@ -32,6 +33,8 @@
   <strong>Status:</strong>
   <%= @request.tracker.track %>
 </p>
+</div>
+<div class="col-md-6">
 <% if @request.program != nil %>
 <p>
 	<strong>Service Type:</strong>
@@ -39,6 +42,16 @@
 </p>
 <% end %>
 
+<p>
+	<strong>Parts: </strong>
+<% if @part_order != nil%>
+<div class="row">
+<% @part_order.order_items.each do |order_item|%>
+	<div class="col"><%= order_item.part.description %></div>
+	<div class="col"><%= order_item.quantity %></div>
+	<% end %>
+</div>
+	<% end %>
 <p>
   <strong>Special requets:</strong>
   <%= @request.special_requets %>
@@ -49,11 +62,68 @@
   <%= @request.completion_date %>
 </p>
 
-<p>
-	<strong>Mechanic</strong>
-</p>
 
 <%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success" %> |
 <%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary" %>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+    <div class="card">
+  	  <div class="card-header">
+  		  <h6 class="display-5">Add Parts</h6>
+  	  </div>
+  	  <div class="card-body">
+  		  <%= render 'custom_form'%>
+		  
+  		<br \>
+			 
+  			 <% Part::CATEGORIES.each do |category|%>
+			
+  		<strong><%= label_tag category %></strong>
+  			<% @parts.where(category: category).each do |part|%>
+  				<%= form_tag add_to_request_part_order_requests_path do |f|%>
+  			<%= hidden_field_tag :part_id, part.id%>
+			<%= hidden_field_tag :request_id, @request.id%>
+  			 <div class="form-group">
+  			<%= label_tag part.description %>
+  			<div class="input-group">
+        <span class="input-group-addon"><%= part.quantity%></span>
+        <%= number_field_tag :quantity, nil, class: "form-control" %>
+      <span class="input-group-btn">
+  	 	<%= submit_tag "Add Parts to Cart", class: "btn btn-info"%>
+  	 </span>
+   </div>
+   </div>
+  			<% end %>
+  			<% end %>
+	
+  <% end %>
+
+
+  </div>
+  </div>
+
+  <div class="card">
+  	<div class="card-header">
+  		<h4>Parts Added</h4>
+  	</div>
+  	<div class="card-body">
+  		<ul class="list-group">
+  			<% @part_items.each do |part_item|%>
+  			<li class="list-group-item"><%= part_item.part.description %> | Qty: <%= part_item.quantity%></li>
+  			<% end %>
+  		</ul>
+  		<br \>
+  		<%= link_to "Add Parts To Work Order", add_parts_requests_path, class: "btn btn-success"%> 
+		
+  	</div>
+  </div>
+  		
+
+	
+
+
 </div>

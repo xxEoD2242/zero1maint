@@ -2,6 +2,8 @@ class PartsController < ApplicationController
   before_action :set_requests, only: [:dashboard]
   before_action :set_part, only: [:show, :edit, :update]
   before_action :quant_calculation, only: [:quant_needed, :quant_low]
+  before_action :set_vehicle_category, only: [:new, :edit]
+  
   # GET /parts
   # GET /parts.json
   def index
@@ -47,7 +49,7 @@ class PartsController < ApplicationController
   def new
     @part = Part.new
     @vehicles = Vehicle.all
-    @vehicle_categories = VehicleCategory.all
+    
   end
 
   # GET /events/1/edit
@@ -103,12 +105,16 @@ class PartsController < ApplicationController
       @location = Location.all
     end
     
+    def set_vehicle_category
+      @vehicle_category = VehicleCategory.all
+    end
+    
     def set_requests
       @requests = Request.all
     end
 
     def part_params
-      params.require(:part).permit(:part_id, :description, :brand, :category, :cost, :quantity)
+      params.require(:part).permit(:part_id, :description, :brand, :category, :vehicle_category_id, :cost, :quantity)
     end
 end
 

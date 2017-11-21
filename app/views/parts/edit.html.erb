@@ -1,6 +1,11 @@
-<h1>Editing Part</h1>
+<div class="jumbotron">
+
+<h1 class="display-3 text-center">Edit Part: <%= @part.part_id %></h1>
 
 <%= render 'form', part: @part %>
+<br \>
 
-<%= link_to 'Show', @part %> |
-<%= link_to 'Back', parts_path %>
+<%= link_to 'Show', @part, class: "btn btn-info" %> |
+<%= link_to 'Back', dashboard_parts_path, class: "btn btn-warning" %>
+
+</div>

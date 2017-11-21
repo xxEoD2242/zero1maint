@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171118132007) do
+ActiveRecord::Schema.define(version: 20171121181522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,15 @@ ActiveRecord::Schema.define(version: 20171118132007) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "part_items", force: :cascade do |t|
+    t.integer "part_id"
+    t.integer "order_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "request_id"
+  end
+
   create_table "part_orders", force: :cascade do |t|
     t.integer "invoice_numb"
     t.integer "part_id"
@@ -99,7 +108,6 @@ ActiveRecord::Schema.define(version: 20171118132007) do
   end
 
   create_table "parts", force: :cascade do |t|
-    t.integer "part_id"
     t.string "description"
     t.string "brand"
     t.string "category"
@@ -109,6 +117,8 @@ ActiveRecord::Schema.define(version: 20171118132007) do
     t.datetime "updated_at", null: false
     t.boolean "quant_low"
     t.boolean "quant_none"
+    t.integer "vehicle_category_id"
+    t.string "part_numb"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -117,6 +127,14 @@ ActiveRecord::Schema.define(version: 20171118132007) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "completed"
+  end
+
+  create_table "request_part_orders", force: :cascade do |t|
+    t.integer "request_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "order_items"
   end
 
   create_table "requests", force: :cascade do |t|

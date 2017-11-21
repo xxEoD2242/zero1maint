@@ -7,6 +7,7 @@ class User < ApplicationRecord
          
          ROLES = ['admin', 'employee']
          has_many :requests
+         has_many :request_part_orders
         
          
          def admin?

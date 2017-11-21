@@ -1,71 +1,61 @@
 <div class="card">
 	
 
-<%= form_with(model: request, local: true) do |form| %>
-  <% if request.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
-
-      <ul>
-      <% request.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= simple_form_for @request, html: {multipart: true} do |f| %>
+  <%= f.error_notification %>
 <div class="card-body">
-	
-	
 	<div class="form-group">
 		<strong>Current Status: </strong> <br \>
-	  <%= form.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
+	  <%= f.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
 	</div>
 	
   <div class="form-group">
-    <strong><%= form.label "Work Order Number:" %></strong>
-    <%= form.number_field :number, id: :request_number, class: "form-control" %>
+    <strong><%= f.label "Work Order Number:" %></strong>
+    <%= f.number_field :number, id: :request_number, class: "form-control" %>
   </div>
   
   <div class="form-group">
-	  <%= form.select :program_id, @programs.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
+	  <%= f.select :program_id, @programs.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
 </div>
   <div class="form-group">
-    <strong><%= form.label :description %></strong>
-    <%= form.text_area :description, id: :request_description, class: "form-control" %>
+    <strong><%= f.label :description %></strong>
+    <%= f.text_area :description, id: :request_description, class: "form-control" %>
   </div>
   
  <div class="form-group d-flex justify-content-bottom">
    <strong>Upload Product Image: </strong>
-   <%= form.file_field :image %>
+   <%= f.file_field :image %>
  </div>
 
 	
 	<div class="form-group">
-		<%= form.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
+		<%= f.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
 	</div>
 	
-	<%= form.hidden_field :user_id, value: current_user.id%>
+	
+	<%= f.hidden_field :user_id, value: current_user.id%>
 
   <div class="form-group">
-    <strong><%= form.label :special_requets %></strong>
-    <%= form.text_area :special_requets, id: :request_special_requets, class: "form-control" %>
+    <strong><%= f.label :special_requets %></strong>
+    <%= f.text_area :special_requets, id: :request_special_requets, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <strong><%= form.label :completion_date %></strong>
-    <%= form.date_select :completion_date, id: :request_completion_date, class: "form-control" %>
+    <strong><%= f.label :completion_date %></strong>
+    <%= f.date_select :completion_date, id: :request_completion_date, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <strong><%= form.label "Point of Contact" %></strong>
-    <%= form.text_field :poc, id: :request_poc, class: "form-control" %>
+    <strong><%= f.label "Point of Contact" %></strong>
+    <%= f.text_field :poc, id: :request_poc, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.submit "Submit Request", class: "btn btn-lg btn-success" %>
+    <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-success" %>
  </div>
 <% end %>
 <span class="container d-flex justify-content-end">
 <%= link_to 'Back', requests_path, class: "btn btn-info" %></span>
+
 </div>
 </div>

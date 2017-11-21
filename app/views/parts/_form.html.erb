@@ -5,12 +5,13 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :part_id %>
+    <%= f.input :part_numb %>
     <%= f.input :description %>
     <%= f.input :brand %>
     <%= f.select :category, Part::CATEGORIES, {include_blank: "Select Mechanical Category"}, class: "form-control my-2" %>
     <%= f.input :cost %>
     <%= f.input :quantity %>
+	 <%= f.select :vehicle_category_id, @vehicle_category.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :part_vehicle_category_id, class: "form-control mb-2"%>
   </div>
 
   <div class="form-actions">

@@ -46,9 +46,11 @@
 	<strong>Parts: </strong>
 <% if @part_order != nil%>
 <div class="row">
-<% @part_order.order_items.each do |order_item|%>
-	<div class="col"><%= order_item.part.description %></div>
-	<div class="col"><%= order_item.quantity %></div>
+	<% @part_order.each do |part_order|%>
+<% part_order.order_items.each do |key, value|%>
+	<div class="col"><%= Part.find(key).description%></div>
+	<div class="col"><%= value %></div>
+	<% end %>
 	<% end %>
 </div>
 	<% end %>
@@ -89,6 +91,7 @@
 			<%= hidden_field_tag :request_id, @request.id%>
   			 <div class="form-group">
   			<%= label_tag part.description %>
+			
   			<div class="input-group">
         <span class="input-group-addon"><%= part.quantity%></span>
         <%= number_field_tag :quantity, nil, class: "form-control" %>

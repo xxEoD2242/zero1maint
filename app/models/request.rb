@@ -6,6 +6,8 @@ class Request < ApplicationRecord
   
   has_many :part_requests
   has_many :parts, through: :part_requests
+  
+  has_many :request_part_orders
  
   mount_uploader :image, ImageUploader
   

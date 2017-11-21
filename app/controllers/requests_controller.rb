@@ -23,6 +23,7 @@ class RequestsController < ApplicationController
     @part_items = PartItem.all
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
+    @part_order = RequestPartOrder.where(request_id: @request.id)
   end
   
   def a_service
@@ -54,7 +55,7 @@ class RequestsController < ApplicationController
   end
   
   def add_to_request_part_order
-    part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity])
+    part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity], request_id: params[:request_id])
     redirect_back(fallback_location: root_path)
   end
   
@@ -63,21 +64,23 @@ class RequestsController < ApplicationController
   def add_parts
     part_items = PartItem.all
     if part_items.length != 0
-      @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: part_items.last.request_id))
+      @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: part_items.last.request_id)
 
       part_items.each do |part_item|
         part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
         @part_order.order_items[part_item.part_id] = part_item.quantity 
       end
       @part_order.save
-
+      @part_order.order_items.each do |key, value|
+      PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)
+      
+    end
       part_items.destroy_all
       
-      @parts = @part_order.order_items.each do |order_item|
-      PartRequest.create(part_id: order_item.part_id, request_id: @request.id)
+      
+      
     end
-      redirect_back(fallback_location: root_path)
-    end
+    redirect_back(fallback_location: root_path)
   end
   
   def check_quant

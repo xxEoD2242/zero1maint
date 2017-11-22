@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th scope="col">Part</th>
-		<th scope="col">Brand</th>
+		<th scope="col">Description</th>
 		<th scope="col">Category</th>
       <th scope="col">Quantity</th>
 		<th scope="col">Cost</th>
@@ -17,16 +17,22 @@
     <% part.order(category: :asc).each do |part| %>
       <tr>
         <th scope="row"><%= part.part_numb %></th>
-		  <td><%= part.brand %></td>
+		  <td><%= part.description %></td>
         <td><%= part.category %></td>
         <td><%= part.quantity %></td>
 		  <td><%= number_to_currency part.cost %>
 		  <td><%= part.vehicle_category.name %></td>
-		  <td colspan="1"></td>
-		   <td colspan="1"></td>
+		  <td> <% if part.requests != [] %>
+			  <ul style="list-display-type:none;">
+		  			<% part.requests.order(created_at: :desc).limit(3).each do |request| %>
+					<li><%= link_to request.number, request_path(request), class: "badge badge-dark"%></li>
+					<% end %></li>
+					<% end %> </td>
+		   
         
       <td><%= link_to 'Show', part, class: "btn btn-primary btn-sm" %>
       <%= link_to 'Edit', edit_part_path(part), class: "btn btn-sm btn-info" %>
+		<%= link_to 'Destroy', part, method: :delete, data: { confirm: "Are you sure?"}, class: "btn btn-sm btn-warning"%>
      </td>
       </tr>
     <% end %> 

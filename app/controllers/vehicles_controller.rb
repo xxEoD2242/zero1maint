@@ -13,6 +13,11 @@ class VehiclesController < ApplicationController
     @request = Request.all
     @q = Vehicle.ransack(params[:q])
     @cars = @q.result
+    respond_to do |format|
+        format.html
+        format.csv { send_data @cars.to_csv }
+        format.xls 
+      end
   end
   
 
@@ -58,6 +63,11 @@ class VehiclesController < ApplicationController
   
   @q = Vehicle.where(near_service: true).ransack(params[:q])
   @vehicle_results = @q.result.page(params[:page])
+  respond_to do |format|
+      format.html
+      format.csv { send_data @vehicle_results.to_csv }
+      format.xls 
+    end
   end
   # GET /vehicles/1
   # GET /vehicles/1.json
@@ -91,18 +101,33 @@ class VehiclesController < ApplicationController
     @in_service = Vehicle.where(vehicle_status: "In-Service")
     @q = Vehicle.where(vehicle_status: "In-Service").ransack(params[:q])
     @vehicle_results = @q.result.page(params[:page])
+    respond_to do |format|
+        format.html
+        format.csv { send_data @vehicle_results.to_csv }
+        format.xls 
+      end
   end
   
   def out_of_service
     @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service")
     @q = Vehicle.where(vehicle_status: "Out-of-Service").ransack(params[:q])
     @vehicle_results = @q.result.page(params[:page])
+    respond_to do |format|
+        format.html
+        format.csv { send_data @vehicle_results.to_csv }
+        format.xls 
+      end
   end
   
   def all_vehicles
     @vehicles = Vehicle.all.page(params[:page])
     @q = Vehicle.ransack(params[:q])
     @vehicle_results = @q.result.page(params[:page])
+    respond_to do |format|
+        format.html
+        format.csv { send_data @vehicle_results.to_csv }
+        format.xls 
+      end
   end
   
   def needs_service

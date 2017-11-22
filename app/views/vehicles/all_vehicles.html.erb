@@ -6,3 +6,8 @@
 <%= render 'results', q: @q, action: :all_vehicles %>
 
 </div>
+	<div class="container">
+	<strong>Download:</strong>
+	  <%= link_to "CSV", all_vehicles_vehicles_path(format: "csv"), class: "btn btn-info" %> |
+	  <%= link_to "Excel", all_vehicles_vehicles_path(format: "xls"), class: "btn btn-info" %>
+  </div>

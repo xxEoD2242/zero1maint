@@ -1,5 +1,5 @@
 <div class="container d-flex justify-content-between align-items-center">
-	<%= paginate @part_results%>
+	
 	
 	<form class="form-inline">
 	<%= search_form_for q, :url => {:action => action } do |f|%>
@@ -7,11 +7,20 @@
 	<%= f.select :category_eq, Part::CATEGORIES, {include_blank: "Select Part Category"}, class: "form-control" %>
 </div>
 
+<div class="form-group ml-2">
+	<%= f.select :brand_eq, Part.all, {include_blank: "Select Part Category"}, class: "form-control" %>
+</div>
 
-<div class="form-group ml-3">
+<div class="form-group ml-2">
+	<%= f.search_field :description_cont, placeholder: "Description Contains", class: 'form-control'%>
+</div>
+
+
+<div class="form-group ml-2">
 	<%= f.submit "Find part", class: "btn btn-info"%>
 </div>
 <% end %>
 <br \>
 <%= link_to 'Back', dashboard_parts_path, class: "btn btn-info " %>
 </div>
+<%= paginate @part_results%>

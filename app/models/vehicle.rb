@@ -10,7 +10,7 @@ class Vehicle < ApplicationRecord
   belongs_to :vehicle_category
   belongs_to :location
   
-  paginates_per 5
+  paginates_per 7
   
   accepts_nested_attributes_for :events
   

@@ -3,20 +3,30 @@
 	
 	<form class="form">
 	<%= simple_form_for @q, url: {:action => :search_for_parts}, html: {:method => :get} do |f|%>
+	<strong>	Search For Parts </strong>
+
+	<div class="row mt-3">
+	
+		<div class="col">
 	<div class="form-group">
-	<Strong>	<%= f.label "Description Contains: "%></strong>
-	<%= f.search_field :description_cont, class: "form-control" %>
+	<%= f.search_field :description_cont, placeholder: "Description Contains", class: "form-control" %>
+</div>
 </div>
 
+<div class="col">
 	<div class="form-group">
 	<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 </div>
-
+</div>
+<div class="col">
 	<div class="form-group">
 	<%= f.select :category_eq, Part::CATEGORIES, {include_blank: "Select Part Category"}, class: "form-control" %>
+</div>
+</div>
 </div>
 
 <div class="form-group">
 	<%= f.submit "Find Parts", class: "btn btn-info"%>
 </div>
+
 <% end %>

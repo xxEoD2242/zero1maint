@@ -20,7 +20,7 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
-    @part_items = PartItem.all
+    @part_items = PartItem.where(request_id: @request.id)
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
     @part_order = RequestPartOrder.where(request_id: @request.id)
@@ -55,16 +55,26 @@ class RequestsController < ApplicationController
   end
   
   def add_to_request_part_order
-    part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity], request_id: params[:request_id])
+    part_quant = Part.find(params[:part_id]).quantity
+    if part_quant > 0
+      part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity], request_id: params[:request_id])
+    else
+      flash[:error]
+    end
     redirect_back(fallback_location: root_path)
   end
   
-  
+  def delete_parts
+    part_item = PartItem.find(params[:id])
+    part_item.destroy
+    redirect_back(fallback_location: root_path)
+  end
   
   def add_parts
-    part_items = PartItem.all
+   
+    part_items = PartItem.where(request_id: params[:request_id])
     if part_items.length != 0
-      @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: part_items.last.request_id)
+      @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: params[:request_id])
 
       part_items.each do |part_item|
         part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
@@ -74,9 +84,9 @@ class RequestsController < ApplicationController
       @part_order.order_items.each do |key, value|
       PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)
       
-    end
+    end  
       part_items.destroy_all
-      
+    
       
       
     end
@@ -96,7 +106,6 @@ class RequestsController < ApplicationController
 
   # GET /requests/1/edit
   def edit
-    @requests = Request.find_by(params[:number])
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
   end

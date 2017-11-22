@@ -6,5 +6,7 @@ class Part < ApplicationRecord
   
   belongs_to :vehicle_category
   has_many :part_items
+  
+  paginates_per 7
   CATEGORIES = ['Body', 'Brakes', 'Chassis', 'Cooling System', 'Driveline', 'Engine', 'Electrical', 'Steering', 'Radio-Communication', 'Wheel-Tires', 'Exhaust']
 end

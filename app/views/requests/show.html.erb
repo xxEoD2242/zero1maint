@@ -2,9 +2,10 @@
 <div class="row">
 	<div class="col-md-12">
 <div class="card">
-<div class="card-header">
-   <strong>Request Number:</strong>
-   <%= @request.number %>
+<div class="card-header d-flex justify-content-between align-items-center">
+   <strong>Request Number: <%= @request.number %></strong>
+	<%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success" %> 
+	
 </div>	
 <div class="card-body">
 <div class="row">
@@ -63,29 +64,28 @@
   <strong>Completion date:</strong>
   <%= @request.completion_date %>
 </p>
+</div>
+<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary ml-3" %>
 
 
-<%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success" %> |
-<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary" %>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-    <div class="card">
+    <div class="card mt-3">
   	  <div class="card-header">
-  		  <h6 class="display-5">Add Parts</h6>
+  		  <h6 class="display-5">Add Parts To Cart</h6>
   	  </div>
   	  <div class="card-body">
   		  <%= render 'custom_form'%>
 		  
   		<br \>
-			 
+			 <div class="row">
   			 <% Part::CATEGORIES.each do |category|%>
-			
+			<div class="col-md-4">
   		<strong><%= label_tag category %></strong>
-  			<% @parts.where(category: category).each do |part|%>
+  			<% @parts.where(category: category).limit(5).each do |part|%>
   				<%= form_tag add_to_request_part_order_requests_path do |f|%>
   			<%= hidden_field_tag :part_id, part.id%>
 			<%= hidden_field_tag :request_id, @request.id%>
@@ -93,34 +93,35 @@
   			<%= label_tag part.description %>
 			
   			<div class="input-group">
-        <span class="input-group-addon"><%= part.quantity%></span>
+        <span class="input-group-addon">Qty: <%= part.quantity%></span>
         <%= number_field_tag :quantity, nil, class: "form-control" %>
       <span class="input-group-btn">
-  	 	<%= submit_tag "Add Parts to Cart", class: "btn btn-info"%>
+  	 	<%= submit_tag "Add Parts", class: "btn btn-info"%>
   	 </span>
    </div>
    </div>
   			<% end %>
   			<% end %>
-	
+	</div>
   <% end %>
-
+</div>
 
   </div>
   </div>
 
-  <div class="card">
+  <div class="card mt-3">
   	<div class="card-header">
-  		<h4>Parts Added</h4>
+  		<h4>Parts Cart</h4>
   	</div>
   	<div class="card-body">
   		<ul class="list-group">
   			<% @part_items.each do |part_item|%>
-  			<li class="list-group-item"><%= part_item.part.description %> | Qty: <%= part_item.quantity%></li>
+  			<li class="list-group-item d-flex justify-content-between align-items-center"><%= part_item.part.description %> | Qty: <%= part_item.quantity%> <span> <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span></li>
   			<% end %>
   		</ul>
   		<br \>
-  		<%= link_to "Add Parts To Work Order", add_parts_requests_path, class: "btn btn-success"%> 
+		
+  		<%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-success"%> 
 		
   	</div>
   </div>

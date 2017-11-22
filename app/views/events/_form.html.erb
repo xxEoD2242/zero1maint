@@ -47,7 +47,7 @@
 
   <div class="form-group">
     <strong> <%= f.label :event_mileage %></strong>
-    <%= f.text_field :event_mileage, id: :event_event_mileage, class: "form-control" %>
+    <%= f.hidden_field :event_mileage, value: 0, id: :event_event_mileage %>
   </div>
 
   <div class="form-group">
@@ -71,7 +71,7 @@
   </div>
 
   <div class="form-group">
-    <%= f.button :submit, class: "btn btn-success" %>
+    <%= f.button :submit, class: "btn btn-success btn-lg" %>
   </div>
 <% end %>
 <%= link_to 'Back', dashboard_events_path, class: "btn btn-info" %>

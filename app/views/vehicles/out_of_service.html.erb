@@ -4,3 +4,8 @@
 	<br \>
 	<%= render 'results', q: @q, action: :out_of_service %>
 </div>
+	<div class="container">
+	<strong>Download:</strong>
+	  <%= link_to "CSV", out_of_service_vehicles_path(format: "csv"), class: "btn btn-info" %> |
+	  <%= link_to "Excel", out_of_service_vehicles_path(format: "xls"), class: "btn btn-info" %>
+  </div>

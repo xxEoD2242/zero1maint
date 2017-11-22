@@ -45,6 +45,8 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @vehicles = Vehicle.all
+    @vehicle_categories = VehicleCategory.all
   end
 
   # POST /events

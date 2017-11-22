@@ -5,5 +5,10 @@
 	<br \>
 	<%= render 'results', q: @q, action: :near_service_required %>
 
-
+	
 </div>
+	<div class="container">
+	<strong>Download:</strong>
+	  <%= link_to "CSV", near_service_required_vehicles_path(format: "csv"), class: "btn btn-info" %> |
+	  <%= link_to "Excel", near_service_required_vehicles_path(format: "xls"), class: "btn btn-info" %>
+  </div>

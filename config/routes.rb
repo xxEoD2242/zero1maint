@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       post 'add_to_request_part_order'
       get 'add_parts'
       get 'search_for_parts'
+      get 'delete_parts'
     end
   end
   resources :events do

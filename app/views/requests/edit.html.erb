@@ -1,10 +1,66 @@
 <div class="jumbotron">
-<h1 class="display-3 text-center">Create Work Order</h1>
+<h1 class="display-3 text-center">Edit Work Order: <%= @request.number%></h1>
 
 
-<%= render 'form', request: @request %>
+<div class="card">
+	
+
+<%= simple_form_for @request, html: {multipart: true} do |f| %>
+  <%= f.error_notification %>
+<div class="card-body">
+	<div class="form-group">
+		<strong>Current Status </strong> <br \>
+	  <%= f.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
+	</div>
+  
+  <div class="form-group">
+	  <strong>Service</strong>
+	  <%= f.select :program_id, @programs.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
+</div>
+  <div class="form-group">
+    <strong><%= f.label :description %></strong>
+    <%= f.text_area :description, id: :request_description, class: "form-control" %>
+  </div>
+  
+ <div class="form-group d-flex justify-content-bottom">
+   <strong>Upload Product Image: </strong>
+   <%= f.file_field :image %>
+ </div>
+
+	
+	<div class="form-group">
+		<%= f.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
+	</div>
+	
+	
+	<%= f.hidden_field :user_id, value: current_user.id%>
+
+  <div class="form-group">
+    <strong><%= f.label :special_requets %></strong>
+    <%= f.text_area :special_requets, id: :request_special_requets, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <strong><%= f.label :completion_date %></strong>
+    <%= f.date_select :completion_date, id: :request_completion_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <strong><%= f.label "Point of Contact" %></strong>
+    <%= f.text_field :poc, id: :request_poc, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-success" %>
+ </div>
+<% end %>
+<div class="container d-flex justify-content-between align-items-center">
+<%= link_to 'Back', requests_path, class: "btn btn-info" %><%= link_to 'Show', @request, class: "btn btn-info" %></div>
+
+</div>
+</div>
 
 
-<%= link_to 'Show', @request, class: "btn btn-info" %>
+
 
 </div>

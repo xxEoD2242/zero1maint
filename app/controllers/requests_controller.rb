@@ -122,8 +122,13 @@ class RequestsController < ApplicationController
         vehicle = @request.vehicle
         @request.update(request_mileage: (veh_mileage))
         if @request.program_id == 10 && @request.tracker_id == 1
-                  vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
-                end
+          vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
+        end
+        if @request.program_id == 11 && @request.tracker_id == 1
+          vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
+          UserMailer.new_request_email(current_user, @request).deliver_now
+        end
+        
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else

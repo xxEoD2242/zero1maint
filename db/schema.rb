@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171121181522) do
+ActiveRecord::Schema.define(version: 20171123145545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,6 +225,7 @@ ActiveRecord::Schema.define(version: 20171121181522) do
     t.boolean "shock_service"
     t.boolean "air_filter_service"
     t.boolean "repair_needed"
+    t.boolean "defect"
   end
 
 end

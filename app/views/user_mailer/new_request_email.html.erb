@@ -1,0 +1,23 @@
+<div class="card">
+	<div class="card-header">
+<h1>Defect Work Order Created</h1>
+</div>
+<div class="card-body">
+<table class="table">
+	<thead>
+		<th scope="col">Number</th>
+		<th scope="col">Vehicle</th>
+		<th scope="col">Description</th>
+		<th scope="col">Created At</th>
+		<th scope="col">Vehicle Location</th>
+	</thead>
+	<tbody>
+		<td><%= @request.number%></td>
+		<td><%= @request.vehicle.car_id %></td>
+		<td><%= @request.description %></td>
+		<td><%= @request.created_at.strftime('%D') %></td>
+		<td><%= @request.vehicle.location.locale %></td>
+	</tbody>
+</table>
+</div>
+</div>

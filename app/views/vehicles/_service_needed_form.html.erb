@@ -20,7 +20,7 @@
 		  <td><%= vehicle.vehicle_status %></td>
         <td><%= vehicle.vehicle_category.name %></td>
         <td><%= vehicle.location.locale %></td>
-        <td><% vehicle.requests.where(tracker_id: 1).each do |request| %>
+        <td><% vehicle.requests.where(tracker_id: 1).limit(3).each do |request| %>
 		  		<%= link_to request.number, request, method: :get, class: "badge badge-primary" %>
 				<%= request.tracker.track%>
 				<% end %></td>

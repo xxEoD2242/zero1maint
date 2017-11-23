@@ -34,12 +34,11 @@ class VehiclesController < ApplicationController
         vehicle.update(needs_service: false, a_service: false, near_service: false)
       end
     end
-      #when @vehicle.programs.exists?(9) == true
         if vehicle.requests.where(program_id: 9, tracker_id: 3) != []
           @shock_service = (Program.find(9).interval - (vehicle.mileage - vehicle.requests.where(program_id: 9, tracker_id: 3).last.request_mileage))
           if @shock_service < 0
             vehicle.update(needs_service: true, shock_service: true)
-          elsif @shock_service <= 100
+          elsif @shock_service <= 200
             vehicle.update(near_service: true)
           else
             vehicle.update(needs_service: false, shock_service: false, near_service: false)
@@ -50,7 +49,7 @@ class VehiclesController < ApplicationController
          @air_filter_service = (Program.find(7).interval - (vehicle.mileage - vehicle.requests.where(program_id: 7, tracker_id: 3).last.request_mileage))
          if @air_filter_service < 0
            vehicle.update(needs_service: true, air_filter_service: true)
-         elsif @air_filter_service <= 100
+         elsif @air_filter_service <= 50
            vehicle.update(near_service: true)
          else
            vehicle.update(needs_service: false, air_filter_service: false, near_service: false)

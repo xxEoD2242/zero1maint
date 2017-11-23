@@ -45,6 +45,7 @@ gem 'better_errors', group: :development
 gem 'binding_of_caller'
 gem 'cancancan'
 gem 'pry-rails', :group => :development
+gem 'figaro'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

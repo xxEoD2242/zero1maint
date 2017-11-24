@@ -1,4 +1,5 @@
 class Vehicle < ApplicationRecord
+  require 'csv'
   has_many :events_vehicles
   has_many :events, through: :events_vehicles
   
@@ -23,6 +24,12 @@ class Vehicle < ApplicationRecord
         all.each do |vehicle|
           csv << vehicle.attributes.values_at(*column_names)
         end
+      end
+    end
+    
+    def self.import(file)
+      CSV.foreach(file.path, headers: true) do |row|
+        Vehicle.create! row.to_hash
       end
     end
  

@@ -20,6 +20,10 @@ class VehiclesController < ApplicationController
       end
   end
   
+  def import
+    Vehicle.import(params[:file])
+    redirect_to root_url, notice: "Activity Data Imported!"
+  end
 
   def mileage_calculation
     @vehicles = Vehicle.all
@@ -125,7 +129,7 @@ class VehiclesController < ApplicationController
     respond_to do |format|
         format.html
         format.csv { send_data @vehicle_results.to_csv }
-        format.xls 
+        format.xls
       end
   end
   
@@ -209,7 +213,7 @@ end
   def destroy
     @vehicle.destroy
     respond_to do |format|
-      format.html { redirect_to vehicles_url, notice: 'Vehicle was successfully destroyed.' }
+      format.html { redirect_to all_vehicles_vehicles_url, notice: 'Vehicle was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -235,6 +239,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:car_id, :manufacturer, :repair_needed, :vehicle_status, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :needs_service, :mileage, :near_service, :a_service, :shock_service, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
+      params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :repair_needed, :needs_service, :mileage, :near_service, :a_service, :shock_service, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
     end
 end

@@ -6,13 +6,13 @@
 			<th>Work Order Status</th>
 			<th>Work Order Type</th>
 			<th>Vehicle</th>
-			<th>Request Created At</th>
+			<th>Work Order Created At</th>
 			<th>Estimated Completion Date</th>
 			
 		</tr>
 	</thead>
 	<tbody>
-		<% request.each do |request|%>
+		<% request.order(tracker_id: :asc).each do |request|%>
 	<tr>
 		<td><%= link_to request.number, request_path(request), class: "badge badge-info "%></td>
 		<td><%= request.tracker.track %></td>
@@ -22,6 +22,7 @@
 			<td><%= request.completion_date.strftime('%D') %>
 		<td><%= link_to "Show", request_path(request), class: "btn btn-info btn-sm"%></td>
 			<td><%= link_to 'Edit', edit_request_path(request), class: "btn btn-warning btn-sm"%></td>
+			<td><%= link_to 'Delete', request, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger btn-sm"%></td>
 	</tr>
 	<% end %>
 	</tbody>

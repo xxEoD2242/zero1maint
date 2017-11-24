@@ -1,6 +1,8 @@
-<h1>Editing Vehicle</h1>
+<div class="jumbotron">
+<h1 class="display-3">Edit Vehicle Number: <%=@vehicle.car_id%></h1>
 
 <%= render 'form', vehicle: @vehicle %>
 
 <%= link_to 'Show', @vehicle %> |
 <%= link_to 'Back', vehicles_path %>
+</div>

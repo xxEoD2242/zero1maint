@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get 'dashboard'
       get 'quant_none'
       get 'quant_low'
+      post :import
     end
   end
   resources :programs
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
       get 'all_vehicles'
       get 'needs_service'
       get 'near_service_required'
+      post :import
     end
   end
   devise_for :users, :controllers => { :registrations => "users/registrations" } 

@@ -1,6 +1,6 @@
 class PartsController < ApplicationController
   before_action :set_requests, only: [:dashboard]
-  before_action :set_part, only: [:show, :edit, :update]
+  before_action :set_part, only: [:show, :edit, :update, :destroy]
   before_action :quant_calculation, only: [:quant_needed, :quant_low, :show]
   before_action :set_vehicle_category, only: [:new, :edit]
   
@@ -10,6 +10,11 @@ class PartsController < ApplicationController
     @parts = Part.all.order(:created_at)
     @q = Part.order(:created_at).ransack(params[:q])
     @part_results = @q.result.page(params[:page])
+  end
+  
+  def import
+    Part.import(params[:file])
+    redirect_to root_url, notice: "Activity Data Imported!"
   end
   
   def quant_calculation
@@ -87,7 +92,7 @@ class PartsController < ApplicationController
   def destroy
     @part.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Part was successfully destroyed.' }
+      format.html { redirect_to parts_url, notice: 'Part was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

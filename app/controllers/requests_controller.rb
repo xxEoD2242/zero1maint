@@ -58,9 +58,12 @@ class RequestsController < ApplicationController
     part_quant = Part.find(params[:part_id]).quantity
     if part_quant > 0
       part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity], request_id: params[:request_id])
+      flash[:success] = "Part successfully added to cart!"
     else
-      flash[:error]
+      flash[:success] = "Part Out of Stock!"
+       redirect_back(fallback_location: root_path)
     end
+     
     redirect_back(fallback_location: root_path)
   end
   
@@ -147,7 +150,9 @@ class RequestsController < ApplicationController
         if @request.program_id == 10 && @request.tracker_id == 3
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
-        
+        if @request.program_id == 11 && @request.tracker_id == 3
+          vehicle.update(repair_needed: false, vehicle_status: "In-Service")
+        end
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
       else

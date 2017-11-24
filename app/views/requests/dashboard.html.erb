@@ -5,13 +5,13 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="list-group">
-			<a class="list-group-item list-group-item-action" href="../requests/new">New Request</a>
-				<a class="list-group-item list-group-item-action" href="../requests">All Requests</a>
-				<a class="list-group-item list-group-item-action" 					href="../requests/a_service">A-Service Requests</a>
-				<a class="list-group-item list-group-item-action" 					href="../requests/shock_service">Shock Service Requests</a>
-				<a class="list-group-item list-group-item-action" 					href="../requests/air_filter_service">Air Filter Service Requests</a>
-				<a class="list-group-item list-group-item-action" 					href="../requests/repairs">Repair Requests</a>
-				<a class="list-group-item list-group-item-action" 					href="../requests/completed_requests">Completed Requests</a>
+			<a class="list-group-item list-group-item-action" href="../requests/new">New Work Order</a>
+				<a class="list-group-item list-group-item-action" href="../requests">All Work Orders</a>
+				<a class="list-group-item list-group-item-action" 					href="../requests/a_service">A-Service Work Orders</a>
+				<a class="list-group-item list-group-item-action" 					href="../requests/shock_service">Shock Service Work Orders</a>
+				<a class="list-group-item list-group-item-action" 					href="../requests/air_filter_service">Air Filter Service Work Orders</a>
+				<a class="list-group-item list-group-item-action" 					href="../requests/repairs">Repair Work Orders</a>
+				<a class="list-group-item list-group-item-action" 					href="../requests/completed_requests">Completed Work Orders</a>
 			</div>
 		
 			
@@ -21,7 +21,7 @@
 					<% @requests.all.order(created_at: :desc).limit(5).each do |request|%>
 					<div class="card m-2">
 						<div class="card-header">
-							<h4><%=link_to request.number, request_path(id: request.id), class: "badge badge-warning" %></h4></div>
+							<h4>Work Order Number: <%=link_to request.number, request_path(id: request.id), class: "badge badge-warning" %></h4></div>
 							
 				<div class="card-body">
 				
@@ -32,7 +32,7 @@
 					<span class="badge badge-info"><%= request.vehicle.car_id%></span></li>
 				
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status
-					<span class="badge badge-info"><%= request.tracker.track%></span>Requestor
+					<span class="badge badge-info"><%=request.tracker.track%></span>Requestor
 					<span class="badge badge-info"><%= request.user.name%></span></li>
 					
 				</ul>
@@ -47,12 +47,12 @@
 	<div class="col-md-3">
 				<ul class="list-group">
 					
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">New Requests: <span class="badge badge-dark"><%= 						@requests.where(tracker_id: 1).count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">A-Service Requests: <span class="badge 					badge-dark"><%= @a_service.where(tracker_id: 1).count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Shock Service Requests: <span class="badge 					badge-dark"><%= @shock_service.where(tracker_id: 1).count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Air Filter Requests: <span class="badge 					badge-dark"><%= @air_filter_service.where(tracker_id: 1).count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Repair Requests: <span class="badge badge-dark"><%= 					@repairs.where(tracker_id: 1).count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Completed Requests: <span class="badge badge-dark"><%= 					@requests.where(tracker_id: 3).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">New Work Orders: <span class="badge badge-dark"><%= 						@requests.where(tracker_id: 1).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">A-Service Work Orders: <span class="badge 					badge-dark"><%= @a_service.where(tracker_id: 1).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">Shock Service Work Orders: <span class="badge 					badge-dark"><%= @shock_service.where(tracker_id: 1).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">Air Filter Work Orders: <span class="badge 					badge-dark"><%= @air_filter_service.where(tracker_id: 1).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">Repair Work Orders: <span class="badge badge-dark"><%= @repairs.where(tracker_id: 1).count%></span></li>
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">Completed Work Orders: <span class="badge badge-dark"><%= @requests.where(tracker_id: 3).count%></span></li>
 			</ul>
 				
 		</div>

@@ -3,21 +3,12 @@
 <h1>Defect Work Order Created</h1>
 </div>
 <div class="card-body">
-<table class="table">
-	<thead>
-		<th scope="col">Number</th>
-		<th scope="col">Vehicle</th>
-		<th scope="col">Description</th>
-		<th scope="col">Created At</th>
-		<th scope="col">Vehicle Location</th>
-	</thead>
-	<tbody>
-		<td><%= @request.number%></td>
-		<td><%= @request.vehicle.car_id %></td>
-		<td><%= @request.description %></td>
-		<td><%= @request.created_at.strftime('%D') %></td>
-		<td><%= @request.vehicle.location.locale %></td>
-	</tbody>
-</table>
+<ul class="list-group">
+	<li class="list-group-item d-flex justify-content-between align-items-center">Work Order Number: <span><%= @request.number%></span></li>
+	<li class="list-group-item d-flex justify-content-between align-items-center">Vehicle: <span><%= @request.vehicle.car_id%></span></li>
+	<li class="list-group-item d-flex justify-content-between align-items-center">Vehicle Location: <span><%= @request.vehicle.location.locale%></span></li>
+	<li class="list-group-item d-flex justify-content-between align-items-center">Description of Issue: <span><%= @request.description%></span></li>
+	<li class="list-group-item d-flex justify-content-between align-items-center">Submitted by: <span><%= @request.user.name%></span></li>
+	<li class="list-group-item d-flex justify-content-between align-items-center">Description of Issue: <span><%= @request.description%></span></li>
 </div>
 </div>

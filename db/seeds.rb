@@ -7,4 +7,3 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-programs = Program.create([{name: 'Air Filter Change'}, {name: 'A-Service'}, {name: 'Shock Service'}])

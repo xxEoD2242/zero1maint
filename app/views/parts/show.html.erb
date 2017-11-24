@@ -35,6 +35,18 @@
 </p>
 
 <p>
+	<strong>Work Orders</strong>
+	<% if @part.requests != []%>
+	<ul style="list-style-type:none;">
+	<%= @part.requests.order(created_at: :desc).all.each do |request|%>
+  
+		<li><%= link_to request.number, request_path(request), class: "badge badge-dark"%></li>
+		<% end %></li>
+		
+	<% end %>
+</p>
+
+<p>
 	<strong>Application:</strong>
 	<%= @part.vehicle_category.name%>
 </p>

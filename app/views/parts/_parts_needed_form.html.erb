@@ -23,7 +23,7 @@
 		  <td><%= number_to_currency part.cost %>
 		  <td><%= part.vehicle_category.name %></td>
 		  <td> <% if part.requests != [] %>
-			  <ul style="list-display-type:none;">
+			  <ul style="list-style-type:none;">
 		  			<% part.requests.order(created_at: :desc).limit(3).each do |request| %>
 					<li><%= link_to request.number, request_path(request), class: "badge badge-dark"%></li>
 					<% end %></li>

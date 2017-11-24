@@ -1,7 +1,7 @@
 class PartsController < ApplicationController
   before_action :set_requests, only: [:dashboard]
   before_action :set_part, only: [:show, :edit, :update, :destroy]
-  before_action :quant_calculation, only: [:quant_needed, :quant_low, :show]
+  before_action :quant_calculation, only: [:quant_none, :quant_low, :show]
   before_action :set_vehicle_category, only: [:new, :edit]
   
   # GET /parts
@@ -20,12 +20,16 @@ class PartsController < ApplicationController
   def quant_calculation
     @parts = Part.all
     @parts.each do |part|
-      if part.quantity <= 0 || part.quantity < 3
-        part.update(quant_none: true, quant_low: true)
+      if part.quantity != nil
+      if part.quantity <= 0 
+        part.update(quant_none: true)
+      elsif part.quantity <= 3 && part.quantity > 0
+        part.update(quant_low: true)
       else
         part.update(quant_low: false, quant_none: false)
       end
     end
+  end
   end
 
   # GET /events/1

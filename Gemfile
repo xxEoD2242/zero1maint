@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 
-
+gem 'yaml_db'
 gem 'kaminari'
 gem 'carrierwave'
 gem 'carrierwave-imageoptimizer'
@@ -46,7 +46,7 @@ gem 'binding_of_caller'
 gem 'cancancan'
 gem 'pry-rails', :group => :development
 gem 'figaro'
-
+gem 'fog'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124144437) do
+ActiveRecord::Schema.define(version: 20171125173126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,13 @@ ActiveRecord::Schema.define(version: 20171124144437) do
     t.string "locale"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "mileages", force: :cascade do |t|
+    t.float "mileage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vehicle_id"
   end
 
   create_table "order_statuses", force: :cascade do |t|
@@ -208,7 +215,6 @@ ActiveRecord::Schema.define(version: 20171124144437) do
     t.string "plate_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "vehicle_category_id"
     t.integer "location_id"
     t.float "mileage"
     t.string "vehicle_status"
@@ -222,6 +228,7 @@ ActiveRecord::Schema.define(version: 20171124144437) do
     t.string "make"
     t.integer "year"
     t.string "color"
+    t.integer "vehicle_category_id"
   end
 
 end

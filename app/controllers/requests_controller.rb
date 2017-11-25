@@ -124,10 +124,10 @@ class RequestsController < ApplicationController
         veh_mileage = @request.vehicle.mileage
         vehicle = @request.vehicle
         @request.update(request_mileage: (veh_mileage))
-        if @request.program_id == 10 && @request.tracker_id == 1
+        if @request.program_id == 4 && @request.tracker_id == 1
           vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
         end
-        if @request.program_id == 11 && @request.tracker_id == 1
+        if @request.program_id == 5 && @request.tracker_id == 1
           vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
           UserMailer.new_request_email(current_user, @request).deliver_now
         end
@@ -147,10 +147,10 @@ class RequestsController < ApplicationController
     respond_to do |format|
       if @request.update(request_params)
         vehicle = @request.vehicle
-        if @request.program_id == 10 && @request.tracker_id == 3
+        if @request.program_id == 4 && @request.tracker_id == 3
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
-        if @request.program_id == 11 && @request.tracker_id == 3
+        if @request.program_id == 5 && @request.tracker_id == 3
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }

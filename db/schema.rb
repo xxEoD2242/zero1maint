@@ -65,13 +65,6 @@ ActiveRecord::Schema.define(version: 20171124144437) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "mileages", force: :cascade do |t|
-    t.float "mileage"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "vehicle_id"
-  end
-
   create_table "order_statuses", force: :cascade do |t|
     t.string "order_status"
     t.datetime "created_at", null: false

@@ -28,8 +28,8 @@ class VehiclesController < ApplicationController
   def mileage_calculation
     @vehicles = Vehicle.all
     @vehicles.all.each do |vehicle|
-    if vehicle.requests.where(program_id: 8, tracker_id: 3) != []
-      @a_service = (Program.find(8).interval - (vehicle.mileage - vehicle.requests.where(program_id: 8).last.request_mileage))
+    if vehicle.requests.where(program_id: 1, tracker_id: 3) != []
+      @a_service = (Program.find(1).interval - (vehicle.mileage - vehicle.requests.where(program_id: 1, tracker_id: 3).last.request_mileage))
       if @a_service < 0
         vehicle.update(needs_service: true, a_service: true)
       elsif @a_service <= 100
@@ -38,8 +38,8 @@ class VehiclesController < ApplicationController
         vehicle.update(needs_service: false, a_service: false, near_service: false)
       end
     end
-        if vehicle.requests.where(program_id: 9, tracker_id: 3) != []
-          @shock_service = (Program.find(9).interval - (vehicle.mileage - vehicle.requests.where(program_id: 9, tracker_id: 3).last.request_mileage))
+        if vehicle.requests.where(program_id: 2, tracker_id: 3) != []
+          @shock_service = (Program.find(2).interval - (vehicle.mileage - vehicle.requests.where(program_id: 2, tracker_id: 3).last.request_mileage))
           if @shock_service < 0
             vehicle.update(needs_service: true, shock_service: true)
           elsif @shock_service <= 200
@@ -49,8 +49,8 @@ class VehiclesController < ApplicationController
           end
         end
       #when @vehicle.programs.exists?(7) == true
-       if vehicle.requests.where(program_id: 7, tracker_id: 3) != [] 
-         @air_filter_service = (Program.find(7).interval - (vehicle.mileage - vehicle.requests.where(program_id: 7, tracker_id: 3).last.request_mileage))
+       if vehicle.requests.where(program_id: 3, tracker_id: 3) != [] 
+         @air_filter_service = (Program.find(3).interval - (vehicle.mileage - vehicle.requests.where(program_id: 3, tracker_id: 3).last.request_mileage))
          if @air_filter_service < 0
            vehicle.update(needs_service: true, air_filter_service: true)
          elsif @air_filter_service <= 50
@@ -76,21 +76,21 @@ class VehiclesController < ApplicationController
   # GET /vehicles/1.json
   def show
     @request = Request.all
-    if @vehicle.requests.where(program_id: 8) != []
+    if @vehicle.requests.where(program_id: 1) != []
       if @a_service < 0
         @vehicle.update(needs_service: true)
       else
         @vehicle.update(needs_service: false)
       end
     end
-        if @vehicle.requests.where(program_id: 9) != []
+        if @vehicle.requests.where(program_id: 2) != []
           if @shock_service < 0
             @vehicle.update(needs_service: true)
           else
             @vhecile.update(needs_service: false)
           end
         end
-       if @vehicle.requests.where(program_id: 7) != [] 
+       if @vehicle.requests.where(program_id: 3) != [] 
          if @air_filter_service < 0
            @vehicle.update(needs_service: true)
          else
@@ -171,16 +171,16 @@ class VehiclesController < ApplicationController
   
   def a_service_calculation
     @vehicles.all.each do |vehicle|
-      if vehicle.requests.where(program_id: 8, tracker_id: 3) != []
-    @a_service = (Program.find(8).interval - (vehicle.mileage - vehicle.requests.where(program_id: 8).last.request_mileage))
+      if vehicle.requests.where(program_id: 1, tracker_id: 3) != []
+    @a_service = (Program.find(1).interval - (vehicle.mileage - vehicle.requests.where(program_id: 1).last.request_mileage))
   end
 end
   end
   
   def shock_service_calculation
     @vehicles.all.each do |vehicle|
-      if vehicle.requests.where(program_id: 9, tracker_id: 3) != []
-    @shock_service = (Program.find(9).interval - (vehicle.mileage - vehicle.requests.where(program_id: 9).last.request_mileage))
+      if vehicle.requests.where(program_id: 2, tracker_id: 3) != []
+    @shock_service = (Program.find(2).interval - (vehicle.mileage - vehicle.requests.where(program_id: 2).last.request_mileage))
   end
 end
   end
@@ -188,8 +188,8 @@ end
   def air_filter_calculation
     
     @vehicles.all.each do |vehicle|
-      if vehicle.requests.where(program_id: 7, tracker_id: 3) != []
-     @air_filter_service = (Program.find(7).interval - (vehicle.mileage - vehicle.requests.where(program_id: 7).last.request_mileage))
+      if vehicle.requests.where(program_id: 3, tracker_id: 3) != []
+     @air_filter_service = (Program.find(3).interval - (vehicle.mileage - vehicle.requests.where(program_id: 3).last.request_mileage))
    end
  end
   end

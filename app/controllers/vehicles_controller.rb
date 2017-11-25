@@ -172,7 +172,7 @@ class VehiclesController < ApplicationController
   def a_service_calculation
     @vehicles.all.each do |vehicle|
       if vehicle.requests.where(program_id: 1, tracker_id: 3) != []
-    @a_service = (Program.find(1).interval - (vehicle.mileage - vehicle.requests.where(program_id: 1).last.request_mileage))
+    @a_service = (Program.find(1).interval - (vehicle.mileage - vehicle.requests.where(program_id: 1, tracker_id: 3).last.request_mileage))
   end
 end
   end
@@ -180,7 +180,7 @@ end
   def shock_service_calculation
     @vehicles.all.each do |vehicle|
       if vehicle.requests.where(program_id: 2, tracker_id: 3) != []
-    @shock_service = (Program.find(2).interval - (vehicle.mileage - vehicle.requests.where(program_id: 2).last.request_mileage))
+    @shock_service = (Program.find(2).interval - (vehicle.mileage - vehicle.requests.where(program_id: 2, tracker_id: 3).last.request_mileage))
   end
 end
   end
@@ -189,7 +189,7 @@ end
     
     @vehicles.all.each do |vehicle|
       if vehicle.requests.where(program_id: 3, tracker_id: 3) != []
-     @air_filter_service = (Program.find(3).interval - (vehicle.mileage - vehicle.requests.where(program_id: 3).last.request_mileage))
+     @air_filter_service = (Program.find(3).interval - (vehicle.mileage - vehicle.requests.where(program_id: 3, tracker_id: 3).last.request_mileage))
    end
  end
   end

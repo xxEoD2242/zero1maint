@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       get 'air_filter_service'
       get 'dashboard'
       get 'repairs'
+      get 'defects'
       get 'completed_requests'
       get 'search'
       post 'add_to_request_part_order'

@@ -17,6 +17,12 @@ class RequestsController < ApplicationController
     @q = Request.where(tracker_id: 3).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
+  
+  def defects
+    @requests = Request.where(program_id: 11)
+    @q = Request.where(tracker_id: 11).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
   # GET /requests/1
   # GET /requests/1.json
   def show

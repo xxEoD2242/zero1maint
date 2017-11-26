@@ -33,26 +33,26 @@ class RequestsController < ApplicationController
   end
   
   def a_service
-    @a_service = Request.where(program_id: 1, tracker_id: 1)
-    @q = Request.where(program_id: 1, tracker_id: 1).ransack(params[:q])
+    @a_service = Request.where(program_id: 1)
+    @q = Request.where(program_id: 1).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
   def shock_service
-    @shock_service = Request.where(program_id: 2, tracker_id: 1)
-    @q = Request.where(program_id: 2, tracker_id: 1).ransack(params[:q])
+    @shock_service = Request.where(program_id: 2)
+    @q = Request.where(program_id: 2).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
   def air_filter_service
-    @air_filter_service = Request.where(program_id: 3, tracker_id: 1)
-    @q = Request.where(program_id: 3, tracker_id: 1).ransack(params[:q])
+    @air_filter_service = Request.where(program_id: 3)
+    @q = Request.where(program_id: 3).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
   def repairs
-    @repairs = Request.where(program_id: 4, tracker_id: 1)
-    @q = Request.where(program_id: 4, tracker_id: 1).ransack(params[:q])
+    @repairs = Request.where(program_id: 4)
+    @q = Request.where(program_id: 4).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   

@@ -22,6 +22,12 @@ class RequestsController < ApplicationController
     @q = Request.where(tracker_id: @set_progress.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
+  
+  def defects
+    @requests = Request.where(program_id: 5)
+    @q = Request.where(tracker_id: 5).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
   # GET /requests/1
   # GET /requests/1.json
   def show
@@ -53,6 +59,7 @@ class RequestsController < ApplicationController
   end
   
   def repairs
+
     @repairs = Program.find_by(name: "Repairs")
     @repair_requests = Request.where(program_id: @repairs.id)
     @q = Request.where(program_id: @repairs.id).ransack(params[:q])

@@ -7,7 +7,7 @@
     <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
+  <body >
 	  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	    <a class="navbar-brand" href="../">Zero 1</a>
 	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,23 +66,31 @@
 	          </div>
 	        </li>
 	      </ul>
-		<nav class="nav justify-content-end">
-			<ul class="navbar-nav btn-group">
-			<%= link_to "All Users", all_users_path, class: "btn btn-primary"%>	
-	  	 <% if user_signed_in? %>
-		 <% if can? :create, User%>
-		 <%= link_to "Create Users", new_user_registration_path, class: "btn btn-info"%>
-		 <% end %>
-		 <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-success" %>
-	  	 <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-danger"%>
-	  	 <% end %>
-	    </div>
-		 <% end %>
-	 </nav>
-	  </nav>
+		
+	 
 	  
+  		 <ul class="navbar-nav justify-content-end">
+  	  			<li class="nav-item dropdown">
+  	  			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  	  			          Hello <%= current_user.name %>
+  	  			        </a>
+  	  			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  	  			          <a class="dropdown-item"
+  	<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+  
+  	<a class="dropdown-item" <%= link_to 'Sign In', new_user_session_path %>
+  		<a class="dropdown-item" <%= link_to 'Sign Up', new_user_registration_path%>
+  	</a>
+  	  			          <a class="dropdown-item" 											href="../users/edit">Edit Profile</a>
+  	  			          <a class="dropdown-item" href="../all_users">All 										Users</a>
+							 
+  	  			        </div>
+  					  </li>
+  	  			 </ul>
+				 <% end %>
+	   </nav>
 	  
-	  <div class="container">
+	  <div class="container-fluid">
     <%= yield %>
  </div>
  

@@ -54,7 +54,6 @@ class RequestsController < ApplicationController
   end
   
   def repairs
-
     @repairs = Program.find_by(name: "Repairs")
     @repair_requests = Request.where(program_id: @repairs.id)
     @q = Request.where(program_id: @repairs.id).ransack(params[:q])

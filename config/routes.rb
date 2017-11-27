@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'add_parts'
       get 'search_for_parts'
       get 'delete_parts'
+      get 'in_progress'
     end
   end
   resources :events do

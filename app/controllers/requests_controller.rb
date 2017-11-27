@@ -1,8 +1,8 @@
 class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
-  before_action :set_services, only: [:show, :index, :new, :edit]
-  before_action :a_service, :shock_service, :air_filter_service, :repairs, only: [:dashboard]
+  before_action :set_services, :set_tracker, only: [:show, :index, :new, :edit, :dashboard, :a_service, :shock_service, :air_filter_service, :defects, :repairs, :completed_requests, :in_progress]
+  before_action :a_service, :shock_service, :air_filter_service, :repairs, :defects, only: [:dashboard]
   before_action :check_quant, only: [:show]
  
   # GET /requests
@@ -14,7 +14,12 @@ class RequestsController < ApplicationController
   end
 
   def completed_requests
-    @q = Request.where(tracker_id: 3).ransack(params[:q])
+    @q = Request.where(tracker_id: @set_completed.id).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
+  
+  def in_progress
+    @q = Request.where(tracker_id: @set_progress.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   # GET /requests/1
@@ -27,26 +32,37 @@ class RequestsController < ApplicationController
   end
   
   def a_service
-    @a_service = Request.where(program_id: 8, tracker_id: 1)
-    @q = Request.where(program_id: 8, tracker_id: 1).ransack(params[:q])
+    @a_service = Program.find_by(name: "A-Service")
+    @a_service_requests = Request.where(program_id: @a_service.id)
+    @q = Request.where(program_id: @a_service.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
   def shock_service
-    @shock_service = Request.where(program_id: 9, tracker_id: 1)
-    @q = Request.where(program_id: 9, tracker_id: 1).ransack(params[:q])
+    @shock_service = Program.find_by(name: "Shock Service")
+    @shock_service_requests = Request.where(program_id: @shock_service.id)
+    @q = Request.where(program_id: @shock_service.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
   def air_filter_service
-    @air_filter_service = Request.where(program_id: 7, tracker_id: 1)
-    @q = Request.where(program_id: 7, tracker_id: 1).ransack(params[:q])
+    @air_filter_service = Program.find_by(name: "Air Filter Change")
+    @air_filter_requests = Request.where(program_id: @air_filter_service.id)
+    @q = Request.where(program_id: @air_filter_service).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
   def repairs
-    @repairs = Request.where(program_id: 10, tracker_id: 1)
-    @q = Request.where(program_id: 10, tracker_id: 1).ransack(params[:q])
+    @repairs = Program.find_by(name: "Repairs")
+    @repair_requests = Request.where(program_id: @repairs.id)
+    @q = Request.where(program_id: @repairs.id).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
+  
+  def defects
+    @defects = Program.find_by(name: "Defect")
+    @defect_requests = Request.where(program_id: @defects.id)
+    @q = Request.where(program_id: @defects.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
@@ -117,17 +133,19 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
-    
+    @repairs = Program.find_by(name: "Repairs")
+    @defects = Program.find_by(name: "Defect")
+    @set_new = Tracker.find_by(track: "New")
     respond_to do |format|
       
       if @request.save
         veh_mileage = @request.vehicle.mileage
         vehicle = @request.vehicle
         @request.update(request_mileage: (veh_mileage))
-        if @request.program_id == 4 && @request.tracker_id == 1
+        if @request.program_id == @repairs.id && @request.tracker_id == @set_new.id
           vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
         end
-        if @request.program_id == 5 && @request.tracker_id == 1
+        if @request.program_id == @defects.id && @request.tracker_id == @set_new.id
           vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
           UserMailer.new_request_email(current_user, @request).deliver_now
         end
@@ -144,13 +162,16 @@ class RequestsController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
+    @repairs = Program.find_by(name: "Repairs")
+    @defects = Program.find_by(name: "Defect")
+    @set_completed = Tracker.find_by(track: "Completed")
     respond_to do |format|
       if @request.update(request_params)
         vehicle = @request.vehicle
-        if @request.program_id == 4 && @request.tracker_id == 3
+        if @request.program_id == @repairs.id && @request.tracker_id == @set_completed.id
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
-        if @request.program_id == 5 && @request.tracker_id == 3
+        if @request.program_id == @defects.id && @request.tracker_id == @set_completed.id
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
@@ -182,8 +203,21 @@ class RequestsController < ApplicationController
       @vehicles = Vehicle.all
     end
     
+    def set_services
+      @a_service = Program.find_by(name: "A-Service")
+      @shock_service = Program.find_by(name: "Shock Service")
+      @air_filter_service = Program.find_by(name: "Air Filter Change")
+      @repairs = Program.find_by(name: "Repairs")
+      @defects = Program.find_by(name: "Defect")
+    end
+    
+    
     def set_tracker
       @tracks = Tracker.all
+      @set_new = Tracker.find_by(track: "New")
+      @set_progress = Tracker.find_by(track: "In-Progress")
+      @set_completed = Tracker.find_by(track: "Completed")
+      @set_overdue = Tracker.find_by(track: "Overdue")
     end
     
     def set_services

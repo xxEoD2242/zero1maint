@@ -12,6 +12,10 @@
 </div>
 
 <div class="form-group ml-3">
+	<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+</div>
+
+<div class="form-group ml-3">
 	<%= f.submit "Find Requests", class: "btn btn-info"%>
 </div>
 <% end %>

@@ -1,0 +1,39 @@
+<div class="jumbotron">
+<h1 class="display-3 text-center">Viewing Report <%= @report.id%></h1>
+<div class="card">
+	<div class="card-body">
+<p>
+  <strong>Title:</strong>
+  <%= @report.title %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @report.report_type %>
+</p>
+<p>
+	<strong>Status:</strong>
+	<%= @report.status%>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @report.description %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @report.user_id %>
+</p>
+
+<p>
+	<strong>Recipents:</strong>
+	<% @report.users.each do |user|%>
+	<br \><%= user.name%>
+	<% end %>
+</p>
+
+<%= link_to 'Edit', edit_report_path(@report), class: "btn btn-info" %> |
+<%= link_to 'Back', reports_path, class: "btn btn-warning" %>
+</div>
+</div>
+</div>

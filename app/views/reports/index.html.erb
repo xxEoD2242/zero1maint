@@ -1,0 +1,13 @@
+
+
+<div class="jumbotron text-center">
+<h1 class="display-3">All Reports</h1>
+	
+<%= render 'service_needed_form', report: @report_results %>
+<br \>
+<%= render 'results', q: @q, action: :index %>
+<br \>
+
+<%= link_to 'New Report', new_report_path, class: "btn btn-success" %>
+</div>
+

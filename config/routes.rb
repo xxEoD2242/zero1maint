@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
   
+  resources :reports do
+    collection do
+      get 'dashboard'
+      get 'rzr_report'
+      get 'defect_report'
+      get 'in_progress_report'
+      get 'completed_work_order_report'
+    end
+  end
   resources :parts do
     collection do
       get 'dashboard'
@@ -26,6 +35,7 @@ Rails.application.routes.draw do
       get 'search_for_parts'
       get 'delete_parts'
       get 'in_progress'
+      get 'remove_parts_from_request'
     end
   end
   resources :events do

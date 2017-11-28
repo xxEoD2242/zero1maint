@@ -90,12 +90,20 @@ class RequestsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
   
+  def remove_parts_from_request
+    @part_orders = RequestPartOrder.where(request_id: params[:request_id])
+    @part_orders.each do |part_order|
+        if part_order.order_items.has_key?(params[:key]) == true
+          part_order.destroy
+        end
+     end
+   redirect_back(fallback_location: root_path)
+  end
+  
   def add_parts
-   
     part_items = PartItem.where(request_id: params[:request_id])
     if part_items.length != 0
       @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: params[:request_id])
-
       part_items.each do |part_item|
         part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
         @part_order.order_items[part_item.part_id] = part_item.quantity 
@@ -103,12 +111,8 @@ class RequestsController < ApplicationController
       @part_order.save
       @part_order.order_items.each do |key, value|
       PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)
-      
     end  
-      part_items.destroy_all
-    
-      
-      
+      part_items.destroy_all 
     end
     redirect_back(fallback_location: root_path)
   end
@@ -147,7 +151,7 @@ class RequestsController < ApplicationController
           vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
         end
         if @request.program_id == @defects.id && @request.tracker_id == @set_new.id
-          vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
+          vehicle.update(defect: true, vehicle_status: "Out-of-Service")
           UserMailer.new_request_email(current_user, @request).deliver_now
         end
         

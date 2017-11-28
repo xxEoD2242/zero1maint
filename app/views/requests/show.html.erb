@@ -4,7 +4,7 @@
 <div class="card">
 <div class="card-header d-flex justify-content-between align-items-center">
    <strong>Request Number: <%= @request.number %></strong>
-	<%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success" %> 
+	 
 	
 </div>	
 <div class="card-body">
@@ -21,7 +21,7 @@
 </p>
 
 <p>
-  <strong>Vehicle Mileage:</strong>
+  <strong>Current Vehicle Mileage:</strong>
   <%= @request.vehicle.mileage%>
 </p>
 
@@ -34,8 +34,6 @@
   <strong>Status:</strong>
   <%= @request.tracker.track %>
 </p>
-</div>
-<div class="col-md-6">
 <% if @request.program != nil %>
 <p>
 	<strong>Service Type:</strong>
@@ -44,20 +42,13 @@
 <% end %>
 
 <p>
-	<strong>Parts: </strong>
-<% if @part_order != nil%>
-<div class="row">
-	<% @part_order.each do |part_order|%>
-<% part_order.order_items.each do |key, value|%>
-	<div class="col"><%= Part.find(key).description%></div>
-	<div class="col"><%= value %></div>
-	<% end %>
-	<% end %>
-</div>
-	<% end %>
-<p>
   <strong>Special requets:</strong>
   <%= @request.special_requets %>
+</p>
+
+<p>
+  <strong> Work Order Mileage:</strong>
+  <%= @request.request_mileage%>
 </p>
 
 <p>
@@ -65,7 +56,39 @@
   <%= @request.completion_date %>
 </p>
 </div>
-<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary ml-3" %>
+<div class="col-md-6">
+
+
+<div class="card">
+	<div class="card-header">
+	<strong>Parts: </strong>
+</div>
+<div class="card-body">
+<% if @part_order != nil%>
+<div class="row">
+	<div class="col"><strong>Item:</strong>
+	<% @part_order.each do |part_order|%>
+<% part_order.order_items.each do |key, value|%>
+	<div class="d-flex mb-2"><%= Part.find(key).description%></div>
+	 <% end %>
+ <% end %>
+</div>
+	 <div class="col "><strong>Qty:</strong>
+		 <% @part_order.each do |part_order|%>
+	 <% part_order.order_items.each do |key, value|%>
+	 <div class="d-flex justify-content-between align-items-center mb-1"> <%= value %>
+	 <span> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span>
+ </div>
+	<% end %>
+<% end %>
+	</div>
+</div>
+</div>
+<% end %>
+</div>
+
+</div>
+<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary ml-3" %>  <%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success ml-3" %>
 
 
 </div>
@@ -73,6 +96,22 @@
 </div>
 </div>
 </div>
+  <div class="card mt-3">
+  	<div class="card-header">
+  		<h4>Parts Cart</h4>
+  	</div>
+  	<div class="card-body">
+  		<ul class="list-group">
+  			<% @part_items.each do |part_item|%>
+  			<li class="list-group-item d-flex justify-content-between align-items-center"><%= part_item.part.description %> | Qty: <%= part_item.quantity%> <span> <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span></li>
+  			<% end %>
+  		</ul>
+  		<br \>
+		
+  		<%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-success"%> 
+		
+  	</div>
+  </div>
     <div class="card mt-3">
   	  <div class="card-header">
   		  <h6 class="display-5">Add Parts To Cart</h6>
@@ -108,26 +147,4 @@
 
   </div>
   </div>
-
-  <div class="card mt-3">
-  	<div class="card-header">
-  		<h4>Parts Cart</h4>
-  	</div>
-  	<div class="card-body">
-  		<ul class="list-group">
-  			<% @part_items.each do |part_item|%>
-  			<li class="list-group-item d-flex justify-content-between align-items-center"><%= part_item.part.description %> | Qty: <%= part_item.quantity%> <span> <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span></li>
-  			<% end %>
-  		</ul>
-  		<br \>
-		
-  		<%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-success"%> 
-		
-  	</div>
-  </div>
-  		
-
-	
-
-
 </div>

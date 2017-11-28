@@ -5,6 +5,9 @@ class Part < ApplicationRecord
   has_many :part_requests
   has_many :requests, through: :part_requests
   
+  has_many :part_reports
+  has_many :reports, through: :part_reports
+  
   belongs_to :vehicle_category
   has_many :part_items
   

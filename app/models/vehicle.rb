@@ -7,6 +7,9 @@ class Vehicle < ApplicationRecord
   has_many :requests
   has_many :programs, through: :requests
   
+  has_many :report_vehicles
+  has_many :reports, through: :report_vehicles
+  
  
   belongs_to :vehicle_category
   belongs_to :location

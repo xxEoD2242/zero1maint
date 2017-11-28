@@ -1,0 +1,57 @@
+<div class="jumbotron text-center">
+	<h1 class="display-3">Reports Dashboard</h1>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="list-group">
+			<a class="list-group-item list-group-item-action" href="../reports/new">New Report</a>
+				<a class="list-group-item list-group-item-action" href="../reports">All Reports</a>
+			
+				
+			</div>
+		
+			
+	</div>
+	<div class="col-md-6">
+			
+					<% @reports.all.order(created_at: :desc).limit(5).each do |report|%>
+					<div class="card mb-2">
+						<div class="card-header">
+							<h4>Work Order Number: <%=link_to report.id, report_path(id: report.id), class: "badge badge-warning" %></h4></div>
+							
+				<div class="card-body">
+				
+				
+					<ul class="list-group">
+					<li class="list-group-item d-flex justify-content-between 						align-items-center">Created On
+						<span class="badge badge-info"><%=report.created_at.strftime('%D')%></span>Car Number
+					<span class="badge badge-info">0</span></li>
+				
+					<li class="list-group-item d-flex justify-content-between align-items-center">Status
+					<span class="badge badge-info">Make This?</span>Requestor
+					<span class="badge badge-info"><% report.users.each do |user|%>
+						<%= user.name%>
+						<% end %></span></li>
+					
+				</ul>
+				</div>
+			</div>
+			<% end %>
+				
+				
+		</div>
+	
+	
+	<div class="col-md-3">
+				<ul class="list-group">
+					
+				<li class="list-group-item d-flex justify-content-between 					align-items-center">New Reports: <span class="badge badge-dark"><%= @reports.all.count%></span></li>
+				
+				
+			</ul>
+				
+		</div>
+
+	
+</div>

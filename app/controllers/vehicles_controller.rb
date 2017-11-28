@@ -2,7 +2,8 @@ class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show, :index]
   before_action :set_location, only: [:index, :show, :new, :edit]
-  before_action :set_services, :set_tracker, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
+  before_action :set_services, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
+  before_action :set_tracker, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
   before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
   before_action :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:show, :near_service_required]
   before_action :mileage_calculation, only: [:dashboard, :near_service_required, :needs_service]
@@ -76,6 +77,8 @@ class VehiclesController < ApplicationController
   # GET /vehicles/1
   # GET /vehicles/1.json
   def show
+    @set_defects = Program.find_by(name: "Defect")
+    @set_new = Tracker.find_by(track: "New")
     @request = Request.all
     if @vehicle.requests.where(program_id: @set_a_service.id, tracker_id: @set_completed.id) != []
       if @a_service < 0
@@ -240,7 +243,7 @@ end
       @set_shock_service = Program.find_by(name: "Shock Service")
       @set_air_filter_service = Program.find_by(name: "Air Filter Change")
       @set_repairs = Program.find_by(name: "Repairs")
-      @set_defects = Program.find_by(name: "Defects")
+      @set_defects = Program.find_by(name: "Defect")
     end
     
     def set_tracker

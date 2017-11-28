@@ -3,6 +3,9 @@ class Event < ApplicationRecord
   has_many :events_vehicles
   has_many :vehicles, through: :events_vehicles
   
+  has_many :event_reports
+  has_many :reports, through: :event_reports
+  
   paginates_per 5
   
   accepts_nested_attributes_for :vehicles

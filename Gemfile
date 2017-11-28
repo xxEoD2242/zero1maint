@@ -5,6 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 gem 'whenever', :require => false
 gem 'yaml_db'
 gem 'kaminari'

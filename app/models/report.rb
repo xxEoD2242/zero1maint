@@ -16,6 +16,8 @@ class Report < ApplicationRecord
   
   paginates_per 5
   
+  serailize :info_vehicles, Hash
+  
   STATUSES = ['Created', 'Viewed', 'Filed']
-  TYPES = ['Weekly', 'Monthly', 'Vehicle', 'Event', 'Work Order', 'Part', 'Financial', 'Labor']
+  TYPES = ['Weekly', 'Weekly-RZR', 'Monthly', 'Vehicle', 'Event', 'Work Order', 'Part', 'Financial', 'Labor']
 end

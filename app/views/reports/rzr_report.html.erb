@@ -1,0 +1,13 @@
+<div class="jumbotron mt-3">
+	<h1 class="display-3 text-center">Weekly Razor Report</h1>
+	<h3>In-Service Vehicles</h3>
+	<%= render 'vehicle', vehicle: @vehicles %>
+	<br \>
+	<h3>Out-Of-Service Vehicles</h3>
+	<%= render 'vehicle', vehicle: @out_of_service%>
+	<br \>
+	<div class="container">
+		<%= link_to "XLS", rzr_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", rzr_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	</div>
+</div>
+

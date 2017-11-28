@@ -2,9 +2,9 @@ class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show, :index]
   before_action :set_location, only: [:index, :show, :new, :edit]
-  before_action :set_services, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
-  before_action :set_tracker, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
-  before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required]
+  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required]
+  before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required]
   before_action :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:show, :near_service_required]
   before_action :mileage_calculation, only: [:dashboard, :near_service_required, :needs_service]
   
@@ -52,7 +52,7 @@ class VehiclesController < ApplicationController
         end
       #when @vehicle.programs.exists?(7) == true
        if vehicle.requests.where(program_id: @set_air_filter_service.id, tracker_id: @set_completed.id) != [] 
-         @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.requests.where(program_id: @air_filter_service.id, tracker_id: @set_completed.id).last.request_mileage))
+         @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.requests.where(program_id: @set_air_filter_service.id, tracker_id: @set_completed.id).last.request_mileage))
          if @air_filter_service < 0
            vehicle.update(needs_service: true, air_filter_service: true)
          elsif @air_filter_service <= 50
@@ -194,15 +194,16 @@ end
   end
   
   def air_filter_calculation
-    
     @vehicles.all.each do |vehicle|
       if vehicle.mileage != nil
       if vehicle.requests.where(program_id: @set_air_filter_service.id, tracker_id: @set_completed.id) != []
-     @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.requests.where(@set_air_filter_service.id, tracker_id: 3).last.request_mileage))
+     @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.requests.where(program_id: @set_air_filter_service.id, tracker_id: 3).last.request_mileage))
    end
  end
 end
   end
+  
+  
 
   # PATCH/PUT /vehicles/1
   # PATCH/PUT /vehicles/1.json
@@ -237,20 +238,35 @@ end
     def set_all_vehicles
       @vehicles = Vehicle.all
     end    
-    
-    def set_services
+    def set_a_service
       @set_a_service = Program.find_by(name: "A-Service")
+    end
+    def set_shock_service
       @set_shock_service = Program.find_by(name: "Shock Service")
+    end
+    def set_air_filter_service
       @set_air_filter_service = Program.find_by(name: "Air Filter Change")
+    end
+    def set_repairs
       @set_repairs = Program.find_by(name: "Repairs")
+    end
+    def set_defects
       @set_defects = Program.find_by(name: "Defect")
     end
-    
+  
     def set_tracker
       @tracks = Tracker.all
+    end
+    def set_new
       @set_new = Tracker.find_by(track: "New")
+    end
+    def set_progress
       @set_progress = Tracker.find_by(track: "In-Progress")
+    end
+    def set_completed
       @set_completed = Tracker.find_by(track: "Completed")
+    end
+    def set_overdue
       @set_overdue = Tracker.find_by(track: "Overdue")
     end
 

@@ -14,3 +14,19 @@
 @import "bootstrap";
 
 @import "font-awesome";
+
+#brand-image {
+	background-image: url(../assets/Z1_logo_symbol.png);
+	background-size: cover;
+	background-repeat: no_repeat;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+}
+
+#brand-text {
+	font-size: 22px;
+	font-weight: bold;
+	font-family: Impact, Charcoal, sans-serif;
+}

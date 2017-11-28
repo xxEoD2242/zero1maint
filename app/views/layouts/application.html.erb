@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Zero1Maint</title>
+    <title>Zero 1 Maintenance</title>
+	 <%= favicon_link_tag 'Z1_logo_symbol.png' %>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
@@ -9,7 +10,10 @@
 
   <body >
 	  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	    <a class="navbar-brand" href="../">Zero 1</a>
+		 <a class="navbar-brand" id="brand-text" href="../">
+		    <img id="brand-image" src="" width="20" height="20" class="d-inline-block align-top" alt="">
+		    zero<span style="color: red;font-family: Impact, Charcoal, sans-serif;">1</span>
+		 </a>
 	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>

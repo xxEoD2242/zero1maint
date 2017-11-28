@@ -177,7 +177,7 @@ class RequestsController < ApplicationController
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
         end
         if @request.program_id == @defects.id && @request.tracker_id == @set_completed.id
-          vehicle.update(repair_needed: false, vehicle_status: "In-Service")
+          vehicle.update( defect: false, vehicle_status: "In-Service")
         end
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }

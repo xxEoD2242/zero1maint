@@ -36,4 +36,17 @@
 <%= link_to 'Back', reports_path, class: "btn btn-warning" %>
 </div>
 </div>
+<% if @report.report_type == "Weekly-RZR"%>
+<div class="card mt-3">
+	<div class="card-header">
+		Weekly Razor Report
+	</div>
+	<div class="card-body">
+		<%= render 'vehicle', vehicle: @in_service %>
+		<br \>
+		<%= render 'vehicle', vehicle: @out_of_service%>
+	</div>
 </div>
+<% end %>
+</div>
+

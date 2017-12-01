@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128211323) do
+ActiveRecord::Schema.define(version: 20171201144326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,25 @@ ActiveRecord::Schema.define(version: 20171128211323) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "report_vehicle_orders", force: :cascade do |t|
+    t.integer "car_id"
+    t.integer "report_id"
+    t.boolean "needs_service"
+    t.boolean "near_service"
+    t.boolean "a_service"
+    t.boolean "shock_service"
+    t.boolean "air_filter_service"
+    t.boolean "repair_needed"
+    t.boolean "defect"
+    t.string "location"
+    t.string "vehicle_category"
+    t.float "mileage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "request_miles"
+    t.string "vehicle_status"
+  end
+
   create_table "report_vehicles", force: :cascade do |t|
     t.integer "report_id"
     t.integer "vehicle_id"
@@ -161,12 +180,11 @@ ActiveRecord::Schema.define(version: 20171128211323) do
   create_table "reports", force: :cascade do |t|
     t.text "title"
     t.text "description"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
     t.string "report_type"
-    t.text "info_vehicle"
+    t.string "report_doc"
   end
 
   create_table "request_part_orders", force: :cascade do |t|

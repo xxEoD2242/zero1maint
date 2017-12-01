@@ -14,9 +14,12 @@ class Report < ApplicationRecord
   has_many :part_reports
   has_many :parts, through: :part_reports
   
+  has_many :report_vehicle_orders
+  
   paginates_per 5
   
-  serailize :info_vehicles, Hash
+  mount_uploader :report_doc, ReportDocUploader
+  
   
   STATUSES = ['Created', 'Viewed', 'Filed']
   TYPES = ['Weekly', 'Weekly-RZR', 'Monthly', 'Vehicle', 'Event', 'Work Order', 'Part', 'Financial', 'Labor']

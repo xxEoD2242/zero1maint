@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'in_progress_report'
       get 'completed_work_order_report'
       get 'weekly_reports'
+      get 'download'
     end
   end
   resources :parts do

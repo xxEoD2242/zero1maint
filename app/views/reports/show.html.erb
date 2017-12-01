@@ -21,8 +21,8 @@
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @report.user_id %>
+  <strong>Creator:</strong>
+ 
 </p>
 
 <p>
@@ -36,17 +36,27 @@
 <%= link_to 'Back', reports_path, class: "btn btn-warning" %>
 </div>
 </div>
-<% if @report.report_type == "Weekly-RZR"%>
+
 <div class="card mt-3">
 	<div class="card-header">
-		Weekly Razor Report
+		<h4>Upload a file</h4>
 	</div>
 	<div class="card-body">
-		<%= render 'vehicle', vehicle: @in_service %>
-		<br \>
-		<%= render 'vehicle', vehicle: @out_of_service%>
+		<div class="form-group d-flex align-objects-center justify-content-between">
+		<%= simple_form_for @report do |f|%>
+			<%= f.file_field :report_doc%>
+			<%= f.check_box :remove_report_doc %>
+			<%= f.label "Remove Document"%>
+			<%= f.submit "Save File", class: "btn btn-success ml-4"%>
+			<% end %>
+		
+		<span><%= link_to "Dowload Report #{@report.id}'s Document", download_reports_path(id: @report.id), class: "btn btn-primary"%></span></div>
 	</div>
 </div>
-<% end %>
+	<div class="card mt-3">
+		<div class="card-body d-flex justify-content-center">
+		<iframe src=<%= @report.report_doc %> width="800px" height="900px" 		style="border: none;"></iframe>
+	</div>
+</div>
 </div>
 

@@ -23,12 +23,16 @@
 	height: 30px;
 	display: flex;
 	align-items: center;
+	margin-right: 5px;
 }
 
 #brand-text {
-	font-size: 22px;
+	font-size: 24px;
 	font-weight: bold;
 	font-family: Impact, Charcoal, sans-serif;
+	display: flex;
+	align-items: center;
+	
 }
 
 #rzr_email {

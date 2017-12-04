@@ -2,10 +2,10 @@ class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show, :index]
   before_action :set_location, only: [:index, :show, :new, :edit]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required]
-  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required]
-  before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required]
-  before_action :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:show, :near_service_required]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
+  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
+  before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
+  before_action :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:show, :near_service_required, :needs_service]
   before_action :mileage_calculation, only: [:dashboard, :near_service_required, :needs_service]
   
   # GET /vehicles
@@ -127,7 +127,7 @@ class VehiclesController < ApplicationController
   end
   
   def all_vehicles
-    @vehicles = Vehicle.all.page(params[:page])
+    
     @q = Vehicle.ransack(params[:q])
     @vehicle_results = @q.result.page(params[:page])
     respond_to do |format|

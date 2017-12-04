@@ -104,21 +104,21 @@
   	  			 </ul>
 				 <% end %>
 	   </nav>
-	  
+	   <% if notice.present?%>
+	   	<aside class="alert alert-info">
+	  	<%= notice %>
+	  </aside>
+	  	<% end %>
+	  <% if alert.present?%>
+	  <aside class="alert alert-danger">
+	  	<%= alert %>
+	  	<% end %>
+	  </aside>
 	  <div class="container-fluid">
     <%= yield %>
  </div>
  
- <% if notice.present?%>
- 	<aside class="alert alert-info">
-	<%= notice %>
-</aside>
-	<% end %>
-<% if alert.present?%>
-<aside class="alert alert-danger">
-	<%= alert %>
-	<% end %>
-</aside>
+
 
 
   </body>

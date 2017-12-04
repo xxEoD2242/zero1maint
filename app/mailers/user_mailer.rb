@@ -24,4 +24,18 @@ class UserMailer < ApplicationMailer
       @set_overdue = Tracker.find_by(track: "Overdue")
     mail(to: user.email, subject: "Weekly Razor Report")
   end
+  
+  def weekly_defects_report_email
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    @set_new = Tracker.find_by(track: "New")
+    @set_progress = Tracker.find_by(track: "In-Progress")
+    @set_defects = Program.find_by(name: "Defect")
+    @request = Request.where(program_id: @set_defects.id, tracker_id: @set_new.id)
+    @in_progress = Request.where(program_id: @set_defects.id, tracker_id: @set_progress.id)
+    
+    mail(to: emails, subject: "Weekly Defect Work Order Report")
+  end
 end

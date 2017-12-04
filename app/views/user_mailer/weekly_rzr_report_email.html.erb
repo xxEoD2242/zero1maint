@@ -1,9 +1,10 @@
-<div>
-	
-	<h1>Weekly Razor Report</h1>
-	<div>
-		<div>
-			
+<div style="border: solid;border-color: black;padding: 10px">
+<div style="display: flex;justify-content: flex-start;">
+	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="250" height="100" alt=""></div>
+	<div style="display: flex;justify-content: center;">
+	<h1 style='text-decoration: underline;'>Weekly RZR report for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
+</div>
+		<div>	
 	<table border="1">
 		<caption><h4>In-Service Razors<h4></caption>
 			<br \>
@@ -66,10 +67,10 @@
 		</tbody>
 	</table>
 </div>
-</div>
+
 <br \>
 	<div>
-		<div>
+		
 			
 	<table border="1">
 		<caption><h4>Out-Of-Service Razors</h4><caption>
@@ -132,6 +133,6 @@
 		<% end %>
 		</tbody>
 	</table>
-</div>
+
 </div>
 </div>

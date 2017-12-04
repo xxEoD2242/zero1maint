@@ -20,23 +20,23 @@ class ReportsController < ApplicationController
     @in_service = ReportVehicleOrder.where(vehicle_status: "In-Service", report_id: @report.id)
   end
   
-  def download
-    @report = Report.find(params[:id])
-    Aws.config.update({
-      region: "#{ENV['S3_REGION']}",
-      credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
-       })
-   s3 = Aws::S3::Resource.new
-   bucket = s3.bucket("#{ENV['S3_BUCKET_NAME']}")
-   object = bucket.object("#{@report.report_doc}")
+  # def download
+  #  @report = Report.find(params[:id])
+  #  Aws.config.update({
+  #    region: "#{ENV['S3_REGION']}",
+  #    credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
+  #     })
+  # s3 = Aws::S3::Resource.new
+  # bucket = s3.bucket("#{ENV['S3_BUCKET_NAME']}")
+  # object = bucket.object("#{@report.report_doc}")
     
 
-     send_file( 
-       "#{object.url}",
-         filename: "#{@report.report_doc}.pdf", 
-         type: "application/pdf", 
-     )
-  end
+   #  send_file( 
+    #   "#{object.}",
+     #    filename: "#{@report.report_doc}.pdf", 
+      #   type: "application/pdf", 
+    # )
+    # end
 
   # @weekly = Report.where('created_at < ?', 1.week.ago)
   def weekly_reports

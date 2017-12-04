@@ -1,4 +1,6 @@
 class Report < ApplicationRecord
+ 
+  
   has_many :report_users
   has_many :users, through: :report_users
   
@@ -23,4 +25,6 @@ class Report < ApplicationRecord
   
   STATUSES = ['Created', 'Viewed', 'Filed']
   TYPES = ['Weekly', 'Weekly-RZR', 'Monthly', 'Vehicle', 'Event', 'Work Order', 'Part', 'Financial', 'Labor']
+  
+  
 end

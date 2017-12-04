@@ -19,14 +19,11 @@ class ReportsController < ApplicationController
     @out_of_service = ReportVehicleOrder.where(vehicle_status: "Out-of-Service", report_id: @report.id)
     @in_service = ReportVehicleOrder.where(vehicle_status: "In-Service", report_id: @report.id)
   end
-
+  
   def download
-    @report = Report.find(params[:id])
-    send_file(
-       "#{Rails.root}/public/#{@report.report_doc}",
-       filename: "#{@report.report_doc}",
-       type: "application/pdf"
-     )
+    @report = Report.find_by(params[:id])
+    data = open("https://s3.us-east-2.amazonaws.com/zero1maintphotos/uploads/report/report_doc/1/#{@report.report_doc}") 
+    send_data data.read, filename: "#{@report.report_doc}.pdf", type: "application/pdf", disposition: 'inline', stream: 'true', buffer_size: '4096' 
   end
 
   # @weekly = Report.where('created_at < ?', 1.week.ago)

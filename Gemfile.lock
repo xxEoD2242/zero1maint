@@ -359,6 +359,9 @@ GEM
     aws-sdk-pricing (1.0.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
+    aws-sdk-rails (2.0.1)
+      aws-sdk-ses (~> 1)
+      railties (>= 3)
     aws-sdk-rds (1.8.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
@@ -512,7 +515,7 @@ GEM
       aws-sdk-core (~> 3)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
-    aws-sdk-sagemaker (1.0.0)
+    aws-sdk-sagemaker (1.1.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
     aws-sdk-sagemakerruntime (1.0.0)
@@ -952,6 +955,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk
+  aws-sdk-rails
   better_errors
   binding_of_caller
   bootstrap (~> 4.0.0.beta.2.1)

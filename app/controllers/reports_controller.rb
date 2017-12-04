@@ -27,7 +27,7 @@ class ReportsController < ApplicationController
   credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
        })
    s3 = Aws::S3::Resource.new
-   s3.bucket("#{ENV['S3_BUCKET_NAME']}").object("#{@report.report_doc}").get(response_target: '/path/to/file')
+   s3.bucket("#{ENV['S3_BUCKET_NAME']}").object(@report.report_doc}).get(response_target: '/path/to/file')
   
   end
 

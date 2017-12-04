@@ -22,8 +22,20 @@ class ReportsController < ApplicationController
   
   def download
     @report = Report.find_by(params[:id])
-    data = open("https://s3.us-east-2.amazonaws.com/zero1maintphotos/uploads/report/report_doc/1/#{@report.report_doc}") 
-    send_data data.read, filename: "#{@report.report_doc}.pdf", type: "application/pdf", disposition: 'inline', stream: 'true', buffer_size: '4096' 
+    AWS.config({
+       access_key_id: "#{ENV['AWS_ACCESS_KEY_ID']}",
+       secret_access_key: "#{ENV['AWS_SECRET_ACCESS_KEY']}"
+     })
+
+     send_data( 
+       AWS::S3.new.buckets["#{ENV['S3_BUCKET_NAME']}"].objects["#{@report.report_doc}"].read, {
+         filename: "#{@report.report_doc}.pdf", 
+         type: "application/pdf", 
+         disposition: 'attachment', 
+         stream: 'true', 
+         buffer_size: '4096'
+       }
+     )
   end
 
   # @weekly = Report.where('created_at < ?', 1.week.ago)

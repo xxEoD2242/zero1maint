@@ -4,7 +4,7 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
-
+gem 'fog-aws'
 gem 'aws-sdk-rails'
 gem 'aws-sdk-s3'
 
@@ -51,7 +51,7 @@ gem 'binding_of_caller'
 gem 'cancancan'
 gem 'pry-rails', :group => :development
 gem 'figaro'
-gem 'fog'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

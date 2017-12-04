@@ -22,13 +22,13 @@ class ReportsController < ApplicationController
   
   def download
     @report = Report.find(params[:id])
-    Aws.config({
-       access_key_id: "#{ENV['AWS_ACCESS_KEY_ID']}",
-       secret_access_key: "#{ENV['AWS_SECRET_ACCESS_KEY']}"
-     })
+    Aws.config.update({
+      region: "#{ENV['S3_REGION']}",
+      credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
+    })
 
      send_data( 
-       Aws::S3.new.buckets["#{ENV['S3_BUCKET_NAME']}"].objects["#{@report.report_doc}"].read, {
+       Aws::S3::Resource.new.buckets["#{ENV['S3_BUCKET_NAME']}"].objects["#{@report.report_doc}"].read, {
          filename: "#{@report.report_doc}.pdf", 
          type: "application/pdf", 
          disposition: 'attachment', 

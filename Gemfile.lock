@@ -440,7 +440,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk (~> 2.7.1)
+  aws-sdk (~> 2)
   better_errors
   binding_of_caller
   bootstrap (~> 4.0.0.beta.2.1)

@@ -26,15 +26,15 @@ class ReportsController < ApplicationController
       region: "#{ENV['S3_REGION']}",
       credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
     })
+    s3 = Aws::S3::Resource.new
+    bucket = s3.bucket("#{ENV['S3_BUCKET_NAME']}")
+    object = bucket.object("#{@report.report_doc}")
+    
 
-     send_data( 
-       Aws::S3::Resource.new.buckets["#{ENV['S3_BUCKET_NAME']}"].objects["#{@report.report_doc}"].read, {
+     send_file( 
+       "#{object}",
          filename: "#{@report.report_doc}.pdf", 
          type: "application/pdf", 
-         disposition: 'attachment', 
-         stream: 'true', 
-         buffer_size: '4096'
-       }
      )
   end
 

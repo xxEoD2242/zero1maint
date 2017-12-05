@@ -4,8 +4,4 @@
 	<br \>
 	<%= render 'results', q: @q, action: :in_service %>
 </div>
-	<div class="container">
-	<strong>Download:</strong>
-	  <%= link_to "CSV", in_service_vehicles_path(format: "csv"), class: "btn btn-info" %> |
-	  <%= link_to "Excel", in_service_vehicles_path(format: "xls"), class: "btn btn-info" %>
-  </div>
+	

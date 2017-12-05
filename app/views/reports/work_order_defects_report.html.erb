@@ -1,0 +1,108 @@
+<div class="jumbotron">
+	<h4 class="display-4 text-center">All Defect Work Orders for <br \> <%= (Time.now - 7.days).strftime('%D')%> - <%= Time.now.strftime('%D')%> </h4>
+</div>
+<div class="card">
+	
+	<div class="card-body">
+		<h4>New Defect Work Orders</h4>
+		<table class="table table-responsive table-striped">
+	
+			<thead>
+				<tr>
+					<th>Work Order Number</th>
+					<th>Work Order Status</th>
+					<th>Work Order Type</th>
+					<th>Vehicle</th>
+					<th>Defect Description</th>
+					<th>Work Order Created At</th>
+					<th>Estimated Completion Date</th>
+			
+				</tr>
+			</thead>
+			<tbody>
+				<% @defects_new.order(tracker_id: :asc).each do |request|%>
+			<tr>
+				<td><%= request.number%></td>
+				<td><%= request.tracker.track %></td>
+				<td><%= request.program.name %></td>
+				<td><%= request.vehicle.car_id%></td>
+				<td><%= request.description %>
+				<td><%=request.created_at.strftime('%D')%>
+				<td><%= request.completion_date.strftime('%D') %>
+		
+			</tr>
+			<% end %>
+			</tbody>
+		</table>
+		<br \>
+		<br \>
+		<h4>In-Progress Defect Work Orders</h4>
+			<table class="table table-responsive table-striped">
+	
+				<thead>
+					<tr>
+						<th>Work Order Number</th>
+						<th>Work Order Status</th>
+						<th>Work Order Type</th>
+						<th>Vehicle</th>
+						<th>Defect Description</th>
+						<th>Work Order Created At</th>
+						<th>Estimated Completion Date</th>
+			
+					</tr>
+				</thead>
+				<tbody>
+					<% @defects_in_progress.order(tracker_id: :asc).each do |request|%>
+				<tr>
+					<td><%= request.number%></td>
+					<td><%= request.tracker.track %></td>
+					<td><%= request.program.name %></td>
+					<td><%= request.vehicle.car_id%></td>
+					<td><%= request.description %>
+					<td><%=request.created_at.strftime('%D')%>
+					<td><%= request.completion_date.strftime('%D') %>
+		
+				</tr>
+				<% end %>
+				</tbody>
+			</table>
+			<br \>
+			<br \>
+			<h4>Completed Defect Work Orders</h4>
+			<table class="table table-responsive table-striped">
+	
+				<thead>
+					<tr>
+						<th>Work Order Number</th>
+						<th>Work Order Status</th>
+						<th>Work Order Type</th>
+						<th>Vehicle</th>
+						<th>Defect Description</th>
+						<th>Work Order Created At</th>
+						<th>Estimated Completion Date</th>
+			
+					</tr>
+				</thead>
+				<tbody>
+					<% @defects_completed.order(tracker_id: :asc).each do |request|%>
+				<tr>
+					<td><%= request.number%></td>
+					<td><%= request.tracker.track %></td>
+					<td><%= request.program.name %></td>
+					<td><%= request.vehicle.car_id%></td>
+					<td><%= request.description %>
+					<td><%=request.created_at.strftime('%D')%>
+					<td><%= request.completion_date.strftime('%D') %>
+		
+				</tr>
+				<% end %>
+				</tbody>
+			</table>
+		
+</div>
+	<br \>
+	<div class="container mb-4">
+		<strong style="margin-right: 4px;">Download:</strong>
+		<%= link_to "XLS", work_order_in_progress_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", work_order_in_progress_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	</div>
+</div>

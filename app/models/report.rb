@@ -24,7 +24,7 @@ class Report < ApplicationRecord
   
   
   STATUSES = ['Created', 'Viewed', 'Filed']
-  TYPES = ['Weekly', 'Weekly-RZR', 'Monthly', 'Vehicle', 'Event', 'Work Order', 'Part', 'Financial', 'Labor']
+  TYPES = ['Weekly', 'Weekly-RZR', 'Weekly-Defect', 'Weekly-New/In-Progress', 'Weekly-Tour Car', 'Weekly-Other', 'Monthly']
   
   
   

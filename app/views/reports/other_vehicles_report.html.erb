@@ -1,0 +1,57 @@
+<div class="jumbotron mt-3">
+	<h1 class="display-3 text-center">Other Vehicles Report</h1>
+	
+	<div class="card">
+		<div class="card-body">
+<h3>In-Service Vehicles</h3>
+	<table class="table table-bordered table-responsive">
+		<thead>
+			<tr>
+				<th scope="col">Vehicle Number</th>
+				<th scope="col">Status</th>
+				<th scope="col">Mileage</th>
+				<th scope="col">Location</th>
+				<th scope="col">Open Work Orders</th>
+				<th scope="col">Near Service - Miles Until:</th>
+				<th scope="col">Services Required</th>
+			</tr>
+		</thead>
+		<tbody>
+	<%= render 'custom_vehicle', vehicle: @fleet_vehicle %>
+	<%= render 'custom_vehicle', vehicle: @dirt_bike %>
+	<%= render 'custom_vehicle', vehicle: @other %>
+	<%= render 'custom_vehicle', vehicle: @training_vehicle %>
+		</tbody>
+	</table>
+
+	
+	<br \>
+	<h3>Out-Of-Service Vehicles</h3>
+	<table class="table table-bordered table-responsive">
+		<thead>
+			<tr>
+				<th scope="col">Vehicle Number</th>
+				<th scope="col">Status</th>
+				<th scope="col">Mileage</th>
+				<th scope="col">Location</th>
+				<th scope="col">Open Work Orders</th>
+				<th scope="col">Near Service - Miles Until:</th>
+				<th scope="col">Services Required</th>
+			</tr>
+		</thead>
+		<tbody>
+	<%= render 'custom_vehicle', vehicle: @out_of_service_f%>
+	<%= render 'custom_vehicle', vehicle: @out_of_service_d%>
+	<%= render 'custom_vehicle', vehicle: @out_of_service_o%>
+	<%= render 'custom_vehicle', vehicle: @out_of_service_t%>
+		</tbody>
+	</table>
+	<br \>
+	
+	
+	<div class="container">
+		<%= link_to "XLS", other_vehicles_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", other_vehicles_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	</div>
+	</div>
+	</div>
+</div>

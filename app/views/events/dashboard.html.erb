@@ -15,7 +15,7 @@
 	<div class="col-md-6 mb-6">
 			
 					<% @events.all.order(created_at: :desc).limit(5).each do |event|%>
-					<div class="card m-2">
+					<div class="card mb-2">
 						<div class="card-header">
 							<h4><%=link_to event.number, event_path(id: event.id), class: "badge badge-primary" %></h4></div>
 				<div class="card-body">

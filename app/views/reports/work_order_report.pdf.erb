@@ -1,13 +1,13 @@
 <div style="border: solid;border-color: black;padding: 10px">
 <div style="display: flex;justify-content: flex-start;">
 	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="250" height="100" alt=""></div>
-	<div style="display: flex;justify-content: center;">
+	<div style="display: flex;align-content: center;">
 	<h1 style='text-decoration: underline;'>All Defect Work Orders for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
 </div>
 
 <div style="color: black;">
 <table border="1">
-	<caption><b>New Defect Work Orders</b></caption>
+	<caption><b>New Work Orders</b></caption>
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -21,7 +21,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @request.order(tracker_id: :asc).each do |request|%>
+		<% @new.order(tracker_id: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -40,7 +40,7 @@
 <br \>
 <div>
 <table border='1'>
-	<caption><b>In-Progress Defect Work Orders</b></caption>
+	<caption><b>In-Progress Work Orders</b></caption>
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -50,6 +50,7 @@
 			<th>Defect Description</th>
 			<th>Work Order Created At</th>
 			<th>Estimated Completion Date</th>
+			
 		</tr>
 	</thead>
 	<tbody>
@@ -57,6 +58,72 @@
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
+		<td><%= request.program.name %></td>
+		<td><%= request.vehicle.car_id%></td>
+		<td><%= request.description %>
+		<td><%=request.created_at.strftime('%D')%>
+		<td><%= request.completion_date.strftime('%D') %>
+		
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+</div>
+<br \>
+<br \>
+<div>
+<table border='1'>
+	<caption><b>Completed Work Orders</b></caption>
+	<thead>
+		<tr>
+			<th>Work Order Number</th>
+			<th>Work Order Status</th>
+			<th>Work Order Type</th>
+			<th>Vehicle</th>
+			<th>Defect Description</th>
+			<th>Work Order Created At</th>
+			<th>Estimated Completion Date</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<% @completed.order(tracker_id: :asc).each do |request|%>
+	<tr>
+		<td><%= request.number%></td>
+		<td><%= request.tracker.track %></td>
+		<td><%= request.program.name %></td>
+		<td><%= request.vehicle.car_id%></td>
+		<td><%= request.description %>
+		<td><%=request.created_at.strftime('%D')%>
+		<td><%= request.completion_date.strftime('%D') %>
+		
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+</div>
+<br \>
+<br \>
+<div>
+<table border='1'>
+	<caption><b>Overdue Work Orders</b></caption>
+	<thead>
+		<tr>
+			<th>Work Order Number</th>
+			<th>Work Order Status</th>
+			<th>Work Order Type</th>
+			<th>Vehicle</th>
+			<th>Defect Description</th>
+			<th>Work Order Created At</th>
+			<th>Estimated Completion Date</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<% @overdue.order(tracker_id: :asc).each do |request|%>
+	<tr>
+		<td><%= request.number%></td>
+		<td style="color: red;"><%= request.tracker.track %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>

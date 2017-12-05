@@ -2,9 +2,13 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	 <title> <%= @report.number %> </title>
+	 <title> Report </title>
+	 <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
 	     <%= wicked_pdf_javascript_include_tag "application"%>
 	     <%= csrf_meta_tags%>
+		  <style type="text/css">
+			  tr { page-break-inside: avoid }
+			  </style>
   </head>
 
   <body>

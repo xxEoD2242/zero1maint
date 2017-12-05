@@ -5,10 +5,15 @@ Rails.application.routes.draw do
       get 'dashboard'
       get 'rzr_report'
       get 'defect_report'
-      get 'in_progress_report'
-      get 'completed_work_order_report'
-      get 'weekly_reports'
+      get 'work_order_in_progress_report'
+      get 'work_order_completed_report'
+      get 'weekly_work_order_reports'
+      get 'weekly_vehicle_reports'
       get 'download'
+      get 'generate_report'
+      get 'tour_car_report'
+      get 'other_vehicles_report'
+      get 'work_order_report'
     end
   end
   resources :parts do

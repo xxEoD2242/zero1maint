@@ -6,7 +6,7 @@
 </div>
 
 <div style="color: black;">
-<table border="1">
+<table style="">
 	<caption><b>New Defect Work Orders</b></caption>
 	<thead>
 		<tr>
@@ -21,7 +21,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @request.order(tracker_id: :asc).each do |request|%>
+		<% @defects_new.order(tracker_id: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -50,10 +50,44 @@
 			<th>Defect Description</th>
 			<th>Work Order Created At</th>
 			<th>Estimated Completion Date</th>
+			
 		</tr>
 	</thead>
 	<tbody>
-		<% @in_progress.order(tracker_id: :asc).each do |request|%>
+		<% @defects_in_progress.order(tracker_id: :asc).each do |request|%>
+	<tr>
+		<td><%= request.number%></td>
+		<td><%= request.tracker.track %></td>
+		<td><%= request.program.name %></td>
+		<td><%= request.vehicle.car_id%></td>
+		<td><%= request.description %>
+		<td><%=request.created_at.strftime('%D')%>
+		<td><%= request.completion_date.strftime('%D') %>
+		
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+</div>
+<br \>
+<br \>
+<div>
+<table border='1'>
+	<caption><b>Completed Defect Work Orders</b></caption>
+	<thead>
+		<tr>
+			<th>Work Order Number</th>
+			<th>Work Order Status</th>
+			<th>Work Order Type</th>
+			<th>Vehicle</th>
+			<th>Defect Description</th>
+			<th>Work Order Created At</th>
+			<th>Estimated Completion Date</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<% @defects_completed.order(tracker_id: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>

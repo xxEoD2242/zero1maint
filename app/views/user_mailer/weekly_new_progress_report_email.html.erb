@@ -2,7 +2,7 @@
 <div style="display: flex;justify-content: flex-start;">
 	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="250" height="100" alt=""></div>
 	<div style="display: flex;justify-content: center;">
-	<h1 style='text-decoration: underline;'>All Defect Work Orders for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
+	<h1 style='text-decoration: underline;'>All New & In-Progress Work Orders for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
 </div>
 
 <div style="color: black;">
@@ -21,7 +21,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @request.order(tracker_id: :asc).each do |request|%>
+		<% @new.order(tracker_id: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -50,6 +50,7 @@
 			<th>Defect Description</th>
 			<th>Work Order Created At</th>
 			<th>Estimated Completion Date</th>
+			
 		</tr>
 	</thead>
 	<tbody>

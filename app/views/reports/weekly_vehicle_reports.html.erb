@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-md-4">
 			<strong> All Weekly Tour Car Reports </strong>
-		
+		<% if @weekly_tour_car != nil%>
 		<% @weekly_tour_car.order(created_at: :desc).limit(50).each do |report|%>
 			<ul class="list-group">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -16,22 +16,25 @@
 				</li>
 			</ul>
 			<% end %>
+			<% end %>
 				
 		</div>
 		
 		<div class="col-md-4">
 			<strong> All Weekly Razor Reports </strong>
+			<% if @weekly_rzr != nil %>
 		<% @weekly_rzr.order(created_at: :desc).limit(50).each do |report|%>
 			<ul class="list-group">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> <span>RZRs <%= report.created_at.strftime('%D')%></span></li>
 					 </ul>
 					 <% end %>
+					 <% end %>
 				</div>
-				<div class="col-md-4">
-		</div>
+				
 			<div class="col-md-4">
 			<strong> All Weekly Tour Car Reports </strong>
+			<% if @weekly_other_vehicle != nil %>
 		<% @weekly_other_vehicles.order(created_at: :desc).limit(50).each do |report|%>
 			<ul class="list-group">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -41,6 +44,8 @@
 					</span>
 				</li>
 			</ul>
+			<% end %>
+			
 			<% end %>
 				
 		</div>

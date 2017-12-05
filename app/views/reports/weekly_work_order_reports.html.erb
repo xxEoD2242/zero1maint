@@ -5,6 +5,7 @@
 		<div class="row">
 			<div class="col-md-4">
 			<strong> All Weekly Defect Work Order Reports </strong>
+			<% if @weekly_defects != nil%>
 		<% @weekly_defects.order(created_at: :desc).limit(50).each do |report|%>
 			<ul class="list-group">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -15,19 +16,30 @@
 				</li>
 			</ul>
 			<% end %>
-				
+				<% end %>
 		</div>
 		
 		<div class="col-md-4">
-			<strong> All Weekly Razor Reports </strong>
-		<% @in_progress.order(created_at: :desc).limit(50).each do |report|%>
+			<strong> All Weekly New & In-Progress Reports </strong>
+			<% if @in_progress != nil %>
+		<% @weekly_in_progress.order(created_at: :desc).limit(50).each do |report|%>
 			<ul class="list-group">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> <span>In-Progress Work Orders <%= report.created_at.strftime('%D')%></span></li>
 					 </ul>
 					 <% end %>
+					 <% end %>
 				</div>
 				<div class="col-md-4">
+						<strong> All Weekly Completed Reports </strong>
+						<% if @completed != nil %>
+					<% @weekly_completed.order(created_at: :desc).limit(50).each do |report|%>
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> <span>In-Progress Work Orders <%= report.created_at.strftime('%D')%></span></li>
+								 </ul>
+								 <% end %>
+								 <% end %>
 		</div>
 		
 	</div>

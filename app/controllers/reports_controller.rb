@@ -38,7 +38,7 @@ class ReportsController < ApplicationController
   # @weekly = Report.where('created_at < ?', 1.week.ago)
   def weekly_work_order_reports
     @weekly_defect = Report.where(report_type: "Weekly-Defect")
-    @in_progress = Report.where(report_type: "Weekly-New/In-Progress")
+    @weekly_in_progress = Report.where(report_type: "Weekly-New/In-Progress")
     @weekly_completed = Report.where(report_type: "Weekly-Completed")
   end
   

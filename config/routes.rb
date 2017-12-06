@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get 'dashboard'
       get 'quant_none'
       get 'quant_low'
+      get 'financial_report'
       post :import
     end
   end

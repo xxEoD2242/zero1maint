@@ -1,7 +1,7 @@
 class PartsController < ApplicationController
   before_action :set_requests, only: [:dashboard]
   before_action :set_part, only: [:show, :edit, :update, :destroy]
-  before_action :quant_calculation, only: [:quant_none, :quant_low, :show]
+  before_action :quant_calculation, only: [:quant_none, :quant_low, :show, :dashboard]
   before_action :set_vehicle_category, only: [:new, :edit]
   
   # GET /parts
@@ -15,6 +15,26 @@ class PartsController < ApplicationController
   def import
     Part.import(params[:file])
     redirect_to root_url, notice: "Activity Data Imported!"
+  end
+  
+  def financial_report
+    total_cost = []
+     Part.all.each do |part|
+       if part.quantity != nil
+         if part.cost != nil
+     cost = (part.quantity * part.cost)
+     total_cost << cost
+   end
+ end
+   end
+   @inventory_value = total_cost.sum
+   respond_to do |format|
+        format.html
+        format.xls
+        format.pdf do
+          render pdf: "Financial Report for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+        end
+      end
   end
   
   def quant_calculation

@@ -21,6 +21,11 @@ class Vehicle < ApplicationRecord
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold']
   CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other']
   
+  
+  def vehicle_naming
+    "&nbsp #{car_id} &nbsp".html_safe
+  end
+  
   def self.to_csv(options = {})
       CSV.generate do |csv|
         csv << column_names

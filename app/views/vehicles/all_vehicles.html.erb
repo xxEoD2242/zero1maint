@@ -6,7 +6,7 @@
 <div class="container d-flex justify-content-between align-items-center">
 	
 	<form class="form-inline">
-	<%= search_form_for @q, :url => {:action => :all_vehicles } do |f|%>
+	<%= search_form_for @q, :url => {:action => :all_vehicles }, :method => :get do |f|%>
 	<div class="form-group">
 	<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 </div>
@@ -30,11 +30,7 @@
 	<div class="container">
 	<strong>Download:</strong>
 	  <%= link_to "CSV", all_vehicles_vehicles_path(format: "csv"), class: "btn btn-info" %> |
-	  <%= link_to "Excel", all_vehicles_vehicles_path(format: 'xls'), class: "btn btn-info" %>
+	  <%= link_to "Excel", all_vehicles_vehicles_path(params.merge(format: "xls").permit!), class: "btn btn-info" %> |
+	  <%= link_to "PDF", all_vehicles_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-warning"%>
   </div>
-  <div class="container">
-	  <%= form_tag import_vehicles_path, multipart: true do%>
-	  <%= file_field_tag :file%>
-	  <%= submit_tag "Import CSV"%>
-	  <% end %>
-  </div>
+ 

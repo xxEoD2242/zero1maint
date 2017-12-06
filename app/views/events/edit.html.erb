@@ -27,7 +27,7 @@
   </div>
   
 	<div class="form-group">
-		<strong> <%= f.label :status %>	</strong>
+		
 		<%= f.select :status, Event::STATUSES, {include_blank: "Select Status"}, id: :event_status, class: "form-control"%>	
 	</div>
 	
@@ -38,8 +38,9 @@
 	<div class="row">
 	  <% VehicleCategory.all.each do |vehicle_category| %>
 	   <div class="col-6">
-		<strong class="form-check-label">	<%= vehicle_category.name%>: </strong>
-	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles, "id", "car_id", class: "form-check-input form-control p-1"%>
+		<strong>	<%= vehicle_category.name%>: </strong>
+		<br \>
+	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles, "id", :vehicle_naming %>
 	</div>
 	
 		<% end %>
@@ -76,15 +77,15 @@
     <%= f.button :submit, class: "btn btn-success btn-lg" %>
   </div>
 <% end %>
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info" %>
+<%= link_to 'Show', @event, class: "btn btn-info" %> | <%= link_to 'Back', dashboard_events_path, class: "btn btn-warning" %>
 </div>
 
 </div>
 
 	
 
-<%= link_to 'Show', @event, class: "btn btn-info" %> |
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-warning" %>
+
+
 </div>
 </div>
 </div>

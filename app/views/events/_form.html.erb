@@ -4,7 +4,7 @@
 <%= simple_form_for @event do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
       <ul>
       <% @event.errors.full_messages.each do |message| %>
@@ -15,7 +15,7 @@
   <% end %>
 
   <div class="form-group">
-   <strong> <%= f.label :number %> </strong>
+  <strong> <%= f.label "Number"%> </strong>
     <%= f.number_field :number, id: :event_number, class: "form-control" %>
   </div>
 
@@ -25,7 +25,7 @@
   </div>
   
 	<div class="form-group">
-		<strong> <%= f.label :status %>	</strong>
+		
 		<%= f.select :status, Event::STATUSES, {include_blank: "Select Status"}, id: :event_status, class: "form-control"%>	
 	</div>
 	
@@ -38,7 +38,7 @@
 	  <% VehicleCategory.all.each do |vehicle_category| %>
 	   <div class="col-6">
 		<strong>	<%= vehicle_category.name%>: </strong>
-	  	<%= f.collection_check_boxes( :vehicle_ids, vehicle_category.vehicles, "id", :vehicle_naming) %>
+	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles, "id", :vehicle_naming, class: "col-md-2" %>
 		
 	</div>
 	

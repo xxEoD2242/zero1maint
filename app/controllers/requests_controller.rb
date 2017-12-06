@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
   before_action :set_services, :set_tracker, only: [:show, :index, :new, :edit, :dashboard, :a_service, :shock_service, :air_filter_service, :defects, :repairs, :completed_requests, :in_progress]

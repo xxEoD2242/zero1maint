@@ -2,16 +2,26 @@
 	<div class="card-body">
 
 <%= simple_form_for(@part) do |f| %>
-  <%= f.error_notification %>
+  <% if @part.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@part.errors.count, "error") %> prohibited this vehicle from being created:</h2>
+
+      <ul>
+      <% @part.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="form-inputs">
-    <%= f.input :part_numb %>
-    <%= f.input :description %>
+   <b> <%= f.input :part_numb, label: "Part Number" %> </b>
+   <b> <%= f.input :description, label: "Part Description" %> </b>
     <%= f.input :brand %>
     <%= f.select :category, Part::CATEGORIES, {include_blank: "Select Mechanical Category"}, class: "form-control my-2" %>
     <%= f.input :cost %>
     <%= f.input :quantity %>
-	 <%= f.select :vehicle_category_id, @vehicle_category.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :part_vehicle_category_id, class: "form-control mb-2"%>
+	 <%= f.select :vehicle_category_id, VehicleCategory.all.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :part_vehicle_category_id, class: "form-control mb-2"%>
   </div>
 
   <div class="form-actions">

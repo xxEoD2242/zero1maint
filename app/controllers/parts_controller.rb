@@ -1,4 +1,5 @@
 class PartsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_requests, only: [:dashboard]
   before_action :set_part, only: [:show, :edit, :update, :destroy]
   before_action :quant_calculation, only: [:quant_none, :quant_low, :show, :dashboard]

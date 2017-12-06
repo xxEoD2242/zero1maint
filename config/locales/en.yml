@@ -30,4 +30,37 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+     attributes:
+       vehicle:
+         location: "Location"
+         car_id: "Car ID"
+         vehicle_category: "Vehicle Category"
+       request:
+         tracker: "Status"
+         program: "Service"
+       part:
+         quantity: "Part"
+         cost: "Part"
+     errors:
+       models:
+         vehicle:
+           attributes:
+             location:
+               blank: "is required!"
+             car_id: 
+               blank: "is required!"
+             vehicle_category: 
+               blank: "must be input!"
+         request:
+           attributes:
+            tracker:
+              blank: "is required!"
+              exist: "must be selected!"
+            program:
+              blank: "is required!"
+              exist: "must be selected!"
+         part:
+           attributes:
+             quantity:
+               blank: "is required!"

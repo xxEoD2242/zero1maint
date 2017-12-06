@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_report, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicles, :in_service, :out_of_service, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :tour_car_report, :other_vehicles_report]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :work_order_completed_report, :work_order_in_progress_report, :weekly_work_order_reports, :weekly_vehicle_reports, :work_order_defects_report, :other_vehicles_report, :tour_car_report]

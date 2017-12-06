@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :set_location, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_vehicles, only: [:index, :show, :edit, :new, :create, :update]

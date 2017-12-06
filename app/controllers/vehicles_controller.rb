@@ -1,4 +1,5 @@
 class VehiclesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show, :index]
   before_action :set_location, only: [:index, :show, :new, :edit]
@@ -15,11 +16,7 @@ class VehiclesController < ApplicationController
     @request = Request.all
     @q = Vehicle.ransack(params[:q])
     @cars = @q.result
-    respond_to do |format|
-        format.html
-        format.csv { send_data @cars.to_csv }
-        format.xls 
-      end
+   
   end
   
   def import
@@ -118,7 +115,7 @@ class VehiclesController < ApplicationController
   def out_of_service
     @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service")
     @q = Vehicle.where(vehicle_status: "Out-of-Service").ransack(params[:q])
-    @vehicle_results = @q.result.page(params[:page])
+    @vehicle_results = @q.result
     respond_to do |format|
         format.html
         format.csv { send_data @vehicle_results.to_csv }
@@ -127,13 +124,15 @@ class VehiclesController < ApplicationController
   end
   
   def all_vehicles
-    
     @q = Vehicle.ransack(params[:q])
     @vehicle_results = @q.result.page(params[:page])
     respond_to do |format|
         format.html
         format.csv { send_data @vehicle_results.to_csv }
-        format.xls
+        format.xls 
+        format.pdf do
+          render pdf: "Vehicle for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+        end
       end
   end
   

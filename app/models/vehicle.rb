@@ -4,7 +4,7 @@ class Vehicle < ApplicationRecord
   has_many :events, through: :events_vehicles
   
   
-  has_many :requests
+  has_many :requests, inverse_of: :vehicle
   has_many :programs, through: :requests
   
   has_many :report_vehicles
@@ -13,6 +13,10 @@ class Vehicle < ApplicationRecord
  
   belongs_to :vehicle_category
   belongs_to :location
+  
+  
+  validates :car_id, presence: true
+  validates :vehicle_status, presence: true
   
   paginates_per 7
   

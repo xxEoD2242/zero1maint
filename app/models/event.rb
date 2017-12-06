@@ -4,7 +4,7 @@ class Event < ApplicationRecord
   
   has_many :events_vehicles
   has_many :vehicles, through: :events_vehicles
-  
+  validates :vehicles, presence: true, on: :update
   
   has_many :event_reports
   has_many :reports, through: :event_reports

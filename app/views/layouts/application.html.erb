@@ -90,14 +90,16 @@
   	  			          Hello <%= current_user.name %>
   	  			        </a>
   	  			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-  	  			          <a class="dropdown-item"
+  	  			          
+							 <a class="dropdown-item"
   	<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
-  
+  <% if can? :create, User %>
   	<a class="dropdown-item" <%= link_to 'Sign In', new_user_session_path %>
   		<a class="dropdown-item" <%= link_to 'Sign Up', new_user_registration_path%>
   	</a>
+	<% end %>
   	  			          <a class="dropdown-item" 											href="../users/edit">Edit Profile</a>
-  	  			          <a class="dropdown-item" href="../all_users">All 										Users</a>
+  	  			          <a class="dropdown-item" href="../all_users">All Users</a>
 							 
   	  			        </div>
   					  </li>

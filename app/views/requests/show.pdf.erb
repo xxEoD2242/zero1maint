@@ -58,16 +58,41 @@
 	<strong>Parts: </strong>
 </div>
 <div class="card-body">
-<% if @part_order != nil%>
-<div class="row">
-	
-	<% @part_order.each do |part_order|%>
-<% part_order.order_items.each do |key, value|%>
-	<div class="d-flex mb-2"><%= Part.find(key).description%> &nbsp Qty: <%= value %></div>
-	 <% end %>
- <% end %>
-
-</div>
+<% if @part_order != []%>
+		<table border='1'>
+			<thead>
+			<tr>
+			<th scope="col">Item:</th>
+				<th scope="col">Qty:</th> 
+				<th scope="col">Total Cost:</th>
+				
+			</tr>
+			</thead>
+			<tbody>
+				<% @part_order.each do |order|%>
+				<% if order.order_items != {}%>
+  			 <% order.order_items.each do |key, value|%>
+				<tr>
+			<td><%= Part.find(key).description%></td>
+			 <td><%= value %></td>
+			 <td><%= value * Part.find(key).cost%></td>
+			 
+		 </tr>
+			  <% end %>
+			  <% end %>
+			  <% end %>
+		  </tbody>
+	  </table>
+  </div>
+	  <% total = []%>
+			<% @request.request_part_orders.each do |order| %>
+		<% if order.order_total != nil%>
+       <% total << order.order_total %>
+	  <% end %>
+			<% end %>
+		<div>
+    Request Total Cost:&nbsp<span> <%= number_to_currency total.sum %></span>
+ </div>
 <% end %>
 </div>
 

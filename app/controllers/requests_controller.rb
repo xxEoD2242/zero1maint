@@ -84,6 +84,7 @@ class RequestsController < ApplicationController
     part_quant = Part.find(params[:part_id]).quantity
     if part_quant > 0
       part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity], request_id: params[:request_id])
+      part_item.update(part_item_total: (part_item.quantity * part_item.part.cost))
       flash[:success] = "Part successfully added to cart!"
     else
       flash[:success] = "Part Out of Stock!"
@@ -112,11 +113,12 @@ class RequestsController < ApplicationController
   def add_parts
     part_items = PartItem.where(request_id: params[:request_id])
     if part_items.length != 0
-      @part_order = RequestPartOrder.create(user_id: current_user.id, request_id: params[:request_id])
+      @part_order = RequestPartOrder.new(user_id: current_user.id, request_id: params[:request_id], order_total: 0)
       part_items.each do |part_item|
         part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
         @part_order.order_items[part_item.part_id] = part_item.quantity 
-      end
+        @part_order.order_total += part_item.part_item_total
+    end
       @part_order.save
       @part_order.order_items.each do |key, value|
       PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)

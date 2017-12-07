@@ -3,31 +3,82 @@
 </div>
 <div class="card">
 	<div class="card-body">
-		<div class="row">
-		<% @requests.each do |request|%>
-		<div class="col-md-4">
-			<ul class="list-group">
-			<%= request.number%>
-			<% if request.request_part_orders != {}%>
-				<div class='row'>
-					<% request.request_part_orders.each do |order|%>
-			<li class="list-group-item">
-		
-				
-			<% order.order_items.each do |key, value|%>
-			
-				<%= Part.find(key).description%> &nbsp Qty: <%= value%> &nbsp Total Cost: <%= value * Part.find(key).cost %>	
-			
-				<% end %>
-				
-			
-			</li>
-				<% end %>
-				</div>
-		
-			<% end %>
-		</ul>
+			<form class="form-inline">
+			<%= search_form_for @q, :url => {:action => :financial_report } do |f|%>
+	
+			<div class="form-group mr-3">
+				<%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+			</div>
+				<div class="form-group">
+				<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
+			</div>
+		<div class="form-group ml-3">
+		<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+	</div>
+	
+		<div class="form-group ml-3">
+			<%= f.label "From"%> &nbsp
+			<%= f.date_select :completion_date_gteq, class: ""  %>
 		</div>
+
+
+		<div class="form-group ml-3">
+			<%= f.label "To"%> &nbsp
+			<%= f.date_select :completion_date_lteq, class: "form-control"  %>
+		</div>
+
+		<div class="form-group ml-3">
+			<%= f.submit "Find Reports", class: "btn btn-info"%>
+		</div>
+		<% end %>
+	</form>
+		
+		<div class="row">
+		<% @requests.order(completion_date: :desc).each do |request|%>
+		
+		<% if request.request_part_orders != []%>
+		<% total = []%>
+		<div class="col-md-6 my-3">
+			<div class='card'>
+				<div class="card-header">
+				<%= link_to request.number, request_path(request), class: "badge badge-info" %>
+				</div>
+				<div class="card-body">
+		<table class="table">
+			<thead>
+			<tr>
+			<th scope="col">Item:</th>
+				<th scope="col">Qty:</th> 
+				<th scope="col">Total Cost:</th>
+			</tr>
+			</thead>
+			<tbody>
+  				 <% request.request_part_orders.each do |part_order|%>
+  			 <% part_order.order_items.each do |key, value|%>
+				<tr>
+			<td><%= Part.find(key).description%></td>
+			 <td><%= value %></td>
+			 <td><%= value * Part.find(key).cost%></td>
+		 </tr>
+			  <% end %>
+			  <% end %>
+		  </tbody>
+	  </table>
+		 		
+		 			<% request.request_part_orders.each do |order| %>
+					<% if order.order_total != nil%>
+		        <% total << order.order_total %>
+				  <% end %>
+		 			<% end %>
+					</div>
+					<div class="card-footer">
+		     Request Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %>
+		  </div>
+		 	 
+	
+		</div>
+	</div>
+	<% end %>
 		<% end %>
 	</div>
 		

@@ -10,9 +10,9 @@
 			<th>Name</th>
 			<th>Email</th>
 			<th>Date Joined</th>
-			<th>Requests</th>
 			<th>Labor Hours</th>
-			<th colspan="3"><th>
+			<th>Requests</th>
+			
 		</tr>
 	</thead>
 	<tbody>
@@ -23,16 +23,13 @@
 			<td><%= user.name %></td>
 			<td><%= user.email %></td>
 			<td><%= user.created_at.strftime("%D")%>
+				<td><%= user.labor%></td>
 			<td><ul class="list-group"><% user.requests.order(created_at: :asc).limit(3).each do |request| %>
 		  		
 				<li class="list-group-item"><%= link_to request.number, request_path(id: request.id), class: "badge badge-info" %>
 				<%= request.tracker.track%></li>
 				<% end %></ul></td>
-			<td><%= user.labor%>
-				<% if can? :destroy, User%>
-			<td>Destroy User Path</td>
-			<%end%>
-			<td>Edit User Path
+			
 		</tr>
 		<% end %>
 		

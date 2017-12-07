@@ -19,7 +19,8 @@ class PartsController < ApplicationController
   end
   
   def financial_report
-    @requests = Request.all
+    @q = Request.all.ransack(params[:q])
+    @requests = @q.result
     
     total_cost = []
      Part.all.each do |part|
@@ -30,6 +31,8 @@ class PartsController < ApplicationController
    end
  end
    end
+   
+   @monthly = Request.where('completion_date > ?', Time.now - 7.days)
    @inventory_value = total_cost.sum
    respond_to do |format|
         format.html

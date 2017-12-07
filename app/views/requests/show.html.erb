@@ -1,12 +1,6 @@
 <div class="jumbotron">
-<div class="row">
-	<div class="col-md-12">
+	<h3 class="display-3 text-center">Request Number: <%= @request.number %></h3>
 <div class="card">
-<div class="card-header d-flex justify-content-between align-items-center">
-   <strong>Request Number: <%= @request.number %></strong>
-	 
-	
-</div>	
 <div class="card-body">
 <div class="row">
 	<div class="col-md-6">
@@ -56,7 +50,7 @@
   <%= @request.completion_date %>
 </p>
 </div>
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
 
 <div class="card">
@@ -64,29 +58,46 @@
 	<strong>Parts: </strong>
 </div>
 <div class="card-body">
-<% if @part_order != nil%>
-<div class="row">
-	<div class="col"><strong>Item:</strong>
-	<% @part_order.each do |part_order|%>
-<% part_order.order_items.each do |key, value|%>
-	<div class="d-flex mb-2"><%= Part.find(key).description%></div>
-	 <% end %>
- <% end %>
-</div>
-	 <div class="col "><strong>Qty:</strong>
-		 <% @part_order.each do |part_order|%>
-	 <% part_order.order_items.each do |key, value|%>
-	 <div class="d-flex justify-content-between align-items-center mb-1"> <%= value %>
-	 <span> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span>
+<% if @part_order != []%>
+		<table class="table">
+			<thead>
+			<tr>
+			<th scope="col">Item:</th>
+				<th scope="col">Qty:</th> 
+				<th scope="col">Total Cost:</th>
+				<th colspan='1'></th>
+			</tr>
+			</thead>
+			<tbody>
+				<% @part_order.each do |order|%>
+				<% if order.order_items != {}%>
+  			 <% order.order_items.each do |key, value|%>
+				<tr>
+			<td><%= Part.find(key).description%></td>
+			 <td><%= value %></td>
+			 <td><%= value * Part.find(key).cost%></td>
+			 <td> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </td>
+		 </tr>
+			  <% end %>
+			  <% end %>
+			  <% end %>
+		  </tbody>
+	  </table>
+  </div>
+	  <% total = []%>
+			<% @request.request_part_orders.each do |order| %>
+		<% if order.order_total != nil%>
+       <% total << order.order_total %>
+	  <% end %>
+			<% end %>
+		<div class="card-footer">
+    Request Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %></span>
  </div>
-	<% end %>
 <% end %>
-	</div>
-</div>
-</div>
-<% end %>
-</div>
 
+
+</div>
+</div>
 </div>
 <div class="container d-flex justify-content-between align-items-center">
 <span>
@@ -94,11 +105,6 @@
  	<strong>Download:
  	  <%= link_to "CSV", request_path(@request, params.merge(format: "csv").permit!), class: "btn btn-info" %> &nbsp
  	  <%= link_to "PDF", request_path(@request, params.merge(format: "pdf").permit!), class: "btn btn-info" %> </strong>
-</div>
-
-
-</div>
-</div>
 </div>
 </div>
 </div>

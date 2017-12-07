@@ -24,7 +24,7 @@
 					<% @requests.all.order(created_at: :desc).limit(5).each do |request|%>
 					<div class="card mb-2">
 						<div class="card-header">
-							<h4>Work Order Number: <%=link_to request.number, request_path(id: request.id), class: "badge badge-warning" %></h4></div>
+							<h4>Work Order Number: <%=link_to request.id, request_path(id: request.id), class: "badge badge-warning" %></h4></div>
 							
 				<div class="card-body">
 				

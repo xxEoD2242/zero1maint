@@ -15,8 +15,9 @@
   <% end %>
 
   <div class="form-group">
-  <strong> <%= f.label "Number"%> </strong>
-    <%= f.number_field :number, id: :event_number, class: "form-control" %>
+  <h4>
+   Event Number: <%= Event.all.last.id + 1%>
+	</h4>
   </div>
 
   <div class="form-group">

@@ -75,7 +75,7 @@
 				<tr>
 			<td><%= Part.find(key).description%></td>
 			 <td><%= value %></td>
-			 <td><%= value * Part.find(key).cost%></td>
+			 <td><%= number_to_currency (value * Part.find(key).cost) %></td>
 			 <td> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </td>
 		 </tr>
 			  <% end %>

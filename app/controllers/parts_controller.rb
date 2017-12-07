@@ -19,6 +19,8 @@ class PartsController < ApplicationController
   end
   
   def financial_report
+    @requests = Request.all
+    
     total_cost = []
      Part.all.each do |part|
        if part.quantity != nil

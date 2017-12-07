@@ -3,6 +3,34 @@
 </div>
 <div class="card">
 	<div class="card-body">
+		<div class="row">
+		<% @requests.each do |request|%>
+		<div class="col-md-4">
+			<ul class="list-group">
+			<%= request.number%>
+			<% if request.request_part_orders != {}%>
+				<div class='row'>
+					<% request.request_part_orders.each do |order|%>
+			<li class="list-group-item">
+		
+				
+			<% order.order_items.each do |key, value|%>
+			
+				<%= Part.find(key).description%> &nbsp Qty: <%= value%> &nbsp Total Cost: <%= value * Part.find(key).cost %>	
+			
+				<% end %>
+				
+			
+			</li>
+				<% end %>
+				</div>
+		
+			<% end %>
+		</ul>
+		</div>
+		<% end %>
+	</div>
+		
 		Total Value of Inventory: 
 		<%=number_to_currency @inventory_value %>
 	</div>

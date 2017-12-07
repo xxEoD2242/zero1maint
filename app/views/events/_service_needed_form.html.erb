@@ -15,7 +15,7 @@
   <tbody>
     <% event.order(location_id: :asc).each do |event| %>
       <tr>
-        <th scope="row"><%= event.number %></th>
+        <th scope="row"><%= event.id %></th>
 		  <td><%= event.status %></td>
         <td><%= event.event_type%></td>
         <td><%= event.location.locale %></td>

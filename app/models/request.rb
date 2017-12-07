@@ -10,11 +10,9 @@ class Request < ApplicationRecord
   
   has_many :request_part_orders
   
-  validates :tracker, presence: {message: "- Please provide a status for the Work Order"}
-  validates :program, presence: true
-  validates :vehicle, presence: true
+  
   validates :description, presence: true
-  validates_with DateValidator 
+
  
   mount_uploader :image, ImageUploader
   

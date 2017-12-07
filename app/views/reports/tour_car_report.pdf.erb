@@ -1,5 +1,5 @@
 <div style="display: flex;justify-content: center;">
-	<h1 style='text-decoration: underline;'>Weekly Tour Car report for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
+	<h1 style='text-decoration: underline;text-align: center;'>Weekly Tour Car report for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
 </div>
 
 		<div>
@@ -17,7 +17,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	      <% @vehicles.order(vehicle_category_id: :asc).each do |vehicle| %>
+	      <% @vehicles.order(car_id: :asc).each do |vehicle| %>
 	        <tr>
 	          <th scope="row"><%= vehicle.car_id %></th>
 	  		  <td><%= vehicle.vehicle_status %></td>
@@ -81,7 +81,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	      <% @out_of_service.order(vehicle_category_id: :asc).each do |vehicle| %>
+	      <% @out_of_service.order(car_id: :asc).each do |vehicle| %>
 	        <tr>
 	          <th scope="row"><%= vehicle.car_id %></th>
 	  		  <td><%= vehicle.vehicle_status %></td>

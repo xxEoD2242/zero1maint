@@ -1,10 +1,10 @@
 <div class="jumbotron mt-3">
 	<h1 class="display-3 text-center">Weekly Razor Report</h1>
 	<h3>In-Service Vehicles</h3>
-	<%= render 'vehicle', vehicle: @vehicles %>
+	<%= render 'vehicle', vehicle: @rzrs.where(vehicle_status: "In-Service").order(car_id: :asc) %>
 	<br \>
 	<h3>Out-Of-Service Vehicles</h3>
-	<%= render 'vehicle', vehicle: @out_of_service%>
+	<%= render 'vehicle', vehicle: @rzrs.where(vehicle_status: 'Out-of-Service').order(car_id: :asc)%>
 	<br \>
 	<div class="container d-flex justify-content-between align-items-center">
 		<strong> Download: <%= link_to "PDF", rzr_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%></strong>

@@ -17,7 +17,7 @@
 	</thead>
 	<tbody>
 		
-			<% @users.each do |user| %>
+			<% @users.order(emplyid: :asc).each do |user| %>
 			<tr>
 			<td><%= user.emplyid %></td>
 			<td><%= user.name %></td>

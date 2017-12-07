@@ -47,8 +47,8 @@ class ReportsController < ApplicationController
   
   def rzr_report
     @rzr = VehicleCategory.find_by(name: "RZR")
-    @out_of_service = Vehicle.where(vehicle_category_id: @rzr.id, vehicle_status: "Out-of-Service")
-    @vehicles = Vehicle.where(vehicle_category_id: @rzr.id, vehicle_status: "In-Service")
+    @q = Vehicle.where(vehicle_category_id: @rzr.id).ransack(params[:q])
+    @rzrs = @q.result
     respond_to do |format|
          format.html
          format.xls

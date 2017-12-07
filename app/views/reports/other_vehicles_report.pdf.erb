@@ -1,7 +1,4 @@
-<div style="border: solid;border-color: black;padding: 10px">
-<div style="display: flex;justify-content: flex-start;">
-	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="175" height="60" alt=""></div>
-	<div style="display: flex;justify-content: center;">
+<div style="display: flex;justify-content: center;">
 	<h1 style='text-decoration: underline;'>Weekly Other Vehicles report for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
 </div>
 
@@ -18,7 +15,7 @@
 			</tr>
 		</thead>
 		<tbody>
-      <% @fleet_vehicle.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -64,7 +61,7 @@
 	<% end %>
 	
 	
-      <% @dirt_bike.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -109,7 +106,7 @@
 	</tr>
 	<% end %>
 	
-      <% @other.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_other.id, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -154,7 +151,7 @@
 	</tr>
 	<% end %>
 	
-      <% @training_vehicle.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -218,7 +215,7 @@
 			</tr>
 		</thead>
 		<tbody>
-      <% @out_of_service_f.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "Out-of-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -263,7 +260,7 @@
 	</tr>
 	<% end %>
 	
-      <% @out_of_service_d.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "Out-of-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -309,7 +306,7 @@
 	<% end %>
 	
 	
-      <% @out_of_service_o.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% @vehicles.where(vehicle_category_id: @set_other.id, vehicle_status: "Out-of-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -354,7 +351,7 @@
 	</tr>
 	<% end %>
 	
-      <%  @out_of_service_t.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <%  @vehicles.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "Out-of-Service").order(car_id: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
@@ -401,4 +398,3 @@
 	
 		</tbody>
 	</table>
-</div>

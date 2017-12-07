@@ -1,7 +1,11 @@
 <div class="jumbotron text-center">
 <h1 class="display-3">Vehicles In-Service:</h1>
+<div class="card">
+	<div class="card-body">
 	<%= render 'service_needed_form', vehicle: @vehicle_results %>
 	<br \>
 	<%= render 'results', q: @q, action: :in_service %>
+</div>
+</div>
 </div>
 	

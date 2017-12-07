@@ -1,6 +1,6 @@
 class Event < ApplicationRecord
   belongs_to :location
-  validates :location, presence: true
+  
   
   has_many :events_vehicles
   has_many :vehicles, through: :events_vehicles

@@ -1,6 +1,4 @@
-<div class="container d-flex justify-content-between align-items-center">
-	<%= paginate @request_results%>
-	
+
 	<form class="form-inline">
 	<%= search_form_for q, :url => {:action => action } do |f|%>
 	<div class="form-group">
@@ -15,10 +13,28 @@
 	<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
 </div>
 
+	
 <div class="form-group ml-3">
+	<%= f.label "From"%> &nbsp
+	<%= f.date_select :completion_date_gteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+</div>
+
+
+<div class="form-group ml-3">
+	<%= f.label "To"%> &nbsp
+	<%= f.date_select :completion_date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+</div>
+<br \>
+<div class="form-group ml-3 mt-3">
 	<%= f.submit "Find Requests", class: "btn btn-info"%>
 </div>
 <% end %>
+</form>
+
 <br \>
-<%= link_to 'Back', dashboard_requests_path, class: "btn btn-info " %>
+<div class="container d-flex justify-content-between align-items-center">
+	<%= paginate @request_results%>
+	<span>
+	<%= link_to 'Back', dashboard_requests_path, class: "btn btn-info " %></span>
+</div>
 </div>

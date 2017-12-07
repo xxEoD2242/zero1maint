@@ -1,9 +1,10 @@
 <div class="jumbotron">
-	<h4 class="display-4 text-center">All New & In-Progress Work Orders for <br \> <%= (Time.now - 7.days).strftime('%D')%> - <%= Time.now.strftime('%D')%> </h4>
-</div>
+	<h4 class="display-4 text-center">All New & In-Progress Work Orders</h4>
+
 <div class="card">
 	
 	<div class="card-body">
+		<h3>New Work Orders</h3>
 		<table class="table table-responsive table-striped">
 	
 			<thead>
@@ -19,7 +20,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @in_progress.order(tracker_id: :asc).each do |request|%>
+				<% @work_orders.where(tracker_id: @set_new.id).order(completion_date: :desc).each do |request|%>
 			<tr>
 				<td><%= request.number%></td>
 				<td><%= request.tracker.track %></td>
@@ -35,6 +36,7 @@
 		</table>
 		<br \>
 		<br \>
+		<h3>In-Progress Work Orders</h3>
 <table class="table table-responsive table-striped">
 	
 	<thead>
@@ -50,7 +52,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @in_progress.order(tracker_id: :asc).each do |request|%>
+		<% @work_orders.where(tracker_id: @set_progress.id).order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -66,8 +68,15 @@
 </table>
 </div>
 	<br \>
-	<div class="container mb-4">
-		<strong style="margin-right: 4px;">Download:</strong>
-		<%= link_to "XLS", work_order_in_progress_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", work_order_in_progress_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
-	</div>
+	<div class="container">
+	<%= render 'work_order_results', q: @q, action: :work_order_in_progress_report%>
+</div>
+<br \>
+		<div class="container mb-4 d-flex justify-content-between align-items-center">
+			<%= link_to " Download PDF", work_order_in_progress_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-warning"%>
+			
+			<%= link_to 'Back', generate_report_reports_path, class: "btn btn-primary " %>
+		</div>
+	
+</div>
 </div>

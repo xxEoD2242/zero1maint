@@ -31,6 +31,14 @@ class RequestsController < ApplicationController
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
     @part_order = RequestPartOrder.where(request_id: @request.id)
+    respond_to do |format|
+        format.html
+        format.csv { send_data @vehicle_results.to_csv }
+        format.xls
+        format.pdf do
+          render pdf: "Request #{@request.number}", :layout => 'pdf.pdf.erb', title: "Request #{@request.number}"  # Excluding ".pdf" extension.
+        end
+      end
   end
   
   def a_service

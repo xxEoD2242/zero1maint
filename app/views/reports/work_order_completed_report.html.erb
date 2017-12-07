@@ -1,5 +1,5 @@
 <div class="jumbotron">
-	<h4 class="display-4 text-center">All Completed Work Orders for <br \> <%= (Time.now - 7.days).strftime('%D')%> - <%= Time.now.strftime('%D')%> </h4>
+	<h4 class="display-4 text-center">All Completed Work Orders</h4>
 </div>
 <div class="card">
 	
@@ -33,10 +33,46 @@
 	<% end %>
 	</tbody>
 </table>
+<p>To search for specific reports, please select the dates in the form below and hit "Find Reports"</p>
+</div>
+
+<div class="container d-flex align-items-center">
+	
+	<form class="form-inline">
+	<%= search_form_for @q, :url => {:action => :work_order_completed_report } do |f|%>
+	
+	<div class="form-group mr-3">
+		<%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+	</div>
+	
+	<div class="form-group">
+		<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
+	</div>
+	
+<div class="form-group ml-3">
+	<%= f.label "From"%> &nbsp
+	<%= f.date_select :completion_date_gteq, class: "form-control"  %>
+</div>
+
+
+<div class="form-group ml-3">
+	<%= f.label "To"%> &nbsp
+	<%= f.date_select :completion_date_lteq, class: "form-control"  %>
+</div>
+
+<div class="form-group ml-3">
+	<%= f.submit "Find Reports", class: "btn btn-info"%>
+</div>
+<% end %>
+</form>
+<br \>
+
 </div>
 	<br \>
-	<div class="container mb-4">
-		<strong style="margin-right: 4px;">Download:</strong>
-		<%= link_to "XLS", work_order_completed_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", work_order_completed_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	<div class="container mb-4 d-flex justify-content-between align-items-center">
+		
+		<%= link_to "Download PDF", work_order_completed_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%>
+		
+		<%= link_to 'Back', dashboard_reports_path, class: "btn btn-info " %>
 	</div>
 </div>

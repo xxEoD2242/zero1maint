@@ -1,12 +1,10 @@
-<div style="border: solid;border-color: black;padding: 10px">
-<div style="display: flex;justify-content: flex-start;">
-	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="250" height="100" alt=""></div>
-	<div style="display: flex;justify-content: center;">
-	<h1 style='text-decoration: underline;'>All Defect Work Orders for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
+
+<div style="display: flex;justify-content: center;">
+	<h1 style='text-decoration: underline;'>Defect Work Orders</h1>
 </div>
 
 <div style="color: black;">
-<table style="">
+<table border="1">
 	<caption><b>New Defect Work Orders</b></caption>
 	<thead>
 		<tr>
@@ -21,7 +19,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @defects_new.order(tracker_id: :asc).each do |request|%>
+		<% @work_orders.where(tracker_id: @set_new.id).order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -54,7 +52,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @defects_in_progress.order(tracker_id: :asc).each do |request|%>
+		<% @work_orders.where(tracker_id: @set_progress.id).order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -87,7 +85,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @defects_completed.order(tracker_id: :asc).each do |request|%>
+		<% @work_orders.where(tracker_id: @set_completed).order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
 		<td><%= request.tracker.track %></td>
@@ -101,5 +99,4 @@
 	<% end %>
 	</tbody>
 </table>
-</div>
 </div>

@@ -1,0 +1,74 @@
+<div>
+   <h2>Request Number: <%= @request.number %></h2>
+</div>	
+<div class="card-body">
+<div class="row">
+	<div class="col-md-6">
+<p>
+  <strong>Vehicle Name:</strong>
+  <%= @request.vehicle.car_id%>
+</p>
+<!-- This is a comment -->
+<p>
+  <strong>Submitted By:</strong>
+  <%= @request.user.name%>
+</p>
+
+<p>
+  <strong>Current Vehicle Mileage:</strong>
+  <%= @request.vehicle.mileage%>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @request.description %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @request.tracker.track %>
+</p>
+<% if @request.program != nil %>
+<p>
+	<strong>Service Type:</strong>
+	<%= @request.program.name %>
+</p>
+<% end %>
+
+<p>
+  <strong>Special requets:</strong>
+  <%= @request.special_requets %>
+</p>
+
+<p>
+  <strong> Work Order Mileage:</strong>
+  <%= @request.request_mileage%>
+</p>
+
+<p>
+  <strong>Completion date:</strong>
+  <%= @request.completion_date %>
+</p>
+</div>
+<div class="col-md-6">
+
+
+<div class="card">
+	<div class="card-header">
+	<strong>Parts: </strong>
+</div>
+<div class="card-body">
+<% if @part_order != nil%>
+<div class="row">
+	
+	<% @part_order.each do |part_order|%>
+<% part_order.order_items.each do |key, value|%>
+	<div class="d-flex mb-2"><%= Part.find(key).description%> &nbsp Qty: <%= value %></div>
+	 <% end %>
+ <% end %>
+
+</div>
+<% end %>
+</div>
+
+</div>

@@ -6,8 +6,11 @@
 	<h3>Out-Of-Service Vehicles</h3>
 	<%= render 'vehicle', vehicle: @out_of_service%>
 	<br \>
-	<div class="container">
-		<%= link_to "XLS", rzr_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", rzr_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	<div class="container d-flex justify-content-between align-items-center">
+		<strong> Download: <%= link_to "PDF", rzr_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%></strong>
+		<%= render 'vehicle_results', q: @q, action: :rzr_report%> 
+		<% link_to "Back", generate_report_reports_path, class: "btn btn-warning"%>
+		
 	</div>
 </div>
 

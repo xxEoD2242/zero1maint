@@ -1,5 +1,6 @@
 <div class="card">
-<table class="table">
+	<div class="card-body">
+<table class="table table-bordered">
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -8,11 +9,11 @@
 			<th>Vehicle</th>
 			<th>Work Order Created At</th>
 			<th>Estimated Completion Date</th>
-			
+			<th colspan="3">Options</th>
 		</tr>
 	</thead>
 	<tbody>
-		<% request.order(tracker_id: :asc).each do |request|%>
+		<% request.order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= link_to request.number, request_path(request), class: "badge badge-info "%></td>
 		<td><%= request.tracker.track %></td>
@@ -27,4 +28,5 @@
 	<% end %>
 	</tbody>
 </table>	
+</div>
 </div>

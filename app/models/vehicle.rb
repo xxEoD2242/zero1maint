@@ -18,7 +18,7 @@ class Vehicle < ApplicationRecord
   validates :car_id, presence: true
   validates :vehicle_status, presence: true
   
-  paginates_per 7
+  paginates_per 8
   
   accepts_nested_attributes_for :events
   

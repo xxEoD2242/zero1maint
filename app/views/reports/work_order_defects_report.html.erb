@@ -1,6 +1,6 @@
 <div class="jumbotron">
-	<h4 class="display-4 text-center">All Defect Work Orders for <br \> <%= (Time.now - 7.days).strftime('%D')%> - <%= Time.now.strftime('%D')%> </h4>
-</div>
+	<h4 class="display-4 text-center">All Defect Work Orders </h4>
+
 <div class="card">
 	
 	<div class="card-body">
@@ -20,7 +20,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @defects_new.order(tracker_id: :asc).each do |request|%>
+				<% @work_orders.where(tracker_id: @set_new.id).order(completion_date: :desc).each do |request|%>
 			<tr>
 				<td><%= request.number%></td>
 				<td><%= request.tracker.track %></td>
@@ -52,7 +52,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% @defects_in_progress.order(tracker_id: :asc).each do |request|%>
+					<% @work_orders.where(tracker_id: @set_progress.id).order(completion_date: :desc).each do |request|%>
 				<tr>
 					<td><%= request.number%></td>
 					<td><%= request.tracker.track %></td>
@@ -84,7 +84,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% @defects_completed.order(tracker_id: :asc).each do |request|%>
+					<% @work_orders.where(tracker_id: @set_completed).order(completion_date: :desc).each do |request|%>
 				<tr>
 					<td><%= request.number%></td>
 					<td><%= request.tracker.track %></td>
@@ -101,8 +101,45 @@
 		
 </div>
 	<br \>
-	<div class="container mb-4">
-		<strong style="margin-right: 4px;">Download:</strong>
-		<%= link_to "XLS", work_order_in_progress_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", work_order_in_progress_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	
+	
+		<div class="container d-flex align-items-center">
+	
+			<form class="form-inline">
+			<%= search_form_for @q, :url => {:action => :work_order_defects_report } do |f|%>
+	<div class="form-group mr-3">
+		<%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
 	</div>
+	
+			<div class="form-group ml-3">
+				<%= f.label "Select Status"%>
+				<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+			</div>
+		<div class="form-group ml-3">
+			<%= f.label "From"%> &nbsp
+			<%= f.date_select :completion_date_gteq, class: "form-control"  %>
+		</div>
+
+
+		<div class="form-group ml-3">
+			<%= f.label "To"%> &nbsp
+			<%= f.date_select :completion_date_lteq, class: "form-control"  %>
+		</div>
+
+		<div class="form-group ml-3">
+			<%= f.submit "Find Reports", class: "btn btn-info"%>
+		</div>
+		<% end %>
+	</form>
+	
+
+		
+		
+	</div>
+	<br \>
+	<div class="container mb-4 d-flex justify-content-between align-items-center">
+		<%= link_to "Download PDF", work_order_defects_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-warning"%> 
+		<%= link_to 'Back', generate_report_reports_path, class: "btn btn-primary " %>
+	</div>
+</div>
 </div>

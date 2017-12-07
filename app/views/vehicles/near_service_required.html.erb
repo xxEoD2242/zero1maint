@@ -1,14 +1,18 @@
-<div class="jumbotron text-center">
-<h1 class="display-3">Vehicles Within 100 Miles of Service</h1>
+<div class="jumbotron">
+<h1 class="display-3 text-center">Vehicles Within 100 Miles of Service</h1>
+<div class="card">
+	<div class="card-body">
 	
 	<%= render 'service_needed_form', vehicle: @vehicle_results %>
 	<br \>
 	<%= render 'results', q: @q, action: :near_service_required %>
+<br \>
 
-	
-</div>
 	<div class="container">
 	<strong>Download:</strong>
-	  <%= link_to "CSV", near_service_required_vehicles_path(format: "csv"), class: "btn btn-info" %> |
-	  <%= link_to "Excel", near_service_required_vehicles_path(format: "xls"), class: "btn btn-info" %>
+	  <%= link_to "CSV", near_service_required_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-info" %> |
+	  <%= link_to "PDF", near_service_required_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-info" %>
+  </div>
+</div>
+</div>
   </div>

@@ -17,10 +17,10 @@
 			</tr>
 		</thead>
 		<tbody>
-	<%= render 'custom_vehicle', vehicle: @fleet_vehicle %>
-	<%= render 'custom_vehicle', vehicle: @dirt_bike %>
-	<%= render 'custom_vehicle', vehicle: @other %>
-	<%= render 'custom_vehicle', vehicle: @training_vehicle %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "In-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "In-Service")%>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_other.id, vehicle_status: "In-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "In-Service")%>
 		</tbody>
 	</table>
 
@@ -40,18 +40,36 @@
 			</tr>
 		</thead>
 		<tbody>
-	<%= render 'custom_vehicle', vehicle: @out_of_service_f%>
-	<%= render 'custom_vehicle', vehicle: @out_of_service_d%>
-	<%= render 'custom_vehicle', vehicle: @out_of_service_o%>
-	<%= render 'custom_vehicle', vehicle: @out_of_service_t%>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "Out-of-Service")%>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "Out-of-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_other.id, vehicle_status: "Out-of-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "Out-of-Service") %>
 		</tbody>
 	</table>
 	<br \>
 	
 	
-	<div class="container">
-		<%= link_to "XLS", other_vehicles_report_reports_path(format: 'xls'), class: "btn btn-info"%> | <%= link_to "PDF", other_vehicles_report_reports_path(format: 'pdf'), class: "btn btn-info"%>
+	<div class="container d-flex justify-content-between align-items-center">
+		<strong><%= link_to "PDF", other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%> </strong>
+			<form class="form-inline">
+			<%= search_form_for @q, :url => {:action => :other_vehicles_report } do |f|%>
+			
+				<div class="form-group">
+				<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+			</div>
+	
+			<div class="form-group ml-3">
+			<%= f.select :location_id_eq, options_from_collection_for_select(Location.all, "id", "locale", @q.location_id_eq), {include_blank: "Select Location"}, class: "form-control" %>
+		</div>
+
+		<div class="form-group ml-3">
+			<%= f.submit "Find Vehicles", class: "btn btn-info"%>
+		</div>
+		<% end %>
+		</form>
+		 <%= link_to "Back", generate_report_reports_path, class: "btn btn-warning"%>
 	</div>
 	</div>
 	</div>
+	
 </div>

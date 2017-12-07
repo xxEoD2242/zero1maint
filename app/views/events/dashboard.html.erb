@@ -16,14 +16,14 @@
 			
 					<% @events.all.order(created_at: :desc).limit(5).each do |event|%>
 					<div class="card mb-2">
-						<div class="card-header">
-							<h4><%=link_to event.number, event_path(id: event.id), class: "badge badge-primary" %></h4></div>
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h5>Event: <%=link_to event.number, event_path(id: event.id), class: "badge badge-primary" %></h5>  <h3 style="text-align: right;" class="badge badge-warning">Date Scheduled: <%= event.date.strftime('%D')%></h3></div>
 				<div class="card-body">
 				
 				
 					<ul class="list-group">
-					<li class="list-group-item d-flex justify-content-between align-items-center">Created On:
-						<span class="badge badge-info"><%= event.created_at.strftime('%D')%></span> Location:
+					<li class="list-group-item d-flex justify-content-between align-items-center">Class Type:
+						<span class="badge badge-info"><%= event.class_type%></span> Location:
 					<span class="badge badge-info"><%= event.location.locale%></span></li>
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status:
 					<span class="badge badge-info"><%= event.status%></span> Mileage:

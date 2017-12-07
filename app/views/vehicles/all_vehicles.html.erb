@@ -1,5 +1,7 @@
 <div class="jumbotron text-center">
 <h1 class="display-3">All Vehicles</h1>
+<div class='card'>
+	<div class="card-body">
 	
 <%= render 'service_needed_form', vehicle: @vehicle_results %>
 <br \>
@@ -19,7 +21,9 @@
 	<%= f.submit "Find Vehicles", class: "btn btn-info"%>
 </div>
 <% end %>
+</form>
 <br \>
+
 
 
 <%= link_to 'Back', vehicles_path, class: "btn btn-info " %>
@@ -27,10 +31,6 @@
 <br \>
 <%= paginate @vehicle_results%>
 </div>
-	<div class="container">
-	<strong>Download:</strong>
-	  <%= link_to "CSV", all_vehicles_vehicles_path(format: "csv"), class: "btn btn-info" %> |
-	  <%= link_to "Excel", all_vehicles_vehicles_path(params.merge(format: "xls").permit!), class: "btn btn-info" %> |
-	  <%= link_to "PDF", all_vehicles_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-warning"%>
-  </div>
+</div>
+</div>
  

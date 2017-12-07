@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicles, :in_service, :out_of_service, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :tour_car_report, :other_vehicles_report]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :work_order_completed_report, :work_order_in_progress_report, :weekly_work_order_reports, :weekly_vehicle_reports, :work_order_defects_report, :other_vehicles_report, :tour_car_report]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :tour_car_report, :other_vehicles_report]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :tour_car_report, :other_vehicles_report, :work_order_defects_report]
   before_action :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:rzr_report, :show, :other_vehicles_report, :tour_car_report]
   
   # GET /reports
@@ -21,20 +21,16 @@ class ReportsController < ApplicationController
     @in_service = ReportVehicleOrder.where(vehicle_status: "In-Service", report_id: @report.id)
   end
   
-  def download
-  @report = Report.find(params[:id])
-  Aws.config.update({
-  region: "#{ENV['S3_REGION']}",
-  credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
-       })
-   s3 = Aws::S3::Resource.new
-   s3.bucket("#{ENV['S3_BUCKET_NAME']}").object(@report.report_doc.to_s).get(response_target: '/path/to/file')
+ # def download
+ # @report = Report.find(params[:id])
+ # Aws.config.update({
+#  region: "#{ENV['S3_REGION']}",
+ # credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_ID']}", "#{ENV['AWS_SECRET_ACCESS_KEY']}")
+  #     })
+  # s3 = Aws::S3::Resource.new
+  # s3.bucket("#{ENV['S3_BUCKET_NAME']}").object(@report.report_doc.to_s).get(response_target: '/path/to/file')
+#  end
   
-  end
-  
-  def generate_report
-    
-  end
 
   # @weekly = Report.where('created_at < ?', 1.week.ago)
   def weekly_work_order_reports
@@ -64,8 +60,8 @@ class ReportsController < ApplicationController
   
   def tour_car_report
     @tour_car = VehicleCategory.find_by(name: "Tour Car")
-    @out_of_service = Vehicle.where(vehicle_category_id: @tour_car.id, vehicle_status: "Out-of-Service")
-    @vehicles = Vehicle.where(vehicle_category_id: @tour_car.id, vehicle_status: "In-Service")
+    @q = Vehicle.where(vehicle_category_id: @tour_car.id).ransack(params[:q])
+    @tour_cars = @q.result
     respond_to do |format|
          format.html
          format.xls
@@ -80,14 +76,9 @@ class ReportsController < ApplicationController
     @set_dirt_bike = VehicleCategory.find_by(name: "Dirt Bike")
     @set_other = VehicleCategory.find_by(name: "Other")
     @set_training_vehicle = VehicleCategory.find_by(name: "Training Vehicle")
-    @fleet_vehicle = Vehicle.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "In-Service")
-    @dirt_bike = Vehicle.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "In-Service")
-    @other = Vehicle.where(vehicle_category_id: @set_other.id, vehicle_status: "In-Service")
-    @training_vehicle = Vehicle.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "In-Service")
-    @out_of_service_f = Vehicle.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "Out-of-Service")
-    @out_of_service_d = Vehicle.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "Out-of-Service") 
-    @out_of_service_o = Vehicle.where(vehicle_category_id: @set_other.id, vehicle_status: "Out-of-Service") 
-    @out_of_service_t = Vehicle.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "Out-of-Service") 
+    
+    @q = Vehicle.all.ransack(params[:q])
+    @vehicles = @q.result
         
     respond_to do |format|
          format.html
@@ -100,10 +91,8 @@ class ReportsController < ApplicationController
   
   
   def work_order_defects_report
-    @requests = Request.where('created_at > ?', 1.month.ago)
-    @defects_new = @requests.where(program_id: @set_defects.id, tracker_id: @set_new.id)
-    @defects_in_progress= @requests.where(program_id: @set_defects.id, tracker_id: @set_progress.id)
-    @defects_completed = @requests.where(program_id: @set_defects.id, tracker_id: @set_completed.id)
+    @q = Request.where(program_id: @set_defects.id).ransack(params[:q])
+    @work_orders = @q.result
     
     respond_to do |format|
          format.html
@@ -130,9 +119,8 @@ class ReportsController < ApplicationController
   end
   
   def work_order_in_progress_report
-    @requests = Request.where('created_at > ?', 1.month.ago)
-    @in_progress = @requests.where(tracker_id: @set_progress.id)
-    @new = @requests.where(tracker_id: @set_new.id)
+    @q = Request.all.ransack(params[:q])
+    @work_orders = @q.result
     respond_to do |format|
          format.html
          format.xls
@@ -143,8 +131,10 @@ class ReportsController < ApplicationController
   end
   
   def work_order_completed_report
-    @requests = Request.where('created_at > ?', 1.month.ago)
-    @completed = @requests.where(tracker_id: @set_completed.id)
+    @set_completed = Tracker.find_by(track: "Completed")
+    @requests = Request.where(tracker_id: @set_completed.id)
+    @q = @requests.ransack(params[:q])
+    @completed = @q.result
     respond_to do |format|
          format.html
          format.xls

@@ -1,13 +1,19 @@
-<div class="jumbotron text-center">
-<h1 class="display-3">Needs Service:</h1>
+<div class="jumbotron">
+<h1 class="display-3 text-center">Needs Service:</h1>
+<div class="card">
+	<div class="card-body">
 	<%= render 'service_needed_form', vehicle: @vehicle_results %>
 	<br \>
 	<%= render 'results', q: @q, action: :needs_service %>
 	
-</div>
-	<div class="container">
+<br \>
+<br \>
+	<div class="container d-flex justify-content-start">
 	<strong>Download:</strong>
-	  <%= link_to "CSV", needs_service_vehicles_path(format: "csv"), class: "btn btn-info" %> |
-	  <%= link_to "Excel", needs_service_vehicles_path(format: "xls"), class: "btn btn-info" %>
+	  <%= link_to "CSV", needs_service_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-info btn-sm" %> &nbsp
+	  <%= link_to "PDF", needs_service_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-warning btn-sm" %>
+  </div>
+</div>
+</div>
   </div>
 

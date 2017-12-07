@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get 'defect_report'
       get 'work_order_in_progress_report'
       get 'work_order_completed_report'
+      get 'work_order_defects_report'
       get 'weekly_work_order_reports'
       get 'weekly_vehicle_reports'
       get 'download'

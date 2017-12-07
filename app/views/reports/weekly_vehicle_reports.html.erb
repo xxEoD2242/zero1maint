@@ -33,7 +33,7 @@
 				</div>
 				
 			<div class="col-md-4">
-			<strong> All Weekly Tour Car Reports </strong>
+			<strong> All Weekly Other Vehicle Reports </strong>
 			<% if @weekly_other_vehicle != nil %>
 		<% @weekly_other_vehicles.order(created_at: :desc).limit(50).each do |report|%>
 			<ul class="list-group">

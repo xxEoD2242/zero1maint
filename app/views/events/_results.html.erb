@@ -1,13 +1,15 @@
 <div class="container d-flex justify-content-between align-items-center">
+	
+	<div class="row">
+		<div class="col-md-4">
 	<form class="form-inline">
 	<%= search_form_for q, :url => {:action => action } do |f|%>
-	<div class="form-group">
-	<%= f.select :location_id_eq, options_from_collection_for_select(Location.all, "id", "locale", @q.location_id_eq), {include_blank: "Select Location"}, class: "form-control" %>
-</div>
+	
+	
 
 <div class="form-group ml-3">
 	<%= f.label "From"%> &nbsp
-	<%= f.date_select :date_gteq, class: "form-control"  %>
+	<%= f.date_select :date_gteq, {include_blank: "Nothing"}, class: "form-control"  %>
 </div>
 
 
@@ -15,6 +17,8 @@
 	<%= f.label "To"%> &nbsp
 	<%= f.date_select :date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
 </div>
+</div>
+<div class="col-md-4">
 
 	<div class="form-group ml-1">
 	<%= f.select :event_type_eq, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, class: "form-control" %>
@@ -23,17 +27,33 @@
 	<div class="form-group ml-1">
 	<%= f.select :class_type_eq, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, class: "form-control" %>
 </div>
+</div>
+<div class="col-md-4">
 
 	<div class="form-group ml-1">
 	<%= f.select :status_eq, Event::STATUSES, {include_blank: "Select Status"}, class: "form-control" %>
 </div>
 
+	<div class="form-group">
+	<%= f.select :location_id_eq, options_from_collection_for_select(Location.all, "id", "locale", @q.location_id_eq), {include_blank: "Select Location"}, class: "form-control" %>
+</div>
+</div>
+
+
 <div class="form-group ml-1">
 	<%= f.submit "Find Events", class: "btn btn-info"%>
 </div>
 <% end %>
-<br \>
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info " %>
+</form>
+
 </div>
 <br \>
+
+</div>
+<br \>
+<div class="container d-flex justify-content-between align-items-center">
 <%= paginate @event_results%>
+
+<%= link_to 'Back', dashboard_events_path, class: "btn btn-info " %>
+
+</div>

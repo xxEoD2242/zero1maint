@@ -1,6 +1,6 @@
 <div class="card mt-4">
 <div class="card-header">
-	<h3>Event: <%= @event.number %></h3>
+	<h3>Event: <%= @event.id %></h3>
 </div>
 <div class="card-body">
 <p>
@@ -30,6 +30,11 @@
 </p>
 
 <p>
+  <strong>Class type:</strong>
+  <%= @event.class_type %>
+</p>
+
+<p>
   <strong>Event type:</strong>
   <%= @event.event_type %>
 </p>
@@ -55,10 +60,7 @@
 </div>
 </p>
 
-<p>
-  <strong>Class type:</strong>
-  <%= @event.class_type %>
-</p>
+
 
 <%= link_to 'Edit', edit_event_path(@event), class: "btn btn-primary" %> |
 <%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>

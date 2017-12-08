@@ -233,6 +233,9 @@ end
   def update
     respond_to do |format|
       if @vehicle.update(vehicle_params)
+        if @vehicle.vehicle_status == "In-Service"
+          @vehicle.update(repair_needed: false)
+        end
         format.html { redirect_to @vehicle, notice: 'Vehicle was successfully updated.' }
         format.json { render :show, status: :ok, location: @vehicle }
       else

@@ -43,7 +43,7 @@
 <p>
   <strong>Work Orders: </strong>
   <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
-  		  	<span style="color: blue;">	<%=request.number%></span>
+  		  	<span style="color: blue;">	<%=request.id%></span>
 				(<%= request.tracker.track%>)
   				<% end %>
 </p>

@@ -46,7 +46,7 @@
 <p>
   <strong>Work Orders: </strong>
   <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
-  		  		<%= link_to request.number, request, method: :get, class: "badge badge-dark" %>
+  		  		<%= link_to request.id, request, method: :get, class: "badge badge-dark" %>
 				(<%= request.tracker.track%>)
   				<% end %>
 </p>
@@ -90,7 +90,7 @@
 		<% if @vehicle.repair_needed == nil %>
 		No Data
 		<% elsif @vehicle.repair_needed == true%>
-		Repairs-In-Progress
+		<span style="color: red;"><i class="fa fa-wrench" aria-hidden="true"> &nbsp Repairs-In-Progress</i></span>
 		<% else %>
 		No Repairs Needed
 	</li>

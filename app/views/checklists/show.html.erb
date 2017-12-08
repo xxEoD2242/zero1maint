@@ -1,5 +1,5 @@
 <div class="jumbotron">
-	<h3 class="display-5 text-center">Showing Checklist for vehicle <%= @checklist.vehicle.car_id%> for Event: &nbsp <span class="badge badge-primary"><%= @checklist.event.id%></h3>
+	<h3 class="display-5 text-center">Showing Checklist for vehicle <%= link_to @checklist.vehicle.car_id, vehicle_path(@checklist.vehicle.id), class: "badge badge-warning"%> for Event: &nbsp <span class="badge badge-primary"><%= @checklist.event.id%></h3>
 	<div class="card">
 		<div class="card-header d-flex justify-content-between align-items-center">
 		<strong>Completed By: <%= @checklist.user.name%> </strong>	<span>Date Completed: <%= @checklist.date.strftime('%D')%></span>

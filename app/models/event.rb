@@ -1,9 +1,11 @@
 class Event < ApplicationRecord
   belongs_to :location
   
+  has_many :checklists
   
   has_many :events_vehicles
   has_many :vehicles, through: :events_vehicles
+  
   validates :vehicles, presence: true, on: :update
   
   has_many :event_reports

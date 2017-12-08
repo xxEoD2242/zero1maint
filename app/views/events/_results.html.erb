@@ -5,6 +5,17 @@
 	<%= f.select :location_id_eq, options_from_collection_for_select(Location.all, "id", "locale", @q.location_id_eq), {include_blank: "Select Location"}, class: "form-control" %>
 </div>
 
+<div class="form-group ml-3">
+	<%= f.label "From"%> &nbsp
+	<%= f.date_select :date_gteq, class: "form-control"  %>
+</div>
+
+
+<div class="form-group ml-3">
+	<%= f.label "To"%> &nbsp
+	<%= f.date_select :date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+</div>
+
 	<div class="form-group ml-1">
 	<%= f.select :event_type_eq, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, class: "form-control" %>
 </div>

@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   
+ resources :checklists do
+   collection do
+     get 'records'
+   end
+ end
+
   resources :reports do
     collection do
       get 'dashboard'

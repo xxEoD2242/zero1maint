@@ -10,6 +10,8 @@ class Vehicle < ApplicationRecord
   has_many :report_vehicles
   has_many :reports, through: :report_vehicles
   
+  has_many :checklists
+  
  
   belongs_to :vehicle_category
   belongs_to :location

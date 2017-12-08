@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207175834) do
+ActiveRecord::Schema.define(version: 20171208164138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,33 @@ ActiveRecord::Schema.define(version: 20171207175834) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "checklists", force: :cascade do |t|
+    t.integer "vehicle_id"
+    t.integer "user_id"
+    t.string "fuel_level"
+    t.string "wash"
+    t.string "suspension"
+    t.string "drive_train"
+    t.string "body"
+    t.string "engine"
+    t.string "brake"
+    t.string "safety_equipment"
+    t.string "chassis"
+    t.string "electrical"
+    t.string "cooling_system"
+    t.string "tires"
+    t.string "radio"
+    t.string "exhaust"
+    t.string "steering"
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "completed"
+    t.date "date"
+    t.integer "event_id"
+    t.boolean "deadline"
   end
 
   create_table "event_reports", force: :cascade do |t|

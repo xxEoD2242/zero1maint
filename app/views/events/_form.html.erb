@@ -39,6 +39,7 @@
 	  <% VehicleCategory.all.each do |vehicle_category| %>
 	   <div class="col-6">
 		<strong>	<%= vehicle_category.name%>: </strong>
+		<br \>
 	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.order(id: :asc), "id", :vehicle_naming, class: "col-md-2" %>
 		
 	</div>

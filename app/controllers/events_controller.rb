@@ -17,6 +17,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @checklists = Checklist.where(event_id: @event.id)
   end
   
   def dashboard
@@ -26,7 +27,6 @@ class EventsController < ApplicationController
   end
   
   def completed_events
-    
     @q = Event.where(status: 'Completed').order(:created_at).ransack(params[:q])
     @event_results = @q.result.includes(:vehicles).page(params[:page])
   end
@@ -48,6 +48,18 @@ class EventsController < ApplicationController
   def edit
     @vehicles = Vehicle.all
     @vehicle_categories = VehicleCategory.all
+  end
+  
+  def new_checklist
+    
+  end
+  
+  def show_checklist
+    @checklist = Checklist.find(params[:id])
+  end
+  
+  def checklist_records
+    
   end
 
   # POST /events
@@ -113,4 +125,6 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(:date, :event_mileage, :location_id, :duration, :event_type, :class_type, :number, :status, vehicle_ids: [])
     end
+    
+    
 end

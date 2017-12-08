@@ -22,6 +22,13 @@
 <p>
   <strong>Description:</strong>
   <%= @request.description %>
+  <%if @request.vehicle.checklists.exists? == true%>
+  	<% if @request.vehicle.checklists.where(deadline: true).exists? == true %>
+		<% @request.vehicle.checklists.where(deadline: true).order(date: :desc).limit(5).each do |checklist| %>
+			<%= link_to "Checklist for Event #{checklist.event.id} on #{checklist.event.date.strftime('%D')}", checklist_path(checklist.id), class: "btn btn-warning mb-2"%>
+			<% end %>
+		<% end %>	
+ <% end %>
 </p>
 
 <p>

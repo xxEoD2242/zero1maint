@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-4">
 <div class="card-header">
 	<h3>Event: <%= @event.number %></h3>
 </div>
@@ -36,9 +36,23 @@
 
 <p>
 	<strong>Vehicles:</strong><br \>
+	<div class="row">
 	<% @event.vehicles.each do |vehicle|%>
-	<%= vehicle.car_id %><br \>
+	<div class="col-md-2 mb-2">
+	<%= vehicle.car_id %> 
+</div>
+	<div class="col-md-4 mb-2">
+		<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
+			Checklist: <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true"> Completed</i> <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
+		<% else %>
+		<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
+		<% end %>
+	</div>
+	<div class="col-md-6 mb-2">
+	</div>
+	<br \>
 	<% end %>
+</div>
 </p>
 
 <p>

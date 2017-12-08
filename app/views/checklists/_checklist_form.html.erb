@@ -1,0 +1,99 @@
+<div class="card">
+	<div class="card-body">
+		
+		<p style="font-size: 18px;border: 1px solid black;border-radius: 6px 6px 6px 6px;text-align: center;">
+			Only input data into the fields below if an item needs to be notated.
+			
+			All fields left blank will be filled with <span style="color: green;"> "Checked <i class="fa fa-check-square" aria-hidden="true"></i>"</span>
+		</p>
+		<%= simple_form_for checklist do |f|%>
+		
+		<%= f.hidden_field :vehicle_id, value: @vehicle.id %>
+		<%= f.hidden_field :event_id, value: @event.id%>
+			
+			
+			
+			<div class="form-group">
+			<strong>	<%=f.label "Date Completed:"%> </strong>
+				<%=f.date_select :date, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<strong> Created By: <%= current_user.name %> </strong>
+				<%=f.hidden_field :user_id, value: current_user.id%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.select :fuel_level, Checklist::FUEL_LEVELS, {include_blank: "Select Vehicle Fuel Level"}, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				
+				<%=f.input :wash, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				
+				<%=f.input :suspension, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				
+				<%=f.input :drive_train, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :body, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :engine, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :brake, label: "Brakes", class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :safety_equipment, label: "Safety Equipment", class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :chassis, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :electrical, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :cooling_system, label: "Cooling System", class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :radio, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :exhaust, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :steering, class: "form-control"%>
+			</div>
+			
+			<div class='form-check'>
+			<strong>	<%= f.input :deadline, label: "&nbsp Deadline".html_safe, class: "form-check-input" %> </strong>
+			</div>
+			
+			<div class="form-group">
+				<%=f.input :comments, class: "form-control"%>
+			</div>
+			
+			<div class="form-group">
+				<%= f.submit "Complete Checklist", class: "btn btn-success"%>
+			</div>
+			
+		<% end %>
+	</div>
+</div>

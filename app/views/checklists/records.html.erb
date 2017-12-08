@@ -46,16 +46,18 @@
 				<th scope="col">Vehicle Id</th>
 				<th>Status</th>
 				<th>Date Completed</th>
-				<th>Deadline</th>
+				<th>Deadlined</th>
 				<th colspan="1">
 			</tr>
 		</thead>
 		<tbody>
+			<% if event.vehicles != []%>
 			<% event.vehicles.each do |vehicle|%>
 			
 			<tr>
 				<td scope="row"><%= vehicle.car_id%></td>
 				<td>
+					
 					<% if vehicle.checklists != []%>
 					<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
 						<span style="color: green; text-size: 10px;">Completed<i class="fa fa-check-square" aria-hidden="true"></i></span>
@@ -107,6 +109,16 @@
 						<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
 						<% end %>
 					</td>
+			</tr>
+			<% end %>
+			
+			
+			<% else %>
+			<tr>
+				<td>No Vehicles Added </td>
+				<td>No Vehicles Added </td>
+				<td>No Vehicles Added </td>
+				<td>No Vehicles Added </td>
 			</tr>
 			<% end %>
 		</tbody>

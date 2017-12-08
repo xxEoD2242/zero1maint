@@ -31,7 +31,7 @@
 					<span class="badge badge-info"><%= event.event_mileage%></span></li>
 					
 				</ul>
-				
+				<% if event.vehicles.exists? == true %>
 			<div class="container text-center mt-2">
 				<% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
 				<span style="color: green;"><i class="fa fa-check" aria-hidden="true">Checklists Completed</i></span>
@@ -39,6 +39,7 @@
 					<span style="color: red"><i class="fa fa-exclamation-triangle" aria-hidden="true">Checklists Not Completed</i> </span>
 			<% end %>
 		</div>
+		<% end %>
 		
 				
 				</div>

@@ -40,7 +40,7 @@
 	   <div class="col-6">
 		<strong>	<%= vehicle_category.name%>: </strong>
 		<br \>
-	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.order(id: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.where(vehicle_status: "In-Service").order(id: :asc), "id", :vehicle_naming, class: "col-md-2" %>
 		
 	</div>
 	

@@ -33,7 +33,7 @@ class ChecklistsController < ApplicationController
         @checklist.update(completed: true)
         if @checklist.deadline == true
           @vehicle.update(vehicle_status: "Out-of-Service", repair_needed: true)
-          Request.create(id: Request.last.id + 1, tracker_id: @set_new.id, description: "Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.", vehicle_id: @vehicle.id, user_id: current_user.id, program_id: @set_repairs.id, completion_date: (Time.now + 7.days), checklist_numb: @checklist.id)
+          Request.create(id: Request.last.id + 1, tracker_id: @set_new.id, description: "Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.", vehicle_id: @vehicle.id, user_id: current_user.id, program_id: @set_repairs.id, completion_date: (Time.now + 7.days))
         end
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }

@@ -40,15 +40,27 @@
 </p>
 
 <p>
-	<strong>Vehicles:</strong><br \>
 	<div class="row">
+		
+	<div class="col-md-2">	
+	<strong>Vehicles:</strong>
+</div>
+
+<div class="col-md-4">
+	<strong>Checklists:</strong>
+</div>
+
+<div class="col-md-6">
+</div>
+</div>
+	<div class="row mt-2">
 	<% @event.vehicles.each do |vehicle|%>
 	<div class="col-md-2 mb-2">
 	<%= vehicle.car_id %> 
 </div>
 	<div class="col-md-4 mb-2">
 		<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
-			Checklist: <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true"> Completed</i> <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
+			<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true"> Completed</i> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
 		<% else %>
 		<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
 		<% end %>

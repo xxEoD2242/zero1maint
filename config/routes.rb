@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  
+
+resource :calendar, only: [:show], controller: :calendar
+
  resources :checklists do
    collection do
      get 'records'

@@ -9,6 +9,7 @@ gem 'httparty'
 gem 'fog'
 gem 'aws-sdk-rails'
 gem 'aws-sdk-s3'
+gem 'groupdate'
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'

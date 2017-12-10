@@ -28,6 +28,9 @@ class EventsController < ApplicationController
     @events = Event.all
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @events_by_date = Event.group('events.id').group_by(&:date)
+    
   end
   
   def completed_events

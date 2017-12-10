@@ -13,9 +13,89 @@
 			</div>
 			
 	</div>
-	<div class="col-md-6 mb-6">
+	<div class="col-md-6">
+		<div class='card'>
+			<div class="card-body">
+			<p>	Events listed below in the calendar have been created. Each event has a number that can be clicked on to view that event.</p>
+			<p>
+				Checklists are monitored here and when all checklists are completed, then the event will have a green check mark next to it.
+			</p>
+			</div>
+		</div>
+	</div>
+		
+	<div class="col-md-3">
+		<ul class="list-group">
 			
-					<% @events.all.order(created_at: :desc).limit(5).each do |event|%>
+				<li class="list-group-item d-flex justify-content-between align-items-center">Total Events<span class="badge badge-info"><%= @events.count %></span></li>
+				<li class="list-group-item d-flex justify-content-between align-items-center">Events Scheduled<span class="badge badge-info"><%= @scheduled_events.count %></span></li>
+				<li class="list-group-item d-flex justify-content-between align-items-center">Completed Events<span class="badge badge-info"><%= @completed_events.count %></span></li>
+			</ul>
+			</div>
+			
+	</div>
+	
+
+
+<div class="row my-3">
+  <div class="col-md-12">
+	  <div class="card">
+		  <div class="card-header">
+			<h4 class="text-center"> <%= @date.strftime('%B %Y') %> </h4>
+		  </div>
+		  <div class="card-body">
+			   
+    <%= calendar @date do |date| %>
+	 <%= date.day %>
+	 
+	 
+	 <% if @events_by_date[date]%>
+	     <ul style="list-style-type: none; margin: 0; padding: 0;">
+	       <% @events_by_date[date].each do |event| %>
+	         <li><%= link_to event.id, event, class: "badge badge-info" %> 
+					<span>
+						<%= event.class_type%>
+					
+							<% if event.vehicles.exists? == true %>
+						
+							<% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
+							<span style="color: green;"><i class="fa fa-check" aria-hidden="true"></i></span>
+								<% else %>
+								<span style="color: red"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </span>
+						<% end %>
+					
+					<% end %>
+					</span>
+					</li>
+	       <% end %>
+	     </ul>
+	 <% end %>
+      
+    <% end %>
+ </div>
+ <div class="card-footer d-flex justify-content-center">
+	 <span style="color: green;">
+		 <i class="fa fa-check" aria-hidden="true">Checklists Completed</i>
+	 </span>
+	 &nbsp&nbsp&nbsp&nbsp
+	 <span style="color: red">
+		 <i class="fa fa-exclamation-triangle" aria-hidden="true">Checklists Not Completed</i> 
+	 </span>
+ </div>
+</div>
+  </div>
+</div>
+
+<div class="row">
+	<div class="container" style="border: 1px solid lightgrey; border-radius: 3px 3px 3px 3px">
+		<br \>
+		<h4 class="text-center">Most Recent Events</h4>
+		<br \>
+	</div>
+			<% @events.all.order(created_at: :desc).limit(9).each do |event|%>
+	<div class="col-md-4 my-3">
+			
+			
 					<div class="card mb-2">
 						<div class="card-header d-flex justify-content-between align-items-center">
 							<h5>Event: <%=link_to event.id, event_path(id: event.id), class: "badge badge-primary" %></h5>  <h3 style="text-align: right;" class="badge badge-warning">Date Scheduled: <%= event.date.strftime('%D')%></h3></div>
@@ -44,18 +124,7 @@
 				
 				</div>
 			</div>
-			<% end %>
+			
 		</div>
-		
-	<div class="col-md-3">
-		<ul class="list-group">
-			
-				<li class="list-group-item d-flex justify-content-between align-items-center">Total Events<span class="badge badge-info"><%= @events.count %></span></li>
-				<li class="list-group-item d-flex justify-content-between align-items-center">Events Scheduled<span class="badge badge-info"><%= @scheduled_events.count %></span></li>
-				<li class="list-group-item d-flex justify-content-between align-items-center">Completed Events<span class="badge badge-info"><%= @completed_events.count %></span></li>
-			</ul>
-			</div>
-			
-	</div>
-	
+		<% end %>
 </div>

@@ -287,6 +287,8 @@ GEM
     formatador (0.2.5)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    groupdate (3.2.0)
+      activesupport (>= 3)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.15.6)
@@ -469,6 +471,7 @@ DEPENDENCIES
   figaro
   fog
   font-awesome-rails
+  groupdate
   httparty
   jbuilder (~> 2.5)
   jquery-rails (~> 4.3.1)

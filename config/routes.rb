@@ -59,6 +59,7 @@ Rails.application.routes.draw do
      get 'dashboard' 
      get 'completed_events'
      get 'scheduled_events'
+     get 'json_data'
     end
   end
   resources :vehicles do

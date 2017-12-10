@@ -3,5 +3,6 @@ class WelcomeController < ApplicationController
   def homepage
   end
   def fare_harbor_data
+    
   end
 end

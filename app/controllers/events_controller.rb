@@ -20,6 +20,10 @@ class EventsController < ApplicationController
     @checklists = Checklist.where(event_id: @event.id)
   end
   
+  def json_data
+  render json:  @json_data = HTTParty.get('https://zero-1-maint.herokuapp.com/fare_harbor', :headers =>{'Content-Type' => 'application/json'} )
+  end
+  
   def dashboard
     @events = Event.all
     @scheduled_events = Event.where(status: 'Scheduled')

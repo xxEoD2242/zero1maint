@@ -22,6 +22,7 @@ Rails.application.configure do
   # and those relying on copy on write to perform better.
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
+  config.eager_load_paths << Rails.root.join('lib')
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
@@ -42,7 +43,7 @@ Rails.application.configure do
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true
-  config.autoload_paths += %W(#{config.root}/lib)
+  
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 

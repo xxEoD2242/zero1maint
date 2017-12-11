@@ -1,5 +1,10 @@
 <div class="card">
-	
+	<div class="card-header">
+	   <div class="form-group">
+	     <h4>Work Order Number: <%= Request.all.last.id + 1 %></h4>
+    
+	   </div>
+	</div>
 
 <%= simple_form_for @request, html: {multipart: true} do |f| %>
   <% if @request.errors.any? %>
@@ -15,10 +20,7 @@
   <% end %>
 <div class="card-body">
 	
-   <div class="form-group">
-     <h4>Work Order Number: <%= Request.all.last.id + 1 %></h4>
-    
-   </div>
+   
 	<div class="form-group">
 		<strong>Current Status: </strong> <br \>
 	  <%= f.select :tracker_id, Tracker.all.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>

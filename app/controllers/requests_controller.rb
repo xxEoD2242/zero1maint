@@ -242,6 +242,6 @@ class RequestsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     
     def request_params
-      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :vehicle_id, :tracker_id, :image, :user_id, :request_mileage, :program_id, part_ids: [])
+      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :checklist_numb, :vehicle_id, :tracker_id, :image, :user_id, :request_mileage, :program_id, part_ids: [])
     end
 end

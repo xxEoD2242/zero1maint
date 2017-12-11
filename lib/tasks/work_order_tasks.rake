@@ -3,7 +3,7 @@ task check_work_orders_overdue: :environment do
   @set_progress = Tracker.find_by(track: "In-Progress")
   @set_new = Tracker.find_by(track: "New")
   @set_overdue = Tracker.find_by(track: "Overdue")
-  @requests = Request.where('created_at > ?', 2.month.ago)
+  @requests = Request.where('created_at > ?', 2.months.ago)
   @overdue = @requests.where(tracker_id: @set_progress.id)
   @overdue_2 = @requests.where(tracker_id: @set_new.id)
   @overdue.each do |work_order|

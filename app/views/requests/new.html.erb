@@ -1,5 +1,5 @@
 <div class="jumbotron">
-<h1 class="display-3 text-center">Create Work Order</h1>
+<h1 class="display-3 text-center">Create Work Order Number <span class="badge badge-dark"> <%= Request.last.id + 1%> </span></h1>
 
 
 <%= render 'form', request: @request %>

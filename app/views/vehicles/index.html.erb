@@ -16,27 +16,7 @@
 	</div>
 	
 	<div class="col-md-6">
-			<div class="card">
-				<table class="table table-bordered table-sm table-responsive table-striped w-100%">
-				  <thead>
-				    <tr>
-				      <th scope="col">Category</th>
-						<th colspan="100%">Vehicles Out-of-Service</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-					  <% @vehicle_category.each do |category|%>
-				    <tr>
-				      <th scope="row"><%= category.name %></th>
-				      <% category.vehicles.where(vehicle_status: "Out-of-Service").each do |vehicle|%>
-						<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
-					
-						<% end %>
-				    </tr>
-				   <% end %>
-				  </tbody>
-				</table>
-			</div>
+			
 	</div>
 <div class="col-md-3">
 	<ul class="list-group">
@@ -53,33 +33,9 @@
 	</ul>
 </div>
 </div>
-<div class="row mt-4 mb-5">
-	<div class="col-md-6">
-		<div class="card">
-	<table class="table table-bordered table-responsive table-sm table-striped w-100%">
-	  <thead>
-	    <tr>
-	      <th scope="col">Category</th>
-			<th colspan="100%">Vehicles In-Service</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-		  <% @vehicle_category.each do |category|%>
-	    <tr>
-	      <th scope="row"><%= category.name %></th>
-	      <% category.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
-			<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
-			
-			<% end %>
-	    </tr>
-	   <% end %>
-	  </tbody>
-	</table>
-</div>
-</div>
-	
-	<div class="col-md-6">
-		<div class="card">
+
+		<div class="card mt-3">
+			<div class="card-body">
 			<table class="table table-bordered table-sm table-responsive table-striped w-100%">
 			  <thead>
 			    <tr>
@@ -100,10 +56,54 @@
 			  </tbody>
 			</table>
 		</div>
-	</div>
+		</div>
+
+			<div class="card mt-3">
+				<div class="card-body">
+				<table class="table table-bordered table-sm table-responsive table-striped w-100%">
+				  <thead>
+				    <tr>
+				      <th scope="col">Category</th>
+						<th colspan="100%">Vehicles Out-of-Service</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+					  <% @vehicle_category.each do |category|%>
+				    <tr>
+				      <th scope="row"><%= category.name %></th>
+				      <% category.vehicles.where(vehicle_status: "Out-of-Service").each do |vehicle|%>
+						<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
+					
+						<% end %>
+				    </tr>
+				   <% end %>
+				  </tbody>
+				</table>
+			</div>
+			</div>
+			
+		<div class="card mt-3">
+			<div class="card-body">
+	<table class="table table-responsive table-sm table-striped w-100%">
+	  <thead>
+	    <tr>
+	      <th scope="col">Category</th>
+			<th colspan="100%">Vehicles In-Service</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		  <% @vehicle_category.each do |category|%>
+	    <tr>
+	      <th scope="row"><%= category.name %></th>
+	      <% category.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
+			<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
+			
+			<% end %>
+	    </tr>
+	   <% end %>
+	  </tbody>
+	</table>
 </div>
-
-
-
+</div>
 
 

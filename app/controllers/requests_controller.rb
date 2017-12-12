@@ -13,13 +13,26 @@ class RequestsController < ApplicationController
     @q = Request.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
+  
+  def overdue
+    @set_overdue = Tracker.find_by(track: "Overdue")
+    @q = Request.where(tracker_id: @set_overdue.id).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page]) 
+  end
 
   def completed_requests
     @q = Request.where(tracker_id: @set_completed.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
+  def new_requests
+    @set_new = Tracker.find_by(track: "New")
+    @q = Request.where(tracker_id: @set_new.id).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
+  
   def in_progress
+    
     @q = Request.where(tracker_id: @set_progress.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end

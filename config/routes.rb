@@ -54,6 +54,8 @@ resource :calendar, only: [:show], controller: :calendar
       get 'delete_parts'
       get 'in_progress'
       get 'remove_parts_from_request'
+      get 'overdue'
+      get 'new_requests'
     end
   end
   resources :events do

@@ -18,6 +18,13 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @checklists = Checklist.where(event_id: @event.id)
+    respond_to do |format|
+         format.html
+         format.xls
+         format.pdf do
+           render pdf: "Event #\: #{@event.id} ", :layout => 'pdf.pdf.erb', :title => "Event #\: #{@event.id}"  # Excluding ".pdf" extension.
+         end
+       end
   end
   
   def json_data

@@ -1,6 +1,6 @@
-<div class="card mt-4">
-<div class="card-header">
-	<h3 class="display-4 text-center">Event: <%= @event.id %></h3>
+
+<div>
+	<h1 style="text-align: center;text-decoration: underline;">Event: <%= @event.id %></h1>
 </div>
 <div class="card-body">
 <p>
@@ -21,6 +21,7 @@
   <% else%>
   <%= @event.event_mileage %>
   <% end %>
+
 </p>
 
 <p>
@@ -44,19 +45,14 @@
 </p>
 
 <p>
-	<div class="row">
+	
 		
 	<div class="col-md-2">	
 	<strong>Vehicles:</strong>
 </div>
+<br \>
 
-<div class="col-md-4">
-	<strong>Checklists:</strong>
-</div>
 
-<div class="col-md-6">
-</div>
-</div>
 	<div class="row mt-2">
 	<% @event.vehicles.each do |vehicle|%>
 	<div class="col-md-2 mb-2">
@@ -64,9 +60,9 @@
 </div>
 	<div class="col-md-4 mb-2">
 		<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
-			<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true"> Completed</i> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
+			<span style="color: green;">Checklist Completed</span> 
 		<% else %>
-		<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
+		<span style="color: red;">Checklist Not Completed</span>
 		<% end %>
 	</div>
 	<div class="col-md-6 mb-2">
@@ -75,11 +71,6 @@
 	<% end %>
 </div>
 </p>
-</div>
-<div class="card-footer d-flex justify-content-between align-items-center">
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
-<%= link_to 'Edit', edit_event_path(@event), class: "btn btn-primary" %>
-<%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark"%>
-</div>
 
 </div>
+

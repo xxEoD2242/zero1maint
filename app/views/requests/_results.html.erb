@@ -1,35 +1,59 @@
-
+<div class="card text-white" style="background-color: firebrick;">
+	
+		<div class="card-header">
+			<strong> Search for Work Orders</strong>
+		</div>
+		<div class="card-body" style="background-color: #da3e3e">
+<div class="row">
+	<div class="col-md-4">
 	<form class="form-inline">
 	<%= search_form_for q, :url => {:action => action } do |f|%>
+	
+		
 	<div class="form-group">
 	<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
 </div>
 
-	<div class="form-group ml-3">
-	<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
-</div>
 
-<div class="form-group ml-3">
+
+<div class="form-group mt-2 ">
 	<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
 </div>
-
-	
-<div class="form-group ml-3">
-	<%= f.label "From"%> &nbsp
-	<%= f.date_select :completion_date_gteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
 </div>
+<div class='col-md-4'>
+	<div class="form-group">
+	<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+</div>
+</div>
+ 
+<div class="col-md-4">
+	
+<div class="form-group">
+	<%= f.label "From"%> &nbsp
+	<%= f.date_select :completion_date_gteq, class: "form-control"  %>
+</div>
+
 
 
 <div class="form-group ml-3">
 	<%= f.label "To"%> &nbsp
-	<%= f.date_select :completion_date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+	<%= f.date_select :completion_date_lteq, class: "form-control"  %>
 </div>
-<br \>
+
+
+	
+
 <div class="form-group ml-3 mt-3">
 	<%= f.submit "Find Work Orders", class: "btn btn-info"%>
 </div>
+
 <% end %>
 </form>
+</div>
+
+</div>
+</div>
+</div>
 
 <br \>
 <div class="container d-flex justify-content-between align-items-center">

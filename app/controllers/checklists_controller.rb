@@ -11,6 +11,13 @@ class ChecklistsController < ApplicationController
   end
   
   def show
+    respond_to do |format|
+         format.html
+         format.xls
+         format.pdf do
+           render pdf: "Checklist", :layout => 'pdf.pdf.erb', :title => "Checklist for #{@checklist.vehicle.car_id} for Event #{@checklist.event.id}" #'  # Excluding ".pdf" extension.
+         end
+       end
   end
 
   def edit

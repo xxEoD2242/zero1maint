@@ -1,17 +1,22 @@
-<div class="jumbotron">
-	<h3 class="display-5 text-center">Showing Checklist for <%= link_to @checklist.vehicle.car_id, vehicle_path(@checklist.vehicle.id), class: "badge badge-warning"%> for Event <span><%= link_to @checklist.event.id, event_path(@checklist.event.id), class: "badge badge-primary"%></h3>
-	<div class="card">
-		<div class="card-header d-flex justify-content-between align-items-center">
-		<strong>Completed By: <%= @checklist.user.name%> </strong>	<span>Date Completed: <%= @checklist.date.strftime('%D')%></span>
+<div>
+	<% if @checklist.deadline == true %>
+	
+	<div style="border: 2px solid red; border-radius: 6px 6px 6px 6px; background-color: lightgrey; margin-bottom: 3px;">
+		<h4 style="color: red;text-align: center;">Deadlined</h4>
+	</div>
+	<% end %>
+	
+	<h3 style="text-align: center;">Showing Checklist for <%=@checklist.vehicle.car_id%> for Event <span ><%= @checklist.event.id%></span>
+	</h3>
+	<div>
+		<strong>Completed By: <%= @checklist.user.name%> </strong>
+		<br \>
+		<br \>	
+		<strong>Date Completed: <%= @checklist.date.strftime('%D')%></strong>
 		</div>
-		<div class="card-body">
-			<% if @checklist.deadline == true %>
+		<div >
 			
-			<div class="container mb-3" style="border: 2px solid red; border-radius: 6px 6px 6px 6px; background-color: lightgrey;">
-				<h4 class="text-center" style="color: red;">Deadlined</h4>
-			</div>
-			<% end %>
-			<div class="row">
+			
 				<div class="col-md-6">
 					<p>
 						<strong>Fuel Level: </strong>
@@ -157,19 +162,15 @@
 					
 				</div>
 				
-				<div class="container" style="border: 2px solid black; border-radius: 6px 6px 6px 6px;">
+				<div style="border: 2px solid black; border-radius: 6px 6px 6px 6px; padding: 3px 3px 3px 3px">
+					<br \>
 					<strong>Comments </strong>
 					<%= @checklist.comments%>
+					<br \>
 				</div>
-				<br \>
-				<br \>
-				<div class="container d-flex justify-content-between align-items-center mt-4">
-					<%= link_to "Back to Event", event_path(@checklist.event.id), class: "btn btn-info"%>
-					<%= link_to "Back to Records", records_checklists_path, class: "btn btn-primary"%>
-					<%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-warning"%>
-					<%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-dark"%>
-				</div>
-	</div>
-</div>
+				
+				
+	
+
 </div>
 </div>

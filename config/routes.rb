@@ -30,7 +30,7 @@ resource :calendar, only: [:show], controller: :calendar
       get 'dashboard'
       get 'quant_none'
       get 'quant_low'
-      get 'financial_report'
+      get 'individual_financial_report'
       post :import
     end
   end

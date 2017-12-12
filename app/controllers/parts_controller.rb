@@ -18,10 +18,12 @@ class PartsController < ApplicationController
     redirect_to root_url, notice: "Activity Data Imported!"
   end
   
-  def financial_report
+  def individual_financial_report
     @q = Request.all.ransack(params[:q])
     @requests = @q.result
-    
+  end
+  
+  def monthly_financial_report
     total_cost = []
      Part.all.each do |part|
        if part.quantity != nil
@@ -32,13 +34,15 @@ class PartsController < ApplicationController
  end
    end
    
-   @monthly = Request.where('completion_date > ?', Time.now - 7.days)
    @inventory_value = total_cost.sum
+   
+   @monthly = Request.where('completion_date > ?', Time.now - 7.days)
+   
    respond_to do |format|
         format.html
         format.xls
         format.pdf do
-          render pdf: "Financial Report for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+          render pdf: "Financial Report for #{Time.now.strftime('%B %Y')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
         end
       end
   end

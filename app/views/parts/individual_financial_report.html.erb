@@ -1,10 +1,12 @@
 <div class="jumbotron">
-	<h1 class="display-4 text-center">Financial Report for <%= Time.now.strftime('%D')%></h1>
+	<h1 class="display-4 text-center">Individual Request Financial Information</h1>
 </div>
 <div class="card">
 	<div class="card-body">
+		<div class="row">
+			<div class="col-md-4">
 			<form class="form-inline">
-			<%= search_form_for @q, :url => {:action => :financial_report } do |f|%>
+			<%= search_form_for @q, :url => {:action => :individual_financial_report } do |f|%>
 	
 			<div class="form-group mr-3">
 				<%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
@@ -12,13 +14,17 @@
 				<div class="form-group">
 				<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
 			</div>
+		</div>
+		<div class="col-md-4">
 		<div class="form-group ml-3">
 		<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 	</div>
+</div>
+<div class="col-md-4">
 	
 		<div class="form-group ml-3">
 			<%= f.label "From"%> &nbsp
-			<%= f.date_select :completion_date_gteq, class: ""  %>
+			<%= f.date_select :completion_date_gteq %>
 		</div>
 
 
@@ -32,6 +38,8 @@
 		</div>
 		<% end %>
 	</form>
+</div>
+</div>
 		
 		<div class="row">
 		<% @requests.order(completion_date: :desc).each do |request|%>
@@ -40,8 +48,8 @@
 		<% total = []%>
 		<div class="col-md-6 my-3">
 			<div class='card'>
-				<div class="card-header">
-				<%= link_to request.number, request_path(request), class: "badge badge-info" %>
+				<div class="card-header d-flex justify-content-between align-items-center">
+				<strong>Work Order # <%= link_to request.number, request_path(request), class: "badge badge-info" %></strong><strong>For <%=link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-danger"%></strong>
 				</div>
 				<div class="card-body">
 		<table class="table">
@@ -71,7 +79,7 @@
 				  <% end %>
 		 			<% end %>
 					</div>
-					<div class="card-footer">
+					<div class="card-footer d-flex justify-content-center">
 		     Request Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %>
 		  </div>
 		 	 
@@ -81,8 +89,7 @@
 	<% end %>
 		<% end %>
 	</div>
+
 		
-		Total Value of Inventory: 
-		<%=number_to_currency @inventory_value %>
 	</div>
 </div>

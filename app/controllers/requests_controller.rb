@@ -116,7 +116,7 @@ class RequestsController < ApplicationController
   def remove_parts_from_request
     @part_orders = RequestPartOrder.where(request_id: params[:request_id])
     @part_orders.each do |part_order|
-        if part_order.order_items.has_key?(params[:key]) == true
+        if part_order.order_items.has_key?(params[:key])
           part_order.destroy
         end
      end

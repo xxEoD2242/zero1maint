@@ -13,6 +13,11 @@
   <%= @event.status %>
 </p>
 
+<p>
+	<strong>Estimated Mileage</strong>
+	<%= @event.est_mileage%> Miles
+</p>
+
 
 <p>
   <strong>Event mileage:</strong>
@@ -69,7 +74,12 @@
 		<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
 		<% end %>
 	</div>
-	<div class="col-md-6 mb-2">
+	<div class="col-md-4 mb-2">
+		<% if vehicle.use == false%>
+			<h5>Vehicle has been over used this month. Recommend switching vehicle</h5>
+		<% end%>
+	</div>
+	<div class="col-md-2 mb-2">
 	</div>
 	<br \>
 	<% end %>

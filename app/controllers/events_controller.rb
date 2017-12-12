@@ -3,6 +3,8 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :set_location, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_vehicles, only: [:index, :show, :edit, :new, :create, :update]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation]
+  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation]
   
  
   
@@ -64,16 +66,72 @@ class EventsController < ApplicationController
     @vehicle_categories = VehicleCategory.all
   end
   
-  def new_checklist
+  def vehicle_rotation
+    @events = Event.where('date <= ?', Time.now + 7.days)
+    @events_2 = @events.where('date >= ?', Time.now)
+    @scheduled_events = @events_2.where(status: "Scheduled")
+    event_mileage = []
+    if @scheduled_events != []
+    @scheduled_events.each do |event|
+      event_mileage <<event.est_mileage
+    end
+    @total_miles = event_mileage.sum
+    end
     
-  end
-  
-  def show_checklist
-    @checklist = Checklist.find(params[:id])
-  end
-  
-  def checklist_records
     
+    if @total_miles != nil
+      @vehicles = Vehicle.all
+      @requests = Request.all
+      @vehicles.all.each do |vehicle|
+      if vehicle.last_a_service != nil
+        @a_service = (@set_a_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_a_service))
+        if @a_service < 0
+          vehicle.update(use: false, dont_use_a_service: true)
+        elsif @a_service <= 100
+          vehicle.update(use_near_service: true)
+        else
+          vehicle.update(use: true, dont_use_a_service: false, use_near_service: false)
+        end
+      end
+          if vehicle.last_shock_service != nil
+            @shock_service = (@set_shock_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_shock_service))
+            if @shock_service < 0
+              vehicle.update(use: false, dont_use_shock_service: true)
+            elsif @shock_service <= 200
+              vehicle.update(use_near_service: true)
+            else
+              vehicle.update(use: true, dont_use_shock_service: false, use_near_service: false)
+            end
+          end
+        #when @vehicle.programs.exists?(7) == true
+         if vehicle.last_air_filter_service != nil
+           @air_filter_service = (@set_air_filter_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_air_filter_service))
+           if @air_filter_service < 0
+             vehicle.update(dont_use_air_filter_service: true)
+           elsif @air_filter_service <= 50
+             vehicle.update(use_near_service: true)
+           else
+             vehicle.update(use: true, dont_use_air_filter_service: false, use_near_service: false)
+           end
+         end
+       end 
+     end
+     
+     Vehicle.all.each do |vehicle|
+       if vehicle.events.where('date > ?', Time.now - 1.month).count >= 5
+         vehicle.update(use: false)
+       end
+       if vehicle.vehicle_status == "Out-of-Service"
+         vehicle.update(use: false)
+       end
+     end
+     
+     
+     
+     @q = Vehicle.all.ransack(params[:q])
+     @vehicle_results = @q.result
+     
+     
   end
 
   # POST /events
@@ -134,10 +192,50 @@ class EventsController < ApplicationController
     def set_vehicles
       @vehicles = Vehicle.all
     end
+    
+    def set_a_service
+      @set_a_service = Program.find_by(name: "A-Service")
+    end
+    def set_shock_service
+      @set_shock_service = Program.find_by(name: "Shock Service")
+    end
+    def set_air_filter_service
+      @set_air_filter_service = Program.find_by(name: "Air Filter Change")
+    end
+    def set_repairs
+      @set_repairs = Program.find_by(name: "Repairs")
+    end
+    def set_defects
+      @set_defects = Program.find_by(name: "Defect")
+    end
+  
+    def set_tracker
+      @tracks = Tracker.all
+    end
+    def set_new
+      @set_new = Tracker.find_by(track: "New")
+    end
+    def set_progress
+      @set_progress = Tracker.find_by(track: "In-Progress")
+    end
+    def set_completed
+      @set_completed = Tracker.find_by(track: "Completed")
+    end
+    def set_overdue
+      @set_overdue = Tracker.find_by(track: "Overdue")
+    end
+
+    def set_vehicle_category
+      @vehicle_category = VehicleCategory.all
+    end
+    
+    def set_location
+      @location = Location.all
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location_id, :event_time, :duration, :event_type, :class_type, :number, :status, vehicle_ids: [])
+      params.require(:event).permit(:date, :event_mileage, :location_id, :event_time, :duration, :event_type, :est_mileage, :class_type, :number, :status, vehicle_ids: [])
     end
     
     

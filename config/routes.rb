@@ -64,6 +64,7 @@ resource :calendar, only: [:show], controller: :calendar
      get 'completed_events'
      get 'scheduled_events'
      get 'json_data'
+     get 'vehicle_rotation'
     end
   end
   resources :vehicles do

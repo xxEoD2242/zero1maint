@@ -1,0 +1,68 @@
+
+	
+<table class="table table-bordered table-responsive table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Car</th>
+		<th scope="col">Status</th>
+      <th scope="col">Car Category</th>
+      <th scope="col">Location</th>
+      <th scope="col"># of Times Used since <%= (Time.now - 1.month).strftime('%D')%></th>
+      <th scope="col">Mileage</th>
+		<th scope="col">Near Service - Miles To:
+		<th scope="col">Future Service Needed</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% vehicle.order(car_id: :asc).each do |vehicle| %>
+      <tr>
+        <th scope="row"><%= vehicle.car_id %></th>
+		  <td><%= vehicle.vehicle_status %></td>
+        <td><%= vehicle.vehicle_category.name %></td>
+        <td><%= vehicle.location.locale %></td>
+        <td>
+			  <% if vehicle.events.where('date > ?', Time.now  - 1.month) != []%>
+			  <%= vehicle.events.where('date > ?', Time.now  - 1.month).count%>
+			  <% end %>
+		  </td>
+			  <td><%= vehicle.mileage %></td>
+        <td><% if vehicle.use_near_service == true && @total_mileage != nil %>
+		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
+				<% if vehicle.last_a_service != nil %>
+				<li> A-Service: - <%= (@set_a_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_a_service))%> Miles </li> <% end %>
+		     <%  if vehicle.last_shock_service %> 
+			<li>Shock Service: - <%= (@set_shock_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_shock_service)) %> Miles</li>
+			<% end %>
+		      <% if vehicle.last_air_filter_service %>
+				<li>Air Filter Change: - <%= (@set_air_filter_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_air_filter_service))%> Miles
+				</li>
+				<% end %>
+				
+			</ul>
+			<% end %>
+		 </td>
+		  <td>
+			<% if vehicle.dont_use_a_service == true %>
+        <span class="badge badge-warning"> A-Service </span>
+			  <% end %>
+       <% if vehicle.dont_use_shock_service == true  %>
+        <span class="badge badge-warning"> Shock Service </span>
+			 <% end %>
+			 <% if vehicle.dont_use_air_filter_service == true %>
+			<span class="badge badge-warning"> Air Filter Service </span>
+        <% end %>
+		  
+	 </td>
+      <td><%= link_to 'Show', vehicle, class: "btn btn-primary btn-sm" %></td>
+	
+      </tr>
+    <% end %> 
+  </tbody> 
+</table>
+
+
+
+
+

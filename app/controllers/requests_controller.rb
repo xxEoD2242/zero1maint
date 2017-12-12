@@ -162,20 +162,28 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
+    
+    @a_service = Program.find_by(name: "A-Service")
+    @shock_service = Program.find_by(name: "Shock Service")
+    @air_filter_service = Program.find_by(name: "Air Filter Service")
+    
     @repairs = Program.find_by(name: "Repairs")
     @defects = Program.find_by(name: "Defect")
     @set_new = Tracker.find_by(track: "New")
     respond_to do |format|
       
       if @request.save
-        veh_mileage = @request.vehicle.mileage
-        vehicle = @request.vehicle
-        @request.update(request_mileage: (veh_mileage))
-        if @request.program_id == @repairs.id && @request.tracker_id == @set_new.id
-          vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
-        end
-        if @request.program_id == @defects.id && @request.tracker_id == @set_new.id
-          vehicle.update(defect: true, vehicle_status: "Out-of-Service")
+        @veh_mileage = @request.vehicle.mileage
+        if @request.program_id == @a_service.id
+          @request.vehicle.update(last_a_service: @veh_mileage)
+        elsif @request.program_id == @shock_service.id
+          @request.vehicle.update(last_shock_service: @veh_mileage)
+         elsif @request.program_id == @air_filter_service.id 
+           @request.vehicle.update(last_air_filter_service: @veh_mileage)
+        elsif @request.program_id == @repairs.id && @request.tracker_id == @set_new.id
+          @request.vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
+        elsif @request.program_id == @defects.id && @request.tracker_id == @set_new.id
+          @request.vehicle.update(defect: true, vehicle_status: "Out-of-Service")
           UserMailer.new_request_email(current_user, @request).deliver_now
         end
         

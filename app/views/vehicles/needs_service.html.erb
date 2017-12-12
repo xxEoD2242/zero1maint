@@ -8,10 +8,12 @@
 	
 <br \>
 <br \>
-	<div class="container d-flex justify-content-start">
-	<strong>Download:</strong>
+	<div class="container d-flex justify-content-between align-items-cetner">
+	<%= link_to "Back", vehicles_path, class: "btn btn-info"%>
+	<strong>Download:
 	  <%= link_to "CSV", needs_service_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-info btn-sm" %> &nbsp
 	  <%= link_to "PDF", needs_service_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-warning btn-sm" %>
+	  </strong>
   </div>
 </div>
 </div>

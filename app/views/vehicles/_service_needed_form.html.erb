@@ -29,13 +29,13 @@
         <td><%= vehicle.mileage %></td>
         <td><% if vehicle.near_service == true %>
 		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
-				<% if vehicle.last_a_service != nil %>
-				<li> A-Service: - <%= (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))%> Miles </li> <% end %>
-		     <%  if vehicle.last_shock_service != nil %> 
-			<li>Shock Service: - <%= (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) %> Miles</li>
+				<% if (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)) <= 100 %>
+				<li> A-Service in <br \> <%= (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))%> Miles </li> <% end %>
+		     <%  if (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) <= 200 %> 
+			<li>Shock Service in <br \> <%= (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) %> Miles</li>
 			<% end %>
-		      <% if vehicle.last_air_filter_service %>
-				<li>Air Filter Change: - <%= (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service))%> Miles</li><% end %>
+		      <% if (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)) <= 50 %>
+				<li>Air Filter Change in <br \><%= (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service))%> Miles</li><% end %>
 				<% end %>
 			</ul>
 		 </td>

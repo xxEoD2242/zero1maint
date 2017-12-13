@@ -86,43 +86,46 @@ class EventsController < ApplicationController
       if vehicle.last_a_service != nil
         @a_service = (@set_a_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_a_service))
         if @a_service < 0
-          vehicle.update(use: false, dont_use_a_service: true)
+          vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
         elsif @a_service <= 100
-          vehicle.update(use_near_service: true)
+          vehicle.update(use_b: true, use_a: false, use_near_service: true)
         else
-          vehicle.update(use: true, dont_use_a_service: false, use_near_service: false)
+          vehicle.update(use_a: true, use_b: false, dont_use_a_service: false, use_near_service: false)
         end
       end
           if vehicle.last_shock_service != nil
             @shock_service = (@set_shock_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_shock_service))
             if @shock_service < 0
-              vehicle.update(use: false, dont_use_shock_service: true)
+              vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
             elsif @shock_service <= 200
-              vehicle.update(use_near_service: true)
+              vehicle.update(use_b: true, use_a: false, use_near_service: true)
             else
-              vehicle.update(use: true, dont_use_shock_service: false, use_near_service: false)
+              vehicle.update(use_a: true, use_b: false, dont_use_shock_service: false, use_near_service: false)
             end
           end
         #when @vehicle.programs.exists?(7) == true
          if vehicle.last_air_filter_service != nil
            @air_filter_service = (@set_air_filter_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_air_filter_service))
            if @air_filter_service < 0
-             vehicle.update(dont_use_air_filter_service: true)
+             vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
            elsif @air_filter_service <= 50
-             vehicle.update(use_near_service: true)
+             vehicle.update(use_b: true, use_a: false, use_near_service: true)
            else
-             vehicle.update(use: true, dont_use_air_filter_service: false, use_near_service: false)
+             vehicle.update(use_b: false, use_a: true, dont_use_air_filter_service: false, use_near_service: false)
            end
          end
        end 
      end
      
-     Vehicle.all.each do |vehicle|
+     @vehicles.all.each do |vehicle|
+       
        if vehicle.events.where('date > ?', Time.now - 1.month).count >= 5
-         vehicle.update(use: false)
+         vehicle.update(use_a: false, use_b: true)
+       elsif vehicle.events.where('date > ?', Time.now - 1.month).count >= 8
+         vehicle.update(use_a: false, use_b: false)
        end
        if vehicle.vehicle_status == "Out-of-Service"
-         vehicle.update(use: false)
+         vehicle.update(use_a: false, use_b: false)
        end
      end
      

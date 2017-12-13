@@ -36,7 +36,7 @@
 
 		<div class="card mt-3">
 			<div class="card-body">
-			<table class="table table-bordered table-sm table-responsive table-striped w-100%">
+			<table class="table table-bordered table-responsive table-sm table-striped w-100%">
 			  <thead>
 			    <tr>
 			      <th scope="col" style="position:sticky; left:0;">Location</th>
@@ -46,7 +46,7 @@
 			  <tbody>
 				  <% @location.each do |location|%>
 			    <tr>
-			      <th scope="row" style="position:sticky; left:0;"><%= location.locale %></th>
+			      <th scope="row" style="position: sticky; left: 0;"><%= location.locale %></th>
 			      <% location.vehicles.where(vehicle_status: "In-Service").each do |vehicle|%>
 					<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
 					

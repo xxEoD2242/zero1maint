@@ -70,7 +70,7 @@ class EventsController < ApplicationController
   def vehicle_rotation
     
     @events = Event.where('date >= ?', Time.now)
-    @events_2 = @events.all.where('date <= ?', Time.now + 7.days)
+    @events_2 = @events.all.where('date <= ?', (Time.now + 7.days))
     @scheduled_events = @events_2.all.where(status: "Scheduled")
     event_mileage = 0
     new_event_mileage = 0
@@ -83,7 +83,7 @@ class EventsController < ApplicationController
     @vehicles_assigned = @events_2.all.where(status: "Vehicles Assigned")
   end
     
-    if @total_miles != nil
+    
       @vehicles = Vehicle.all
       @vehicles.update(use_a: true, use_b: false, use_near_service: false, est_mileage: @total_miles)
       if @vehicles_assigned != []
@@ -141,7 +141,7 @@ class EventsController < ApplicationController
          vehicle.update(use_a: false, use_b: false)
        end
        end
-     end
+     
     
      @q = Vehicle.all.ransack(params[:q])
      @vehicle_results = @q.result

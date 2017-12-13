@@ -41,13 +41,14 @@
 	<h4 class="text-center">Select A Priority Vehicles</h4>
 </div>
 <div class="card-body">
+	<h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
 	<div class="row">
 		
 	  <% VehicleCategory.all.each do |vehicle_category| %>
 	   <div class="col-6">
 		<strong>	<%= vehicle_category.name%>: </strong>
 		<br \>
-	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.where(vehicle_status: "In-Service", use_a: true).order(id: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.where(vehicle_status: "In-Service", use_a: true).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
 		
 	</div>
 	

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171213122135) do
+ActiveRecord::Schema.define(version: 20171213141307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -336,6 +336,7 @@ ActiveRecord::Schema.define(version: 20171213122135) do
     t.float "last_shock_service"
     t.float "last_air_filter_service"
     t.boolean "use_b"
+    t.integer "times_used"
   end
 
 end

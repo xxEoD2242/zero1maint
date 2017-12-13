@@ -1,5 +1,5 @@
 <div class="card">
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -13,7 +13,7 @@
   </thead>
 
   <tbody>
-    <% event.order(location_id: :asc).each do |event| %>
+    <% event.all.order(date: :desc).each do |event| %>
       <tr>
         <th scope="row"><%= event.id %></th>
 		  <td><%= event.status %></td>

@@ -3,16 +3,17 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :set_location, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_vehicles, only: [:index, :show, :edit, :new, :create, :update]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation]
-  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation, :new]
+  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation, :new]
+  before_action :vehicle_rotation, only: [:new]
   
  
   
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all.order(:created_at)
-    @q = Event.order(:created_at).ransack(params[:q])
+    
+    @q = Event.all.ransack(params[:q])
     @event_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
@@ -73,7 +74,7 @@ class EventsController < ApplicationController
     event_mileage = []
     if @scheduled_events != []
     @scheduled_events.each do |event|
-      event_mileage <<event.est_mileage
+      event_mileage << event.est_mileage
     end
     @total_miles = event_mileage.sum
     end
@@ -81,8 +82,10 @@ class EventsController < ApplicationController
     
     if @total_miles != nil
       @vehicles = Vehicle.all
+      @vehicles.update(use_a: true, use_b: false, use_near_service: false)
       @requests = Request.all
       @vehicles.all.each do |vehicle|
+      vehicle.update(times_used: vehicle.events.where('date > ?', Time.now - 1.month).count)
       if vehicle.last_a_service != nil
         @a_service = (@set_a_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_a_service))
         if @a_service < 0
@@ -90,7 +93,7 @@ class EventsController < ApplicationController
         elsif @a_service <= 100
           vehicle.update(use_b: true, use_a: false, use_near_service: true)
         else
-          vehicle.update(use_a: true, use_b: false, dont_use_a_service: false, use_near_service: false)
+          vehicle.update(dont_use_a_service: false)
         end
       end
           if vehicle.last_shock_service != nil
@@ -100,7 +103,7 @@ class EventsController < ApplicationController
             elsif @shock_service <= 200
               vehicle.update(use_b: true, use_a: false, use_near_service: true)
             else
-              vehicle.update(use_a: true, use_b: false, dont_use_shock_service: false, use_near_service: false)
+              vehicle.update(dont_use_shock_service: false)
             end
           end
         #when @vehicle.programs.exists?(7) == true
@@ -111,23 +114,24 @@ class EventsController < ApplicationController
            elsif @air_filter_service <= 50
              vehicle.update(use_b: true, use_a: false, use_near_service: true)
            else
-             vehicle.update(use_b: false, use_a: true, dont_use_air_filter_service: false, use_near_service: false)
+             vehicle.update(dont_use_air_filter_service: false)
            end
          end
-       end 
-     end
-     
-     @vehicles.all.each do |vehicle|
-       
-       if vehicle.events.where('date > ?', Time.now - 1.month).count >= 5
+   
+         if vehicle.use_a == true
+       if vehicle.times_used >= 5
          vehicle.update(use_a: false, use_b: true)
-       elsif vehicle.events.where('date > ?', Time.now - 1.month).count >= 8
+       elsif vehicle.times_used >= 10
          vehicle.update(use_a: false, use_b: false)
        end
+       end
+     
        if vehicle.vehicle_status == "Out-of-Service"
          vehicle.update(use_a: false, use_b: false)
        end
+       end
      end
+
      
      
      

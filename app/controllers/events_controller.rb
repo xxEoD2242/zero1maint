@@ -85,11 +85,18 @@ class EventsController < ApplicationController
     
     
       @vehicles = Vehicle.all
-      @vehicles.update(use_a: true, use_b: false, use_near_service: false, est_mileage: @total_miles)
+      @vehicles.update(use_a: true, use_b: false, use_near_service: false)
+      if @total_miles == nil
+        @vehicles.update(est_mileage: 0)
+      else
+        @vehicles.update(est_mileage: @total_miles)
+      end
       if @vehicles_assigned != []
       @vehicles_assigned.each do |event|
         event.vehicles.each do |vehicle|
+          
           vehicle.update(est_mileage: (vehicle.est_mileage + event.est_mileage))
+          @total_miles_added += event.est_mileage
         end
       end
     end

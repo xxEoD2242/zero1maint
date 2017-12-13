@@ -17,10 +17,11 @@
 			</tr>
 		</thead>
 		<tbody>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "In-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "In-Service")%>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_other.id, vehicle_status: "In-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "In-Service")%>
+	
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Fleet Vehicle", vehicle_status: "In-Service")%>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Dirt Bike", vehicle_status: "In-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Other", vehicle_status: "In-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Training Vehicle", vehicle_status: "In-Service") %>
 		</tbody>
 	</table>
 
@@ -40,10 +41,10 @@
 			</tr>
 		</thead>
 		<tbody>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_fleet_vehicle.id, vehicle_status: "Out-of-Service")%>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_dirt_bike.id, vehicle_status: "Out-of-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_other.id, vehicle_status: "Out-of-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(vehicle_category_id: @set_training_vehicle.id, vehicle_status: "Out-of-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Fleet Vehicle", vehicle_status: "Out-of-Service")%>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Dirt Bike", vehicle_status: "Out-of-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Other", vehicle_status: "Out-of-Service") %>
+	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Training Vehicle", vehicle_status: "Out-of-Service") %>
 		</tbody>
 	</table>
 	<br \>
@@ -55,11 +56,11 @@
 			<%= search_form_for @q, :url => {:action => :other_vehicles_report } do |f|%>
 			
 				<div class="form-group">
-				<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+				<%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 			</div>
 	
 			<div class="form-group ml-3">
-			<%= f.select :location_id_eq, options_from_collection_for_select(Location.all, "id", "locale", @q.location_id_eq), {include_blank: "Select Location"}, class: "form-control" %>
+			<%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
 		</div>
 
 		<div class="form-group ml-3">

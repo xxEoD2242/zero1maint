@@ -1,12 +1,9 @@
 class VehiclesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
-  before_action :set_vehicle_category, only: [:edit, :update, :destroy, :new, :show, :index]
-  before_action :set_location, only: [:index, :show, :new, :edit]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
   before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
-  
   before_action :mileage_calculation, only: [:near_service_required, :needs_service]
   
   # GET /vehicles
@@ -280,16 +277,9 @@ class VehiclesController < ApplicationController
       @set_overdue = Tracker.find_by(track: "Overdue")
     end
 
-    def set_vehicle_category
-      @vehicle_category = VehicleCategory.all
-    end
-    
-    def set_location
-      @location = Location.all
-    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :repair_needed, :needs_service, :mileage, :near_service, :a_service, :last_a_service, :last_shock_service, :last_air_filter_service, :use_a, :use_b, :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, :shock_service, :times_used, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
+      params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :repair_needed, :needs_service, :mileage, :near_service, :a_service, :last_a_service, :last_shock_service, :last_air_filter_service, :use_a, :use_b, :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, :veh_category, :location, :shock_service, :times_used, :est_mileage, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
     end
 end

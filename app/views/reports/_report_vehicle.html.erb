@@ -14,7 +14,7 @@
 		</tr>
 	</thead>
 	<tbody>
-      <% vehicle.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% vehicle.order(veh_category: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>

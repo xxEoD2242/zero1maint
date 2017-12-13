@@ -1,10 +1,10 @@
 
-      <% vehicle.order(vehicle_category_id: :asc).each do |vehicle| %>
+      <% vehicle.order(veh_category: :asc).each do |vehicle| %>
         <tr>
           <th scope="row"><%= vehicle.car_id %></th>
   		  <td><%= vehicle.vehicle_status %></td>
           <td><%= vehicle.mileage %></td>
-          <td><%= vehicle.location.locale %></td>
+          <td><%= vehicle.location %></td>
           <td><% vehicle.requests.where(tracker_id: @set_progress).limit(3).each do |request| %>
   		  		<%= link_to request.number, request, method: :get, class: "badge badge-primary" %>
   				<%= request.tracker.track%>

@@ -12,10 +12,6 @@ class Vehicle < ApplicationRecord
   
   has_many :checklists
   
- 
-  belongs_to :vehicle_category
-  belongs_to :location
-  
   
   validates :car_id, presence: true
   validates :vehicle_status, presence: true
@@ -26,7 +22,7 @@ class Vehicle < ApplicationRecord
   
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold']
   CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other']
-  
+  LOCATION = ['RZR Base Camp', 'The Ranch', 'Speedway', 'Uvalde', 'Other']
   
   def vehicle_naming
     "&nbsp #{car_id} &nbsp".html_safe

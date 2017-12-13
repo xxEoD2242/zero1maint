@@ -23,10 +23,10 @@
   </div>
   
 <div class="form-group">
-	<%= form.select :vehicle_category_id, VehicleCategory.all.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :vehicle_vehicle_category_id, class: "form-control"%>
+	<%= form.select :veh_category, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, id: :veh_category, class: "form-control"%>
 </div>
 <div class="form-group">
-	<%= form.select :location_id, Location.all.collect { |l| [l.locale, l.id]}, {include_blank: "Select Location"}, id: :vehicle_location_id, class: "form-control" %>
+	<%= form.select :location, Vehicle::LOCATION, {include_blank: "Select Location"}, id: :location, class: "form-control" %>
 </div>
 
   <div class="form-group">

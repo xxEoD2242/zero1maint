@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   before_action :set_vehicles, :in_service, :out_of_service, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :tour_car_report, :other_vehicles_report]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :work_order_completed_report, :work_order_in_progress_report, :weekly_work_order_reports, :weekly_vehicle_reports, :work_order_defects_report, :other_vehicles_report, :tour_car_report]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:show, :a_service_calculation, :shock_service_calculation, :air_filter_calculation, :rzr_report, :tour_car_report, :other_vehicles_report, :work_order_defects_report]
-  before_action :a_service_calculation, :shock_service_calculation, :air_filter_calculation, only: [:rzr_report, :show, :other_vehicles_report, :tour_car_report]
+  
   
   # GET /reports
   # GET /reports.json
@@ -46,8 +46,8 @@ class ReportsController < ApplicationController
   end
   
   def rzr_report
-    @rzr = VehicleCategory.find_by(name: "RZR")
-    @q = Vehicle.where(vehicle_category_id: @rzr.id).ransack(params[:q])
+   
+    @q = Vehicle.where(veh_category: "RZR").ransack(params[:q])
     @rzrs = @q.result
     respond_to do |format|
          format.html
@@ -59,8 +59,8 @@ class ReportsController < ApplicationController
   end
   
   def tour_car_report
-    @tour_car = VehicleCategory.find_by(name: "Tour Car")
-    @q = Vehicle.where(vehicle_category_id: @tour_car.id).ransack(params[:q])
+
+    @q = Vehicle.where(veh_category: "Tour Car").ransack(params[:q])
     @tour_cars = @q.result
     respond_to do |format|
          format.html
@@ -72,10 +72,7 @@ class ReportsController < ApplicationController
   end
   
   def other_vehicles_report
-    @set_fleet_vehicle = VehicleCategory.find_by(name: "Fleet Vehicle")
-    @set_dirt_bike = VehicleCategory.find_by(name: "Dirt Bike")
-    @set_other = VehicleCategory.find_by(name: "Other")
-    @set_training_vehicle = VehicleCategory.find_by(name: "Training Vehicle")
+  
     
     @q = Vehicle.all.ransack(params[:q])
     @vehicles = @q.result
@@ -144,35 +141,6 @@ class ReportsController < ApplicationController
        end
   end
   
-  def a_service_calculation
-    @vehicles.all.each do |vehicle|
-      if vehicle.mileage != nil
-      if vehicle.requests.where(program_id: @set_a_service.id, tracker_id: @set_completed.id) != []
-    @a_service = (@set_a_service.interval - (vehicle.mileage - vehicle.requests.where(program_id: @set_a_service.id, tracker_id: @set_completed.id).last.request_mileage))
-      end
-      end
-    end
-  end
-  
-  def shock_service_calculation
-    @vehicles.all.each do |vehicle|
-      if vehicle.mileage != nil
-      if vehicle.requests.where(program_id: @set_shock_service.id, tracker_id: @set_completed.id) != []
-    @shock_service = (@set_shock_service.interval - (vehicle.mileage - vehicle.requests.where(program_id: @set_shock_service.id, tracker_id: @set_completed.id).last.request_mileage))
-      end
-      end
-    end
-  end
-  
-  def air_filter_calculation
-    @vehicles.all.each do |vehicle|
-      if vehicle.mileage != nil
-      if vehicle.requests.where(program_id: @set_air_filter_service.id, tracker_id: @set_completed.id) != []
-     @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.requests.where(program_id: @set_air_filter_service.id, tracker_id: @set_completed.id).last.request_mileage))
-       end
-       end
-    end
-  end
   
   def in_service
     @in_service = Vehicle.where(vehicle_status: "In-Service")

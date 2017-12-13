@@ -22,7 +22,7 @@
 	          <th scope="row"><%= vehicle.car_id %></th>
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
-	          <td><%= vehicle.location.locale %></td>
+	          <td><%= vehicle.location %></td>
 	          <td><% vehicle.requests.where(tracker_id: @set_new && @set_progress).limit(3).each do |request| %>
 	  		  		<%=request.number%>
 	  				<%= request.tracker.track%>
@@ -86,7 +86,7 @@
 	          <th scope="row"><%= vehicle.car_id %></th>
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
-	          <td><%= vehicle.location.locale %></td>
+	          <td><%= vehicle.location %></td>
 	          <td><% vehicle.requests.where(tracker_id: @set_new && @set_progress).limit(3).each do |request| %>
 	  		  		<%=request.number%>
 	  				<%= request.tracker.track%>

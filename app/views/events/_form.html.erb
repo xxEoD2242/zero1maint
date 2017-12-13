@@ -48,9 +48,9 @@
   
 
   <div class="form-group">
-    <strong> <%= f.label :location_id %></strong>
+    <strong> <%= f.label :location %></strong>
 	 
-    <%= f.select :location_id, Location.all.collect { |l| [l.locale, l.id]}, {include_blank: "Select Location"}, id: :event_location_id, class: "form-control" %>
+    <%= f.select :location, Event::LOCATION, {include_blank: "Select Location"}, id: :location, class: "form-control" %>
 	
   </div>
 

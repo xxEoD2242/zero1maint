@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171213141307) do
+ActiveRecord::Schema.define(version: 20171213170220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20171213141307) do
     t.integer "number"
     t.time "event_time"
     t.float "est_mileage"
+    t.string "location"
   end
 
   create_table "events_vehicles", force: :cascade do |t|
@@ -337,6 +338,9 @@ ActiveRecord::Schema.define(version: 20171213141307) do
     t.float "last_air_filter_service"
     t.boolean "use_b"
     t.integer "times_used"
+    t.float "est_mileage"
+    t.string "veh_category"
+    t.string "location"
   end
 
 end

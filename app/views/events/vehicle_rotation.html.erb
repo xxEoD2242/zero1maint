@@ -15,11 +15,11 @@
 		<form class="form-inline">
 		<%= search_form_for @q, :url => {:action => :vehicle_rotation } do |f|%>
 		<div class="form-group">
-		<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+		<%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 	</div>
 
 		<div class="form-group ml-3">
-		<%= f.select :location_id_eq, options_from_collection_for_select(Location.all, "id", "locale", @q.location_id_eq), {include_blank: "Select Location"}, class: "form-control" %>
+		<%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
 	</div>
 
 	<div class="form-group ml-3">

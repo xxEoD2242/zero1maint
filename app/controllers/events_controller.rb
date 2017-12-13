@@ -71,23 +71,33 @@ class EventsController < ApplicationController
     @events = Event.where('date <= ?', Time.now + 7.days)
     @events_2 = @events.where('date >= ?', Time.now)
     @scheduled_events = @events_2.where(status: "Scheduled")
-    event_mileage = []
+    event_mileage = 0
+    new_event_mileage = 0
+    @total_miles_added = 0
     if @scheduled_events != []
     @scheduled_events.each do |event|
-      event_mileage << event.est_mileage
+      event_mileage += event.est_mileage
     end
-    @total_miles = event_mileage.sum
-    end
-    
+    @total_miles = event_mileage
+    @vehicles_assigned = @events_2.where(status: "Vehicles Assigned")
+  end
     
     if @total_miles != nil
       @vehicles = Vehicle.all
-      @vehicles.update(use_a: true, use_b: false, use_near_service: false)
-      @requests = Request.all
+      @vehicles.update(use_a: true, use_b: false, use_near_service: false, est_mileage: @total_miles)
+      if @vehicles_assigned != []
+      @vehicles_assigned.each do |event|
+        event.vehicles.each do |vehicle|
+          vehicle.update(est_mileage: (vehicle.est_mileage + event.est_mileage))
+        end
+      end
+    end
+      
       @vehicles.all.each do |vehicle|
-      vehicle.update(times_used: vehicle.events.where('date > ?', Time.now - 1.month).count)
+      
+      
       if vehicle.last_a_service != nil
-        @a_service = (@set_a_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_a_service))
+          @a_service = (@set_a_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_a_service))
         if @a_service < 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
         elsif @a_service <= 100
@@ -97,7 +107,7 @@ class EventsController < ApplicationController
         end
       end
           if vehicle.last_shock_service != nil
-            @shock_service = (@set_shock_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_shock_service))
+            @shock_service = (@set_shock_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_shock_service))
             if @shock_service < 0
               vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
             elsif @shock_service <= 200
@@ -108,7 +118,7 @@ class EventsController < ApplicationController
           end
         #when @vehicle.programs.exists?(7) == true
          if vehicle.last_air_filter_service != nil
-           @air_filter_service = (@set_air_filter_service.interval - ((vehicle.mileage + @total_miles) - vehicle.last_air_filter_service))
+             @air_filter_service = (@set_air_filter_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_air_filter_service))
            if @air_filter_service < 0
              vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
            elsif @air_filter_service <= 50
@@ -118,20 +128,20 @@ class EventsController < ApplicationController
            end
          end
    
-         if vehicle.use_a == true
-       if vehicle.times_used >= 5
+         
+       if vehicle.use_a == true && vehicle.times_used >= 5
          vehicle.update(use_a: false, use_b: true)
-       elsif vehicle.times_used >= 10
+       elsif vehicle.use_b == true && vehicle.times_used >= 10
          vehicle.update(use_a: false, use_b: false)
        end
-       end
+      
      
        if vehicle.vehicle_status == "Out-of-Service"
          vehicle.update(use_a: false, use_b: false)
        end
        end
      end
-     
+    
      @q = Vehicle.all.ransack(params[:q])
      @vehicle_results = @q.result
      
@@ -158,6 +168,12 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
+        if @event.vehicles.exists?
+          @event.update(status: "Vehicles Assigned")
+          @event.vehicles.each do |vehicle|
+            vehicle.update(times_used: vehicle.times_used + 1)
+          end
+        end
         event_mileage = @event.event_mileage
         if @event.status == "Completed"
         @event.vehicles.each do |vehicle|
@@ -229,9 +245,7 @@ class EventsController < ApplicationController
       @set_overdue = Tracker.find_by(track: "Overdue")
     end
 
-    def set_vehicle_category
-      @vehicle_category = VehicleCategory.all
-    end
+    
     
     def set_location
       @location = Location.all
@@ -239,7 +253,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location_id, :event_time, :duration, :event_type, :est_mileage, :class_type, :number, :status, vehicle_ids: [])
+      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :event_type, :est_mileage, :class_type, :number, :status, vehicle_ids: [])
     end
     
     

@@ -17,13 +17,13 @@
   <% end %>
 
   <div class="form-group">
-   <strong> <%= f.label :number %> </strong>
-    <%= f.number_field :number, id: :event_number, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
     <strong> <%= f.label :date %></strong>
-    <%= f.datetime_select :date, id: :event_date, class: "form-control" %>
+    <%= f.date_select :date, id: :event_date, class: "form-control" %>
+  </div>
+  
+  <div class="form-group">
+	<strong>  <%= f.label "Select Time"%> </strong>
+	  <%= f.time_select :event_time, id: :event_time, class: "form-control"%>
   </div>
   
 	<div class="form-group">
@@ -33,19 +33,49 @@
 	
 	
   
-  <div class="form-check">
-	<strong><%= f.label "Select Vehicles" %></strong>
-	<div class="row">
-	  <% VehicleCategory.all.each do |vehicle_category| %>
-	   <div class="col-6">
-		<strong>	<%= vehicle_category.name%>: </strong>
-		<br \>
-	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.order(id: :asc), "id", :vehicle_naming %>
-	</div>
+    <div class="card mt-3" style='background-color: lightgreen;'>
+  	  <div class="card-header">
+  	<h4 class="text-center">Select A Priority Vehicles</h4>
+  </div>
+  <div class="card-body">
+  	<h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
+  	<div class="row">
+		
+  	  <% VehicleCategory.all.each do |vehicle_category| %>
+  	   <div class="col-6">
+  		<strong>	<%= vehicle_category.name%>: </strong>
+  		<br \>
+  	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.where(vehicle_status: "In-Service", use_a: true).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+		
+  	</div>
 	
-		<% end %>
-	</div>
-</div>
+  		<% end %>
+		
+  	</div>
+  </div>
+  </div>
+
+      <div class="card card-warning bg-warning my-3" >
+    	  <div class="card-header">
+    	<h4 class="text-center">Select B Priority Vehicles</h4>
+    </div>
+    <div class="card-body">
+		 <h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
+  	<div class="row">
+		
+  	  <% VehicleCategory.all.each do |vehicle_category| %>
+  	   <div class="col-6">
+  		<strong>	<%= vehicle_category.name%>: </strong>
+  		<br \>
+  	  	<%= f.collection_check_boxes :vehicle_ids, vehicle_category.vehicles.where(vehicle_status: "In-Service", use_b: true).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+		
+  	</div>
+	
+  		<% end %>
+		
+  	</div>
+  </div>
+  </div>
 	
    <div class="form-group">
      <strong> <%= f.label "Estimated Mileage" %></strong>

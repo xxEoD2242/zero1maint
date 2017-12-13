@@ -3,9 +3,9 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :set_location, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_vehicles, only: [:index, :show, :edit, :new, :create, :update]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation, :new]
-  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation, :new]
-  before_action :vehicle_rotation, only: [:new]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation, :new, :edit]
+  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation, :new, :edit]
+  before_action :vehicle_rotation, only: [:edit]
   
  
   
@@ -131,9 +131,6 @@ class EventsController < ApplicationController
        end
        end
      end
-
-     
-     
      
      @q = Vehicle.all.ransack(params[:q])
      @vehicle_results = @q.result

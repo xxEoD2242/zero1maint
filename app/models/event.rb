@@ -14,7 +14,7 @@ class Event < ApplicationRecord
   validates :status, presence: true
   validates :event_type, presence: true
   validates :class_type, presence: true
-  validates :event_mileage, numericality: {greater_than: 0, message: ": You must add the mileage to the event!"}, on: :update
+  
   
   paginates_per 5
   

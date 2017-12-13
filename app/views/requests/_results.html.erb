@@ -22,7 +22,7 @@
 </div>
 <div class='col-md-4'>
 	<div class="form-group">
-	<%= f.select :vehicle_vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+	<%= f.select :vehicle_veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 </div>
 </div>
  

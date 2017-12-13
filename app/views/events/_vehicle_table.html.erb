@@ -28,7 +28,7 @@
 			  <% end %>
 		  </td>
 			  <td><%= vehicle.mileage %></td>
-        <td><% if vehicle.use_near_service == true && @total_miles != nil %>
+        <td><% if vehicle.use_near_service == true%>
 		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
 				<% if (@set_a_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_a_service)) <= 100 %>
 				<li> A-Service in <br \> <%= (@set_a_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_a_service))%> Miles </li>

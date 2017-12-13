@@ -68,9 +68,10 @@ class EventsController < ApplicationController
   end
   
   def vehicle_rotation
-    @events = Event.where('date <= ?', Time.now + 7.days)
-    @events_2 = @events.where('date >= ?', Time.now)
-    @scheduled_events = @events_2.where(status: "Scheduled")
+    
+    @events = Event.where('date >= ?', Time.now)
+    @events_2 = @events.all.where('date <= ?', Time.now + 7.days)
+    @scheduled_events = @events_2.all.where(status: "Scheduled")
     event_mileage = 0
     new_event_mileage = 0
     @total_miles_added = 0
@@ -79,7 +80,7 @@ class EventsController < ApplicationController
       event_mileage += event.est_mileage
     end
     @total_miles = event_mileage
-    @vehicles_assigned = @events_2.where(status: "Vehicles Assigned")
+    @vehicles_assigned = @events_2.all.where(status: "Vehicles Assigned")
   end
     
     if @total_miles != nil

@@ -11,8 +11,11 @@ class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.all
     @request = Request.all
-    @q = Vehicle.ransack(params[:q])
-    @cars = @q.result
+    @first_vehicles = Vehicle.where(id: 1..20)
+    @second_vehicles = Vehicle.where(id: 21..40)
+    @third_vehicles = Vehicle.where(id: 41..60)
+    @fourth_vehicles = Vehicle.where(id: 61..75)
+    @fifth_vehicles = Vehicle.where(id: 76..96)
    
   end
   

@@ -94,7 +94,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "Checklist Report", :layout => 'pdf.pdf.erb', :title => "ChecklistReport for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
+           render pdf: "Checklist Report", :layout => 'pdf.pdf.erb', :title => "Checklist Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end

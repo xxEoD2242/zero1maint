@@ -1,7 +1,7 @@
-	<div style="display: flex;justify-content: center;">
-	<h1 style='text-decoration: underline;'>All Vehicles Near Required Services</h1>
+
+	<h1 style='text-decoration: underline;text-align: center;'>All Vehicles Near Required Services</h1>
 </div>
-<table border="1">
+<table>
   <thead>
     <tr>
       <th scope="col">Car</th>
@@ -10,22 +10,35 @@
       <th scope="col">Location</th>
       <th scope="col">Work Orders</th>
       <th scope="col">Mileage</th>
+		<th scope="col">Near Service Miles To</th>
 		<th scope="col">Service Needed</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @vehicle_results.order(vehicle_category_id: :asc).each do |vehicle| %>
+    <% @vehicle_results.order(veh_category: :asc).each do |vehicle| %>
       <tr>
         <th scope="row"><%= vehicle.car_id %></th>
 		  <td><%= vehicle.vehicle_status %></td>
-        <td><%= vehicle.vehicle_category.name %></td>
-        <td><%= vehicle.location.locale %></td>
+        <td><%= vehicle.veh_category %></td>
+        <td><%= vehicle.location %></td>
         <td><% vehicle.requests.where(tracker_id: 1).each do |request| %>
 		  		<%= request.number %>
 				<%= request.tracker.track%>
 				<% end %></td>
         <td><%= vehicle.mileage %></td>
+         <td><% if vehicle.near_service == true %>
+ 		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
+ 				<% if (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)) <= 100 %>
+ 				<li> A-Service in <br \> <%= (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))%> Miles </li> <% end %>
+ 		     <%  if (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) <= 200 %> 
+ 			<li>Shock Service in <br \> <%= (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) %> Miles</li>
+ 			<% end %>
+ 		      <% if (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)) <= 50 %>
+ 				<li>Air Filter Change in <br \><%= (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service))%> Miles</li><% end %>
+ 				<% end %>
+ 			</ul>
+ 		 </td>
 		  <td>
 			<% if vehicle.a_service == true %>
          A-Service

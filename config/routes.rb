@@ -67,6 +67,7 @@ resource :calendar, only: [:show], controller: :calendar
      get 'json_data'
      get 'vehicle_rotation'
      get 'vehicles_assigned'
+     get 'auto_select_vehicles'
     end
   end
   resources :vehicles do

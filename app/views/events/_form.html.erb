@@ -35,6 +35,18 @@
 	</div>
 	
 	
+		
+	   <div class="form-group">
+	     <strong><%=f.label "Number of Customers"%></strong>
+	     <%= f.number_field :customers, id: :customers, class: "form-control" %>
+	   </div>
+		
+	
+	   <div class="form-group">
+	     <strong><%=f.label "Number of Shares"%></strong>
+	     <%= f.number_field :shares, id: :shares, class: "form-control" %>
+	   </div>
+	
   
  
 
@@ -55,7 +67,7 @@
   </div>
 
   <div class="form-group">
-    <strong> <%= f.label :duration %>
+    <strong> <%= f.label :duration %> </strong>
     <%= f.number_field :duration, id: :event_duration, class: "form-control" %>
   </div>
 

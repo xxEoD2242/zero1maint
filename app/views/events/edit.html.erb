@@ -77,6 +77,18 @@
   </div>
   </div>
 	
+	   <div class="form-group">
+	     <strong><%=f.label "Number of Customers"%></strong>
+	     <%= f.number_field :customers, id: :customers, class: "form-control" %>
+	   </div>
+	
+	
+	   <div class="form-group">
+	     <strong><%=f.label "Number of Shares"%></strong>
+	     <%= f.number_field :shares, id: :shares, class: "form-control" %>
+	   </div>
+	
+	
    <div class="form-group">
      <strong> <%= f.label "Estimated Mileage" %></strong>
      <%= f.number_field :est_mileage, id: :event_event_mileage, class: "form-control" %>

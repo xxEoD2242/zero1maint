@@ -60,7 +60,7 @@ class VehiclesController < ApplicationController
   def near_service_required
   
   @q = Vehicle.where(near_service: true).ransack(params[:q])
-  @vehicle_results = @q.result.page(params[:page])
+  @vehicle_results = @q.result.page
   respond_to do |format|
       format.html
       format.csv { send_data @vehicle_results.to_csv }
@@ -124,7 +124,7 @@ class VehiclesController < ApplicationController
   def in_service
     @in_service = Vehicle.where(vehicle_status: "In-Service")
     @q = Vehicle.where(vehicle_status: "In-Service").ransack(params[:q])
-    @vehicle_results = @q.result.page(params[:page])
+    @vehicle_results = @q.result
     respond_to do |format|
         format.html
         format.csv { send_data @vehicle_results.to_csv }
@@ -160,7 +160,7 @@ class VehiclesController < ApplicationController
   def needs_service
    
    @q = Vehicle.where(needs_service: true).ransack(params[:q])
-   @vehicle_results = @q.result.page(params[:page])
+   @vehicle_results = @q.result
    respond_to do |format|
        format.html
        format.csv { send_data @vehicle_results.to_csv }

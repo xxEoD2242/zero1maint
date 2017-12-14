@@ -5,7 +5,9 @@ class EventsController < ApplicationController
   before_action :set_vehicles, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation, :new, :edit]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation, :new, :edit]
+  before_action :vehicle_use_count, only: [:dashboard, :show, :vehicle_rotation]
   before_action :vehicle_rotation, only: [:edit]
+  
   
  
   
@@ -73,6 +75,121 @@ class EventsController < ApplicationController
     @vehicles = Vehicle.all
     @vehicle_categories = VehicleCategory.all
   end
+  
+  def vehicle_use_count
+    @eve = Event.where('date >= ?', Time.now - 1.month)
+    @events = @eve.where('date <= ?', Time.now)
+    Vehicle.all.update(times_used: 0)
+    @events.each do |event|
+    if event.vehicles.exists?
+      event.vehicles.each do |vehicle|
+        if vehicle.event
+        vehicle.update(times_used: (vehicle.times_used + 1))
+      end
+  end
+end
+end
+  
+  def auto_select_vehicles
+    @event = Event.find(params[:id])
+    @use_a = Vehicle.where(use_a: true, use_b: false)
+    @use_b = Vehicle.where(use_b: true, use_a: false)
+    @people = @event.customers
+    @shares = @event.shares
+    @event_vehicles = []
+    
+    if @event.event_type == "RZR"
+    if @people != nil
+      if @shares != nil
+        @numb_vehicles = (@people - (@shares * 2)) + @shares
+      else
+      @numb_vehicles = @people
+    end
+    end
+    if @use_a.all.count >= @numb_vehicles
+    @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@numb_vehicles).each do |vehicle|
+      @event_vehicles << vehicle.id
+    end
+    elsif @use_a.all.count < @numb_vehicles
+      @a = (@numb_vehicles - @use_a.all.count)
+      if @a != 0
+      @b = (@numb_vehicles - @a)
+      end
+      if @a != 0 && @b != 0
+      @c = (@numb_vehicles - @a - @b)
+      end
+      if @a != 0 && @b != 0 && @c != 0
+      @d = (@b - @c)
+      end
+      if @a != 0 && @b != 0 && @c != 0 && @d !=0
+      @f = (@c - @d)
+      end
+      
+      if @a > 0
+        @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@a).each do |vehicle|
+          @event_vehicles << vehicle.id
+        end
+      
+        if @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count > @b
+          @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false).order(times_used: :asc).limit(@b).each do |vehicle|
+            @event_vehicles << vehicle.id       
+          end
+        elsif @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count > @b && @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count > @c
+          @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@c).each do |vehicle|
+            @event_vehicles << vehicle.id
+          end
+        end
+        
+    elsif @a < 0 
+      
+      if @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count > @b
+      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@b).each do |vehicle|
+        @event_vehicles << vehicle.id        
+      end
+      
+      elsif @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count < @b &&  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count > @c
+        @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@b - @c).each do |vehicle|
+          @event_vehicles << vehicle.id
+        end
+      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@c).each do |vehicle|
+        @event_vehicles << vehicle.id
+      end
+      
+      elsif  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count < @b && @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count < @c && @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count > @d
+          
+          @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@b - @c).each do |vehicle|
+            @event_vehicles << vehicle.id
+          end
+          @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@c - @d).each do |vehicle|
+            @event_vehicles << vehicle.id
+          end
+          @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@d).each do |vehicle|
+            @event_vehicles << vehicle.id
+          end
+    
+    elsif  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count < @b && @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count < @c && @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count < @d && @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true).all.count > @f 
+      
+      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@b - @c).each do |vehicle|
+        @event_vehicles << vehicle.id
+      end
+      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@c - @d).each do |vehicle|
+        @event_vehicles << vehicle.id
+      end
+      @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@d - @f).each do |vehicle|
+        @event_vehicles << vehicle.id
+      end
+      @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@f).each do |vehicle|
+        @event_vehicles << vehicle.id
+      end
+    
+    end
+  end
+     
+    end
+     @event.update(vehicle_ids: @event_vehicles)
+  end
+  redirect_back(fallback_location: root_path)
+end
   
   def vehicle_rotation
     @events = Event.where('date >= ?', Time.now)
@@ -188,12 +305,8 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        if @event.vehicles.exists?
-          @event.update(status: "Vehicles Assigned")
-          @event.vehicles.each do |vehicle|
-            vehicle.update(times_used: (vehicle.times_used + 1))
-          end
-        end
+        
+        
         event_mileage = @event.event_mileage
         if @event.status == "Completed"
         @event.vehicles.each do |vehicle|
@@ -273,7 +386,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :event_type, :est_mileage, :class_type, :number, :status, vehicle_ids: [])
+      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :event_type, :est_mileage, :customers, :shares, :class_type, :number, :status, vehicle_ids: [])
     end
     
     

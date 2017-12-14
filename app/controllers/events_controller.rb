@@ -35,7 +35,8 @@ class EventsController < ApplicationController
   end
   
   def dashboard
-    @events = Event.all
+    @events = Event.where('date >= ?', Time.now - 7.days)
+    @display_events = @events.where('date <= ?', Time.now + 14.days)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: "Vehicles Assigned")

@@ -11,11 +11,7 @@ class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.all
     @request = Request.all
-    @first_vehicles = Vehicle.where(id: 1..20)
-    @second_vehicles = Vehicle.where(id: 21..40)
-    @third_vehicles = Vehicle.where(id: 41..60)
-    @fourth_vehicles = Vehicle.where(id: 61..75)
-    @fifth_vehicles = Vehicle.where(id: 76..96)
+    
    
   end
   
@@ -70,7 +66,7 @@ class VehiclesController < ApplicationController
       format.csv { send_data @vehicle_results.to_csv }
       format.xls
       format.pdf do
-        render pdf: "Near Service Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+        render pdf: "Near Service Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb', :title => "Near Service Vehicles for #{Time.now.strftime('%D')}"   # Excluding ".pdf" extension.
       end
     end
     
@@ -86,7 +82,7 @@ class VehiclesController < ApplicationController
         format.csv { send_data @vehicle.to_csv }
         format.xls
         format.pdf do
-          render pdf: "Vehicle #{@vehicle.car_id}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+          render pdf: "Vehicle #{@vehicle.car_id}", :layout => 'pdf.pdf.erb', :title => "Vehicle #{@vehicle.car_id}"   # Excluding ".pdf" extension.
         end
       end
       
@@ -134,7 +130,7 @@ class VehiclesController < ApplicationController
         format.csv { send_data @vehicle_results.to_csv }
         format.xls
         format.pdf do
-          render pdf: "In Service Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+          render pdf: "In Service Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb', :title => "In Service Vehicles for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
         end
       end
       
@@ -149,7 +145,7 @@ class VehiclesController < ApplicationController
         format.csv { send_data @vehicle_results.to_csv }
         format.xls 
         format.pdf do
-          render pdf: "Out of Service Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+          render pdf: "Out of Service Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb', :title => "Out of Service Vehicles for #{Time.now.strftime('%D')}"   # Excluding ".pdf" extension.
         end
       end
       
@@ -158,14 +154,7 @@ class VehiclesController < ApplicationController
   def all_vehicles
     @q = Vehicle.ransack(params[:q])
     @vehicle_results = @q.result.page(params[:page])
-    respond_to do |format|
-        format.html
-        format.csv { send_data @vehicle_results.to_csv }
-        format.xls 
-        format.pdf do
-          render pdf: "Vehicles for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
-        end
-      end
+    
   end
   
   def needs_service

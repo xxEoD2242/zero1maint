@@ -7,7 +7,7 @@
 		<form class="form-inline">
 			
 		
-		<%= search_form_for @q, :url => {:controller => :checklists, :action => :records} do |f|%>
+		<%= search_form_for @q, :url => {:controller => :reports, :action => :checklist_report} do |f|%>
 		
 		
 	<div class="form-group mb-3">
@@ -168,7 +168,7 @@
 </div>
 	<% end %>
 	<div class="container d-flex justify-content-between align-items-center">
-<%= paginate @events%>
+<%= link_to 'Download PDF', checklist_report_reports_path(params.merge(format: "pdf").permit!), class: "btn btn-dark"%>
 <%= link_to 'Back', dashboard_events_path, class: "btn btn-info " %>
 </div>
 </div>

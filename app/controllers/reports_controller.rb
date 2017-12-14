@@ -32,7 +32,7 @@ class ReportsController < ApplicationController
 #  end
   
 
-  # @weekly = Report.where('created_at < ?', 1.week.ago)
+  
   def weekly_work_order_reports
     @weekly_defect = Report.where(report_type: "Weekly-Defect")
     @weekly_in_progress = Report.where(report_type: "Weekly-New/In-Progress")
@@ -53,7 +53,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "RZR Report", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "RZR Report", :layout => 'pdf.pdf.erb', :title => "RZR Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end
@@ -66,7 +66,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "Tour Car Report", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "Tour Car Report", :layout => 'pdf.pdf.erb', :title => "Tour Car Vehicle Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
     end
   end
@@ -81,7 +81,20 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "Other Vehicle Report", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "Other Vehicle Report", :layout => 'pdf.pdf.erb', :title => "Other Vehicle Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
+         end
+       end
+  end
+  
+  def checklist_report
+    @q = Event.all.ransack(params[:q])
+    @events = @q.result
+    
+    respond_to do |format|
+         format.html
+         format.xls
+         format.pdf do
+           render pdf: "Checklist Report", :layout => 'pdf.pdf.erb', :title => "ChecklistReport for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end
@@ -95,7 +108,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "Defect Work Order Report", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "Defect Work Order Report", :layout => 'pdf.pdf.erb', :title => "Defect Work Order Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end
@@ -110,7 +123,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "All Work Orders Report", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "All Work Orders Report", :layout => 'pdf.pdf.erb', :title => "All Work Orders Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end
@@ -122,7 +135,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "New/In-Progress Work Order Reports", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "New/In-Progress Work Order Report", :layout => 'pdf.pdf.erb', :title => "New/In-Progress Work Order Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end
@@ -136,19 +149,11 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "Completed Work Order Reports", :layout => 'pdf.pdf.erb'  # Excluding ".pdf" extension.
+           render pdf: "Completed Work Order Reports", :layout => 'pdf.pdf.erb', :title => "Work Order Completed Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end
   
-  
-  def in_service
-    @in_service = Vehicle.where(vehicle_status: "In-Service")
-  end
-  
-  def out_of_service
-    @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service")
-  end
   
   def dashboard
     @reports = Report.all
@@ -208,6 +213,14 @@ class ReportsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_report
       @report = Report.find(params[:id])
+    end
+    
+    def in_service
+      @in_service = Vehicle.where(vehicle_status: "In-Service")
+    end
+  
+    def out_of_service
+      @out_of_service = Vehicle.where(vehicle_status: "Out-of-Service")
     end
     
     def set_vehicles

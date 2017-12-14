@@ -1,4 +1,4 @@
-desc "Check work orders for overdue?"
+desc "Check work orders for overdue"
 task check_work_orders_overdue: :environment do
   @set_progress = Tracker.find_by(track: "In-Progress")
   @set_new = Tracker.find_by(track: "New")

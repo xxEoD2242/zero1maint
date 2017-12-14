@@ -4,11 +4,38 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+  <style type="text/css">
+	  tr { page-break-inside: avoid }
+	 
+	  table {
+	      font-family: arial, sans-serif;
+	      border-collapse: collapse;
+	      width: 100%;
+	  }
+
+	  td, th {
+	      border: 1px solid #dddddd;
+	      text-align: left;
+	      padding: 8px;
+	  }
+
+	  tr:nth-child(even) {
+	      background-color: #dddddd;
+	  }
+	  .object-title {
+		  border: 2px solid black; 
+		  border-radius: 6px 6px 6px 6px; 
+		  padding: 2px 2px 2px 2px;
+		  margin-bottom: 6px;
+		  margin-top: 6px;
+	  }
+	  </style>
   </head>
 
   <body>
-	  <div class="container">
+	  
+		  <img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="175" height="60" alt="">
     <%= yield %>
- </div>
+ 
   </body>
 </html>

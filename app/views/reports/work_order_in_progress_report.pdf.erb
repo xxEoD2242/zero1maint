@@ -1,9 +1,11 @@
-<div style='border: 1px solid black;'><h2 style="text-align: center;">All New & In-Progress Work Orders for <br \> <%= Time.now.strftime('%D')%></h2> 
-</div>
+<h2 style="text-align: center;">All New & In-Progress Work Orders for <br \> <%= Time.now.strftime('%D')%></h2> 
+
 <br \>
-<div>
-<table border='1'>
-	<caption><b>New Work Orders</b></caption>
+<div class="object-title">
+	<h4 style="text-align: center;">New Work Orders</h4>
+</div>
+<table>
+	
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -31,11 +33,15 @@
 	<% end %>
 	</tbody>
 </table>
-<div>
+
 	<br \>
 	<br \>
-<table border='1'>
-	<caption><b>In-Progress Work Orders</b></caption>
+	
+	<div class="object-title">
+		<h4 style="text-align: center;">In-Progress Work Orders</h4>
+	</div>
+<table>
+
 	<thead>
 		<tr>
 			<th>Work Order Number</th>

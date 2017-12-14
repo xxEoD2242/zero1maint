@@ -23,6 +23,7 @@ resource :calendar, only: [:show], controller: :calendar
       get 'tour_car_report'
       get 'other_vehicles_report'
       get 'work_order_report'
+      get 'checklist_report'
     end
   end
   resources :parts do
@@ -65,6 +66,7 @@ resource :calendar, only: [:show], controller: :calendar
      get 'scheduled_events'
      get 'json_data'
      get 'vehicle_rotation'
+     get 'vehicles_assigned'
     end
   end
   resources :vehicles do

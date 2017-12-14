@@ -1,13 +1,11 @@
-<div style="border: solid;border-color: black;padding: 10px">
-<div style="display: flex;justify-content: flex-start;">
-	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="250" height="100" alt=""></div>
-	<div style="display: flex;justify-content: center;">
-	<h1 style='text-decoration: underline;'>All Defect Work Orders for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
-</div>
+	<h1 style='text-decoration: underline; text-align: center;'>All Defect Work Orders for <%= (Time.now - 7.days).strftime('%D')%> - <%=Time.now.strftime('%D')%></h1>
 
+<div class="object-title">
+	<h4 style="text-align: center;">New Defect Work Orders</h4>
+</div>
 <div style="color: black;">
-<table border="1">
-	<caption><b>New Defect Work Orders</b></caption>
+<table>
+	
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -38,9 +36,12 @@
 </div>
 <br \>
 <br \>
+<div class="object-title">
+	<h4 style="text-align: center;">In-Progress Defect Work Orders</h4>
+</div>
 <div>
-<table border='1'>
-	<caption><b>In-Progress Defect Work Orders</b></caption>
+<table>
+	
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -67,5 +68,4 @@
 	<% end %>
 	</tbody>
 </table>
-</div>
 </div>

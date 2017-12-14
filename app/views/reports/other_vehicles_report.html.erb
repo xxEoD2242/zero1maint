@@ -51,7 +51,7 @@
 	
 	
 	<div class="container d-flex justify-content-between align-items-center">
-		<strong><%= link_to "PDF", other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%> </strong>
+		<strong><%= link_to "Download PDF", other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%> </strong>
 			<form class="form-inline">
 			<%= search_form_for @q, :url => {:action => :other_vehicles_report } do |f|%>
 			

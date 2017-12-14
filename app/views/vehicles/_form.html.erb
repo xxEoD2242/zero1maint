@@ -14,7 +14,7 @@
   <% end %>
 
   <div class="form-group">
-   <strong><%= form.label "Car" %></strong>
+   <strong><%= form.label "Car ID" %></strong>
     <%= form.text_field :car_id, id: :vehicle_car_id, class: "form-control" %>
   </div>
 
@@ -54,14 +54,35 @@
   <strong> <%= form.label :mileage %> </strong>
 	<%= form.number_field :mileage, id: :vehicle_mileage, class: "form-control"%>
   </div>
+  <div class="row">
+	  <div class="col-md">
+  <div class="form-group">
+  <strong class="mb-2"> Last A Service Mileage  </strong>
+	<%= form.number_field :last_a_service, id: :vehicle_a_service, class: "form-control"%>
+  </div>
+</div>
+  <div class="col-md">
+  <div class="form-group">
+  <strong class="mb-2"> Last Shock Service Mileage </strong>
+	<%= form.number_field :last_shock_service, id: :vehicle_last_shock_service, class: "form-control"%>
+  </div>
+</div>
+<div class="col-md">
+  <div class="form-group">
+  <strong class="mb-2"> Last Air Filter Service Mileage </strong>
+	<%= form.number_field :last_air_filter_service, id: :vehicle_last_air_filter_service, class: "form-control"%>
+  </div>
+</div>
+</div>
 <br \>
   <div class="form-group">
     <%= form.submit "Create Vehicle", class: "btn btn-success" %>
   </div>
-  <div class="form-group d-flex justify-content-end">
-  <%= link_to 'Back', vehicles_path, class: "btn btn-info" %>
-  </div>
+ 
 <% end %>
-
+<hr>
+  <div >
+  <%= link_to 'Dashboard', vehicles_path, class: "btn btn-info" %>
+  </div>
 </div>
 </div>

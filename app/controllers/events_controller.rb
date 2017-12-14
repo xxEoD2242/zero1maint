@@ -38,6 +38,7 @@ class EventsController < ApplicationController
     @events = Event.all
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
+    @assigned_events = Event.where(status: "Vehicles Assigned")
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = Event.group('events.id').group_by(&:date)
     
@@ -45,6 +46,11 @@ class EventsController < ApplicationController
   
   def completed_events
     @q = Event.where(status: 'Completed').order(:created_at).ransack(params[:q])
+    @event_results = @q.result.includes(:vehicles).page(params[:page])
+  end
+  
+  def vehicles_assigned
+    @q = Event.where(status: 'Vehicles Assigned').order(:created_at).ransack(params[:q])
     @event_results = @q.result.includes(:vehicles).page(params[:page])
   end
   
@@ -68,9 +74,8 @@ class EventsController < ApplicationController
   end
   
   def vehicle_rotation
-    
     @events = Event.where('date >= ?', Time.now)
-    @events_2 = @events.all.where('date <= ?', Time.now + 7.days)
+    @events_2 = @events.where('date <= ?', Time.now + 7.days)
     @scheduled_events = @events_2.all.where(status: "Scheduled")
     event_mileage = 0
     new_event_mileage = 0
@@ -81,7 +86,7 @@ class EventsController < ApplicationController
     end
     @total_miles = event_mileage
     end
-    @vehicles_assigned = @events_2.all.where(status: "Vehicles Assigned")
+    @vehicles_assigned = @events.all.where(status: "Vehicles Assigned")
   
     
     
@@ -94,9 +99,9 @@ class EventsController < ApplicationController
       end
       if @vehicles_assigned != []
       @vehicles_assigned.each do |event|
+        @total_miles_added += event.est_mileage
         event.vehicles.each do |vehicle|
           vehicle.update(est_mileage: (vehicle.est_mileage + event.est_mileage))
-          @total_miles_added += event.est_mileage
         end
       end
     end
@@ -153,7 +158,13 @@ class EventsController < ApplicationController
      @q = Vehicle.all.ransack(params[:q])
      @vehicle_results = @q.result
      
-     
+     respond_to do |format|
+          format.html
+          format.xls
+          format.pdf do
+            render pdf: "Vehicle Rotation for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb', :title => "Vehicle Rotation for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
+          end
+        end
   end
 
   # POST /events
@@ -179,7 +190,7 @@ class EventsController < ApplicationController
         if @event.vehicles.exists?
           @event.update(status: "Vehicles Assigned")
           @event.vehicles.each do |vehicle|
-            vehicle.update(times_used: vehicle.times_used + 1)
+            vehicle.update(times_used: (vehicle.times_used + 1))
           end
         end
         event_mileage = @event.event_mileage

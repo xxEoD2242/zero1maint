@@ -26,7 +26,24 @@ class UserMailer < ApplicationMailer
     mail(to: emails, subject: "Weekly New & In-Progress Work Orders Report for #{Time.now.strftime('%D')}")
   end
   
-  def weekly_rzr_report_email(user)
+  def weekly_event_checklists_email
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    
+    @eve = Event.where('date >= ?', Time.now - 7.days)
+    @now = @eve.where('date <= ?', Time.now)
+    @events = @now.all
+    
+    mail(to: emails, subject: "Weekly Checklists for Events From #{(Time.now - 7.days).strftime('%D')} To #{Time.now.strftime('%D')}")
+  end
+  
+  def weekly_rzr_report_email
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
     @rzr = VehicleCategory.find_by(name: "RZR")
     @out_of_service = Vehicle.where(vehicle_category_id: @rzr.id, vehicle_status: "Out-of-Service")
     @vehicles = Vehicle.where(vehicle_category_id: @rzr.id, vehicle_status: "In-Service")   
@@ -41,7 +58,7 @@ class UserMailer < ApplicationMailer
       @set_progress = Tracker.find_by(track: "In-Progress")
       @set_completed = Tracker.find_by(track: "Completed")
       @set_overdue = Tracker.find_by(track: "Overdue")
-    mail(to: user.email, subject: "Weekly Razor Report for #{Time.now.strftime('%D')}")
+    mail(to: emails, subject: "Weekly Razor Report for #{Time.now.strftime('%D')}")
   end
   
   def weekly_defects_report_email

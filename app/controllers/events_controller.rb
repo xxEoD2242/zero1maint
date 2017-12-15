@@ -93,8 +93,13 @@ end
   
   def auto_select_vehicles
     @event = Event.find(params[:id])
-    @use_a = Vehicle.where(use_a: true, use_b: false)
-    @use_b = Vehicle.where(use_b: true, use_a: false)
+    @use_a = Vehicle.where(use_a: true, use_b: false, location: @event.location)
+    @use_b_near_service = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true)
+    @use_b_air_filter_service = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true)
+    @use_b_a_service = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true)
+    @use_b_air_filter_service = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true)
+    @use_b_service_actual_near = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true)
+    @use_b_service_actual = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true)
     @people = @event.customers
     @shares = @event.shares
     @event_vehicles = []
@@ -111,70 +116,239 @@ end
     @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@numb_vehicles).each do |vehicle|
       @event_vehicles << vehicle.id
     end
-    elsif @use_a.all.count < @numb_vehicles
+   
+   
+   
+    elsif @use_a.all.count < @numb_vehicles & @use_b_near_service.all.count >= (@numb_vehicles - @use_a.all.count)
+      
+      
       @a = (@numb_vehicles - @use_a.all.count)
-      if @a != 0
-        @b = (@numb_vehicles - @use_a.all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count)
+
+      @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@use_a.all.count).each do |vehicle|
+        @event_vehicles << vehicle.id
       end
-      if @a != 0 && @b != 0
-      @c = (@numb_vehicles - @use_a.all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count -  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count)
-      end
-      if @a != 0 && @b != 0 && @c != 0
-      @d = (@numb_vehicles - @use_a.all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count -  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count)
-      end
-      if @a != 0 && @b != 0 && @c != 0 && @d !=0
-      @f = (@numb_vehicles - @use_a.all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count -  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count - @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true).all.count)
-      end
+    
+    @use_b_near_service.order(times_used: :asc).limit(@a).each do |vehicle|
+      @event_vehicles << vehicle.id        
+    end
+    
+    elsif @use_a.all.count < @numb_vehicles && @use_b_near_service.all.count < (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count) &&  @use_b_air_filter_service.all.count > (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
+      @a = (@numb_vehicles - @use_a.all.count)
+      @b = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
       
+      
+      @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@use_a.all.count).each do |vehicle|
+        @event_vehicles << vehicle.id
+      end
+    
+    @use_b_near_service.order(times_used: :asc).limit(@a).each do |vehicle|
+      @event_vehicles << vehicle.id        
+    end
+    @use_b_near_air_filter_service.order(times_used: :asc).limit(@b).each do |vehicle|
+      @event_vehicles << vehicle.id
+    end
+  elsif @use_a.all.count < @numb_vehicles && @use_b_near_service.all.count < (@numb_vehicles - @use_a.all.count) &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count) && @use_b_a_service.all.count >= (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service)
+    @a = (@numb_vehicles - @use_a.all.count)
+    @b = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
+    @c = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service)
+    
+    @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@use_a.all.count).each do |vehicle|
+      @event_vehicles << vehicle.id
+    end
+  
+  @use_b_near_service.order(times_used: :asc).limit(@a).each do |vehicle|
+    @event_vehicles << vehicle.id        
+  end
+  @use_b_near_air_filter_service.order(times_used: :asc).limit(@b).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+  @use_b_near_a_service.order(times_used: :asc).limit(@c).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+      
+elsif @use_a.all.count < @numb_vehicles && @use_b_near_service.all.count < (@numb_vehicles - @use_a.all.count) &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count) && @use_b_a_service.all.count < (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count) && @use_b_shock_service.all.count >= (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+  @a = (@numb_vehicles - @use_a.all.count)
+  @b = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
+  @c = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count)
+  @d = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+ 
+  @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@use_a.all.count).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+
+@use_b_near_service.order(times_used: :asc).limit(@a).each do |vehicle|
+  @event_vehicles << vehicle.id        
+end
+@use_b_air_filter_service.order(times_used: :asc).limit(@b).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_a_service.order(times_used: :asc).limit(@c).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_shock_service.order(times_used: :asc).limit(@d).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+elsif @use_a.all.count < @numb_vehicles && @use_b_near_service.all.count < (@numb_vehicles - @use_a.all.count) &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count) && @use_b_a_service.all.count < (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count) && @use_b_shock_service.all.count < (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count) && @use_b_service_actual_near.all.count >= (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+  @a = (@numb_vehicles - @use_a.all.count)
+  @b = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
+  @c = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count)
+  @d = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+   @f = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+  @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@use_a.all.count).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+
+@use_b_near_service.order(times_used: :asc).limit(@a).each do |vehicle|
+  @event_vehicles << vehicle.id        
+end
+@use_b_air_filter_service.order(times_used: :asc).limit(@b).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_a_service.order(times_used: :asc).limit(@c).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_shock_service.order(times_used: :asc).limit(@d).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_service_actual.near.order(times_used: :asc).limit(@f).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+elsif @use_a.all.count < @numb_vehicles && @use_b_near_service.all.count < (@numb_vehicles - @use_a.all.count) &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count) && @use_b_a_service.all.count < (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count) && @use_b_shock_service.all.count < (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count) && @use_b_service_actual_near.all.count >= (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count) && @use_b_service_actual.all.count >= (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+  @a = (@numb_vehicles - @use_a.all.count)
+  @b = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
+  @c = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count)
+  @d = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+   @f = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+  @use_a.where(veh_category: "RZR").order(times_used: :asc).limit(@use_a.all.count).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+
+@use_b_near_service.order(times_used: :asc).limit(@a).each do |vehicle|
+  @event_vehicles << vehicle.id        
+end
+@use_b_air_filter_service.order(times_used: :asc).limit(@b).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_a_service.order(times_used: :asc).limit(@c).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_shock_service.order(times_used: :asc).limit(@d).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_service_actual_near.order(times_used: :asc).limit(@f).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_service_actual.order(times_used: :asc).limit(@g).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+
+    elsif @use_a.all.count = 0 & @use_b_near_service.all.count >= @numb_vehicles
+      
+    
+    @use_b_near_service.order(times_used: :asc).limit(@numb_vehicles).each do |vehicle|
+      @event_vehicles << vehicle.id        
+    end
+    
+    elsif @use_a.all.count = 0  && @use_b_near_service.all.count < @numb_vehicles &&  @use_b_air_filter_service.all.count >= (@numb_vehicles - @use_b_near_service.all.count)
      
-        @use_a.where(veh_category: "RZR").order(times_used: :asc).each do |vehicle|
-          @event_vehicles << vehicle.id
-        end
-      
-      if @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count > @a
-      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@a).each do |vehicle|
-        @event_vehicles << vehicle.id        
-      end
-      
-      elsif @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count < @a &&  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count > @b
-        @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@a).each do |vehicle|
-          @event_vehicles << vehicle.id
-        end
-      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@b).each do |vehicle|
-        @event_vehicles << vehicle.id
-      end
-      
-      elsif  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count < @a && @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count < @b && @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count > @c
-          
-          @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@a).each do |vehicle|
-            @event_vehicles << vehicle.id
-          end
-          @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@b.each do |vehicle|
-            @event_vehicles << vehicle.id
-          end
-          @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@c).each do |vehicle|
-            @event_vehicles << vehicle.id
-          end
-    
-    elsif  @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).all.count < @a && @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count < @b && @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).all.count < @c && @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true).all.count > @d 
-      
-      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true).order(times_used: :asc).limit(@a).each do |vehicle|
-        @event_vehicles << vehicle.id
-      end
-      @use_b.where(veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@b).each do |vehicle|
-        @event_vehicles << vehicle.id
-      end
-      @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@c).each do |vehicle|
-        @event_vehicles << vehicle.id
-      end
-      @use_b.where(veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: true, dont_use_air_filter_service: true, use_near_service: true).order(times_used: :asc).limit(@d).each do |vehicle|
-        @event_vehicles << vehicle.id
-      end
+      @a = (@numb_vehicles - @use_b_near_service.all.count)
     
     
+    @use_b_near_service.order(times_used: :asc).limit(@use_b_near_service.all.count).each do |vehicle|
+      @event_vehicles << vehicle.id        
+    end
+    @use_b_near_air_filter_service.order(times_used: :asc).limit(@a).each do |vehicle|
+      @event_vehicles << vehicle.id
+    end
+  elsif @use_a.all.count = 0 && @use_b_near_service.all.count < @numb_vehicles &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_b_near_service.all.count) && @use_b_a_service.all.count >= (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service)
+    
+    @a = (@numb_vehicles - @use_a.all.count - @use_b_near_service.all.count)
+    @b = (@numb_vehicle - @use_a.all.count - @use_b_near_service.all.count - @use_b_air_filter_service)
+    
+  
+  @use_b_near_service.order(times_used: :asc).limit(@use_b_near_service.all.count).each do |vehicle|
+    @event_vehicles << vehicle.id        
+  end
+  @use_b_near_air_filter_service.order(times_used: :asc).limit(@a).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+  @use_b_near_a_service.order(times_used: :asc).limit(@b).each do |vehicle|
+    @event_vehicles << vehicle.id
+  end
+      
+elsif @use_a.all.count = 0 && @use_b_near_service.all.count < @numb_vehicles &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_b_near_service.all.count) && @use_b_a_service.all.count < (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count) && @use_b_shock_service.all.count >= (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+  @a = (@numb_vehicles - @use_b_near_service.all.count)
+  @b = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count)
+  @c = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+ 
+
+@use_b_near_service.order(times_used: :asc).limit(@use_b_near_service.all.count).each do |vehicle|
+  @event_vehicles << vehicle.id        
+end
+@use_b_air_filter_service.order(times_used: :asc).limit(@a).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_a_service.order(times_used: :asc).limit(@b).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_shock_service.order(times_used: :asc).limit(@c).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+elsif @use_a.all.count = 0 && @use_b_near_service.all.count < @numb_vehicles &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_b_near_service.all.count) && @use_b_a_service.all.count < (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count) && @use_b_shock_service.all.count < (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count) && @use_b_service_actual_near.all.count >= (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+ 
+  @a = (@numb_vehicles - @use_b_near_service.all.count)
+  @b = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count)
+  @c = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+   @d = (@numb_vehicles  - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+  
+
+@use_b_near_service.order(times_used: :asc).limit(@use_b_near_service.all.count).each do |vehicle|
+  @event_vehicles << vehicle.id        
+end
+@use_b_air_filter_service.order(times_used: :asc).limit(@a).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_a_service.order(times_used: :asc).limit(@b).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_shock_service.order(times_used: :asc).limit(@c).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_service_actual.near.order(times_use: :asc).limit(@d).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+elsif @use_a.all.count < @numb_vehicles && @use_b_near_service.all.count < @numb_vehicles &&  @use_b_air_filter_service.all.count < (@numb_vehicles - @use_b_near_service.all.count) && @use_b_a_service.all.count < (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count) && @use_b_shock_service.all.count < (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count) && @use_b_service_actual_near.all.count < (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count) && @use_b_service_actual.all.count >= (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+ 
+  @b = (@numb_vehicles - @use_b_near_service.all.count)
+  @c = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count)
+  @d = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count)
+   @e = (@numb_vehicles - @use_b_near_service.all.count - @use_b_air_filter_service.all.count - @use_b_a_service.all.count - @use_b_shock_service.all.count)
+  
+
+@use_b_near_service.order(times_used: :asc).limit(@use_b_near_service.all.count).each do |vehicle|
+  @event_vehicles << vehicle.id        
+end
+@use_b_air_filter_service.order(times_used: :asc).limit(@a).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_a_service.order(times_used: :asc).limit(@b).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_shock_service.order(times_used: :asc).limit(@c).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_service_actual_near.order(times_used: :asc).limit(@d).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+@use_b_service_actual.order(times_usedd: :asc).limit(@e).each do |vehicle|
+  @event_vehicles << vehicle.id
+end
+else
+  @event.update(vehicle_ids: [])
+      
   end
      
-    end
+  
      @event.update(vehicle_ids: @event_vehicles)
   end
   redirect_back(fallback_location: root_path)

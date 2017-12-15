@@ -48,7 +48,7 @@
 	</div>
 	<div class="card-body">
 		<% if @vehicle_results != nil%>
-		<%= render 'vehicle_table', vehicle: @vehicle_results.where(use_a: true, vehicle_status: "In-Service")%>
+		<%= render 'vehicle_table', vehicle: @vehicle_results.where(use_a: true, vehicle_status: "In-Service").order(times_used: :asc)%>
 		<% end %>
 	</div>
 </div>

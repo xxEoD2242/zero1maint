@@ -93,10 +93,12 @@ end
   
   def auto_select_vehicles
     @event = Event.find(params[:id])
-    @use_a = Vehicle.where(use_a: true, use_b: false, location: @event.location)
+    @use_a = Vehicle.where(use_a: true, use_b: false, near_service: false, location: @event.location)
     
     # Vehicles that have no future near service or needs service
-    @use_b_near_service = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true)
+    
+    #actually Use A vehicles that need service
+    @use_b_near_service = Vehicle.where(location: @event.location, use_b: false, use_a: true, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true)
     
     @use_b_air_filter_service_near = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: false) 
     @use_b_a_service_near_1 = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: true, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: false)
@@ -2490,7 +2492,7 @@ end
         if @a_service < 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
         elsif @a_service <= 100
-          vehicle.update(use_b: true, use_a: false, use_near_service: true)
+          vehicle.update(use_near_service: true, dont_use_a_service: false)
         else
           vehicle.update(dont_use_a_service: false)
         end
@@ -2500,7 +2502,7 @@ end
             if @shock_service < 0
               vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
             elsif @shock_service <= 200
-              vehicle.update(use_b: true, use_a: false, use_near_service: true)
+              vehicle.update(use_near_service: true, dont_use_shock_service: false)
             else
               vehicle.update(dont_use_shock_service: false)
             end
@@ -2511,7 +2513,7 @@ end
            if @air_filter_service < 0
              vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
            elsif @air_filter_service <= 50
-             vehicle.update(use_b: true, use_a: false, use_near_service: true)
+             vehicle.update(use_near_service: true, dont_use_air_filter_service: false)
            else
              vehicle.update(dont_use_air_filter_service: false)
            end

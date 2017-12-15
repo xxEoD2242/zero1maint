@@ -16,16 +16,14 @@
   </thead>
 
   <tbody>
-    <% vehicle.order(times_used: :asc).each do |vehicle| %>
+    <% vehicle.each do |vehicle| %>
       <tr>
         <th scope="row"><%= vehicle.car_id %></th>
 		  <td><%= vehicle.vehicle_status %></td>
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
         <td>
-			  <% if vehicle.events.where('date > ?', Time.now  - 1.month) != []%>
-			  <%= vehicle.events.where('date > ?', Time.now  - 1.month).count%>
-			  <% end %>
+			  <%= vehicle.times_used%>
 		  </td>
 			  <td><%= vehicle.mileage %></td>
         <td><% if vehicle.use_near_service == true%>

@@ -95,7 +95,7 @@ end
     @event = Event.find(params[:id])
     @use_a = Vehicle.where(use_a: true, use_b: false, location: @event.location)
     
-    # Vehicles That Have no near service or needs service
+    # Vehicles that have no future near service or needs service
     @use_b_near_service = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: false, use_near_service: true)
     
     @use_b_air_filter_service_near = Vehicle.where(location: @event.location, use_b: true, use_a: false, needs_service: false, near_service: false, veh_category: "RZR", dont_use_a_service: false, dont_use_shock_service: false, dont_use_air_filter_service: true, use_near_service: false) 

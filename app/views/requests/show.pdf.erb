@@ -1,17 +1,12 @@
 <div>
-   <h2>Request Number: <%= @request.number %></h2>
+   <h1 style="text-align: center;">Work Order Number: <%= @request.id %> for <%= @request.vehicle.car_id%> </h1>
 </div>	
-<div class="card-body">
-<div class="row">
-	<div class="col-md-6">
-<p>
-  <strong>Vehicle Name:</strong>
-  <%= @request.vehicle.car_id%>
-</p>
-<!-- This is a comment -->
+
+
+
 <p>
   <strong>Submitted By:</strong>
-  <%= @request.user.name%>
+  <%= @request.creator%>
 </p>
 
 <p>
@@ -36,30 +31,43 @@
 <% end %>
 
 <p>
-  <strong>Special requets:</strong>
-  <%= @request.special_requets %>
-</p>
-
-<p>
   <strong> Work Order Mileage:</strong>
   <%= @request.request_mileage%>
 </p>
 
 <p>
-  <strong>Completion date:</strong>
+  <strong>Estimated Completion date:</strong>
   <%= @request.completion_date %>
 </p>
-</div>
-<div class="col-md-6">
+
+<% if @request.completed_date != nil%>
+<p>
+  <strong>Completed date:</strong>
+  <span style="color: green;"><%= @request.completed_date %></span>
+</p>
+<% end %>
+
+<% if @request.users.exists?%>
+<p>
+  <strong> Recipents:</strong>
+  <ul style="list-style-type: none;">
+  <% @request.users.each do |user|%>
+  <li><%= user.name%></li>
+	  <% end %>
+  </ul>
+</p>
+<% end %>
 
 
+
+<% if @part_order != []%>
 <div class="card">
 	<div class="card-header">
 	<strong>Parts: </strong>
 </div>
 <div class="card-body">
-<% if @part_order != []%>
-		<table border='1'>
+
+		<table>
 			<thead>
 			<tr>
 			<th scope="col">Item:</th>
@@ -91,9 +99,8 @@
 	  <% end %>
 			<% end %>
 		<div>
-    Request Total Cost:&nbsp<span> <%= number_to_currency total.sum %></span>
+    Work Order Total Cost:&nbsp<span> <%= number_to_currency total.sum %></span>
  </div>
+<% else %>
+<h4> No Parts Add To Work ORder
 <% end %>
-</div>
-
-</div>

@@ -6,7 +6,10 @@ class User < ApplicationRecord
          
          
          ROLES = ['admin', 'employee']
-         has_many :requests
+         
+         has_many :request_users
+         
+         has_many :requests, through: :request_users
          has_many :request_part_orders
          
          has_many :checklists
@@ -18,5 +21,9 @@ class User < ApplicationRecord
          
          def employee?
            role == "employee"
+         end
+         
+         def user_naming
+           "&nbsp #{name} &nbsp".html_safe
          end
 end

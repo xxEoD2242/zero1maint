@@ -1,9 +1,11 @@
 class Request < ApplicationRecord
   belongs_to :tracker
-  belongs_to :user
+  
   belongs_to :program
   belongs_to :vehicle
   
+  has_many :request_users
+  has_many :users, through: :request_users
   
   has_many :part_requests
   has_many :parts, through: :part_requests

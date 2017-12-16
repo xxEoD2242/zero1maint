@@ -162,10 +162,10 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
-    
     @a_service = Program.find_by(name: "A-Service")
     @shock_service = Program.find_by(name: "Shock Service")
-    @air_filter_service = Program.find_by(name: "Air Filter Service")
+    @air_filter_service = Program.find_by(name: "Air Filter Change")
+     @set_completed = Tracker.find_by(track: "Completed")
     
     @repairs = Program.find_by(name: "Repairs")
     @defects = Program.find_by(name: "Defect")
@@ -174,20 +174,35 @@ class RequestsController < ApplicationController
       
       if @request.save
         @veh_mileage = @request.vehicle.mileage
-        if @request.program_id == @a_service.id
+        if @request.program_id == @a_service.id && @request.tracker_id == @set_completed.id
           @request.vehicle.update(last_a_service: @veh_mileage)
-        elsif @request.program_id == @shock_service.id
+        elsif @request.program_id == @shock_service.id && @request.tracker_id == @set_completed.id
           @request.vehicle.update(last_shock_service: @veh_mileage)
-         elsif @request.program_id == @air_filter_service.id 
+         elsif @request.program_id == @air_filter_service.id && @request.tracker_id == @set_completed.id
            @request.vehicle.update(last_air_filter_service: @veh_mileage)
         elsif @request.program_id == @repairs.id && @request.tracker_id == @set_new.id
-          @request.vehicle.update(repair_needed: true, vehicle_status: "Out-of-Service")
+          @request.vehicle.update(repair_needed: true, needs_service: true, vehicle_status: "Out-of-Service")
         elsif @request.program_id == @defects.id && @request.tracker_id == @set_new.id
-          @request.vehicle.update(defect: true, vehicle_status: "Out-of-Service")
-          UserMailer.new_request_email(current_user, @request).deliver_now
+          @request.vehicle.update(defect: true, needs_service: true, vehicle_status: "Out-of-Service")
+          if @request.users.exists?
+            defect_emails = []
+            @request.users.all.each do |user|
+              defect_emails << user.email
+            end
+          UserMailer.new_request_email(defect_emails, @request).deliver_now
         end
+      end
+        unless @request.program_id == @defects.id && @request.tracker_id == @set_new.id
+        if @request.users.exists?
+          emails = []
+          @request.users.all.each do |user|
+            emails << user.email
+          end
+          UserMailer.assign_request_email(emails, @request).deliver_now
+        end
+      end
         
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
+        format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
         format.html { render :new }
@@ -201,17 +216,36 @@ class RequestsController < ApplicationController
   def update
     @repairs = Program.find_by(name: "Repairs")
     @defects = Program.find_by(name: "Defect")
+    @a_service = Program.find_by(name: "A-Service")
+    @shock_service = Program.find_by(name: "Shock Service")
+    @air_filter_service = Program.find_by(name: "Air Filter Change")
     @set_completed = Tracker.find_by(track: "Completed")
     respond_to do |format|
       if @request.update(request_params)
         vehicle = @request.vehicle
-        if @request.program_id == @repairs.id && @request.tracker_id == @set_completed.id
+        @veh_mileage = @request.vehicle.mileage
+        if @request.program_id == @a_service.id && @request.tracker_id == @set_completed.id
+          @request.vehicle.update(last_a_service: @veh_mileage)
+        elsif @request.program_id == @shock_service.id && @request.tracker_id == @set_completed.id
+          @request.vehicle.update(last_shock_service: @veh_mileage)
+         elsif @request.program_id == @air_filter_service.id && @request.tracker_id == @set_completed.id
+           @request.vehicle.update(last_air_filter_service: @veh_mileage)
+        elsif @request.program_id == @repairs.id && @request.tracker_id == @set_completed.id
           vehicle.update(repair_needed: false, vehicle_status: "In-Service")
-        end
-        if @request.program_id == @defects.id && @request.tracker_id == @set_completed.id
+        elsif @request.program_id == @defects.id && @request.tracker_id == @set_completed.id
           vehicle.update( defect: false, vehicle_status: "In-Service")
         end
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
+        
+        if @request.users.exists?
+          emails = []
+          @request.users.all.each do |user|
+            emails << user.email
+          end
+          UserMailer.assign_request_email(emails, @request).deliver_now
+        end
+      
+        
+        format.html { redirect_to @request, notice: 'Work Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
       else
         format.html { render :edit }
@@ -263,6 +297,6 @@ class RequestsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     
     def request_params
-      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :poc, :checklist_numb, :vehicle_id, :tracker_id, :image, :user_id, :request_mileage, :program_id, part_ids: [])
+      params.require(:request).permit(:number, :description, :special_requets, :completion_date, :completed_date, :poc, :checklist_numb, :creator, :vehicle_id, :tracker_id, :image, :creator, :request_mileage, :program_id, part_ids: [], user_ids: [])
     end
 end

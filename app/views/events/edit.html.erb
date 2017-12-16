@@ -67,7 +67,7 @@
   	   <div class="col-6">
   		<strong>	<%= vehicle_category%>: </strong>
   		<br \>
-  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true).order(times_used: :asc), "id", :vehicle_naming, class: "form-controls" %>
 		
   	</div>
 	

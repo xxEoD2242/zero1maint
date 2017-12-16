@@ -1,14 +1,56 @@
 
-	<div class="object-title">
-<h1 style="text-align: center;">Defect Work Order Created</h1>
-</div>
-<br \>
-<div>
-<ul style='list-style-type: none;'>
-	<li class="list-group-item d-flex justify-content-between align-items-center">Work Order Number: <span><%= @request.number%></span></li>
-	<li class="list-group-item d-flex justify-content-between align-items-center">Vehicle: <span><%= @request.vehicle.car_id%></span></li>
-	<li class="list-group-item d-flex justify-content-between align-items-center">Vehicle Location: <span><%= @request.vehicle.location.locale%></span></li>
-	<li class="list-group-item d-flex justify-content-between align-items-center">Description of Issue: <span><%= @request.description%></span></li>
-	<li class="list-group-item d-flex justify-content-between align-items-center">Submitted by: <span><%= @request.user.name%></span></li>
-	<li class="list-group-item d-flex justify-content-between align-items-center">Description of Issue: <span><%= @request.description%></span></li>
-</div>
+	<div>
+	   <h1 style="text-align: center;">Request Number: <%= @request.number %></h1>
+	</div>	
+
+	<p>
+		You have been assigned to this work order. If you have any questions, please contact <%= @request.creator%>.
+	</p>
+	
+	<p>
+	  <strong>Vehicle Name:</strong>
+	  <%= @request.vehicle.car_id%>
+	</p>
+
+	<p>
+	  <strong>Submitted By:</strong>
+	  <%= @request.creator%>
+	</p>
+
+	<p>
+	  <strong>Current Vehicle Mileage:</strong>
+	  <%= @request.vehicle.mileage%>
+	</p>
+
+	<p>
+	  <strong>Description:</strong>
+	  <%= @request.description %>
+	</p>
+
+	<p>
+	  <strong>Status:</strong>
+	  <%= @request.tracker.track %>
+	</p>
+	<% if @request.program != nil %>
+	<p>
+		<strong>Service Type:</strong>
+		<%= @request.program.name %>
+	</p>
+	<% end %>
+
+	<p>
+	  <strong>Special requets:</strong>
+	  <%= @request.special_requets %>
+	</p>
+
+	<p>
+	  <strong> Work Order Mileage:</strong>
+	  <%= @request.request_mileage%>
+	</p>
+
+	<p>
+	  <strong>Completion date:</strong>
+	  <%= @request.completion_date %>
+	</p>
+
+	

@@ -1,17 +1,13 @@
 <div class="jumbotron">
-	<h3 class="display-3 text-center">Request Number: <%= @request.id %></h3>
+	<h2 class="display-3 text-center">Work Order <%= @request.id %> for <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-info"%> </h2>
 <div class="card">
 <div class="card-body">
 <div class="row">
 	<div class="col-md-6">
-<p>
-  <strong>Vehicle Name:</strong>
- <h5> <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-info"%> </h5>
-</p>
-<!-- This is a comment -->
+
 <p>
   <strong>Submitted By:</strong>
-  <%= @request.user.name%>
+  <%= @request.creator%>
 </p>
 
 <p>
@@ -43,19 +39,29 @@
 <% end %>
 
 <p>
-  <strong>Special requets:</strong>
-  <%= @request.special_requets %>
-</p>
-
-<p>
   <strong> Work Order Mileage:</strong>
   <%= @request.request_mileage%>
 </p>
-
+<% if @request.users.exists?%>
 <p>
-  <strong>Completion date:</strong>
+  <strong> Recipents:</strong>
+  <ul style="list-style-type: none;">
+  <% @request.users.each do |user|%>
+  <li><%= user.name%></li>
+	  <% end %>
+  </ul>
+</p>
+<% end %>
+<p>
+  <strong>Estimated Completion date:</strong>
   <%= @request.completion_date %>
 </p>
+<% if @request.completed_date != nil%>
+<p>
+  <strong>Completed date:</strong>
+  <span style="color: green;"><%= @request.completed_date %></span>
+</p>
+<% end %>
 </div>
 <div class="col-md-6 mb-3">
 

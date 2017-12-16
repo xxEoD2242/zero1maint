@@ -11,7 +11,7 @@
 			<th>Email</th>
 			<th>Date Joined</th>
 			<th>Labor Hours</th>
-			<th>Requests</th>
+			
 			
 		</tr>
 	</thead>
@@ -24,11 +24,7 @@
 			<td><%= user.email %></td>
 			<td><%= user.created_at.strftime("%D")%>
 				<td><%= user.labor%></td>
-			<td><ul class="list-group"><% user.requests.order(created_at: :asc).limit(3).each do |request| %>
-		  		
-				<li class="list-group-item"><%= link_to request.id, request_path(id: request.id), class: "badge badge-info" %>
-				<%= request.tracker.track%></li>
-				<% end %></ul></td>
+			
 			
 		</tr>
 		<% end %>

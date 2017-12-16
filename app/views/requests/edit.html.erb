@@ -5,7 +5,7 @@
 <div class="card">
 	
 
-<%= simple_form_for @request, html: {multipart: true} do |f| %>
+<%= simple_form_for @request do |f| %>
   <% if @request.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@request.errors.count, "error") %> prohibited this event from being saved:</h2>
@@ -18,6 +18,11 @@
     </div>
   <% end %>
 <div class="card-body">
+	<div class="form-group">
+		<strong>Creator: <%= @request.creator%></strong>
+	</div>
+	
+	
 	<div class="form-group">
 		<strong>Current Status </strong> <br \>
 	  <%= f.select :tracker_id, @tracks.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
@@ -32,32 +37,36 @@
     <%= f.text_area :description, id: :request_description, class: "form-control" %>
   </div>
   
- <div class="form-group d-flex justify-content-bottom">
-   <strong>Upload Product Image: </strong>
-   <%= f.file_field :image %>
- </div>
-
-	
 	<div class="form-group">
 		<%= f.select :vehicle_id, @vehicles.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
 	</div>
 	
 	
-	<%= f.hidden_field :user_id, value: current_user.id%>
+	<%= f.hidden_field :creator, value: current_user.name%>
 
-  <div class="form-group">
-    <strong><%= f.label :special_requets %></strong>
-    <%= f.text_area :special_requets, id: :request_special_requets, class: "form-control" %>
-  </div>
 
   <div class="form-group">
     <strong><%= f.label :completion_date %></strong>
     <%= f.date_select :completion_date, id: :request_completion_date, class: "form-control" %>
   </div>
+  
+  <div class="form-group">
+    <strong><%= f.label :completed_date %></strong>
+    <%= f.date_select :completed_date, id: :request_completion_date, class: "form-control" %>
+  </div>
 
   <div class="form-group">
-    <strong><%= f.label "Point of Contact" %></strong>
-    <%= f.text_field :poc, id: :request_poc, class: "form-control" %>
+    <strong style="margin-bottom: 2px;">Assign &/OR Email Request To: </strong> *If you are the mechanic for this work order, select yourself please.*
+	 <br \>
+	 <br \>
+    <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
+  </div>
+  
+  <div class="form-group d-flex justify-content-bottom">
+    <strong>Upload Work Order Images: </strong>
+	 <br \>
+	 <br \>
+    <%= f.file_field :image %>
   </div>
 
   <div class="form-group">

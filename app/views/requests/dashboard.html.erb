@@ -132,7 +132,7 @@
 		
 			<li class="list-group-item d-flex justify-content-between align-items-center">Status
 			<span class="badge badge-info"><%=request.tracker.track%></span>Requestor
-			<span class="badge badge-info"><%= request.user.name%></span></li>
+			<span class="badge badge-info"><%= request.creator%></span></li>
 			
 		</ul>
 		</div>
@@ -162,7 +162,7 @@
 					<span class="badge badge-info"><%= request.vehicle.car_id%>
 					</span>
 					Type:
-					<span class="badge badge-info"><%= request.program.name %> </span>
+					<span class="badge badge-info"><%= request.creator %> </span>
 				</li>
 		
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status
@@ -201,7 +201,7 @@
 		
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status
 					<span class="badge badge-info"><%=request.tracker.track%></span>Requestor
-					<span class="badge badge-info"><%= request.user.name%></span></li>
+					<span class="badge badge-info"><%= request.creator%></span></li>
 			
 				</ul>
 			</div>

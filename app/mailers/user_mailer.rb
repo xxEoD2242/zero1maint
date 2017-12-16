@@ -3,6 +3,17 @@ class UserMailer < ApplicationMailer
   
   
   
+  def new_request_email(emails, request)
+    @request = request
+    
+    mail(to: emails, subject: "Work Order #{@request.id} has been created and assigned. Please view.")
+  end
+  
+  def assign_request_email(emails, request)
+    @request = request
+    
+    mail(to: emails, subject: "Work Order #{@request.id} has been created and assigned. Please view.")
+  end
   
   def weekly_events_report
     emails = []

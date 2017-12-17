@@ -4,6 +4,11 @@ class ShowUsersController < ApplicationController
     @users = User.all
   end
   
+  def show
+    @user = User.find(params[:id])
+    @requests = Request.where(creator: @user.name)
+  end
+  
   def destroy
       @user = User.find(params[:id])
       @user.destroy

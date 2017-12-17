@@ -1,28 +1,27 @@
 <div>
-   <h1 style="text-align: center;">Request Number: <%= @request.number %></h1>
+   <h1 style="text-align: center;">Request Number <%= @request.number %> for Vehicle <%= @request.vehicle.car_id%></h1>
 </div>	
 
 <p>
 	You have been assigned to this work order. If you have any questions, please contact <%= @request.creator%>.
 </p>
 	
-<p>
-  <strong>Vehicle Name:</strong>
-  <%= @request.vehicle.car_id%>
-</p>
 
 <p>
   <strong>Submitted By:</strong>
+  <br \>
   <%= @request.creator%>
 </p>
 
 <p>
   <strong>Current Vehicle Mileage:</strong>
+  <br \>
   <%= @request.vehicle.mileage%>
 </p>
 
 <p>
   <strong>Description:</strong>
+  <br \>
   <%= @request.description %>
 </p>
 
@@ -37,11 +36,6 @@
 </p>
 <% end %>
 
-
-<p>
-  <strong> Work Order Mileage:</strong>
-  <%= @request.request_mileage%>
-</p>
 
 <p>
   <strong>Completion date:</strong>

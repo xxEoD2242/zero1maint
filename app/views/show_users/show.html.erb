@@ -16,7 +16,7 @@
 		<strong> Last Sign In </strong>	
 		<%= @user.last_sign_in_at.strftime('%D')%>
 		</p>
-		
+		<% if @requests != []%>
 		<h5 class="text-center"> Work Orders Submitted &nbsp&nbsp&nbsp&nbsp
 			<span class="badge badge-dark"> 
 			<%= @requests.all.count %>

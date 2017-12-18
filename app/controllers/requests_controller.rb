@@ -95,13 +95,14 @@ class RequestsController < ApplicationController
   
   def add_to_request_part_order
     part_quant = Part.find(params[:part_id]).quantity
-    if part_quant > 0
+    if part_quant == nil
+      flash[:alert] = "Quantity of part unkown. Please update quantity in Parts Dashboard and try again."
+    elsif part_quant > 0
       part_item = PartItem.create(part_id: params[:part_id], quantity: params[:quantity], request_id: params[:request_id])
       part_item.update(part_item_total: (part_item.quantity * part_item.part.cost))
-      flash[:success] = "Part successfully added to cart!"
+      flash[:notice] = "Part successfully added to cart!"
     else
-      flash[:success] = "Part Out of Stock!"
-       redirect_back(fallback_location: root_path)
+      flash[:alert] = "Part Out of Stock!"
     end
      
     redirect_back(fallback_location: root_path)
@@ -110,6 +111,9 @@ class RequestsController < ApplicationController
   def delete_parts
     part_item = PartItem.find(params[:id])
     part_item.destroy
+    if part_item.destroy
+    flash[:notice] = "Part successfully removed from cart!"
+    end
     redirect_back(fallback_location: root_path)
   end
   
@@ -137,6 +141,9 @@ class RequestsController < ApplicationController
       PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)
     end  
       part_items.destroy_all 
+    end
+    if @part_order != nil
+      flash[:notice] = "Parts successfully added to work order!"
     end
     redirect_back(fallback_location: root_path)
   end

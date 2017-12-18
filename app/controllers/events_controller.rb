@@ -2441,11 +2441,17 @@ end
 end
 
 else
-  @event.update(vehicle_ids: [])  
+  @event.update(vehicle_ids: [])
   end
      @event.update(vehicle_ids: @event_vehicles)
+     
+     if @event.vehicles == []
+       flash[:alert] = "Insufficient number of vehicles at current location. Please move vehicles to this location or maunally select vehicles."
+     else
+       flash[:notice] = "Vehicles successfully added!"
+     end
+     redirect_back(fallback_location: root_path)
   end
-  redirect_back(fallback_location: root_path)
 end
   
   def vehicle_rotation

@@ -5,15 +5,15 @@
 <div class="card">
 	<div class="card-body">
 	<p>
-	<strong> Email </strong>	
+	<strong> Email </strong> &nbsp&nbsp&nbsp&nbsp&nbsp	
 		<%= @user.email%>
 	</p>	
 		<p>
-		<strong> Employee ID </strong>	
+		<strong> Employee ID </strong>	&nbsp&nbsp&nbsp&nbsp&nbsp	
 		<%= @user.emplyid%>
 		</p>
 		<p>
-		<strong> Last Sign In </strong>	
+		<strong> Last Sign In </strong>	&nbsp&nbsp&nbsp&nbsp&nbsp	
 		<%= @user.last_sign_in_at.strftime('%D')%>
 		</p>
 		<% if @requests != []%>
@@ -52,7 +52,8 @@
 		</div>
 		<% end %>
 		</div>
-		</strong>	
+		<% end %>
+		
 		
 		
 	

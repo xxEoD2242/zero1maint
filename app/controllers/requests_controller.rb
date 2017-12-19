@@ -181,11 +181,11 @@ class RequestsController < ApplicationController
       
       if @request.save
         @veh_mileage = @request.vehicle.mileage
-        if @request.program_id == @a_service.id && @request.tracker_id == @set_completed.id
+        if @request.program_id == @a_service.id
           @request.vehicle.update(last_a_service: @veh_mileage)
-        elsif @request.program_id == @shock_service.id && @request.tracker_id == @set_completed.id
+        elsif @request.program_id == @shock_service.id
           @request.vehicle.update(last_shock_service: @veh_mileage)
-         elsif @request.program_id == @air_filter_service.id && @request.tracker_id == @set_completed.id
+         elsif @request.program_id == @air_filter_service.id
            @request.vehicle.update(last_air_filter_service: @veh_mileage)
         elsif @request.program_id == @repairs.id && @request.tracker_id == @set_new.id
           @request.vehicle.update(repair_needed: true, needs_service: true, vehicle_status: "Out-of-Service")

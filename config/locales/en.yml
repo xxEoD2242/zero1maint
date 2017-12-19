@@ -42,6 +42,8 @@ en:
        part:
          quantity: "Part"
          cost: "Part"
+       event:
+         est_mileage: "Estimated Mileage"
      errors:
        models:
          vehicle:
@@ -64,3 +66,7 @@ en:
            attributes:
              quantity:
                blank: "is required!"
+         event:
+           attributes:
+             est_mileage:
+               blank: "should be added to update vehicle rotation!"

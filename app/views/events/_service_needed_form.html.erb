@@ -4,9 +4,9 @@
     <tr>
       <th scope="col">ID</th>
 		<th scope="col">Status</th>
+		<th scope="col">Scheduled Date</th>
       <th scope="col">Event Type</th>
       <th scope="col">Location</th>
-      <th scope="col">Vehicles</th>
       <th scope="col">Event Mileage</th>
       <th colspan="2"></th>
     </tr>
@@ -17,11 +17,9 @@
       <tr>
         <th scope="row"><%= event.id %></th>
 		  <td><%= event.status %></td>
+		  <td><%= event.date.strftime('%D')%>
         <td><%= event.event_type%></td>
         <td><%= event.location %></td>
-        <td><% event.vehicles.order(car_id: :asc).limit(3).each do |vehicle| %>
-		  		<%= link_to vehicle.car_id, vehicle, method: :get, class: "badge badge-primary" %>
-				<% end %></td>
         <td><%= event.event_mileage %></td>
 
       <td><%= link_to 'Show', event, class: "btn btn-primary btn-sm" %>

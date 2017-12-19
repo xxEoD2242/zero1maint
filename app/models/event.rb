@@ -13,6 +13,7 @@ class Event < ApplicationRecord
   validates :status, presence: true
   validates :event_type, presence: true
   validates :class_type, presence: true
+  validates :est_mileage, presence: true
   
   
   paginates_per 5
@@ -23,5 +24,9 @@ class Event < ApplicationRecord
   EVENT_TYPES = ['Odyssey', 'RZR', 'Military Training', 'Race Event', 'Filming', 'Special Event', 'Training Non-NSW', 'Demonstration']
   CLASS_TYPES = ['Road Runner', 'Mojave','Pioneer','Sundown', '2 Day Odyssey', '3 Day Odyssey', '4 Day Odyssey', 'Special Event', 'Training', 'Race']
   LOCATION = ['RZR Base Camp', 'The Ranch', 'Speedway', 'Uvalde', 'Other']
+  
+  def set_est_mileage
+      self.est_mileage = 0 if self.est_mileage.blank?
+    end
   
 end

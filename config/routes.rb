@@ -69,6 +69,7 @@ resource :calendar, only: [:show], controller: :calendar
      get 'vehicle_rotation'
      get 'vehicles_assigned'
      get 'auto_select_vehicles'
+     get 'next_month_calendar'
     end
   end
   resources :vehicles do

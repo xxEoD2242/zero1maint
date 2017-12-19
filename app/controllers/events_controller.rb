@@ -44,7 +44,17 @@ class EventsController < ApplicationController
     @assigned_events = Event.where(status: "Vehicles Assigned")
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = Event.group('events.id').group_by(&:date)
-    
+  end
+  
+  def next_month_calendar
+    @next_month = Time.now + 1.month
+    @events = Event.where('date >= ?', @next_month - 7.days)
+    @display_events = @events.where('date <= ?', @next_month + 14.days)
+    @scheduled_events = Event.where(status: 'Scheduled')
+    @completed_events = Event.where(status: 'Completed')
+    @assigned_events = Event.where(status: "Vehicles Assigned")
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @events_by_date = Event.group('events.id').group_by(&:date)
   end
   
   def completed_events

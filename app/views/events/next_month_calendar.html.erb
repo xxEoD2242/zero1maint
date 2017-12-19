@@ -43,13 +43,11 @@
   <div class="col-md-12">
 	  <div class="card">
 		  <div class="card-header d-flex justify-content-between align-items-center">
-			<h2> <%= @date.strftime('%B %Y') %> </h2> <span class="d-flex justify-content-end">
-		 <%= link_to "#{(@date + 1.month).strftime('%B %Y')}", next_month_calendar_events_path, class: "btn btn-dark"%>
-	 </span>
+			<h2> <%= (@date + 1.month).strftime('%B %Y') %> </h2> <span>  <%= link_to "#{(@date).strftime('%B %Y')}", dashboard_events_path, class: "btn btn-dark"%> </span>
 		  </div>
 		  <div class="card-body">
 			   
-    <%= calendar @date do |date| %>
+    <%= calendar @date + 1.month do |date| %>
 	 <%= date.day %>
 	 
 	 
@@ -96,7 +94,6 @@
 		 	No Vehicles Added!
 		 </i> 
 	 </span>
-	 
  </div>
 </div>
   </div>

@@ -21,7 +21,7 @@
 	<tbody>
 		<% @completed.order(tracker_id: :asc).each do |request|%>
 	<tr>
-		<td><%= request.number%></td>
+		<td><%= request.id%></td>
 		<td><%= request.tracker.track %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>

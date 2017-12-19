@@ -21,7 +21,7 @@
 	<tbody>
 		<% @work_orders.where(program_id: @set_new.id).order(completion_date: :desc).each do |request|%>
 	<tr>
-		<td><%= request.number%></td>
+		<td><%= request.id%></td>
 		<td><%= request.tracker.track %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
@@ -57,7 +57,7 @@
 	<tbody>
 		<% @work_orders.where(program_id: @set_progress.id).order(completion_date: :desc).each do |request|%>
 	<tr>
-		<td><%= request.number%></td>
+		<td><%= request.id%></td>
 		<td><%= request.tracker.track %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>

@@ -1,18 +1,18 @@
 <div>
-  <h3>Car:
+  <h3 style="text-align: center;">Vehicle:
   <%= @vehicle.car_id %></h3>
 </div>
 <div>
 	<div class="row">
 		<div class="col-sm-6">
 <p>
-  <strong>Car category:</strong>
-  <%= @vehicle.vehicle_category.name%>
+  <strong>Vehicle category:</strong>
+  <%= @vehicle.veh_category%>
 </p>
 
 <p>
 	<strong>Location:</strong>
-	<%= @vehicle.location.locale%>
+	<%= @vehicle.location%>
 </p>
 
 <p>
@@ -43,7 +43,7 @@
 <p>
   <strong>Work Orders: </strong>
   <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
-  		  	<span style="color: blue;">	<%=request.id%></span>
+  		  	<span style="color: green;">	<%=request.id%></span>
 				(<%= request.tracker.track%>)
   				<% end %>
 </p>
@@ -56,32 +56,34 @@
 	<strong>Mileage Until:</strong>
 	<ul style="list-style-type: none;">
 		
-	<li class="list-group-item"><strong>A-Service:</strong>
+	<li class="list-group-item"><strong>A-Service:</strong> &nbsp&nbsp&nbsp&nbsp
 	
 	<% if @vehicle.a_service == nil %>
 	No Data
 	<% elsif @vehicle.a_service == true%>
-			<strong style="text-color: red;">NEEDS SERVICE</strong>
+			<strong style="color: red;">NEEDS SERVICE</strong> 
 			<% else %>
-	<%= @a_service %>
+	<span style="color: green;"><%= (@set_a_service.interval - (@vehicle.mileage - @vehicle.last_a_service)) %> Miles</span>
 	<% end%></li>
-	<li class="list-group-item"><strong>Shock Service:</strong>
-		<% if @vehicle.shock_service == nil %>
+	<li class="list-group-item"><strong>Shock Service:</strong> &nbsp&nbsp&nbsp&nbsp
+				<% if @vehicle.shock_service == nil %>
 		No Data
 		<% elsif @vehicle.shock_service == true %>
-		<strong style="text-color:red;">NEEDS SERVICE</strong>
+		<strong style="color:red;">NEEDS SERVICE</strong>
 		<% else %>
-	<%= @shock_service %>
+	<span style="color: green;"><%= (@set_shock_service.interval - (@vehicle.mileage - @vehicle.last_shock_service)) %> Miles</span>
 		<% end %>
 </li>
-	<li class="list-group-item"><strong>Air Filter Service:</strong>
+	<li class="list-group-item"><strong>Air Filter Service:</strong> &nbsp&nbsp&nbsp&nbsp
 		<% if @vehicle.air_filter_service == nil %>
 		No Data
 		<% elsif @vehicle.air_filter_service == true%>
-		<strong style="text-color: red;">NEEDS SERVICE</strong>
+		<strong style="color: red;">NEEDS SERVICE</strong>
 		<% else %>
-	<%= @air_filter_service %></li>
+	<span style="color: green;"><%=(@set_air_filter_service.interval - (@vehicle.mileage - @vehicle.last_air_filter_service))%> Miles</span>
+	
 	<% end %>
+	</li>
 	
 	<li class="list-group-item"><strong>Repairs:</strong>
 		<% if @vehicle.repair_needed == nil %>

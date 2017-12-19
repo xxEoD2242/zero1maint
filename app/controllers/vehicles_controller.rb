@@ -77,14 +77,7 @@ class VehiclesController < ApplicationController
     @set_defects = Program.find_by(name: "Defect")
     @set_new = Tracker.find_by(track: "New")
     @request = Request.all
-    respond_to do |format|
-        format.html
-        format.csv { send_data @vehicle.to_csv }
-        format.xls
-        format.pdf do
-          render pdf: "Vehicle #{@vehicle.car_id}", :layout => 'pdf.pdf.erb', :title => "Vehicle #{@vehicle.car_id}"   # Excluding ".pdf" extension.
-        end
-      end
+    
       
       if @vehicle.last_a_service != nil
         @a_service = (@set_a_service.interval - (@vehicle.mileage - @vehicle.last_a_service))
@@ -118,7 +111,14 @@ class VehiclesController < ApplicationController
            end
          end
      
-      
+         respond_to do |format|
+             format.html
+             format.csv { send_data @vehicle.to_csv }
+             format.xls
+             format.pdf do
+               render pdf: "Vehicle #{@vehicle.car_id}", :layout => 'pdf.pdf.erb', :title => "Vehicle #{@vehicle.car_id}"   # Excluding ".pdf" extension.
+             end
+           end
   end
   
   def in_service

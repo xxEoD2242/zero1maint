@@ -1,4 +1,6 @@
 class Vehicle < ApplicationRecord
+  before_save :set_last_a_service, :set_last_shock_service, :set_last_air_filter_service
+  
   require 'csv'
   has_many :events_vehicles
   has_many :events, through: :events_vehicles
@@ -15,6 +17,7 @@ class Vehicle < ApplicationRecord
   
   validates :car_id, presence: true
   validates :vehicle_status, presence: true
+  validates :mileage, presence: true
   
   paginates_per 8
   
@@ -42,5 +45,15 @@ class Vehicle < ApplicationRecord
         Vehicle.create! row.to_hash
       end
     end
+    
+    def set_last_a_service
+        self.last_a_service = 0 if self.last_a_service.blank?
+      end
+    def set_last_shock_service
+        self.last_shock_service = 0 if self.last_shock_service.blank?
+      end
+    def set_last_air_filter_service
+        self.last_air_filter_service = 0 if self.last_air_filter_service.blank?
+      end
  
 end

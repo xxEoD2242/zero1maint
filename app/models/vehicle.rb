@@ -55,5 +55,8 @@ class Vehicle < ApplicationRecord
     def set_last_air_filter_service
         self.last_air_filter_service = 0 if self.last_air_filter_service.blank?
       end
+      def set_times_used
+        self.times_used = 0 if self.times_used.blank?
+      end
  
 end

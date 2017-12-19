@@ -1,6 +1,8 @@
 <div class="jumbotron mt-3">
 	<h1 class="display-3 text-center">Weekly Razor Report</h1>
-	<h3>In-Service Vehicles</h3>
+	<div class="container d-flex justify-content-between align-items-center mb-3">
+	<h2>In-Service Vehicles</h2> <%= link_to "Back", generate_report_reports_path, class: "btn btn-dark"%>
+</div>
 	<%= render 'vehicle', vehicle: @rzrs.where(vehicle_status: "In-Service").order(car_id: :asc) %>
 	<br \>
 	<h3>Out-Of-Service Vehicles</h3>

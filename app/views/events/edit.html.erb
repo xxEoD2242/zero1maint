@@ -90,12 +90,12 @@
 	
 	
    <div class="form-group">
-     <strong> <%= f.label "Estimated Mileage" %></strong>
+     <strong class="my-2"> Estimated Mileage</strong>
      <%= f.number_field :est_mileage, id: :event_event_mileage, class: "form-control" %>
    </div>
 
   <div class="form-group">
-    <strong> <%= f.label :event_mileage %></strong>
+    <strong class="my-2">Actual Mileage</strong>
     <%= f.text_field :event_mileage, id: :event_event_mileage, class: "form-control" %>
   </div>
 
@@ -103,21 +103,35 @@
     <strong> <%= f.label :location %></strong>
     <%= f.select :location, Event::LOCATION, {include_blank: "Select Location"}, id: :event_location, class: "form-control" %>
   </div>
-
+<div class="row">
+	<div class="col-md-6">
   <div class="form-group">
-    <strong> <%= f.label :duration %>
+    <strong > <%= f.label :duration %></strong>
     <%= f.number_field :duration, id: :event_duration, class: "form-control" %>
   </div>
-
+</div>
+<div class="col-md-6">
+   <div class="form-group">
+     <strong><%=f.label "Increment"%></strong>
+     <%= f.select :duration_word, Event::DURATION_WORDS, {include_blank: "Select Time Increment"}, class: "form-control" %>
+   </div>
+</div>
+  
+</div>
+<div class="row">
+	<div class="col-md-6">
   <div class="form-group">
     <strong> <%= f.label :event_type %></strong>
     <%= f.select :event_type, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, id: :event_event_type, class: "form-control" %>
   </div>
-
+</div>
+<div class="col-md-6">
   <div class="form-group">
     <strong> <%= f.label :class_type %></strong>
     <%= f.select :class_type, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, id: :event_class_type, class: "form-control"%>
   </div>
+</div>
+</div>
 
   <div class="form-group">
     <%= f.button :submit, class: "btn btn-success btn-lg" %>

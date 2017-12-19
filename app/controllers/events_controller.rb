@@ -2656,7 +2656,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :event_type, :est_mileage, :customers, :shares, :class_type, :number, :status, vehicle_ids: [])
+      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :duration_word, :event_type, :est_mileage, :customers, :shares, :class_type, :number, :status, vehicle_ids: [])
     end
     
     

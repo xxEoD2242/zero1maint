@@ -53,7 +53,7 @@ class ReportsController < ApplicationController
          format.html
          format.xls
          format.pdf do
-           render pdf: "RZR Report", :layout => 'pdf.pdf.erb', :title => "RZR Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
+           render pdf: "RZR Report for #{Time.now.strftime('%D')}", :layout => 'pdf.pdf.erb', :title => "RZR Report for #{Time.now.strftime('%D')}"  # Excluding ".pdf" extension.
          end
        end
   end

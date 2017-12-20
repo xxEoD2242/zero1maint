@@ -116,7 +116,7 @@ class VehiclesController < ApplicationController
              format.csv { send_data @vehicle.to_csv }
              format.xls
              format.pdf do
-               render pdf: "Vehicle #{@vehicle.car_id}", :layout => 'pdf.pdf.erb', :title => "Vehicle #{@vehicle.car_id}"   # Excluding ".pdf" extension.
+               render pdf: "Vehicle #{@vehicle.car_id}", :layout => 'pdf.pdf.erb', :title => "Vehicle #{@vehicle.car_id} on #{Time.now.strftime('%D')}"   # Excluding ".pdf" extension.
              end
            end
   end

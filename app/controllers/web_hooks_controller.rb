@@ -9,8 +9,13 @@ class WebHooksController < ApplicationController
        data = params.as_json
      end
 
-     Webhook::Received.save(data: data, integration: params[:integration_name])
+     WebHook::Received.save(data: data, integration: params[:integration_name])
 
      render nothing: true
+   end
+   
+   def view_bookings
+     @web_hooks = WebHook.all
+     
    end
  end

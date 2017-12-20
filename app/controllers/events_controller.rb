@@ -33,7 +33,7 @@ class EventsController < ApplicationController
   end
   
   def json_data
-  render json:  @json_data = HTTParty.get('https://zero-1-maint.herokuapp.com/fare_harbor', :headers =>{'Content-Type' => 'application/json'} )
+  render json:  @json_data = HTTParty.get('https://zero-1-maint.herokuapp.com/:bookings', :headers =>{'Content-Type' => 'application/json'} )
   end
   
   def dashboard

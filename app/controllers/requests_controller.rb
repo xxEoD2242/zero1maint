@@ -49,7 +49,7 @@ class RequestsController < ApplicationController
         format.csv { send_data @vehicle_results.to_csv }
         format.xls
         format.pdf do
-          render pdf: "Request #{@request.number}", :layout => 'pdf.pdf.erb', title: "Request #{@request.number}"  # Excluding ".pdf" extension.
+          render pdf: "Request #{@request.id}", :layout => 'pdf.pdf.erb', title: "Request #{@request.id}"  # Excluding ".pdf" extension.
         end
       end
   end

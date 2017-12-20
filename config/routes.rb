@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
 
-  constraints subdomain: "web_hooks" do
-    post '/:bookings' => 'webhooks#receive', as: :receive_webhooks
-  end
   
-  get 'web_hooks/recieve'
+  post 'bookings' => 'web_hooks#receive', as: :receive_webhooks
+  get 'web_hooks/view_bookings'
 
 resource :calendar, only: [:show], controller: :calendar
 

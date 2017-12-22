@@ -69,7 +69,7 @@
 	<span class="badge badge-success"><%= @a_service %></span>
 	
 	<% if @vehicle.requests.where(program_id: @set_a_service.id) != []%>
-	<% if  @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D') != nil%>
+	<% if  @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date != nil%>
 	<span class="badge badge-primary"> <%= @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D')%></span>
 	<% end %>
 	<% end %>
@@ -82,7 +82,9 @@
 		<% else %>
 	<span class="badge badge-success"><%= @shock_service %> </span>
 	<% if @vehicle.requests.where(program_id: @set_shock_service.id) != []%>
+	<% if @vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date != nil %>
 	<span class="badge badge-primary"> <%= @vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date.strftime('%D')%></span>
+	<% end %>
 	<% end %>
 		<% end %>
 </li>
@@ -94,7 +96,9 @@
 		<% else %>
 	<span class="badge badge-success"><%= @air_filter_service %></span>
 	<% if @vehicle.requests.where(program_id: @set_air_filter_service.id) != []%>
+	<% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date != nil %>
 	<span class="badge badge-primary"> <%= @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')%></span>
+	<% end %>
 	<% end %>
 </li>
 	<% end %>

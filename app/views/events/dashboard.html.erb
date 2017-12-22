@@ -129,23 +129,24 @@
 					
 				</ul>
 				</div>
+					<div class="card-footer d-flex justify-content-center">
 				<% if event.vehicles.exists? == true %>
-			<div class="card-footer d-flex justify-content-center">
+		
 				<% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
 				<span style="color: green;"><i class="fa fa-check" aria-hidden="true">Checklists Completed</i></span>
 					<% else %>
 					<span style="color: red"><i class="fa fa-exclamation-triangle" aria-hidden="true">Checklists Not Completed</i> </span>
-				</div>
+				
 			<% end %>
 			<% else %>
-			<div class="card-footer d-flex justify-content-center">
 	  	 <span style="color: purple">
 	  		 <i class="fa fa-car" aria-hidden="true">
 	  		 	No Vehicles Added!
 	  		 </i> 
 	  	 </span>
-		</div>
+		
 		<% end %>
+		</div>
 		
 				
 				</div>

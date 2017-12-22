@@ -71,7 +71,7 @@
 					  <% Vehicle::CATEGORIES.each do |category|%>
 				    <tr >
 				      <th scope="row" ><%= category %></th>
-				      <% Vehicle.where(id: 1..20, veh_category: category, vehicle_status: "Out-of-Service").each do |vehicle|%>
+				      <% Vehicle.where(veh_category: category, vehicle_status: "Out-of-Service").each do |vehicle|%>
 						<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
 				     
 					

@@ -56,9 +56,12 @@
 </p>
 </div>
 <div class="col-sm-6">
-	
-	<ul class="list-group">
+	<div class="container d-flex justify-content-between align-items-center">
 		<strong style="text-color:red;">Mileage Until:</strong>
+		<strong style="text-color:red;">Date Completed:</strong>
+	</div>
+	<ul class="list-group">
+		
 	<li class="list-group-item d-flex justify-content-between align-items-center"><strong>A-Service:</strong>
 	
 	<% if @vehicle.a_service == nil %>

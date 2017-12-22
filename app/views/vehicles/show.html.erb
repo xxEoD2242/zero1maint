@@ -69,7 +69,9 @@
 	<span class="badge badge-success"><%= @a_service %></span>
 	
 	<% if @vehicle.requests.where(program_id: @set_a_service.id) != []%>
+	<% if  @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D') != nil%>
 	<span class="badge badge-primary"> <%= @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D')%></span>
+	<% end %>
 	<% end %>
 	<% end%></li>
 	<li class="list-group-item d-flex justify-content-between align-items-center"><strong>Shock Service:</strong>

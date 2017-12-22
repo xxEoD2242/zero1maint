@@ -16,6 +16,11 @@ class WebHooksController < ApplicationController
    
    def view_bookings
      @web_hooks = WebHook.all
-     
+   end
+   
+   def parse_bookings
+     WebHook.all.each do |web_hook|
+     render json: web_hook.data
+     end
    end
  end

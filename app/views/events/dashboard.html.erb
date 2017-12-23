@@ -109,7 +109,7 @@
 		<br \>
 	</div>
 	<div class="row">
-			<% @display_events.all.order(created_at: :desc).limit(12).each do |event|%>
+			<% @display_events.all.order(date: :desc).limit(12).each do |event|%>
 	<div class="col-md-4 my-3">
 			
 			

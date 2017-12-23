@@ -49,8 +49,8 @@ class EventsController < ApplicationController
   def next_month_calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @next_month = @date + 1.month
-    @events = Event.where('date <= ?', @next_month)
-    @display_events = @events.where('date >= ?', @next_month - 30.days)
+    @events = Event.where('date <= ?', @next_month + 1.month)
+    @display_events = @events.where('date >= ?', @next_month)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: "Vehicles Assigned")

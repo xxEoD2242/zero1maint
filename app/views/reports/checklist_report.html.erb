@@ -56,6 +56,11 @@
 	</div>
 
 </div>
+
+	<div class="container d-flex justify-content-between align-items-center mt-3">
+<%= link_to 'Download PDF', checklist_report_reports_path(params.merge(format: "pdf").permit!), class: "btn btn-dark"%>
+<%= link_to 'Back', generate_report_reports_path, class: "btn btn-info " %>
+</div>
 	
 	
 	
@@ -167,8 +172,5 @@
 </div>
 </div>
 	<% end %>
-	<div class="container d-flex justify-content-between align-items-center">
-<%= link_to 'Download PDF', checklist_report_reports_path(params.merge(format: "pdf").permit!), class: "btn btn-dark"%>
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info " %>
-</div>
+	
 </div>

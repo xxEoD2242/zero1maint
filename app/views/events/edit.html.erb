@@ -1,5 +1,5 @@
 <div class="jumbotron">
-<h1 class="display-3 text-center">Edit Event <%= @event.number%></h1>
+<h1 class="display-3 text-center">Edit Event <%= @event.id%></h1>
 <div class="card">
 	<div class="card-body form-group">
 
@@ -30,8 +30,12 @@
 		
 		<%= f.select :status, Event::STATUSES, {include_blank: "Select Status"}, id: :event_status, class: "form-control"%>	
 	</div>
+	<hr>
+	<% Event::LOCATIONS.each do |location|%>
 	
-	
+	<div class="container" style="border: 2px solid black; border-radius: 6px 6px 6px 6px; padding: 2px 2px 2px 2px">
+		<h3 class="text-center"> <%= location%></h3>
+	</div>
   
     <div class="card mt-3" style='background-color: lightgreen;'>
   	  <div class="card-header">
@@ -45,7 +49,7 @@
   	   <div class="col-6">
   		<strong>	<%= vehicle_category%>: </strong>
   		<br \>
-  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_a: true).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_a: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
 		
   	</div>
 	
@@ -67,7 +71,7 @@
   	   <div class="col-6">
   		<strong>	<%= vehicle_category%>: </strong>
   		<br \>
-  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true).order(times_used: :asc), "id", :vehicle_naming, class: "form-controls" %>
+  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "form-controls" %>
 		
   	</div>
 	
@@ -76,6 +80,9 @@
   	</div>
   </div>
   </div>
+  <hr>
+  <% end %>
+  
 	
 	   <div class="form-group">
 	     <strong><%=f.label "Number of Customers"%></strong>

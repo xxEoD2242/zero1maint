@@ -93,6 +93,19 @@ class RequestsController < ApplicationController
     @requests = Request.all
   end
   
+  def create_work_order
+    @set_new = Tracker.find_by(track: "New")
+    @other_service = Program.find_by(name: "Other Service")
+  @request = Request.create(tracker_id: @set_new.id, program_id: @other_service.id, vehicle_id: params[:id], description: "****** Please fill this in ******", completion_date: Time.now)
+  if @request.save
+    flash[:notice] = "Work Order Created! Please select Service, Status and enter dates."
+  else
+    flash[:alert] = "Could not create request!"
+  end
+  redirect_to edit_request_path(id: @request.id)
+  
+  end
+  
   def add_to_request_part_order
     part_quant = Part.find(params[:part_id]).quantity
     if part_quant == nil

@@ -47,7 +47,9 @@
 	
 	<div class="form-group">
 		<strong><%= f.label "Select Vehicle"%></strong>
+		
 		<%= f.select :vehicle_id, Vehicle.all.order(car_id: :asc).collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control"%>
+	
 	</div>
 	
 	

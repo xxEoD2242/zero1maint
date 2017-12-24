@@ -11,7 +11,7 @@
       <th scope="col">Mileage</th>
 		<th scope="col">Near Service - Miles To:
 		<th scope="col">Service Needed</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -54,10 +54,7 @@
 		  <% end %>
 	 </td>
       <td><%= link_to 'Show', vehicle, class: "btn btn-primary btn-sm" %></td>
-		<td>
-      <%= link_to 'Edit', edit_vehicle_path(vehicle), class: "btn btn-sm btn-info" %>
-     </td>
-	  <td><%= link_to 'Delete', vehicle, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger btn-sm" %></td>
+		<td><%= link_to 'Create Work Order', create_work_order_requests_path(id: vehicle.id), class: "btn btn-success btn-sm"%></td>
       </tr>
     <% end %> 
   </tbody> 

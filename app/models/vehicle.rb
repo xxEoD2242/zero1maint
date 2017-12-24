@@ -18,6 +18,7 @@ class Vehicle < ApplicationRecord
   validates :car_id, presence: true
   validates :vehicle_status, presence: true
   validates :mileage, presence: true
+  validates :location, presence: true
   
   paginates_per 8
   

@@ -26,6 +26,7 @@ class Event < ApplicationRecord
   EVENT_TYPES = ['Odyssey', 'RZR', 'Military Training', 'Race Event', 'Filming', 'Special Event', 'Training Non-NSW', 'Demonstration']
   CLASS_TYPES = ['Road Runner', 'Mojave','Pioneer','Sundown', '2 Day Odyssey', '3 Day Odyssey', '4 Day Odyssey', 'Special Event', 'Training', 'Race']
   LOCATION = ['RZR Base Camp', 'The Ranch', 'Speedway', 'Uvalde', 'Other']
+  LOCATIONS = ['RZR Base Camp', 'The Ranch', 'Speedway']
   DURATION_WORDS = ['Minutes', 'Hours', 'Days', 'Weeks']
   
   

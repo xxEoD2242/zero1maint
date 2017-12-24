@@ -62,6 +62,7 @@ resource :calendar, only: [:show], controller: :calendar
       get 'remove_parts_from_request'
       get 'overdue'
       get 'new_requests'
+      get 'create_work_order'
     end
   end
   resources :events do

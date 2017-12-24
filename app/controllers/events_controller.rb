@@ -79,11 +79,14 @@ class EventsController < ApplicationController
     @vehicles = Vehicle.all
     @vehicle_categories = VehicleCategory.all
   end
+  
+  
 
   # GET /events/1/edit
   def edit
     @vehicles = Vehicle.all
     @vehicle_categories = VehicleCategory.all
+    
   end
   
   def vehicle_use_count

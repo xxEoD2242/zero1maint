@@ -62,7 +62,13 @@
   <span style="color: green;"><%= @request.completed_date %></span>
 </p>
 <% end %>
+<% if @request.image != nil%>
+<p>
+<%= image_tag(@request.image) %>
+</p>
+<% end %>
 </div>
+
 <div class="col-md-6 mb-3">
 
 <% if @part_order != []%>

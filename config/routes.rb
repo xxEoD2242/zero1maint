@@ -44,6 +44,8 @@ resource :calendar, only: [:show], controller: :calendar
   get 'homepage' => 'welcome#homepage'
   get 'fare_harbor' => 'welcome#fare_harbor_data'
   get 'show' => 'show_users#show'
+  get 'assigned_work_orders' => 'show_users#assigned_work_orders'
+  get 'completed_work_orders' => 'show_users#completed_work_orders'
   resources :requests do
     collection do
       get 'a_service'

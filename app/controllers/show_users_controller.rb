@@ -6,7 +6,24 @@ class ShowUsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @requests = Request.where(creator: @user.name)
+    @requests = @user.requests
+  end
+  
+  def assigned_work_orders
+    @user = User.find(current_user.id)
+    @q = @user.requests.ransack(params[:q])
+    @requests = @q.result
+    @set_new = Tracker.find_by(track: "New")
+    @set_progress = Tracker.find_by(track: "In-Progress")
+    @set_completed = Tracker.find_by(track: "Completed")
+    @set_overdue = Tracker.find_by(track: "Overdue")
+  end
+  
+  def completed_work_orders
+    @user = User.find(current_user.id)
+    @q = @user.requests.ransack(params[:q])
+    @requests = @q.result
+    @set_completed = Tracker.find_by(track: "Completed")
   end
   
   def destroy

@@ -14,7 +14,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% request.order(completion_date: :desc).each do |request|%>
+		<% request.order(id: :desc).each do |request|%>
 	<tr>
 		<td><%= link_to request.id, request_path(request), class: "badge badge-info "%></td>
 		<td><%= request.tracker.track %></td>

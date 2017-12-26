@@ -2,13 +2,17 @@
 <div class="jumbotron text-center mt-3" style="background-color: red;">
 <h1 class="display-3">Welcome to Zero 1 Maintenance</h1>
 </div>
+
+<div class="container d-flex justify-content-center mt-3">
+	<%= link_to "View Your Assigned Work Orders", assigned_work_orders_path, class: "btn btn-success btn-lg"%>
+</div>
 <div class="row mt-3">
 	<div class="col-md-4">
 		<h4 class="d-flex justify-content-center">Work Orders</h4>
 		<div class="list-group">
 			<a class="list-group-item list-group-item-action" href="../requests/dashboard" style="background-color: lightgrey;">Work Orders</a>
 			<a class="list-group-item list-group-item-action" href="../requests/new" style="background-color: lightgrey;">Create A Work Order</a>
-			<a class="list-group-item list-group-item-action" href="../assigned_work_orders" style="background-color: lightgrey;">View Your Assigned Work Orders</a>	
+				
 			<a class="list-group-item list-group-item-action" href="../completed_work_orders" style="background-color: lightgrey;">View Your Completed Work Orders</a>	
 			
 				

@@ -16,6 +16,9 @@
 		<%= @user.last_sign_in_at.strftime('%D')%>
 		</p>
 	</div>
+	<div class="container d-flex justify-content-center mt-2">
+		<%= link_to "Back", all_users_path, class: "btn btn-info btn-lg"%>
+	</div>
 </div>
 
 <div class="card">

@@ -15,7 +15,7 @@
 <div class="card mb-3">
 	
 		<div class="card-header">
-			<h3 class="text-center"> Search for Work Orders</strong>
+			<h3 class="text-center"> Search for Work Orders</h3>
 		</div>
 		<div class="card-body" >
 
@@ -69,8 +69,6 @@
 	<%= f.submit "Find Work Orders", class: "btn btn-info"%>
 </div>
 
-</div>
-</div>
 
 <% end %>
 </form>
@@ -85,12 +83,9 @@
 	
 		<% if @requests.where(tracker_id: @set_completed.id) != []%>
 		<div class="row">
-		<h3 class="text-center"> New Work Orders &nbsp&nbsp&nbsp&nbsp
 			
-		</h3>
-			<div class="col-md-4 my-3">
 			<% @requests.where(tracker_id: @set_completed.id).order(created_at: :desc).each do |request|%>
-				
+				<div class="col-md-4 my-3">
 				<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center ">
 				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.tracker.track%> </strong>

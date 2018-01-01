@@ -35,7 +35,7 @@
 </div>
 <div class="row my-3">
 	 <% Vehicle::LOCATION.each do |location|%>
-	<div class="col-md-4">
+	<div class="col-md-4 mb-3">
 	<div class="card">
 		<div class="card-header">
 			<h5 style="text-align: center;"><%= location %></h5>
@@ -47,7 +47,7 @@
 		</div>
 			<hr>
 			<% Vehicle::CATEGORIES.each do |category|%>
-			<% if Vehicle.where(veh_category: category) != []%>
+			<% if Vehicle.where(veh_category: category, location: location) != []%>
 			<strong> <%= category %> </strong>
 			<br \>
 	      <% Vehicle.where(veh_category: category, location: location, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle|%>

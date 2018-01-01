@@ -33,78 +33,52 @@
 	</ul>
 </div>
 </div>
-
-		<div class="card mt-3">
-			<div class="card-body">
-			<table class="table table-bordered table-responsive table-sm table-striped w-100%">
-			  <thead>
-			    <tr>
-			      <th scope="col">Location</th>
-					<th colspan="100%">Vehicles By Location</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-				  <% Vehicle::LOCATION.each do |location|%>
-			    <tr>
-			      <th scope="row"><%= location  %></th>
-			      <% Vehicle.where(location: location, vehicle_status: "In-Service").each do |vehicle|%>
-					<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
-					
-					<% end %>
-			    </tr>
-			   <% end %>
-			  </tbody>
-			</table>
+<div class="row my-3">
+	 <% Vehicle::LOCATION.each do |location|%>
+	<div class="col-md-4">
+	<div class="card">
+		<div class="card-header">
+			<h5 style="text-align: center;"><%= location %></h5>
 		</div>
+		<div class="card-body">
+			<% if Vehicle.where(location: location, vehicle_status: "In-Service") != [] %>
+			<div class="d-flex justify-content-between align-items-center">
+			<h5> In-Service  </h5> <span class="badge badge-success"> <%= Vehicle.where(location: location, vehicle_status: "In-Service").count %> </span>
 		</div>
-
-			<div class="card mt-3">
-				<div class="card-body">
-				<table class="table table-bordered table-responsive table-sm table-striped w-100%">
-				  <thead>
-				    <tr>
-				      <th scope="col">Category</th>
-						<th colspan="100%">Vehicles Out-of-Service</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-					  <% Vehicle::CATEGORIES.each do |category|%>
-				    <tr >
-				      <th scope="row" ><%= category %></th>
-				      <% Vehicle.where(veh_category: category, vehicle_status: "Out-of-Service").each do |vehicle|%>
-						<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
-				     
-					
-						<% end %>
-				    </tr>
-				   <% end %>
-				  </tbody>
-				</table>
-			</div>
-			</div>
+			<hr>
+			<% Vehicle::CATEGORIES.each do |category|%>
+			<% if Vehicle.where(veh_category: category) != []%>
+			<strong> <%= category %> </strong>
+			<br \>
+	      <% Vehicle.where(veh_category: category, location: location, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle|%>
+			<%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-success"%>
 			
-		<div class="card mt-3">
-			<div class="card-body">
-	<table class="table table-responsive table-striped table-sm w-100%">
-	  <thead>
-	    <tr>
-	      <th scope="col">Category</th>
-			<th colspan="100%">Vehicles In-Service</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-		  <% Vehicle::CATEGORIES.each do |category|%>
-	    <tr>
-	      <th scope="row"><%= category %></th>
-	      <% Vehicle.where(veh_category: category, vehicle_status: "In-Service").each do |vehicle|%>
-			<td><%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-info"%></td>
-		
 			<% end %>
-	    </tr>
-	   <% end %>
-	  </tbody>
-	</table>
+			<% end %>
+			<% end %>
+			<% else %>
+			No Vehicles at this Location!
+			
+			<% end %>
+			<% if Vehicle.where(location: location, vehicle_status: "Out-of-Service") != [] %>
+		<br \>
+		<br \>
+		<div class="d-flex justify-content-between align-items-center">
+			<h5> Out of Service </h5> <span class="badge badge-danger"> <%= Vehicle.where(location: location, vehicle_status: "Out-of-Service").count %> </span>
+		</div>
+			<hr>
+	      <% Vehicle.where(location: location, vehicle_status: "Out-of-Service").order(veh_category: :asc).each do |vehicle|%>
+			<%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-danger"%>
+			
+			<% end %>
+			<% end %>
+		</div>
+	</div>
 </div>
+<% end %>
 </div>
+
+			
+		
 
 

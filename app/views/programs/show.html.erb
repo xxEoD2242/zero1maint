@@ -1,14 +1,32 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @program.name %>
-</p>
+
+<div class="card mt-4">
+
+	<div class="card-header">
+  <h3 class="text-center"><%= @program.name %></h3>
+
+</div>
+<div class="card-body">
 
 <p>
   <strong>Interval:</strong>
   <%= @program.interval %>
 </p>
 
-<%= link_to 'Edit', edit_program_path(@program) %> |
-<%= link_to 'Back', programs_path %>
+<p>
+  <%if @program.threshold %>
+	
+	  <strong>Threshold Mileage:</strong>
+	  <%= @program.threshold_numb %> Miles
+	
+  <%else%>
+  	Not Required
+  <%end%>
+</p>
+
+<br \>
+
+<%= link_to 'Edit', edit_program_path(@program), class: "btn btn-info" %> |
+<%= link_to 'Back', programs_path, class: "btn btn-primary"  %>
+</div>
+</div>

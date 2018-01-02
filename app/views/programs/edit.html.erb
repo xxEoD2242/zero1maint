@@ -1,6 +1,10 @@
-<h1>Editing Program</h1>
+<div class='jumbotron'>
+<h1 class="text-center display-3">Editing <%= @program.name%></h1>
+</div>
 
 <%= render 'form', program: @program %>
 
-<%= link_to 'Show', @program %> |
-<%= link_to 'Back', programs_path %>
+<br \>
+
+<%= link_to 'Show', @program, class: "btn btn-info" %> |
+<%= link_to 'Back', programs_path, class: "btn btn-primary"  %>

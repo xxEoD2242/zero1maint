@@ -27,7 +27,7 @@ class VehiclesController < ApplicationController
       @a_service = (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))
       if @a_service < 0
         vehicle.update(needs_service: true, a_service: true)
-      elsif @a_service <= 100
+      elsif @a_service <= @set_a_service.threshold_numb
         vehicle.update(near_service: true)
       else
         vehicle.update(needs_service: false, a_service: false, near_service: false)
@@ -37,7 +37,7 @@ class VehiclesController < ApplicationController
           @shock_service = (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service))
           if @shock_service < 0
             vehicle.update(needs_service: true, shock_service: true)
-          elsif @shock_service <= 200
+          elsif @shock_service <= @set_shock_service.threshold_numb
             vehicle.update(near_service: true)
           else
             vehicle.update(needs_service: false, shock_service: false, near_service: false)
@@ -48,7 +48,7 @@ class VehiclesController < ApplicationController
          @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service))
          if @air_filter_service < 0
            vehicle.update(needs_service: true, air_filter_service: true)
-         elsif @air_filter_service <= 50
+         elsif @air_filter_service <= @set_air_filter_service.threshold_numb
            vehicle.update(near_service: true)
          else
            vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
@@ -56,6 +56,8 @@ class VehiclesController < ApplicationController
        end
      end 
   end
+  
+ 
   
   def near_service_required
   

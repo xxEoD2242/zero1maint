@@ -6,12 +6,12 @@
 	
 	<div class="col-md-3">
 		<div class="list-group">
-			<a class="list-group-item list-group-item-action" href="../vehicles/new">Create Vehicle</a>
+			<a class="list-group-item list-group-item-action list-group-item-success" href="../vehicles/new">Create New Vehicle</a>
 				<a class="list-group-item list-group-item-action" href="../vehicles/all_vehicles">All Vehicles</a>
 				<a class="list-group-item list-group-item-action" 					href="../vehicles/in_service">In-Service Vehicles</a>
-				<a class="list-group-item list-group-item-action" 					href="../vehicles/out_of_service">Out-Of-Service Vehicles</a>
-				<a class="list-group-item list-group-item-action" 					href="../vehicles/needs_service">Needs Service Vehicles</a>
-				<a class="list-group-item list-group-item-action" 					href="../vehicles/near_service_required">Near Service Vehicles</a>
+				<a class="list-group-item list-group-item-action list-group-item-danger" href="../vehicles/out_of_service" >Out-Of-Service Vehicles</a>
+				<a class="list-group-item list-group-item-action list-group-item-warning" 					href="../vehicles/needs_service">Needs Service Vehicles</a>
+				<a class="list-group-item list-group-item-action list-group-item-warning" 					href="../vehicles/near_service_required">Near Service Vehicles</a>
 			</div>
 	</div>
 	
@@ -23,13 +23,13 @@
 		<li class="list-group-item d-flex justify-content-between align-items-center">Total Vehicles:	
 			<span class="badge badge-dark badge-pill"><%=@vehicles.count%></span></li>
 		<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles In-Service:	
-			<span class="badge badge-dark badge-pill"><%=@in_service.count%></span></li>
+			<span class="badge badge-success badge-pill"><%=@in_service.count%></span></li>
 		<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles Out-of-Service:
-			<span class="badge badge-dark badge-pill">	<%=@out_of_service.count%></span></li>
+			<span class="badge badge-danger badge-pill">	<%=@out_of_service.count%></span></li>
 		<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles Need Service: 
-			<span><%= link_to @vehicles.where(needs_service: true).count, needs_service_vehicles_path, class: "badge badge-dark badge-pill"%></span></li>
+			<span><%= link_to @vehicles.where(needs_service: true).count, needs_service_vehicles_path, class: "badge badge-warning badge-pill"%></span></li>
 			<li class="list-group-item d-flex justify-content-between align-items-center">Vehicles Near Service: 
-				<span><%= link_to @vehicles.where(near_service: true).count, near_service_required_vehicles_path, class: "badge badge-dark badge-pill"%></span></li>
+				<span><%= link_to @vehicles.where(near_service: true).count, near_service_required_vehicles_path, class: "badge badge-warning badge-pill"%></span></li>
 	</ul>
 </div>
 </div>

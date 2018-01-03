@@ -29,6 +29,7 @@ class ProgramsController < ApplicationController
 
     respond_to do |format|
       if @program.save
+        UserMailer.new_service_request_email(@program).deliver_now
         format.html { redirect_to @program, notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @program }
       else
@@ -43,6 +44,7 @@ class ProgramsController < ApplicationController
   def update
     respond_to do |format|
       if @program.update(program_params)
+        UserMailer.update_service_email(@program).deliver_now
         format.html { redirect_to @program, notice: 'Service was successfully updated.' }
         format.json { render :show, status: :ok, location: @program }
       else

@@ -1,10 +1,15 @@
-
+	
+	<br \>
+	<div style="border: 2px solid red; border-radius: 6px 6px 6px 6px; background-color: lightgrey;">
+		<h2 style="color: red;text-align: center;">Overdue</h2>
+	</div>
+	<br \>
 	<div>
 	   <h1 style="text-align: center;">Request Number: <%= @request.id %></h1>
 	</div>	
 
 	<p>
-		You have been assigned to this work order. If you have any questions, please contact <%= @request.creator%>.
+		<span style="color: red;"> This work order is overdue! </span>.
 	</p>
 	
 	<p>
@@ -29,7 +34,7 @@
 
 	<p>
 	  <strong>Status:</strong>
-	  <%= @request.tracker.track %>
+	 <span style="color: red;"> <%= @request.tracker.track %> </span>
 	</p>
 	<% if @request.program != nil %>
 	<p>
@@ -39,28 +44,22 @@
 	<% end %>
 
 	<p>
-	  <strong>Special requets:</strong>
-	  <%= @request.special_requets %>
-	</p>
-
-	<p>
 	  <strong> Work Order Mileage:</strong>
 	  <%= @request.request_mileage%>
 	</p>
 
 	<p>
-	  <strong>Completion date:</strong>
+	  <strong>Estimated Completion date:</strong>
 	  <%= @request.completion_date %>
 	</p>
 	
-<% if @request.users.exists?%>
-<p>
-  <strong> Recipents:</strong>
-  <ul style="list-style-type: none;">
-  <% @request.users.each do |user|%>
-  <li><%= user.name%></li>
-	  <% end %>
-  </ul>
-</p>
-<% end %>
-	
+	<% if @request.users.exists?%>
+	<p>
+	  <strong> Recipents:</strong>
+	  <ul style="list-style-type: none;">
+	  <% @request.users.each do |user|%>
+	  <li><%= user.name%></li>
+		  <% end %>
+	  </ul>
+	</p>
+	<% end %>

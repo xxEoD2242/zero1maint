@@ -1,7 +1,29 @@
 class UserMailer < ApplicationMailer
   default from: 'tts110117@gmail.com'
   
+  def new_service_request_email(service)
+    @program = service
+    
+    mail(to: "tyler.fedrizzi@gmail.com", subject: "New Service Requested. Please view.")
+  end
   
+  def update_service_email(service)
+    @program = service
+    
+    mail(to: "tyler.fedrizzi@gmail.com", subject: "Update Service Requested. Please view.")
+  end
+  
+  def overdue_work_order_email(email, work_order)
+    @request = work_order
+    
+    mail(to: email, subject: "Work Order #{@request.id} is overdue. Please view.")
+  end
+  
+  def completed_work_order_email(email, request)
+    @request = request
+    
+    mail(to: email, subject: "Work Order #{@request.id} has been completed. Please view.")
+  end
   
   def new_request_email(emails, request)
     @request = request

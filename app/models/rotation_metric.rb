@@ -1,0 +1,2 @@
+class RotationMetric < ApplicationRecord
+end

@@ -36,6 +36,10 @@
 	<span>
 		<%= link_to "Download Rotation", vehicle_rotation_events_path(params.merge(format: 'pdf').permit!), class: "btn btn-dark"%>
 	</span>
+	
+	<span>
+		<%= link_to "Vehicle Rotation Metrics", vehicle_rotation_metrics_events_path, class: "btn btn-warning"%>
+	</span>
 	<span>
 	<%= link_to "Dashboard", dashboard_events_path, class: "btn btn-info"%>
 </span>

@@ -77,6 +77,7 @@ resource :calendar, only: [:show], controller: :calendar
      get 'vehicles_assigned'
      get 'auto_select_vehicles'
      get 'next_month_calendar'
+     get 'vehicle_rotation_metrics'
     end
   end
   resources :vehicles do

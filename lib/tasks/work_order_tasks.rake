@@ -7,13 +7,17 @@ task check_work_orders_overdue: :environment do
   @overdue = @requests.where(tracker_id: @set_progress.id)
   @overdue_2 = @requests.where(tracker_id: @set_new.id)
   @overdue.each do |work_order|
+    email = User.find_by(name: work_order.creator).email
   if Time.now > work_order.completion_date
     work_order.update(overdue: true, tracker_id: @set_overdue.id)
+    UserMailer.overdue_work_order(email, work_order)
   end
 end
 @overdue_2.each do |work_order|
+  email = User.find_by(name: work_order.creator).email
   if Time.now > work_order.completion_date
     work_order.update(overdue: true, tracker_id: @set_overdue.id)
+    UserMailer.overdue_work_order(email, work_order)
   end
 end
 end

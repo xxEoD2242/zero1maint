@@ -1,0 +1,46 @@
+<div class="jumbotron">
+	<h3 class="text-center display-3">Vehicle Rotation Metrics</h3>
+</div>
+
+<p>
+	Below are the standard metrcis that are used to determine which vehicle is A-Priority and which vehicle is B-Priority. If you have any questions or concerns, please talk to Rick Fedrizzi or email Tyler at tyler.fedrizzi@gmail.com.
+</p>
+
+<p>
+	Future Near serivce and Future Needs Service are calculated by adding up all of the estimated mileage for the events in the next 7 days and then calculating, for each, vehicle whether a service is needed or will be due within a certain threshold.
+</p>
+
+<p>
+	For B-Priority Vehicles, the hierachy for services is: Air Filter Service, A-Service, Shock Service. This means that if a vehicle needs a shock service, it will be automatically choosen last by the Auto-Select feature.
+</p>
+
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex justify-content-center mb-3">
+			<%=link_to "Vehicle Rotation", vehicle_rotation_events_path, class: "btn btn-info"%>
+		</div>
+	<div class="row">
+	<div class="col-md-6">
+	<h5 class="text-center">A Priority</h5>
+	<ol>
+		<li> Vehicle will be:
+			<br \> 
+			(Needs Service: <span style='color: green;'>false</span>, Near Service: <span style='color: green;'>false</span>, future needs service: <span style='color: green;'>false</span>, future near service: <span style='color: green;'>false</span>)</li>
+		<li> Vehicle will be: <br \>  (Needs Service: <span style='color: green;'>false</span>, Near Service: <span style='color: green;'>false</span>, future needs service: <span style='color: green;'>false</span>, future near service: <span style='color: red;'>true</span>) </li>
+	</ol>
+</div>
+
+	<div class="col-md-6">
+		<h5 class="text-center">B Priority</h5>
+	<ol>
+		<li>Vehicle will be: <br \>  (Needs Service: <span style='color: green;'>false</span>, Near Service: <span style='color: green;'>false</span>, future needs service: <span style='color: red;'>true</span>, future near service: <span style='color: green;'>false</span>)</li>
+		<li>Vehicle will be: <br \>  (Needs Service: <span style='color: green;'>false</span>, Near Service: <span style='color: green;'>false</span>, future needs service: <span style='color: red;'>true</span>, future near service: <span style='color: red;'>true</span>) </li>
+		<li> Vehicle will be: <br \>  (Needs Service: <span style='color: green;'>false</span>, Near Service: <span style='color: red;'>true</span>, future needs service: <span style='color: red;'>true</span>, future near service: <span style='color: red;'>true</span>)</li>
+		<li>Vehicle will be: <br \>  (Needs Service: <span style='color: red;'>true</span>, Near Service: <span style='color: red;'>true</span>, future needs service: <span style='color: red;'>true</span>, future near service: <span style='color: red;'>true</span>)</li>
+	</ol>
+</div>
+</div>
+
+	</div>
+</div>
+

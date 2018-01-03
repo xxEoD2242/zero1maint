@@ -240,6 +240,7 @@ class RequestsController < ApplicationController
     @shock_service = Program.find_by(name: "Shock Service")
     @air_filter_service = Program.find_by(name: "Air Filter Change")
     @set_completed = Tracker.find_by(track: "Completed")
+    @set_overdue = Tracker.find_by(track: "Overdue")
     respond_to do |format|
       if @request.update(request_params)
         vehicle = @request.vehicle
@@ -256,12 +257,14 @@ class RequestsController < ApplicationController
           vehicle.update( defect: false, vehicle_status: "In-Service")
         end
         
-        if @request.users.exists?
-          emails = []
-          @request.users.all.each do |user|
-            emails << user.email
-          end
-          UserMailer.assign_request_email(emails, @request).deliver_now
+        if @request.users.exists? && @request.tracker_id == @set_completed.id
+          email = User.find_by(name: @request.creator).email
+          UserMailer.completed_work_order_email(email, @request).deliver_now
+        end
+        
+        if @request.tracker_id == @set_overdue.id
+          email = User.find_by(name: @request.creator).email
+          UserMailer.overdue_work_order_email(email, @request).deliver_now
         end
       
         

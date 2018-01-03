@@ -36,6 +36,10 @@ class EventsController < ApplicationController
   render json:  @json_data = HTTParty.get('https://zero-1-maint.herokuapp.com/:bookings', :headers =>{'Content-Type' => 'application/json'} )
   end
   
+  def vehicle_rotation_metrics
+    
+  end
+  
   def dashboard
     @events = Event.where('date >= ?', Time.now - 7.days)
     @display_events = @events.where('date <= ?', Time.now + 14.days)
@@ -2507,28 +2511,29 @@ end
           @a_service = (@set_a_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_a_service))
         if @a_service < 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
-        elsif @a_service <= 100
+        elsif @a_service <= @set_a_service.threshold_numb
           vehicle.update(use_near_service: true, dont_use_a_service: false)
         else
           vehicle.update(dont_use_a_service: false)
         end
       end
+      
           if vehicle.last_shock_service != nil
             @shock_service = (@set_shock_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_shock_service))
             if @shock_service < 0
               vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
-            elsif @shock_service <= 200
+            elsif @shock_service <= @set_shock_service.threshold_numb
               vehicle.update(use_near_service: true, dont_use_shock_service: false)
             else
               vehicle.update(dont_use_shock_service: false)
             end
           end
-        #when @vehicle.programs.exists?(7) == true
+        
          if vehicle.last_air_filter_service != nil
              @air_filter_service = (@set_air_filter_service.interval - ((vehicle.mileage + vehicle.est_mileage) - vehicle.last_air_filter_service))
            if @air_filter_service < 0
              vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
-           elsif @air_filter_service <= 50
+           elsif @air_filter_service <= @set_air_filter_service.threshold_numb
              vehicle.update(use_near_service: true, dont_use_air_filter_service: false)
            else
              vehicle.update(dont_use_air_filter_service: false)
@@ -2536,17 +2541,17 @@ end
          end
    
          
-       if vehicle.use_a == true && vehicle.times_used >= 5
+       if vehicle.use_a && vehicle.times_used >= 5
          vehicle.update(use_a: false, use_b: true)
-       elsif vehicle.use_b == true && vehicle.times_used >= 10
+       elsif vehicle.use_b && vehicle.times_used >= 10
          vehicle.update(use_a: false, use_b: false)
        end
       
-       if vehicle.needs_service == true
+       if vehicle.needs_service
          vehicle.update(use_a: false, use_b: true)
        end
        
-       if vehicle.near_service == true
+       if vehicle.near_service
          vehicle.update(use_a: false, use_b: true)
        end
      

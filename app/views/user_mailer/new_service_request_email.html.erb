@@ -1,0 +1,23 @@
+<h1 style="text-align: center;"> New Service Requested </h1>
+
+<p>
+	<strong>Service Name: </strong> <%= @program.name%>
+</p>
+
+<p>
+	<strong>Interval: </strong> <%= @program.interval %>
+</p>
+
+<% if @program.threshold %>
+<p>
+	<strong>Threshold: </strong> <%= @program.threshold_numb%>
+</p>
+<% else %>
+<p>
+	<strong> No threshold Required </strong>
+</p>
+<% end %>
+
+<p>
+	Please create this service and the required columns for all vehicles.
+</p>

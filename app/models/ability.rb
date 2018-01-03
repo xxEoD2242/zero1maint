@@ -32,7 +32,11 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      can :manage, [Request, Event, Vehicle, Program, Part, PartItem, PartOrder, PartRequest, RequestPartOrder, Tracker, VehicleCategory, EventsVehicle]
+      can :manage, [Request, Event, Vehicle, Program, Part, PartItem, PartOrder, PartRequest, RequestPartOrder, EventsVehicle, Report, ReportVehicle]
+    end
+    
+    if user.ghost?
+      can :view, :all
     end
   end
 end

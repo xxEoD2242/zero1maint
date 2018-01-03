@@ -29,7 +29,7 @@ class ChecklistsController < ApplicationController
     @q = Event.all.ransack(params[:q])
     @events = @q.result.page(params[:page])
   end
-
+  
   def create
     @checklist = Checklist.new(checklist_params)
     @set_repairs = Program.find_by(name: "Repairs")
@@ -70,6 +70,7 @@ class ChecklistsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
  
   private
   

@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
          
          
-         ROLES = ['admin', 'employee']
+         ROLES = ['admin', 'employee', 'ghost']
          
          has_many :request_users
          
@@ -21,6 +21,10 @@ class User < ApplicationRecord
          
          def employee?
            role == "employee"
+         end
+         
+         def ghost?
+           role == "ghost"
          end
          
          def user_naming

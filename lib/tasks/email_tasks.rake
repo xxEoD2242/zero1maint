@@ -30,3 +30,9 @@ task send_weekly_checklist_report: :environment do
   Report.create(title: "Weekly Events Checklist Report For #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}", description: "Overview of all defect work orders created or in-progress. Contact **** for any questiosn.", report_type: "Weekly-Checklist", status: "Created")
   
 end
+
+desc 'send daily events report'
+task send_daily_events_report: :environment do
+  UserMailer.daily_events_report_email.deliver!
+
+end

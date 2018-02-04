@@ -1,0 +1,73 @@
+<div>
+	<h1 style="text-align: center;">Daily Events for <%=Time.now.strftime('%D')%> </h1>
+</div>
+
+<% @events.each do |event|%>
+
+	<div class="object-title" >
+		
+			<h4 style="text-align: center;"> Event <%= event.id%> </h4>
+		
+
+	</div>
+
+
+<div>
+	<p>
+		<storng> Event Location: </strong> &nbsp&nbsp&nbsp&nbsp
+		<%= event.location%>
+		
+	</p>
+	
+	
+	<p>
+		<strong> Event Status: </strong> &nbsp&nbsp&nbsp&nbsp
+	<% if event.status == "Completed"%>	
+	<span style="color: green;"> COMPLETED </span>
+	<% else %>
+	<span style="color:red;"> <%= event.status%> </span>
+	<% end %>	
+	</p>
+	
+	<p>
+		<strong> Event Type: </strong> &nbsp&nbsp&nbsp&nbsp
+	<%= event.event_type%>	
+	</p>
+	
+	<p>
+		<strong> Event Mileage: </strong> &nbsp&nbsp&nbsp&nbsp
+	<% if event.event_mileage == 0%>	
+	<span style="color: red;"> NO MILEAGE ADDED </span>
+	<% else %>
+	<%= event.event_mileage%>
+	<% end %>
+	</p>
+	
+	<% if event.vehicles.exists? %>
+	<p>
+		<strong> Vehicles: </strong> &nbsp&nbsp&nbsp&nbsp
+		<ol>
+			<% event.vehicles.each do |vehicle|%>
+			
+	<li><%=vehicle.car_id%> &nbsp&nbsp&nbsp&nbsp 
+	<% if vehicle.checklists != []%>
+	<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
+		<span style="color: green; text-size: 10px;">Completed</span>
+	
+	<% else %>
+	<span style="color: red;">Not Completed</span>
+	<% end %>
+	<% else %>
+	<span style="color: red;">Not Created</span>
+	<% end %>
+	</li>
+	<% end %>
+</ol>
+	</p>
+	
+	<% end %>
+	
+</div>
+	<br \>
+	<br \>
+	<% end %>

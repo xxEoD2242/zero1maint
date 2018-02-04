@@ -7,6 +7,12 @@ class UserMailer < ApplicationMailer
     mail(to: "tyler.fedrizzi@gmail.com", subject: "New Service Requested. Please view.")
   end
   
+  def daily_events_report_email
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @events = Event.where(date: @date)
+    mail(to: ["ryan@zero1.vegas", "rick@zero1.vegas"], subject: "Daily Events Report")
+  end
+  
   def update_service_email(service)
     @program = service
     

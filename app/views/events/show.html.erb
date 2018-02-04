@@ -120,7 +120,7 @@
 			  			 <div class="form-group">
 			
 			  			<div class="input-group">
-			        <span class="input-group-addon">Mileage:</span>
+			        <span class="input-group-addon"> <strong> Mileage: </strong></span>
 			        <%= number_field_tag :event_mileage, nil, class: "form-control" %>
 			      <span class="input-group-btn">
 			  	 	<%= submit_tag "Complete Event", class: "btn btn-primary"%>
@@ -132,4 +132,12 @@
 <%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark"%>
 </div>
 
+</div>
+
+<div class='card my-4'>
+	<div class="card-body">
+	<p>
+		* Ensure to set the Event Mileage and the status for the event to "Completed" once the event has finished. This can be done easily with the form above this text box. *
+	</p>
+</div>
 </div>

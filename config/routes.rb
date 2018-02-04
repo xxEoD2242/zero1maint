@@ -79,6 +79,7 @@ resource :calendar, only: [:show], controller: :calendar
      get 'next_month_calendar'
      get 'vehicle_rotation_metrics'
      post 'event_completed'
+     get 'previous_month'
     end
   end
   resources :vehicles do

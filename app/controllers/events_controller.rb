@@ -61,6 +61,17 @@ class EventsController < ApplicationController
     @events_by_date = Event.group('events.id').group_by(&:date)
   end
   
+  def previous_month
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @prev_month = @date - 1.month
+    @events = Event.where('date <= ?', @prev_month - 1.month)
+    @display_events = @events.where('date >= ?', @prev_month)
+    @scheduled_events = Event.where(status: 'Scheduled')
+    @completed_events = Event.where(status: 'Completed')
+    @assigned_events = Event.where(status: "Vehicles Assigned")
+    @events_by_date = Event.group('events.id').group_by(&:date)
+  end
+  
   def completed_events
     @q = Event.where(status: 'Completed').order(:created_at).ransack(params[:q])
     @event_results = @q.result.includes(:vehicles).page(params[:page])

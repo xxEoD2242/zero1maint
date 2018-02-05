@@ -8,8 +8,7 @@ class UserMailer < ApplicationMailer
   end
   
   def daily_events_report_email
-    @date = params[:date] ? Date.parse(params[:date]) : Date.today
-    @events = Event.where(date: @date)
+    @events = Event.where(date: Time.now - 24.hours)
     mail(to: ["ryan@zero1.vegas", "rick@zero1.vegas"], subject: "Daily Events Report")
   end
   

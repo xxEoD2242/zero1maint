@@ -3,7 +3,10 @@
 <div class="card-header">
 
   <h2 class="text-center">Vehicle:
-  <%= @vehicle.car_id %></h2>
+  <%= @vehicle.car_id %> 
+  
+ 
+  </h2>
 </div>
 <div class="card-body">
 	<div class="row">
@@ -38,6 +41,8 @@
   <%= @vehicle.registration_date %>
 </p>
 
+
+
 <p>
   <strong>Plate number:</strong>
   <%= @vehicle.plate_number %>
@@ -53,6 +58,15 @@
 <p>
   <strong>Current Mileage:</strong>
   <%= @vehicle.mileage %>
+</p>
+
+<p>
+  
+  <% if @vehicle.high_use == true %>
+  <h4 style="color: green;">High Use </h4>
+  <% else %>
+  
+  <% end %>
 </p>
 
 

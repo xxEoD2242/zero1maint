@@ -74,6 +74,12 @@
   </div>
 </div>
 </div>
+  <div class="form-group">
+    <strong><%= form.label :high_use %></strong>
+    <%= form.check_box :high_use, id: :vehicle_high_use, class: "form-control" %>
+	 <br \>
+	<div style="border: 2px solid black; border-radius: 6px 6px 6px 6px; padding: "> &nbsp &nbsp &nbsp *This checkbox can be used to designate a high use vehicle. This allows for an override of the frequency counters used to montior vehicle rotations. If checked, this indicates that the vehicle is a high use vehicle.* </div>
+  </div>
 <br \>
   <div class="form-group">
     <%= form.submit "Create Vehicle", class: "btn btn-success" %>

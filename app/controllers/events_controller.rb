@@ -2559,9 +2559,9 @@ end
          end
    
          
-       if vehicle.use_a && vehicle.times_used >= 5
+       if vehicle.use_a && vehicle.times_used >= 5 && vehicle.high_use == false
          vehicle.update(use_a: false, use_b: true)
-       elsif vehicle.use_b && vehicle.times_used >= 10
+       elsif vehicle.use_b && vehicle.times_used >= 10 && vehicle.high_use == false
          vehicle.update(use_a: false, use_b: false)
        end
       

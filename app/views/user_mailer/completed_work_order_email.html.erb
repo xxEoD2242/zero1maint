@@ -6,7 +6,7 @@
 		This work order has been completed. If you have any questions, please contact
 		<% if @request.users.exists? %>
 		 <% @request.users.each do |user|%>
-		 	<%= user.name %> &nbsp
+		 	<%= user.name %> 
 		 <% end %>
 		 <% else %>
 		 *No Users Assigned*

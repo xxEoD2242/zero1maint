@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180102142339) do
+ActiveRecord::Schema.define(version: 20180209004440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -362,6 +362,7 @@ ActiveRecord::Schema.define(version: 20180102142339) do
     t.float "est_mileage"
     t.string "veh_category"
     t.string "location"
+    t.boolean "high_use"
   end
 
   create_table "web_hooks", force: :cascade do |t|

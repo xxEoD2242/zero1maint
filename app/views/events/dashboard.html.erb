@@ -83,7 +83,7 @@
 							<%= event.class_type%>
 						
 					
-								<% if event.vehicles.exists? == true %>
+							<% if event.vehicles.exists? == true %>
 						
 								<% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
 								<span style="color: green;"><i class="fa fa-check" aria-hidden="true"></i></span>

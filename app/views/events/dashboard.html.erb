@@ -6,7 +6,7 @@
 	<div class="col-md-3">
 		<div class="list-group">
 			<a class="list-group-item list-group-item-action" href="../events/new">New Event</a>
-				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="../events">All Events <span class="badge badge-info"><%= @events.count %></span></a>
+				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="../events">All Events <span class="badge badge-info"><%= Event.all.count %></span></a>
 				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="../events/scheduled_events">Scheduled Events<span class="badge badge-info"><%= @scheduled_events.count %></span></a>
 				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="../events/vehicles_assigned">Events w/ Assigned Vehicles<span class="badge badge-info"><%= @assigned_events.count %></span></a>
 				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="../events/completed_events">Completed Events<span class="badge badge-info"><%= @completed_events.count %></span></a>

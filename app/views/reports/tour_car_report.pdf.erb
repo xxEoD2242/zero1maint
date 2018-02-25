@@ -3,7 +3,7 @@
 </div>
 
 		<div class="object-title">
-			<h3 style="text-align: center;">In-Service Razors</h3>
+			<h3 style="text-align: center;">In-Service Tour Cars</h3>
 		</div>
 	<table>
 		<thead>
@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	      <% @vehicles.order(car_id: :asc).each do |vehicle| %>
+	      <% @tour_cars.where(status: "In-Service").order(car_id: :asc).each do |vehicle| %>
 	        <tr>
 	          <th scope="row"><%= vehicle.car_id %></th>
 	  		  <td><%= vehicle.vehicle_status %></td>
@@ -68,7 +68,7 @@
 <br \>
 <br \>
 		<div class="object-title">
-			<h3 style="text-align: center;">Out-Of-Service Razors</h3>
+			<h3 style="text-align: center;">Out-Of-Service Tour Cars</h3>
 		</div>
 	<table border="1">
 		<thead>
@@ -83,7 +83,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	      <% @out_of_service.order(car_id: :asc).each do |vehicle| %>
+	      <% @out_of_service.where(status: "Out-of-Service").order(car_id: :asc).each do |vehicle| %>
 	        <tr>
 	          <th scope="row"><%= vehicle.car_id %></th>
 	  		  <td><%= vehicle.vehicle_status %></td>

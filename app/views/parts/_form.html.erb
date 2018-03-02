@@ -17,11 +17,11 @@
   <div class="form-inputs">
    <b> <%= f.input :part_numb, label: "Part Number" %> </b>
    <b> <%= f.input :description, label: "Part Description" %> </b>
-    <%= f.input :brand %>
-    <%= f.select :category, Part::CATEGORIES, {include_blank: "Select Mechanical Category"}, class: "form-control my-2" %>
-    <%= f.input :cost %>
-    <%= f.input :quantity %>
-	 <%= f.select :vehicle_category_id, VehicleCategory.all.collect { |v| [v.name, v.id]}, {include_blank: "Select Vehicle Category"}, id: :part_vehicle_category_id, class: "form-control mb-2"%>
+   <b>  <%= f.input :brand, label: "Brand" %> </b>
+   <b>  <%= f.input :cost, label: "Part Cost" %> </b>
+   <b>  <%= f.input :quantity, label: "Quantity on Hand" %> </b>
+   <b>  <%= f.select :category, Part::CATEGORIES, {include_blank: "Select Mechanical Category"}, class: "form-control my-2" %> </b>
+	<b>  <%= f.select :vehicle_category, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control my-2"%> </b>
   </div>
 
   <div class="form-actions">

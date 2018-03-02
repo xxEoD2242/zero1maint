@@ -21,4 +21,8 @@ class Request < ApplicationRecord
   paginates_per 5
   
   accepts_nested_attributes_for :vehicle, :parts
+  
+  STATUS = ['New', 'In-Progress', "Completed", "Overdue"]
+  
+  
 end

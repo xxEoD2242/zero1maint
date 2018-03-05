@@ -1,6 +1,5 @@
 class Request < ApplicationRecord
-  belongs_to :tracker
-  
+
   belongs_to :program
   belongs_to :vehicle
   

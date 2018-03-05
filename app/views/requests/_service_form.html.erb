@@ -17,7 +17,7 @@
 		<% request.order(id: :desc).each do |request|%>
 	<tr>
 		<td><%= link_to request.id, request_path(request), class: "badge badge-info "%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%=request.vehicle.car_id%></td>
 		<td><%=request.created_at.strftime('%D')%>

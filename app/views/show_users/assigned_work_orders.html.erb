@@ -27,7 +27,7 @@
 
 
 	<div class="form-group mt-2 ">
-		<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+		<%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
 	</div>
 	
 	
@@ -75,19 +75,19 @@
 <div class="card">
 	<div class="card-body">
 	<div class="row">
-		<% if @requests.where(tracker_id: @set_new.id) != []%>
+		<% if @requests.where(status: "New") != []%>
 		<div class="col-md-4 my-3">
 		<h3 class="text-center"> New Work Orders &nbsp&nbsp&nbsp&nbsp
 			<span class="badge badge-dark"> 
-			<%= @requests.where(tracker_id: @set_new.id).all.count %>
+			<%= @requests.where(status: "New").all.count %>
 			</span>
 		</h3>
 			
-			<% @requests.where(tracker_id: @set_new.id).order(created_at: :desc).each do |request|%>
+			<% @requests.where(status: "New").order(created_at: :desc).each do |request|%>
 				
 				<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.tracker.track%> </strong>
+				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.staus%> </strong>
 			</div>
 			<div class="card-body">
 				<ul class="list-group">
@@ -114,19 +114,19 @@
 		</div>
 		<% end %>
 		
-		<% if @requests.where(tracker_id: @set_progress.id) != []%>
+		<% if @requests.where(status: "In-Progress") != []%>
 			<div class="col-md-4 my-3">
 		<h3 class="text-center"> Completed Work Orders &nbsp&nbsp&nbsp&nbsp
 			<span class="badge badge-dark"> 
-			<%= @requests.where(tracker_id: @set_progress.id).all.count %>
+			<%= @requests.where(status: "In-Progress").all.count %>
 			</span>
 		</h3>
 			
-			<% @requests.where(tracker_id: @set_progress.id).order(created_at: :desc).each do |request|%>
+			<% @requests.where(status: "In-Progress").order(created_at: :desc).each do |request|%>
 			
 				<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.tracker.track%> </strong>
+				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.status%> </strong>
 			</div>
 			<div class="card-body">
 				<ul class="list-group">
@@ -154,19 +154,19 @@
 		<% end %>
 		
 		
-		<% if @requests.where(tracker_id: @set_overdue.id) != []%>
+		<% if @requests.where(status: "Overdue") != []%>
 		<div class="col-md-4 my-3">
 		<h3 class="text-center"> Overdue Work Orders &nbsp
 			<span class="badge badge-danger"> 
-			<%= @requests.where(tracker_id: @set_overdue.id).all.count %>
+			<%= @requests.where(status: "Overdue").all.count %>
 			</span>
 		</h3>
 			
-			<% @requests.where(tracker_id: @set_overdue.id).order(created_at: :desc).each do |request|%>
+			<% @requests.where(status: "Overdue").order(created_at: :desc).each do |request|%>
 				
 				<div class="card card-danger bg-danger">
 				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle &nbsp <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.tracker.track%> </strong>
+				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle &nbsp <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.status%> </strong>
 			</div>
 			<div class="card-body">
 				<ul class="list-group">

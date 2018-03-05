@@ -17,25 +17,25 @@
 				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="../requests/new_requests">
 					New Work Orders
 					 <span class="badge badge-dark">
-						 <%= @requests.where(tracker_id: @set_new.id).count%>
+						 <%= @requests.where(status: "New").count%>
 					 </span>
 				 </a>
 				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 					href="../requests/in_progress">
 					In-Progress Work Orders
 					<span class="badge badge-dark">
-						<%= @requests.where(tracker_id: @set_progress.id).count%>
+						<%= @requests.where(status: "In-Progress").count%>
 					</span>
 				</a>
 				<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 					href="../requests/completed_requests">
 					Completed Work Orders
 					<span class="badge badge-dark">
-						<%= @requests.where(tracker_id: @set_completed.id).count%>
+						<%= @requests.where(status: "Completed").count%>
 					</span>
 				</a>
 				<a class="list-group-item list-group-item-action list-group-item-danger d-flex justify-content-between align-items-center" 					href="../requests/overdue">
 					Overdue Work Orders
 					<span class="badge badge-danger">
-						<%= @requests.where(tracker_id: @set_overdue.id).count%>
+						<%= @requests.where(tracker_id: "Overdue").count%>
 					</span>
 				</a>
 				
@@ -116,7 +116,7 @@
 	<div class="col-md-4">
 		<h5 class="text-center mb-2">New Work Orders</h5>
 		
-			<% @requests.where(tracker_id: @set_new.id).order(created_at: :desc).limit(5).each do |request|%>
+			<% @requests.where(status: "New").order(created_at: :desc).limit(5).each do |request|%>
 			<div class="card mb-3">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<strong>Work Order #: <%=link_to request.id, request_path(id: request.id), class: "badge badge-warning" %></strong>
@@ -135,7 +135,7 @@
 		</li>
 		
 			<li class="list-group-item d-flex justify-content-between align-items-center">Status
-			<span class="badge badge-info"><%=request.tracker.track%></span>Requestor
+			<span class="badge badge-info"><%=request.status%></span>Requestor
 			<span class="badge badge-info"><%= request.creator%></span></li>
 			
 		</ul>
@@ -151,7 +151,7 @@
 	<div class="col-md-4">
 			<h5 class="text-center mb-2">In-Progress Work Orders</h5>
 		
-				<% @requests.where(tracker_id: @set_progress.id).order(created_at: :desc).limit(5).each do |request|%>
+				<% @requests.where(status: "In-Progress").order(created_at: :desc).limit(5).each do |request|%>
 				<div class="card mb-2">
 					<div class="card-header d-flex justify-content-between align-items-center">
 						<strong>Work Order #: <%=link_to request.id, request_path(id: request.id), class: "badge badge-warning" %></strong>
@@ -170,7 +170,7 @@
 				</li>
 		
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status
-					<span class="badge badge-info"><%=request.tracker.track%></span>Requestor
+					<span class="badge badge-info"><%=request.status%></span>Requestor
 					<span class="badge badge-info"><%= request.creator%></span></li>
 			
 				</ul>
@@ -185,7 +185,7 @@
 	<div class="col-md-4">
 			<h5 class="text-center mb-2">Overdue Work Orders</h5>
 			
-				<% @requests.where(tracker_id: @set_overdue.id).order(created_at: :desc).limit(5).each do |request|%>
+				<% @requests.where(status: "Overdue").order(created_at: :desc).limit(5).each do |request|%>
 				<div class="card mb-2">
 					<div class="card-header d-flex justify-content-between align-items-center">
 						<strong>Work Order #: <%=link_to request.id, request_path(id: request.id), class: "badge badge-warning" %></strong>
@@ -204,7 +204,7 @@
 				</li>
 		
 					<li class="list-group-item d-flex justify-content-between align-items-center">Status
-					<span class="badge badge-info"><%=request.tracker.track%></span>Requestor
+					<span class="badge badge-info"><%=request.status%></span>Requestor
 					<span class="badge badge-info"><%= request.creator%></span></li>
 			
 				</ul>

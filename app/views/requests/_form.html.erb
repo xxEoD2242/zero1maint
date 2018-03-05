@@ -23,7 +23,7 @@
 	
 	<div class="form-group">
 		<strong>Current Status: </strong> <br \>
-	  <%= f.select :tracker_id, Tracker.all.collect { |t| [ t.track, t.id ]}, {include_blank: "Update Status" }, id: :request_tracker_id, class: "form-control" %>
+	  <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, id: :request_status, class: "form-control" %>
 	</div>
 	
   

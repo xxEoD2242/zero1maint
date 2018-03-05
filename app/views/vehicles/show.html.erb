@@ -52,7 +52,7 @@
   <strong>Work Orders: </strong>
   <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
   		  		<%= link_to request.id, request, method: :get, class: "badge badge-dark" %>
-				(<%= request.tracker.track%>)
+				(<%= request.status%>)
   				<% end %>
 </p>
 <p>
@@ -217,7 +217,7 @@
 	<li class="list-group-item">
 		<div class="row">
 		<div class="col-md-3"> <%= link_to work_order.id, request_path(work_order), class: "badge badge-primary"%> </div>
-		<div class="col-md-3"><%= work_order.tracker.track %> </div>
+		<div class="col-md-3"><%= work_order.status %> </div>
 		<div class="col-md-3"><%= work_order.description%> </div>
 		<div class="col-md-3" style="color: green "> <%= work_order.completed_date%></div>
 	</div>

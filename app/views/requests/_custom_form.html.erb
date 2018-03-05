@@ -6,16 +6,22 @@
 	<strong>	Search For Parts </strong>
 
 	<div class="row mt-3">
-	
+		
 		<div class="col">
-	<div class="form-group">
+			<div class="form-group">
+			<%= f.search_field :part_numb_cont, placeholder: "Part Number Contains", class: "form-control" %>
+			</div>
+		</div>
+	
+	<div class="col">
+		<div class="form-group">
 	<%= f.search_field :description_cont, placeholder: "Description Contains", class: "form-control" %>
-</div>
-</div>
+		</div>
+	</div>
 
 <div class="col">
 	<div class="form-group">
-	<%= f.select :vehicle_category_id_eq, options_from_collection_for_select(VehicleCategory.all, "id", "name", @q.vehicle_category_id_eq), {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+	<%= f.select :vehicle_category_eq, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 </div>
 </div>
 <div class="col">

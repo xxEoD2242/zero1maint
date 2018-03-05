@@ -56,11 +56,10 @@ class UserMailer < ApplicationMailer
     User.all.each do |user|
       emails << user.email
     end
-    @set_new = Tracker.find_by(track: "New")  
-    @set_progress = Tracker.find_by(track: "In-Progress")
+ 
     @requests = Request.where('created_at > ?', 1.month.ago)
-    @new = @requests.where(tracker_id: @set_new.id)
-    @in_progress = @requests.where(tracker_id: @set_progress.id)
+    @new = @requests.where(status: "New")
+    @in_progress = @requests.where(status: "In-Progress")
     mail(to: emails, subject: "Weekly New & In-Progress Work Orders Report for #{Time.now.strftime('%D')}")
   end
   

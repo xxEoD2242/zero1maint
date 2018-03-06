@@ -21,10 +21,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @work_orders.where(tracker_id: @set_new.id).order(completion_date: :desc).each do |request|%>
+		<% @work_orders.where(status: "New").order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.id%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>
@@ -56,7 +56,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @work_orders.where(tracker_id: @set_progress.id).order(completion_date: :desc).each do |request|%>
+		<% @work_orders.where(status: "In-Progress").order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.id%></td>
 		<td><%= request.tracker.track %></td>
@@ -91,10 +91,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @work_orders.where(tracker_id: @set_completed).order(completion_date: :desc).each do |request|%>
+		<% @work_orders.where(status: "Completed").order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.id%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>

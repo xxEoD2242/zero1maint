@@ -4,35 +4,10 @@
 <div class="card">
 	
 	<div class="card-body">
-<table class="table table-responsive table-striped">
-	
-	<thead>
-		<tr>
-			<th>Work Order Number</th>
-			<th>Work Order Status</th>
-			<th>Work Order Type</th>
-			<th>Vehicle</th>
-			<th>Defect Description</th>
-			<th>Work Order Created At</th>
-			<th>Estimated Completion Date</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-		<% @completed.order(tracker_id: :asc).each do |request|%>
-	<tr>
-		<td><%= request.id%></td>
-		<td><%= request.tracker.track %></td>
-		<td><%= request.program.name %></td>
-		<td><%= request.vehicle.car_id%></td>
-		<td><%= request.description %>
-		<td><%=request.created_at.strftime('%D')%>
-		<td><%= request.completion_date.strftime('%D') %>
-		
-	</tr>
-	<% end %>
-	</tbody>
-</table>
+		<% if @request != [] %>
+<%= render "request_form", request: @completed%>
+
+<% end %>
 <p>To search for specific reports, please select the dates in the form below and hit "Find Reports"</p>
 </div>
 

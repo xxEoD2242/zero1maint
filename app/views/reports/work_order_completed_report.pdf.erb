@@ -20,7 +20,7 @@
 		<% @completed.order(completion_date: :desc).each do |request|%>
 	<tr>
 		<td><%= request.id%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>

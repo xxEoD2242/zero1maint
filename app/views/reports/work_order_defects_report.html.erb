@@ -4,100 +4,18 @@
 <div class="card">
 	
 	<div class="card-body">
+		<% if @work_orders != []%>
 		<h4>New Defect Work Orders</h4>
-		<table class="table table-responsive table-striped">
-	
-			<thead>
-				<tr>
-					<th>Work Order Number</th>
-					<th>Work Order Status</th>
-					<th>Work Order Type</th>
-					<th>Vehicle</th>
-					<th>Defect Description</th>
-					<th>Work Order Created At</th>
-					<th>Estimated Completion Date</th>
-			
-				</tr>
-			</thead>
-			<tbody>
-				<% @work_orders.where(tracker_id: @set_new.id).order(completion_date: :desc).each do |request|%>
-			<tr>
-				<td><%= request.id%></td>
-				<td><%= request.tracker.track %></td>
-				<td><%= request.program.name %></td>
-				<td><%= request.vehicle.car_id%></td>
-				<td><%= request.description %>
-				<td><%=request.created_at.strftime('%D')%>
-				<td><%= request.completion_date.strftime('%D') %>
-		
-			</tr>
-			<% end %>
-			</tbody>
-		</table>
+		<%= render "request_form", request: @work_orders.where(status: "New")%>
 		<br \>
 		<br \>
 		<h4>In-Progress Defect Work Orders</h4>
-			<table class="table table-responsive table-striped">
-	
-				<thead>
-					<tr>
-						<th>Work Order Number</th>
-						<th>Work Order Status</th>
-						<th>Work Order Type</th>
-						<th>Vehicle</th>
-						<th>Defect Description</th>
-						<th>Work Order Created At</th>
-						<th>Estimated Completion Date</th>
-			
-					</tr>
-				</thead>
-				<tbody>
-					<% @work_orders.where(tracker_id: @set_progress.id).order(completion_date: :desc).each do |request|%>
-				<tr>
-					<td><%= request.id%></td>
-					<td><%= request.tracker.track %></td>
-					<td><%= request.program.name %></td>
-					<td><%= request.vehicle.car_id%></td>
-					<td><%= request.description %>
-					<td><%=request.created_at.strftime('%D')%>
-					<td><%= request.completion_date.strftime('%D') %>
-		
-				</tr>
-				<% end %>
-				</tbody>
-			</table>
+			<%= render "request_form", request: @work_orders.where(status: "In-Progress")%>
 			<br \>
 			<br \>
 			<h4>Completed Defect Work Orders</h4>
-			<table class="table table-responsive table-striped">
-	
-				<thead>
-					<tr>
-						<th>Work Order Number</th>
-						<th>Work Order Status</th>
-						<th>Work Order Type</th>
-						<th>Vehicle</th>
-						<th>Defect Description</th>
-						<th>Work Order Created At</th>
-						<th>Estimated Completion Date</th>
-			
-					</tr>
-				</thead>
-				<tbody>
-					<% @work_orders.where(tracker_id: @set_completed).order(completion_date: :desc).each do |request|%>
-				<tr>
-					<td><%= request.id%></td>
-					<td><%= request.tracker.track %></td>
-					<td><%= request.program.name %></td>
-					<td><%= request.vehicle.car_id%></td>
-					<td><%= request.description %>
-					<td><%=request.created_at.strftime('%D')%>
-					<td><%= request.completion_date.strftime('%D') %>
-		
-				</tr>
-				<% end %>
-				</tbody>
-			</table>
+			<%= render "request_form", request: @work_orders.where(status: "Completed")%>
+			<% end %>
 		
 </div>
 	<br \>
@@ -113,7 +31,7 @@
 	
 			<div class="form-group ml-3">
 				<%= f.label "Select Status"%>
-				<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+				<%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
 			</div>
 		<div class="form-group ml-3">
 			<%= f.label "From"%> &nbsp

@@ -24,9 +24,9 @@
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
 	          <td><%= vehicle.location %></td>
-	          <td><% vehicle.requests.where(tracker_id: @set_new && @set_progress).limit(3).each do |request| %>
+	          <td><% vehicle.requests.where(status: "New" && "In-Progress").limit(3).each do |request| %>
 	  		  		<%=request.number%>
-	  				<%= request.tracker.track%>
+	  				<%= request.status%>
 	  				<% end %></td>
 	          <td><% if vehicle.near_service == true %>
 				 	<ul>
@@ -55,7 +55,7 @@
 	  		  <% end %>
 			  <% if vehicle.defect == true %>
 			  Defect Reported
-			  <%  vehicle.requests.where(program_id: @set_defects.id, tracker_id: @set_new.id).each do |request|%>
+			  <%  vehicle.requests.where(program_id: @set_defects.id, status: "New").each do |request|%>
 			 		<br \>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Description:</strong> <%= request.description %>
 			 		<% end %>
 			  <% end %>
@@ -89,9 +89,9 @@
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
 	          <td><%= vehicle.location %></td>
-	          <td><% vehicle.requests.where(tracker_id: @set_new && @set_progress).limit(3).each do |request| %>
+	          <td><% vehicle.requests.where(status: "New" && "In-Progress").limit(3).each do |request| %>
 	  		  		<%=request.number%>
-	  				<%= request.tracker.track%>
+	  				<%= request.status%>
 	  				<% end %></td>
 	          <td><% if vehicle.near_service == true %>
 				 	<ul>

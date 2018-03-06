@@ -115,10 +115,10 @@ class ReportsController < ApplicationController
   
   def work_order_report
     @requests = Request.where('created_at > ?', 1.month.ago)
-    @new = @requests.where(tracker_id: @set_new.id)
-    @in_progress = @requests.where(tracker_id: @set_progress.id)
-    @completed = @requests.where(tracker_id: @set_completed.id)
-    @overdue = @requests.where(tracker_id: @set_overdue.id)
+    @new = @requests.where(status: "New")
+    @in_progress = @requests.where(status: "In-Progress")
+    @completed = @requests.where(status: "Completed")
+    @overdue = @requests.where(status: "Overdue")
     respond_to do |format|
          format.html
          format.xls
@@ -141,8 +141,8 @@ class ReportsController < ApplicationController
   end
   
   def work_order_completed_report
-    @set_completed = Tracker.find_by(track: "Completed")
-    @requests = Request.where(tracker_id: @set_completed.id)
+  
+    @requests = Request.where(status: "Completed")
     @q = @requests.ransack(params[:q])
     @completed = @q.result
     respond_to do |format|

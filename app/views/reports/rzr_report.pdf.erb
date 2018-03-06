@@ -24,8 +24,8 @@
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
 	          <td><%= vehicle.location %></td>
-	          <td><% vehicle.requests.where(tracker_id: "New" && "In-Progress").limit(3).each do |request| %>
-	  		  		<%=request.number%>
+	          <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
+	  		  		<%=request.id%>
 	  				<%= request.status%>
 	  				<% end %></td>
           <td><% if vehicle.near_service == true %>
@@ -89,8 +89,8 @@
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
 	          <td><%= vehicle.location %></td>
-	          <td><% vehicle.requests.where(status: "New" && "In-Progress").limit(3).each do |request| %>
-	  		  		<%=request.number%>
+	          <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
+	  		  		<%=request.id%>
 	  				<%= request.status%>
 	  				<% end %></td>
 	          <td><% if vehicle.near_service == true %>

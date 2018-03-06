@@ -85,7 +85,7 @@
 	<% elsif @vehicle.a_service == true%>
 			<strong style="color: red;">NEEDS SERVICE</strong>
 			<% else %>
-	<span class="badge badge-success"><%= @a_service %></span>
+	<span class="badge badge-success"><%= sprintf('%.2f', @a_service) %></span>
 	
 	<% if @vehicle.requests.where(program_id: @set_a_service.id) != []%>
 	<% if  @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date != nil%>
@@ -99,7 +99,7 @@
 		<% elsif @vehicle.shock_service == true %>
 		<strong style="color:red;">NEEDS SERVICE</strong>
 		<% else %>
-	<span class="badge badge-success"><%= @shock_service %> </span>
+	<span class="badge badge-success"><%= sprintf('%.2f', @shock_service)  %> </span>
 	<% if @vehicle.requests.where(program_id: @set_shock_service.id) != []%>
 	<% if @vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date != nil %>
 	<span class="badge badge-primary"> <%= @vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date.strftime('%D')%></span>
@@ -113,7 +113,7 @@
 		<% elsif @vehicle.air_filter_service == true%>
 		<strong style="color: red;">NEEDS SERVICE</strong>
 		<% else %>
-	<span class="badge badge-success"><%= @air_filter_service %></span>
+	<span class="badge badge-success"><%= sprintf('%.2f', @air_filter_service)  %></span>
 	<% if @vehicle.requests.where(program_id: @set_air_filter_service.id) != []%>
 	<% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date != nil %>
 	<span class="badge badge-primary"> <%= @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')%></span>
@@ -152,7 +152,7 @@
 		<strong>A-Service  </strong>
 		<% if @vehicle.last_a_service != nil%>
 		<span class="badge badge-success"> 
-		<%= @vehicle.last_a_service %>
+		<%= sprintf('%.2f', @vehicle.last_a_service) %>
 		</span> 
 		<% end %>
 	
@@ -161,7 +161,7 @@
 		<strong>Shock Service </strong>
 		<% if @vehicle.last_shock_service != nil %>
 		<span class="badge badge-success"> 
-		<%= @vehicle.last_shock_service %>
+		<%=sprintf('%.2f', @vehicle.last_shock_service)%>
 		</span> 
 	<% end %>
 	</li>
@@ -169,7 +169,7 @@
 		<strong>Air Filter Change Service</strong>
 		<% if @vehicle.last_air_filter_service != nil%>
 		<span class="badge badge-success"> 
-		<%= @vehicle.last_air_filter_service %>
+		<%= sprintf('%.2f', @vehicle.last_air_filter_service) %>
 		</span> 
 	<% end %>
 	</li>

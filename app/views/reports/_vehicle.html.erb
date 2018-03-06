@@ -21,8 +21,9 @@
           <td><%= vehicle.mileage %></td>
           <td><%= vehicle.location %></td>
           <td><% vehicle.requests.where(tracker_id: @set_progress).limit(3).each do |request| %>
-  		  		<%= link_to request.number, request, method: :get, class: "badge badge-primary" %>
+  		  		<%= link_to request.id, request, method: :get, class: "badge badge-primary" %>
   				<%= request.status%>
+				<br \>
   				<% end %></td>
          <td><% if vehicle.near_service == true %>
 		 	<ul>

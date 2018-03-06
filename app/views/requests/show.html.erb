@@ -20,7 +20,7 @@
   <%= @request.description %>
   <%if @request.vehicle.checklists.exists? == true%>
   	<% if @request.vehicle.checklists.where(deadline: true).exists? == true %>
-		<% @request.vehicle.checklists.where(deadline: true, date: Time.now - 1.week).order(date: :desc).limit(3).each do |checklist| %>
+		<% @request.vehicle.checklists.where(deadline: true, date: Time.now - 2.weeks).order(date: :desc).limit(3).each do |checklist| %>
 			<%= link_to "Checklist for Event #{checklist.event.id} on #{checklist.event.date.strftime('%D')}", checklist_path(checklist.id), class: "btn btn-warning mb-2"%>
 			<% end %>
 		<% end %>	

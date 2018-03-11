@@ -156,17 +156,20 @@
 		  
   		<br \>
 		<% if @parts.all.count != @number%>
-			 <div class="row">
+			
   			 <% Part::CATEGORIES.each do |category|%>
 			 <% if @parts.where(category: category) != []%>
-			<div class="col-md-4">
+			 
   		<strong><%= label_tag category %></strong>
+		<div class="row">
   			<% @parts.where(category: category).limit(10).each do |part|%>
+			
+			<div class="col-md-4">
   				<%= form_tag add_to_request_part_order_requests_path do |f|%>
   			<%= hidden_field_tag :part_id, part.id%>
 			<%= hidden_field_tag :request_id, @request.id%>
   			 <div class="form-group">
-  			<%= label_tag part.description %>
+  			[<%= label_tag part.part_numb%>] - <%= label_tag part.description %> 
 			
   			<div class="input-group">
         <span class="input-group-addon">Qty: <%= part.quantity%></span>
@@ -177,11 +180,13 @@
    </div>
    </div>
   			<% end %>
+			</div>
+			
   			<% end %>
 	</div>
 	<% end %>
   <% end %>
-</div>
+
 <% end %>
 
   </div>

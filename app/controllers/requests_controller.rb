@@ -40,9 +40,10 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+    @number = Part.all.count
     @part_items = PartItem.where(request_id: @request.id)
     @q = Part.ransack(params[:q])
-    @parts = @q.result.page(params[:page])
+    @parts = @q.result
     @part_order = RequestPartOrder.where(request_id: @request.id)
     respond_to do |format|
         format.html

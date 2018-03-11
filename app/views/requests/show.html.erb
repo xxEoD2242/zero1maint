@@ -62,11 +62,12 @@
   <span style="color: green;"><%= @request.completed_date %></span>
 </p>
 <% end %>
-<% if @request.image != nil%>
+
+
 <p>
-<%= image_tag(@request.image) %>
+<%= image_tag(@request.image, size: "475x325") %>
 </p>
-<% end %>
+
 </div>
 
 <div class="col-md-6 mb-3">
@@ -112,7 +113,7 @@
 			<% end %>
 			
 		
-    Request Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %></span>
+    Work Order Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %></span>
  </div>
 </div>
 <% end %>
@@ -154,11 +155,13 @@
   		  <%= render 'custom_form'%>
 		  
   		<br \>
+		<% if @parts.all.count != @number%>
 			 <div class="row">
   			 <% Part::CATEGORIES.each do |category|%>
+			 <% if @parts.where(category: category) != []%>
 			<div class="col-md-4">
   		<strong><%= label_tag category %></strong>
-  			<% @parts.where(category: category).limit(5).each do |part|%>
+  			<% @parts.where(category: category).limit(10).each do |part|%>
   				<%= form_tag add_to_request_part_order_requests_path do |f|%>
   			<%= hidden_field_tag :part_id, part.id%>
 			<%= hidden_field_tag :request_id, @request.id%>
@@ -176,8 +179,10 @@
   			<% end %>
   			<% end %>
 	</div>
+	<% end %>
   <% end %>
 </div>
+<% end %>
 
   </div>
   </div>

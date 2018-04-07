@@ -162,7 +162,7 @@
 			 
   		<strong><%= label_tag category %></strong>
 		<div class="row">
-  			<% @parts.where(category: category).limit(10).each do |part|%>
+  			<% @parts.where(category: category).limit(15).each do |part|%>
 			
 			<div class="col-md-4">
   				<%= form_tag add_to_request_part_order_requests_path do |f|%>

@@ -11,8 +11,11 @@ class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.all
     @request = Request.all
-    
-   
+  end
+  
+  def sold_vehicles
+    @q = Vehicle.where(vehicle_status: "Sold").ransack(params[:q])
+    @vehicle_results = @q.result.page(params[:page])
   end
   
   def import
@@ -274,6 +277,6 @@ class VehiclesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :repair_needed, :needs_service, :high_use, :mileage, :near_service, :a_service, :last_a_service, :last_shock_service, :last_air_filter_service, :use_a, :use_b, :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, :veh_category, :location, :shock_service, :times_used, :est_mileage, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
+      params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :notes, :repair_needed, :needs_service, :high_use, :mileage, :sale_date, :purchaser, :near_service, :a_service, :last_a_service, :last_shock_service, :last_air_filter_service, :use_a, :use_b, :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, :veh_category, :location, :shock_service, :times_used, :est_mileage, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
     end
 end

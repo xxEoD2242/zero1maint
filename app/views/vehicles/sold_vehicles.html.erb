@@ -26,9 +26,15 @@
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
         <td><%= vehicle.mileage %></td>
+		<% if @vehicle.purchaser != nil%>
 		<td><%= vehicle.purchaser%></td>
+		<% end %>
+		<% if @vehicle.sale_date!= nil%>
 		<td><%= vehicle.sale_date%></td>
+		<% end %>
+		<% if @vehicle.notes != nil%>
 		<td><%= vehicle.notes%></td>
+		<% end %>
 		<td><%= link_to "Show", vehicle_path(id: vehicle.id), class: "btn btn-warning"%>
 	</tr>
     <% end %> 

@@ -17,7 +17,7 @@
 
 
 <div class="form-group mt-2 ">
-	<%= f.select :tracker_id_eq, options_from_collection_for_select(Tracker.all, "id", "track", @q.tracker_id_eq), {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+	<%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
 </div>
 </div>
 <div class='col-md-4'>

@@ -8,7 +8,7 @@
 </div>
 
 <div class="form-group ml-2">
-	<%= f.select :brand_eq, Part.all, {include_blank: "Select Part Category"}, class: "form-control" %>
+	<%= f.select :vehicle_category_eq, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
 </div>
 
 <div class="form-group ml-2">

@@ -259,6 +259,14 @@ class RequestsController < ApplicationController
           vehicle.update( defect: false, vehicle_status: "In-Service")
         end
         
+        if @request.users.exists? && @request.status == "New"
+          emails = []
+          @request.users.all.each do |user|
+            emails << user.email
+          end
+          UserMailer.assign_request_email(emails, @request).deliver_now
+        end
+        
         if @request.users.exists? && @request.status == "Completed"
           email = User.find_by(name: @request.creator).email
           UserMailer.completed_work_order_email(email, @request).deliver_now

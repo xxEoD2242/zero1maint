@@ -21,10 +21,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @new.order(tracker_id: :asc).each do |request|%>
+		<% @new.order(status: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>
@@ -56,10 +56,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @in_progress.order(tracker_id: :asc).each do |request|%>
+		<% @in_progress.order(status: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>

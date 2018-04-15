@@ -29,7 +29,7 @@
 
 	<p>
 	  <strong>Status:</strong>
-	  <%= @request.tracker.track %>
+	  <%= @request.status %>
 	</p>
 	<% if @request.program != nil %>
 	<p>
@@ -38,10 +38,6 @@
 	</p>
 	<% end %>
 
-	<p>
-	  <strong>Special requets:</strong>
-	  <%= @request.special_requets %>
-	</p>
 
 	<p>
 	  <strong> Work Order Mileage:</strong>

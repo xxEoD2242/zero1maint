@@ -98,7 +98,14 @@ class EventsController < ApplicationController
   def event_completed
     @event = Event.find(params[:event_id])
     @event.update(status: 'Completed', event_mileage: params[:event_mileage])
+    event_mileage = @event.event_mileage
+    if @event.status == "Completed"
+    @event.vehicles.each do |vehicle|
+      vehicle.update(mileage: (vehicle.mileage + event_mileage))
+    end
+  
     flash[:notice] = "Event successfully completed!"
+  end
     redirect_back(fallback_location: root_path)
   end
   

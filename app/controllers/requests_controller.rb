@@ -3,7 +3,7 @@ class RequestsController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle, :set_tracker, only: [:index, :show, :edit, :new]
   before_action :set_services, :set_tracker, only: [:show, :index, :new, :edit, :dashboard, :a_service, :shock_service, :air_filter_service, :defects, :repairs, :completed_requests, :in_progress]
-  before_action :a_service, :shock_service, :air_filter_service, :repairs, :defects, only: [:dashboard]
+  before_action :a_service, :shock_service, :air_filter_service, :repairs, :defects, :tour_car_prep, only: [:dashboard]
   before_action :check_quant, only: [:show]
  
   # GET /requests
@@ -87,6 +87,13 @@ class RequestsController < ApplicationController
     @defects = Program.find_by(name: "Defect")
     @defect_requests = Request.where(program_id: @defects.id)
     @q = Request.where(program_id: @defects.id).ransack(params[:q])
+    @request_results = @q.result.includes(:vehicle).page(params[:page])
+  end
+  
+  def tour_car_prep
+    @tour_car_prep = Program.find_by(name: "Tour Car Prep")
+    @tour_car_prep_requests = Request.where(program_id: @tour_car_prep.id)
+    @q = Request.where(program_id: @tour_car_prep.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
   
@@ -186,6 +193,7 @@ class RequestsController < ApplicationController
     @a_service = Program.find_by(name: "A-Service")
     @shock_service = Program.find_by(name: "Shock Service")
     @air_filter_service = Program.find_by(name: "Air Filter Change")
+    @tour_car_prep = Program.find_by(name: "Tour Car Prep")
     @set_completed = Tracker.find_by(track: "Completed")
     @repairs = Program.find_by(name: "Repairs")
     @defects = Program.find_by(name: "Defect")
@@ -206,6 +214,8 @@ class RequestsController < ApplicationController
           @request.vehicle.update(repair_needed: true, needs_service: true, vehicle_status: "Out-of-Service")
         elsif @request.program_id == @defects.id && @request.status == "New"
           @request.vehicle.update(defect: true, needs_service: true, vehicle_status: "Out-of-Service")
+        elsif @request.program_id == @tour_car_prep.id && @request.status == "New"
+          @request.vehicle.update(prep: true, needs_service: true, vehicle_status: "Out-of-Service")
           if @request.users.exists?
             defect_emails = []
             @request.users.all.each do |user|
@@ -241,6 +251,7 @@ class RequestsController < ApplicationController
     @a_service = Program.find_by(name: "A-Service")
     @shock_service = Program.find_by(name: "Shock Service")
     @air_filter_service = Program.find_by(name: "Air Filter Change")
+    @tour_car_prep = Program.find_by(name: "Tour Car Prep")
     @set_completed = Tracker.find_by(track: "Completed")
     @set_overdue = Tracker.find_by(track: "Overdue")
     respond_to do |format|
@@ -254,9 +265,11 @@ class RequestsController < ApplicationController
          elsif @request.program_id == @air_filter_service.id && @request.status == "Completed"
            @request.vehicle.update(last_air_filter_service: @veh_mileage)
         elsif @request.program_id == @repairs.id && @request.status == "Completed"
-          vehicle.update(repair_needed: false, vehicle_status: "In-Service")
+          vehicle.update(repair_needed: false, needs_service: false, vehicle_status: "In-Service")
         elsif @request.program_id == @defects.id && @request.status == "Completed"
-          vehicle.update( defect: false, vehicle_status: "In-Service")
+          vehicle.update(defect: false, needs_service: false, vehicle_status: "In-Service")
+        elsif @request.program_id == @tour_car_prep.id && @request.status == "Completed"
+          vehicle.update(prep: false, needs_service: false, vehicle_status: "In-Service")
         end
         
         if @request.users.exists? && @request.status == "New"
@@ -313,6 +326,7 @@ class RequestsController < ApplicationController
       @air_filter_service = Program.find_by(name: "Air Filter Change")
       @repairs = Program.find_by(name: "Repairs")
       @defects = Program.find_by(name: "Defect")
+      @tour_car_prep = Program.find_by(name: "Tour Car Prep")
     end
     
     

@@ -63,6 +63,7 @@ resource :calendar, only: [:show], controller: :calendar
       get 'in_progress'
       get 'remove_parts_from_request'
       get 'overdue'
+      get 'tour_car_prep'
       get 'new_requests'
       get 'create_work_order'
     end

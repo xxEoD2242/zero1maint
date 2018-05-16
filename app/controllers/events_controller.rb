@@ -1,12 +1,13 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :calc_mileage]
   before_action :set_location, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_vehicles, only: [:index, :show, :edit, :new, :create, :update]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation, :new, :edit]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:vehicle_rotation, :new, :edit]
   before_action :vehicle_use_count, only: [:dashboard, :show, :vehicle_rotation]
   before_action :vehicle_rotation, only: [:edit]
+  after_action :calc_mileage, only: [:update, :event_completed]
   
   
  
@@ -99,13 +100,22 @@ class EventsController < ApplicationController
     @event = Event.find(params[:event_id])
     @event.update(status: 'Completed', event_mileage: params[:event_mileage])
     event_mileage = @event.event_mileage
-    if @event.status == "Completed"
-    @event.vehicles.each do |vehicle|
-      vehicle.update(mileage: (vehicle.mileage + event_mileage))
+    calc_mileage = @event.calc_mileage
+    
+    if calc_mileage == 0 
+      @event.vehicles.each do |vehicle|
+        vehicle.update(mileage: (vehicle.mileage + event_mileage))
+      end
+    end
+    
+    
+    if calc_mileage != 0
+      @event.vehicles.each do |vehicle|
+        vehicle.update(mileage: (vehicle.mileage + (event_mileage - calc_mileage)))
+      end
     end
   
     flash[:notice] = "Event successfully completed!"
-  end
     redirect_back(fallback_location: root_path)
   end
   
@@ -2598,12 +2608,17 @@ end
         end
   end
 
-  # POST /events
-  # POST /events.json
+  def calc_mileage
+    @event.update(calc_mileage: @event.event_mileage)
+  end
+
+
   def create
     @event = Event.new(event_params)
     respond_to do |format|
+      
       if @event.save
+        @event.update(calc_mileage: 0)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -2617,15 +2632,27 @@ end
   # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
+      
       if @event.update(event_params)
-        
+       
         
         event_mileage = @event.event_mileage
-        if @event.status == "Completed"
-        @event.vehicles.each do |vehicle|
-          vehicle.update(mileage: (vehicle.mileage + event_mileage))
+        calc_mileage = @event.calc_mileage
+        
+        if calc_mileage == 0 
+          @event.vehicles.each do |vehicle|
+            vehicle.update(mileage: (vehicle.mileage + event_mileage))
+          end
         end
-      end
+        
+        
+        if calc_mileage != 0
+          @event.vehicles.each do |vehicle|
+            vehicle.update(mileage: (vehicle.mileage + (event_mileage - calc_mileage)))
+          end
+        end
+        
+      
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -2699,7 +2726,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :duration_word, :event_type, :est_mileage, :customers, :shares, :class_type, :number, :status, vehicle_ids: [])
+      params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :duration_word, :event_type, :est_mileage, :customers, :calc_mileage, :shares, :class_type, :number, :status, vehicle_ids: [])
     end
     
     

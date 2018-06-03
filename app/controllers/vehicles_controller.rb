@@ -1,13 +1,12 @@
 class VehiclesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles, :vehicle_mileage]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
   before_action :set_all_vehicles, :in_service, :out_of_service, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
   before_action :mileage_calculation, only: [:near_service_required, :needs_service]
-  
-  # GET /vehicles
-  # GET /vehicles.json
+  include Vehicle_Rotation
+ 
   def index
     @vehicles = Vehicle.all
     @request = Request.all
@@ -22,43 +21,28 @@ class VehiclesController < ApplicationController
     Vehicle.import(params[:file])
     redirect_to root_url, notice: "Activity Data Imported!"
   end
-
-  def mileage_calculation
-    @vehicles = Vehicle.all
-    @vehicles.all.each do |vehicle|
-    if vehicle.last_a_service != nil
-      @a_service = (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))
-      if @a_service < 0
-        vehicle.update(needs_service: true, a_service: true)
-      elsif @a_service <= @set_a_service.threshold_numb
-        vehicle.update(near_service: true)
-      else
-        vehicle.update(needs_service: false, a_service: false, near_service: false)
-      end
+  
+  def vehicle_mileage
+    @vehicle = Vehicle.find(params[:id])
+    @a_service = Program.find_by(name: "A-Service")
+    @events = @vehicle.events.where('date >= ?', Time.now - 1.year).page(params[:page])
+    @events_month = @vehicle.events.where('date >= ?', Time.now - 1.month)
+    @ytd_mileage = 0
+    @mtd_mileage = 0
+    @events.all.each do |event|
+       @ytd_mileage += event.event_mileage
     end
-        if vehicle.last_shock_service != nil
-          @shock_service = (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service))
-          if @shock_service < 0
-            vehicle.update(needs_service: true, shock_service: true)
-          elsif @shock_service <= @set_shock_service.threshold_numb
-            vehicle.update(near_service: true)
-          else
-            vehicle.update(needs_service: false, shock_service: false, near_service: false)
-          end
-        end
-      #when @vehicle.programs.exists?(7) == true
-       if vehicle.last_air_filter_service != nil 
-         @air_filter_service = (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service))
-         if @air_filter_service < 0
-           vehicle.update(needs_service: true, air_filter_service: true)
-         elsif @air_filter_service <= @set_air_filter_service.threshold_numb
-           vehicle.update(near_service: true)
-         else
-           vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
-         end
-       end
-     end 
+    @events_month.all.each do |event|
+       @mtd_mileage += event.event_mileage
+    end
+    @times_used = @events.all.count
+    @times_used_month = @events_month.all.count
+    @last_a_service = @vehicle.requests.where(program_id: @set_a_service.id).last
+    @last_shock_service = @vehicle.requests.where(program_id: @set_shock_service.id).last
+    @last_air_filter_service = @vehicle.requests.where(program_id: @set_air_filter_service.id).last
+    @checklists = @vehicle.checklists.all
   end
+
   
  
   
@@ -76,8 +60,7 @@ class VehiclesController < ApplicationController
     end
     
   end
-  # GET /vehicles/1
-  # GET /vehicles/1.json
+  
   def show
     @set_defects = Program.find_by(name: "Defect")
     @set_new = Tracker.find_by(track: "New")

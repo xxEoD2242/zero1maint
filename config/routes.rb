@@ -91,6 +91,7 @@ resource :calendar, only: [:show], controller: :calendar
       get 'needs_service'
       get 'near_service_required'
       get 'sold_vehicles'
+      get 'vehicle_mileage'
       post :import
     end
   end

@@ -1,0 +1,119 @@
+<div class="jumbotron">
+	<div class="card">
+		<div class="card-header">
+		<span class="d-flex justify-content-between align-items-center">
+			<span>
+				Location: <%=@vehicle.location %>
+			</span>
+			
+			<h2>
+				<%= @vehicle.car_id%>
+			</h2> 
+			<span>
+			Current Vehicle Mileage: <%=@vehicle.mileage%>
+		</span>
+		</span>
+	</div>
+		
+		<!-- class="d-flex justify-content-between align-items-center" -->
+		<div class="card-body">
+			
+			<div style="border: solid red 2px; border-radius: 6px 6px 6px 6px; padding: 10px 10px 10px 10px">
+				<div class="row">
+					<div class="col">
+				<span>
+					Year-To-Date Mileage: <%= @ytd_mileage %>
+				</span>
+			</div>
+			
+			<div class="col">
+			</div>
+			<div class="col">
+				<span>
+					Month-To-Date Mileage: <%= @mtd_mileage %>
+				</span>
+			</div>
+		</div>
+		<div class="row">
+				<div class="col">
+				<span>
+					Times Used this Year: <%= @times_used%>
+				</span>
+			</div>
+			<div class="col">
+			</div>
+				<div class="col">
+				<span>
+					Times Used this Month: <%= @times_used_month%>
+				</span>
+			</div>
+		</div>
+			<div class="row">
+					<div class="col">
+					<span>
+						<% if @last_a_service != nil%>
+						Date of Last A-Service: <%= @last_a_service.completed_date%>
+						<% else%>
+						Date of Last A-Service: No Data
+						<% end %>
+					</span>
+				</div>
+					<div class="col">
+					<span>
+						<% if @last_shock_service != nil%>
+						Date of Last Shock Service: <%= @last_shock_service.completed_date%>
+						<% else%>
+						Date of Last Shock Service: No Data
+						<% end %>
+					</span>
+				</div>
+					<div class="col">
+					<span>
+						<% if @last_air_filter_service != nil%>
+						Date of Last Air Filter Service: <%= @last_air_filter_service.completed_date%>
+						<% else%>
+						Date of Last Air Filter Service: No Data
+						<% end %>
+					</span>
+				</div>
+			</div>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col"> Event ID </th>
+						<th scope="col"> Event Mileage </th>
+						<th scope="col"> Event Date </th>
+						<th colspan="2"> </th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @events.order(date: :desc).each do |event|%>
+					<tr>
+					<th scope="row"> <%= event.id%> </th>
+					<td> <%= event.event_mileage%> </td>
+					<td> <%= event.date%> </td>
+					<td> <% if @vehicle.checklists.exists?(:event_id => event.id) %>
+						<%= link_to "Event Checklist", checklist_path(@checklists.find_by(event_id: event.id)), class: "btn btn-primary"%>
+						<% else %>
+						No Checklist Completed
+						<% end %>
+						<td>
+					<td> <%= link_to "Show Event #{event.id}", event_path(event), class: "btn btn-info"%> </td>
+			
+				</tr>
+				<% end %>
+			
+				</tbody>
+		
+			</table>
+			
+			<%= paginate @events%>
+			</div>
+		<div class="card-footer d-flex justify-content-between align-items-center">
+			<%= link_to "Back To Vehicle", vehicle_path(@vehicle), class: "btn btn-info"%>
+			<%= link_to "Vehicle Dashboard", vehicles_path, class: "btn btn-warning"%>
+			<%= link_to "Event Dashboard", dashboard_events_path, class: "btn btn-danger" %>
+		</div>
+	
+</div>

@@ -70,7 +70,7 @@
 						Date of Last Shock Service:
 						<br \> 
 						<strong>
-							<%= link_to "#{@last_shock_service.completed_date.strftime('%D')}", request_path(@last_a_service), class: "badge badge-lg badge-success"%>
+							<%= link_to "#{@last_shock_service.completed_date.strftime('%D')}", request_path(@last_shock_service), class: "badge badge-lg badge-success"%>
 						</strong>
 						<% else%>
 						Date of Last Shock Service: 
@@ -85,7 +85,7 @@
 						Date of Last Air Filter Service: 
 						<br \>
 						<strong>
-							<%= link_to "#{@last_air_filter_service.completed_date.strftime('%D')}", request_path(@last_a_service), class: "badge badge-lg badge-success"%>
+							<%= link_to "#{@last_air_filter_service.completed_date.strftime('%D')}", request_path(@last_air_filter_service), class: "badge badge-lg badge-success"%>
 						
 					</strong>
 						<% else%>

@@ -52,27 +52,46 @@
 					<div class="col">
 					<span>
 						<% if @last_a_service != nil%>
-						Date of Last A-Service: <%= @last_a_service.completed_date%>
+						Date of Last A-Service: 
+						<br \>
+						<strong>
+							<%= link_to "#{@last_a_service.completed_date.strftime('%D')}", request_path(@last_a_service), class: "badge badge-lg badge-success"%> 
+						</strong>
 						<% else%>
-						Date of Last A-Service: No Data
+						Date of Last A-Service: 
+						<br \>
+						No Data
 						<% end %>
 					</span>
 				</div>
 					<div class="col">
 					<span>
 						<% if @last_shock_service != nil%>
-						Date of Last Shock Service: <%= @last_shock_service.completed_date%>
+						Date of Last Shock Service:
+						<br \> 
+						<strong>
+							<%= link_to "#{@last_shock_service.completed_date.strftime('%D')}", request_path(@last_a_service), class: "badge badge-lg badge-success"%>
+						</strong>
 						<% else%>
-						Date of Last Shock Service: No Data
+						Date of Last Shock Service: 
+						<br \>
+						No Data
 						<% end %>
 					</span>
 				</div>
 					<div class="col">
 					<span>
 						<% if @last_air_filter_service != nil%>
-						Date of Last Air Filter Service: <%= @last_air_filter_service.completed_date%>
+						Date of Last Air Filter Service: 
+						<br \>
+						<strong>
+							<%= link_to "#{@last_air_filter_service.completed_date.strftime('%D')}", request_path(@last_a_service), class: "badge badge-lg badge-success"%>
+						
+					</strong>
 						<% else%>
-						Date of Last Air Filter Service: No Data
+						Date of Last Air Filter Service: 
+						<br \>
+						No Data
 						<% end %>
 					</span>
 				</div>

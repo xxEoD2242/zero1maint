@@ -5,6 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+ruby '2.5.1'
+
 gem 'httparty'
 gem 'fog'
 gem 'aws-sdk-rails'
@@ -23,7 +25,7 @@ gem 'popper_js', '~> 1.11', '>= 1.11.1'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'rails', '~> 5.1.4'
 gem 'jquery-rails', '~> 4.3.1'
-gem 'bootstrap', '~> 4.0.0.beta.2.1'
+gem 'bootstrap', '~> 4.1.0'
 gem 'bootstrap_form'
 gem 'font-awesome-rails'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'

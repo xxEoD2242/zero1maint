@@ -6,7 +6,8 @@ class EventsController < ApplicationController
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:vehicle_rotation, :new, :edit]
   before_action :vehicle_rotation, only: [:edit]
   after_action :calc_mileage, only: [:update, :event_completed]
-  include Auto_Select, Vehicle_Rotation
+  after_action :multi_day, only: [:create]
+  include Auto_Select, Vehicle_Rotation, Multi_Day
   
 
   def index
@@ -127,6 +128,14 @@ class EventsController < ApplicationController
       
       if @event.save
         @event.update(calc_mileage: 0)
+        
+        # if @event.multi_day == true
+          #numb_days = (@event.scheduled_date - @event.end_day).to_i
+          #days = 0
+         # loop do
+          #Event.create()
+          #days += 1
+          #end
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else

@@ -451,10 +451,10 @@ GEM
     whenever (0.10.0)
       chronic (>= 0.6.3)
     wicked_pdf (1.1.0)
-    wkhtmltopdf-binary (0.12.3.1)
+    wkhtmltopdf-binary (0.12.4)
     xml-simple (1.1.5)
-    yaml_db (0.6.0)
-      rails (>= 3.0, < 5.2)
+    yaml_db (0.7.0)
+      rails (>= 3.0)
       rake (>= 0.8.7)
 
 PLATFORMS
@@ -486,7 +486,7 @@ DEPENDENCIES
   pg (~> 0.18)
   popper_js (~> 1.11, >= 1.11.1)
   pry-rails
-  puma (~> 3.7)
+  puma
   rails (~> 5.1.4)
   rails_12factor
   ransack!

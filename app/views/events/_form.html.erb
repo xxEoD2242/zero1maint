@@ -14,11 +14,13 @@
     </div>
   <% end %>
 
+	<% if Event.last != nil %>
   <div class="form-group">
   <h4>
    Event Number: <%= Event.all.last.id + 1%>
 	</h4>
   </div>
+  	<% end %>
 
   <div class="form-group">
     <strong> Scheduled Start Date &nbsp</strong>
@@ -27,7 +29,7 @@
 
   <div class="form-group">
     <strong> Scheduled End Date &nbsp&nbsp&nbsp</strong>
-    <%= f.date_select :date, id: :event_date, class: "form-control" %>
+    <%= f.date_select :end_date, id: :event_end_date, class: "form-control" %>
   </div>
   
   <div class="form-group">

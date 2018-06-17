@@ -129,13 +129,12 @@ class EventsController < ApplicationController
       if @event.save
         @event.update(calc_mileage: 0)
         
-        # if @event.multi_day == true
-          #numb_days = (@event.scheduled_date - @event.end_day).to_i
-          #days = 0
-         # loop do
-          #Event.create()
-          #days += 1
-          #end
+        if @event.multi_day == true
+          numb_days = ((@event.end_date.mjd - @event.date.mjd) - 1)
+          numb_days.times do 
+             Event.create(date: Event.last.date + 1.day, end_date: Event.last.end_date + 1.day, customers: @event.customers, status: "Scheduled", location: @event.location, est_mileage: @event.est_mileage, event_type: @event.event_type, class_type: @event.class_type, calc_mileage: 0, multi_day: false, shares: @event.shares, event_mileage: 0, duration: @event.duration, event_time: @event.event_time, duration_word: @event.duration_word)
+          end
+        end
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else

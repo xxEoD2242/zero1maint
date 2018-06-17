@@ -7,6 +7,7 @@ end
 
 ruby '2.5.1'
 
+gem 'rails', '~> 5.1.4'
 gem 'httparty'
 gem 'fog'
 gem 'aws-sdk-rails'
@@ -20,27 +21,20 @@ gem 'kaminari'
 gem 'carrierwave'
 gem 'carrierwave-imageoptimizer'
 gem 'mini_magick'
-gem 'sprockets-rails', :require => 'sprockets/railtie'
-gem 'popper_js', '~> 1.11', '>= 1.11.1'
+gem 'sprockets-rails'
+gem 'popper_js', '~> 1.12.9', '>= 1.11.1'
 gem 'ransack', github: 'activerecord-hackery/ransack'
-gem 'rails', '~> 5.1.4'
 gem 'jquery-rails', '~> 4.3.1'
 gem 'bootstrap', '~> 4.1.0'
 gem 'bootstrap_form'
 gem 'font-awesome-rails'
-gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
+gem 'simple_form', :git => 'https://github.com/plataformatec/simple_form.git'
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
 gem 'devise'
 gem 'better_errors', group: :development
 gem 'binding_of_caller'
@@ -48,16 +42,12 @@ gem 'cancancan'
 gem 'pry-rails', :group => :development
 gem 'figaro'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
@@ -66,5 +56,5 @@ group :production do
   gem 'rails_12factor'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

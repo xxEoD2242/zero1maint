@@ -1,5 +1,4 @@
 class VehiclesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles, :vehicle_mileage, :out_of_service]
   before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: [:a_service_calculation, :index, :mileage_calculation, :shock_service_calculation, :air_filter_calculation, :show, :needs_service, :near_service_required, :all_vehicles]
@@ -24,7 +23,6 @@ class VehiclesController < ApplicationController
   
   def vehicle_mileage
     @vehicle = Vehicle.find(params[:id])
-    @a_service = Program.find_by(name: "A-Service")
     @events = @vehicle.events.where('date >= ?', Time.now - 1.year).page(params[:page])
     @events_month = @vehicle.events.where('date >= ?', Time.now - 1.month)
     @ytd_mileage = 0

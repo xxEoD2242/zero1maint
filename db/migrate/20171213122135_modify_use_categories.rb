@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ModifyUseCategories < ActiveRecord::Migration[5.1]
   def change
     rename_column :vehicles, :use, :use_a

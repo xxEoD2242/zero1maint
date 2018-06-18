@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEventsVehicles < ActiveRecord::Migration[5.1]
   def change
     create_table :events_vehicles do |t|

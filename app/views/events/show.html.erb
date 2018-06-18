@@ -1,127 +1,171 @@
 <div class="card mt-4">
-<div class="card-header">
-	<h3 class="display-4 text-center">Event: <%= @event.id %></h3>
-</div>
-<div class="card-body">
-	<div class="row">
-		<div class="col-md-6">
-<p>
-  <strong>Scheduled Date:</strong>
-  <%= @event.date.strftime('%D') %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <% if @event.status == "Completed"%>
-  <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true"> Completed</i>
-  <% else %>
-  <%= @event.status %>
-  <% end %>
-</p>
-
-<p>
-	<strong>Estimated Mileage</strong>
-	<%= @event.est_mileage%> Miles
-</p>
-
-
-<p>
-  <strong>Event mileage:</strong>
-  <% if @event.event_mileage == 0.0%>
-  <strong style="color: red;">No Mileage Added</strong>
-  <% else%>
-  <%= @event.event_mileage %>
-  <% end %>
-</p>
-<p>
-	<strong>Number of Customers </strong>
-	<%= @event.customers %>
-	
-</p>
-
-<p>
-	<strong>Number of Shares</strong>
-	<%= @event.shares%>
-</p>
-
-
-<p>
-  <strong>Location:</strong>
-  <%= @event.location %>
-</p>
-
-<p>
-  <strong>Duration:</strong>
-  <%= @event.duration %> <%= @event.duration_word%>
-</p>
-
-<p>
-  <strong>Class type:</strong>
-  <%= @event.class_type %>
-</p>
-
-<p>
-  <strong>Event type:</strong>
-  <%= @event.event_type %>
-</p>
-
-
-</div>
-<div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
-<div class="d-flex justify-content-between align-items-center">
-<h4 class="text-center"><%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-primary" %></h4> 
-	<% if @event.customers != nil && @event.customers > 0%>
-<%= link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-warning"%>
-<% end %>
-</div>
-<p>
-	<div class="row">
-		
-	<div class="col-md-3">	
-	<strong>Vehicles:</strong>
-</div>
-
-<div class="col-md-4">
-	<strong>Checklists:</strong>
-</div>
-
-<div class="col-md-5">
-</div>
-</div>
-	<div class="row mt-2">
-	<% @event.vehicles.each do |vehicle|%>
-	<div class="col-md-3 mb-2">
-	<%= vehicle.car_id %> 
-</div>
-	<div class="col-md-6 mb-2">
-		<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
-			<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true"> Completed</i> &nbsp <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
-		<% else %>
-		<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
-		<% end %>
+	<div class="card-header">
+		<h3 class="display-4 text-center">Event: <%= @event.id %></h3>
 	</div>
-	<div class="col-md-3 mb-2">
-		<% if vehicle.use_a == false && vehicle.use_b == false  %>
-			<h5 style="color: red;border: 2px solid red;border-radius: 6px 6px 6px 6px">Vehicle has been over used this month. Recommend switching vehicle</h5>
-		<% elsif vehicle.vehicle_status == "Out-of-Service" %>
-			<h5 style="color: red;border: 2px solid red;border-radius: 6px 6px 6px 6px">Vehicle Is Deadlined</h5>
-		<% end %>
-	</div>
-	
-	<br \>
-	<% end %>
-</div>
-</p>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-6">
+				<p>
+					<% if @event.multi_day == true %>
+  					<strong>
+						Scheduled Start Date:
+					</strong>
+  					<% else %>
+  					<strong>
+						Scheduled Date:
+					</strong>
+					<% end %>
+  				  <%= @event.date.strftime('%D') %>
+			  </p>
 
-</div>
-</div>
-</div>
-<div class="card-footer d-flex justify-content-between align-items-center">
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
-<% if @event.status != "Completed"%>
+			  <% if @event.multi_day == true %>
+			  <p>
+  	 			 <strong>
+					 Scheduled End Date:
+				 </strong>
+	  		   <%= @event.date.strftime('%D') %>
+		   	  </p>
+			  <% end %>
+
+			  <p>
+  				<strong>
+					Status:
+				</strong>
+  				<% if @event.status == "Completed"%>
+  					<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
+						Completed
+					</i>
+  		  		<% else %>
+  			  		<%= @event.status %>
+  				<% end %>
+			</p>
+
+			<p>
+				<strong>
+					Estimated Mileage
+				</strong>
+				<%= @event.est_mileage%> Miles
+			</p>
 			
-			  	<%= form_tag 'event_completed' do |f|%>
-					<% hidden_field_tag :event_id, @event.id%>
+			<p>
+  			  <strong>
+				  Event mileage:
+			  </strong>
+  			  <% if @event.event_mileage == 0.0%>
+  				<strong style="color: red;">
+					No Mileage Added
+				</strong>
+  			  <% else%>
+  				<%= @event.event_mileage %>
+  			  <% end %>
+		  </p>
+		  
+		  <p>
+			 <strong>
+				 Number of Customers
+			 </strong>
+			 <%= @event.customers %>
+		 </p>
+
+		 <p>
+			 <strong>
+				 Number of Shares
+			 </strong>
+			 <%= @event.shares%>
+		 </p>
+		 
+		 <p>
+  		   <strong>
+			   Location:
+		   </strong>
+  		 <%= @event.location %>
+	 	</p>
+
+		<p>
+  		  <strong>
+			  Duration:
+		  </strong>
+  			<%= @event.duration %> <%= @event.duration_word%>
+		</p>
+
+		<p>
+  		  <strong>
+			  Class type:
+		  </strong>
+  			<%= @event.class_type %>
+		</p>
+
+		<p>
+  		  <strong>
+			  Event type:
+		  </strong>
+  			<%= @event.event_type %>
+		</p>
+	</div>
+	<div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
+		<div class="d-flex justify-content-between align-items-center">
+			<h4 class="text-center">
+				<%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-primary" %>
+			</h4> 
+		<% if @event.customers != nil && @event.customers > 0%>
+			<%= link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-warning"%>
+		<% end %>
+	</div>
+	<p>
+		<div class="row">	
+			<div class="col-md-3">	
+				<strong>
+					Vehicles:
+				</strong>
+			</div>
+			<div class="col-md-4">
+				<strong>
+					Checklists:
+				</strong>
+			</div>
+			<div class="col-md-5">
+			</div>
+		</div>
+		<div class="row mt-2">
+			<% @event.vehicles.each do |vehicle|%>
+			<div class="col-md-3 mb-2">
+				<%= vehicle.car_id %> 
+			</div>
+			<div class="col-md-6 mb-2">
+				<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
+					<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
+						Completed
+					</i>
+					&nbsp <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
+					<% else %>
+						<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
+				<% end %>
+			</div>
+			<div class="col-md-3 mb-2">
+				<% if vehicle.use_a == false && vehicle.use_b == false  %>
+					<h5 style="color: red;border: 2px solid red;border-radius: 6px 6px 6px 6px">
+						Vehicle has been over used this month. Recommend switching vehicle
+					</h5>
+					<% elsif vehicle.vehicle_status == "Out-of-Service" %>
+					<h5 style="color: red;border: 2px solid red;border-radius: 6px 6px 6px 6px">
+						Vehicle Is Deadlined
+					</h5>
+				<% end %>
+			</div>
+			<br \>
+			<% end %>
+		</div>
+	</p>
+
+	</div>
+	</div>
+	</div>
+	<div class="card-footer d-flex justify-content-between align-items-center">
+		<%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
+		<% if @event.status != "Completed"%>
+			
+			<%= form_tag 'event_completed' do |f|%>
+				<% hidden_field_tag :event_id, @event.id%>
 			  	<div class="input-group">
 			        <div class="input-group-prepend">
 						<span class="input-group-text">
@@ -133,19 +177,18 @@
 			  	 		<%= submit_tag "Complete Event", class: "btn btn-primary"%>
 					</div>
 			   	 </div>
-			  	<% end %>		
-			
-<% end %>
-<%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark"%>
-</div>
+			<% end %>		
+		<% end %>
+		<%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark"%>
+	</div>
 
 </div>
 <% if @event.status != "Completed" %>
-<div class='card my-4'>
-	<div class="card-body">
-	<p>
-		* Ensure to set the Event Mileage and the status for the event to "Completed" once the event has finished. This can be done easily with the form above this text box. *
-	</p>
-</div>
-</div>
+	<div class='card my-4'>
+		<div class="card-body">
+			<p>
+				* Ensure to set the Event Mileage and the status for the event to "Completed" once the event has finished. This can be done easily with the form above this text box. *
+			</p>
+		</div>
+	</div>
 <% end %>

@@ -1,16 +1,16 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
-  
+Rails.application.routes.draw do
   post 'bookings' => 'web_hooks#receive', as: :receive_webhooks
   get 'web_hooks/view_bookings'
 
-resource :calendar, only: [:show], controller: :calendar
+  resource :calendar, only: [:show], controller: :calendar
 
- resources :checklists do
-   collection do
-     get 'records'
-   end
- end
+  resources :checklists do
+    collection do
+      get 'records'
+    end
+  end
 
   resources :reports do
     collection do
@@ -70,17 +70,17 @@ resource :calendar, only: [:show], controller: :calendar
   end
   resources :events do
     collection do
-     get 'dashboard' 
-     get 'completed_events'
-     get 'scheduled_events'
-     get 'json_data'
-     get 'vehicle_rotation'
-     get 'vehicles_assigned'
-     get 'auto_select_vehicles'
-     get 'next_month_calendar'
-     get 'vehicle_rotation_metrics'
-     post 'event_completed'
-     get 'previous_month'
+      get 'dashboard'
+      get 'completed_events'
+      get 'scheduled_events'
+      get 'json_data'
+      get 'vehicle_rotation'
+      get 'vehicles_assigned'
+      get 'auto_select_vehicles'
+      get 'next_month_calendar'
+      get 'vehicle_rotation_metrics'
+      post 'event_completed'
+      get 'previous_month'
     end
   end
   resources :vehicles do
@@ -95,7 +95,7 @@ resource :calendar, only: [:show], controller: :calendar
       post :import
     end
   end
-  devise_for :users, :controllers => { :registrations => "users/registrations" }
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   root 'welcome#homepage'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

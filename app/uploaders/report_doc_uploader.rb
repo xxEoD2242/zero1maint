@@ -1,14 +1,15 @@
-class ReportDocUploader < CarrierWave::Uploader::Base
+# frozen_string_literal: true
 
+class ReportDocUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   if Rails.env.production?
-      storage :fog
-    else
-      storage :file
+    storage :fog
+  else
+    storage :file
     end
   # storage :fog
 
@@ -20,9 +21,8 @@ class ReportDocUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  ActionController::Base.helpers.asset_path("blank-document.jpg")
-  
+    #   # For Rails 3.1+ asset pipeline compatibility:
+    ActionController::Base.helpers.asset_path('blank-document.jpg')
   end
 
   # Process files as they are uploaded:
@@ -48,5 +48,4 @@ class ReportDocUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-
 end

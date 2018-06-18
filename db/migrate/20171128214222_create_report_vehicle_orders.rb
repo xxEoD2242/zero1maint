@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateReportVehicleOrders < ActiveRecord::Migration[5.1]
   def change
     create_table :report_vehicle_orders do |t|

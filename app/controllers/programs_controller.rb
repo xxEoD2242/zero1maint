@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ProgramsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_program, only: [:show, :edit, :update, :destroy]
+  before_action :set_program, only: %i[show edit update destroy]
 
   # GET /programs
   # GET /programs.json
@@ -10,8 +12,7 @@ class ProgramsController < ApplicationController
 
   # GET /programs/1
   # GET /programs/1.json
-  def show
-  end
+  def show; end
 
   # GET /programs/new
   def new
@@ -19,8 +20,7 @@ class ProgramsController < ApplicationController
   end
 
   # GET /programs/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /programs
   # POST /programs.json
@@ -65,13 +65,14 @@ class ProgramsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_program
-      @program = Program.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def program_params
-      params.require(:program).permit(:name, :interval, :completed, :threshold, :threshold_numb)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_program
+    @program = Program.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def program_params
+    params.require(:program).permit(:name, :interval, :completed, :threshold, :threshold_numb)
+  end
 end

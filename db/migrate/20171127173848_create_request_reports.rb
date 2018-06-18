@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRequestReports < ActiveRecord::Migration[5.1]
   def change
     create_table :request_reports do |t|

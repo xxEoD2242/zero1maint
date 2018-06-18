@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
@@ -28,15 +30,13 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-    
+
     if user.admin?
       can :manage, :all
     else
       can :manage, [Request, Event, Vehicle, Program, Part, PartItem, PartOrder, PartRequest, RequestPartOrder, EventsVehicle, Report, ReportVehicle]
     end
-    
-    if user.ghost?
-      can :view, :all
-    end
+
+    can :view, :all if user.ghost?
   end
 end

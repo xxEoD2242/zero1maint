@@ -1,4 +1,6 @@
-every :monday, :at => '12am' do
+# frozen_string_literal: true
+
+every :monday, at: '12am' do
   rake 'check_work_orders_overdue'
   rake 'send_weekly_rzr_report'
   rake 'send_weekly_defects_report'

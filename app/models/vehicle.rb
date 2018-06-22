@@ -29,7 +29,7 @@ class Vehicle < ApplicationRecord
   LOCATION = ['RZR Base Camp', 'The Ranch', 'Speedway', 'Uvalde', 'Other'].freeze
 
   def vehicle_naming
-    "&nbsp #{car_id} &nbsp".html_safe
+    "&nbsp; #{car_id} &nbsp;".html_safe
   end
 
   def self.to_csv(_options = {})
@@ -39,7 +39,7 @@ class Vehicle < ApplicationRecord
         csv << vehicle.attributes.values_at(*column_names)
       end
     end
-    end
+  end
 
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
@@ -49,15 +49,15 @@ class Vehicle < ApplicationRecord
 
   def set_last_a_service
     self.last_a_service = 0 if last_a_service.blank?
-    end
+  end
 
   def set_last_shock_service
     self.last_shock_service = 0 if last_shock_service.blank?
-    end
+  end
 
   def set_last_air_filter_service
     self.last_air_filter_service = 0 if last_air_filter_service.blank?
-    end
+  end
 
   def set_times_used
     self.times_used = 0 if times_used.blank?

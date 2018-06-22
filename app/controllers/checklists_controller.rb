@@ -16,7 +16,8 @@ class ChecklistsController < ApplicationController
       format.html
       format.xls
       format.pdf do
-        render pdf: 'Checklist', layout: 'pdf.pdf.erb', title: "Checklist for #{@checklist.vehicle.car_id} for Event #{@checklist.event.id}" # '  # Excluding ".pdf" extension.
+        render pdf: 'Checklist', layout: 'pdf.pdf.erb', 
+               title: "Checklist for #{@checklist.vehicle.car_id} for Event #{@checklist.event.id}" # Excluding ".pdf" extension.
       end
     end
   end
@@ -41,7 +42,10 @@ class ChecklistsController < ApplicationController
         @checklist.update(completed: true)
         if @checklist.deadline == true
           @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
-          Request.create(id: Request.last.id + 1, status: 'New', description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.', vehicle_id: @vehicle.id, creator: current_user.name, program_id: @set_repairs.id, completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage)
+          Request.create(id: Request.last.id + 1, status: 'New', 
+                         description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
+                         vehicle_id: @vehicle.id, creator: current_user.name, program_id: @set_repairs.id,
+                         completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage)
         end
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }

@@ -161,25 +161,25 @@
 	</div>
 	</div>
 	<div class="card-footer d-flex justify-content-between align-items-center">
-		<%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
-		<% if @event.status != "Completed"%>
+	  <%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
+	    <% if @event.status != "Completed"%>
 			
-			<%= form_tag 'event_completed' do |f|%>
-				<% hidden_field_tag :event_id, @event.id%>
-			  	<div class="input-group">
-			        <div class="input-group-prepend">
-						<span class="input-group-text">
-							Mileage: &nbsp
-						</span>
-					</div>
-			        	<%= number_field_tag :event_mileage, nil, class: "form-control" %>
-			     	<div class="input-group-append">
-			  	 		<%= submit_tag "Complete Event", class: "btn btn-primary"%>
-					</div>
-			   	 </div>
+			<%= form_tag 'event_completed' do |f| %>
+			  <div class="input-group">
+				<%= hidden_field_tag :event_id, @event.id %>
+			    <div class="input-group-prepend">
+				  <span class="input-group-text">
+				    Mileage: &nbsp
+				  </span>
+			    </div>
+			    <%= number_field_tag :event_mileage, nil, class: "form-control" %>
+			    <div class="input-group-append">
+			  	  <%= submit_tag "Complete Event", class: "btn btn-primary" %>
+				</div>
+			  </div>
 			<% end %>		
 		<% end %>
-		<%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark"%>
+		<%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark" %>
 	</div>
 
 </div>

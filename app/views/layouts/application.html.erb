@@ -2,17 +2,16 @@
 <html>
   <head>
     <title>Zero 1 Maintenance</title>
-	 <%= favicon_link_tag 'Z1_logo_symbol.png' %>
+	<%= favicon_link_tag 'Z1_logo_symbol.png' %>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body >
-	  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		 <a class="navbar-brand" id="brand-text" href="../">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		 <a class="navbar-brand" id="brand-text" href="../homepage">
 		    <img id="brand-image" src="" width="80" height="40" class="d-inline-block align-top" alt="">
-		    
 		 </a>
 	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
@@ -21,32 +20,34 @@
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-	          <a class="nav-link" href="../">Home <span class="sr-only">(current)</span></a>
+	          <%= link_to "Home", homepage_path, class: "nav-link" %>
 	        </li>
+			
 			  <% if user_signed_in? %>
 	        <li class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	            Work Orders
 	          </a>
 	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	            <a class="dropdown-item" href="../requests/dashboard">Dashboard</a>
-	            <a class="dropdown-item" href="../requests/new">Create a Work Order</a>
-	            <a class="dropdown-item" href="../requests/overdue">Overdue Work Orders</a>
-					<a class="dropdown-item" href="../assigned_work_orders">Your Assigned Work Orders</a>
-					<a class="dropdown-item" href="../completed_work_orders">Your Completed Work Orders</a>
-	           
+	            <%= link_to "Dashboard", dashboard_requests_path, class: "dropdown-item" %>
+				<%= link_to "Create a Work Order", new_request_path, class: "dropdown-item" %>
+				<%= link_to "Overdue Work Orders", overdue_requests_path, class: "dropdown-item" %>
+				<%= link_to "Your Assigned Work Orders", assigned_work_orders_path, class: "dropdown-item" %>
+				<%= link_to "Your Completed Work Orders", completed_work_orders_path, class: "dropdown-item" %>
 	          </div>
 	        </li>
+			
 	        <li class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="../vehicles" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	           Vehicles
 	          </a>
 	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	            <a class="dropdown-item" href="../vehicles">Dashboard</a>
-	            <a class="dropdown-item" href="../vehicles/needs_service">Needs Service</a>
-	            <a class="dropdown-item" href="../vehicles/near_service_required">Near Service</a>
+				<%= link_to "Dashboard", vehicles_path class: "dropdown-item" %>
+				<%= link_to "Needs Service", needs_service_vehicles_path, class: "dropdown-item" %>
+				<%= link_to "Near Service", near_service_vehicles_path, class: "dropdown-item" %>
 	          </div>
 	        </li>
+			
 	        <li class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="../vehicles" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	           Events
@@ -56,7 +57,6 @@
 					<a class="dropdown-item" href="../events/new">Add an Event</a>
 					<a class="dropdown-item" href="../events/vehicle_rotation">Vehicle Rotation</a>
 					<a class="dropdown-item" href="../checklists/records">Checklist Records</a>
-	            
 	          </div>
 	        </li>
 			  
@@ -66,9 +66,10 @@
 	          </a>
 	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	            <a class="dropdown-item" href="../parts/dashboard">Dashboard</a>
-					<a class="dropdown-item" href="../parts/new">Add a Part</a>
+				<a class="dropdown-item" href="../parts/new">Add a Part</a>
 	          </div>
 	        </li>
+			
 	        <li class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="../vehicles" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	           Reports
@@ -76,9 +77,8 @@
 	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	            <a class="dropdown-item" href="../reports/dashboard">Dashboard</a>
 	            <a class="dropdown-item" href="../reports/generate_report">Generate Report</a>
-					<a class="dropdown-item" href="../reports/weekly_work_order_reports">Weekly Work Order Reports</a>
-					<a class="dropdown-item" href="../reports/weekly_vehicle_reports">Weekly Vehicle Reports</a>
-	            
+				<a class="dropdown-item" href="../reports/weekly_work_order_reports">Weekly Work Order Reports</a>
+				<a class="dropdown-item" href="../reports/weekly_vehicle_reports">Weekly Vehicle Reports</a>
 	          </div>
 	        </li>
 	        <li class="nav-item dropdown">
@@ -88,51 +88,41 @@
 	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	            <a class="dropdown-item" href="../programs">Dashboard</a>
 	            <a class="dropdown-item" href="../programs/new">Create a Service</a>
-					
 	          </div>
 	        </li>
 	      </ul>
-		
-	 
-	  
-  		 <ul class="navbar-nav justify-content-end">
-  	  			<li class="nav-item dropdown">
-  	  			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  	  			          Hello <%= current_user.name %>
-  	  			        </a>
+
+          <ul class="navbar-nav justify-content-end">
+  	  	    <li class="nav-item dropdown">
+  	  	    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  	  	      Hello <%= current_user.name %>
+            </a>
   	  			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-  	  			          
-							 <a class="dropdown-item"
-  	<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
-  <% if can? :create, User %>
-  	<a class="dropdown-item" <%= link_to 'Sign In', new_user_session_path %>
-  		<a class="dropdown-item" <%= link_to 'Create User', new_user_registration_path%>
-  	</a>
-	<% end %>
-  	  			          <a class="dropdown-item" 											href="../users/edit">Edit Profile</a>
-  	  			          <a class="dropdown-item" href="../all_users">All Users</a>
-							 
+  						  <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+ 						  <% if can? :create, User %>
+  						    <%= link_to 'Sign In', new_user_session_path, class: "dropdown-item" %>
+  		 				    <%= link_to 'Create User', new_user_registration_path, class: "dropdown-item" %>
+						  <% end %>
+						  <%= link_to "Edit Profile", edit_user_path, class: "dropdown-item" %>
+						  <%= link_to "All Users", all_users_path, class: "dropdown-item" %>
+  	  			          <a class="dropdown-item" href="../all_users">All Users</a> 
   	  			        </div>
   					  </li>
   	  			 </ul>
-				 <% end %>
+	     <% end %>
 	   </nav>
-	   <% if notice.present?%>
-	   	<aside class="alert alert-info my-3 text-center">
-	  	<%= notice %>
+	<% if notice.present?%>
+	  <aside class="alert alert-info my-3 text-center">
+	    <%= notice %>
 	  </aside>
-	  	<% end %>
-	  <% if alert.present?%>
+    <% end %>
+	<% if alert.present?%>
 	  <aside class="alert alert-danger my-3 text-center">
 	  	<%= alert %>
-	  	<% end %>
 	  </aside>
-	  <div class="container-fluid pb-4">
-    <%= yield %>
- </div>
- 
-
-
-
+	<% end %>
+	<div class="container-fluid pb-4">
+      <%= yield %>
+    </div>
   </body>
 </html>

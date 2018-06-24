@@ -1,21 +1,15 @@
 <div>
-	<h1 style="text-align: center;">Checklist Records for Events from <%=(Time.now - 7.days).strftime('%D')%> to <%=Time.now.strftime('%D')%></h1>
+  <h1 style="text-align: center;">Checklist Records for Events from <%=(Time.now - 7.days).strftime('%D')%> to     <%=Time.now.strftime('%D')%></h1>
 </div>
-		
-	
-	
-	
-	<% @events.all.order(date: :desc).each do |event|%>
-	<div class="object-title" >
-		
-			<h4 style="text-align: center;"> Event <%= event.id%> <%= event.class_type%> <%= event.location%> Date: <%= event.date.strftime('%D')%></h4>
-		
-
-	</div>
-		
-	<table>
-		<thead>
-			<tr>
+<% @events.all.order(date: :desc).each do |event|%>
+  <div class="object-title" >
+    <h4 style="text-align: center;"> 
+		Event <%= event.id%> <%= event.class_type%> <%= event.location%> Date: <%= event.date.strftime('%D')%>
+	</h4>
+  </div>	
+  <table>
+    <thead>
+      <tr>
 				<th scope="col">Vehicle Id</th>
 				<th>Status</th>
 				<th>Date Completed</th>
@@ -24,14 +18,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% if event.vehicles != []%>
+			<% if !vehicle.checklists.empty? %>
 			<% event.vehicles.each do |vehicle|%>
-			
 			<tr>
 				<td scope="row"><%= vehicle.car_id%></td>
 				<td>
 					
-					<% if vehicle.checklists != []%>
+					<% if !vehicle.checklists.empty? %>
 					<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
 						<span style="color: green; text-size: 10px;">Completed</span>
 					
@@ -43,7 +36,7 @@
 					<% end %>
 					</td>
 					<td>
-						<% if vehicle.checklists != []%>
+						<% if !vehicle.checklists.empty? %>
 						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
 												<%= vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')%>
 											<% else %>
@@ -55,7 +48,7 @@
 											<% end %>
 					</td>
 					<td>
-						<% if vehicle.checklists != []%>
+						<% if !vehicle.checklists.empty? %>
 						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
 												<% if vehicle.checklists.find_by(event_id: event.id).deadline == true %>
 											<span style="color: orange; background-color: lightgrey;">Deadlined </span> 
@@ -72,7 +65,7 @@
 											<% end %>
 					</td>
 					<td>
-						<% if vehicle.checklists != []%>
+						<% if !vehicle.checklists.empty? %>
 						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
 							<span style="color: green;">Completed</span>
 						<% else %>
@@ -88,31 +81,29 @@
 			
 			<% else %>
 			<tr>
-				<td> <span style="color: purple">
-	  		 
-	  		 	No Vehicles Added!
-	  		  
-	  	 </span></td>
-				<td> <span style="color: purple">
-
-	  		 	No Vehicles Added!
-	  		 
-	  	 </span></td>
-				<td> <span style="color: purple">
-	  		
-	  		 	No Vehicles Added!
-	  		
-	  	 </span> </td>
-				<td> <span style="color: purple">
-	  		
-	  		 	No Vehicles Added!
-	  		 
-	  	 </span></td>
+			  <td> 
+				<span style="color: purple">
+	  		 	  No Vehicles Added!
+	  	 	 	</span>
+	 	      </td>
+			  <td>
+				<span style="color: purple">
+	  		 	  No Vehicles Added!
+                </span>
+			  </td>
+			  <td>
+				<span style="color: purple">
+	  		 	  No Vehicles Added!
+                </span>
+			  </td>
+  			  <td>
+  				<span style="color: purple">
+  	  		 	  No Vehicles Added!
+                  </span>
+  			  </td>
 			</tr>
-			<% end %>
+		  <% end %>
 		</tbody>
 	</table>
-
-
-	<% end %>
+<% end %>
 	

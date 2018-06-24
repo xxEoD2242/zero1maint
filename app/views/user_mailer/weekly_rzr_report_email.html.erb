@@ -23,11 +23,11 @@
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
 	          <td><%= vehicle.location %></td>
-	          <td><% vehicle.requests.where(status: "New" && "In-Progress").limit(3).each do |request| %>
+	          <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
 	  		  		<%=request.number%>
 	  				<%= request.status%>
 	  				<% end %></td>
-	          <td><% if vehicle.near_service == true %>
+	          <td><% if vehicle.near_service %>
 	  		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
 	  				<% if (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)) <= 100 %>
 	  				<li> A-Service in <br \> <%= (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))%> Miles </li> <% end %>
@@ -40,27 +40,33 @@
 	  			</ul>
 	  		 </td>
 	  		  <td>
-	  			<% if vehicle.a_service == true %>
-	           A-Service 
-	  			  <% end %>
-	         <% if vehicle.shock_service == true  %>
-	          Shock-Service 
-	  			 <% end %>
-	  			 <% if vehicle.air_filter_service == true %>
-	  			Air Filter Service 
-	          <% end %>
-	  		  <% if vehicle.repair_needed == true %>
-	  		  Repairs In Progress
-	  		  <% end %>
-			  <% if vehicle.defect == true %>
-			  Defect Reported
-			  <%  vehicle.requests.where(program_id: @set_defects.id, status: "New").each do |request|%>
-			 		<br \>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Description:</strong> <%= request.description %>
-			 		<% end %>
-			  <% end %>
-	  	 </td>
-		</tr>
-		<% end %>
+	  		    <% if vehicle.a_service %>
+	           	  A-Service 
+	  			<% end %>
+	            <% if vehicle.shock_service  %>
+	              Shock-Service 
+	  		    <% end %>
+	  			<% if vehicle.air_filter_service %>
+	  			  Air Filter Service 
+	            <% end %>
+	  		    <% if vehicle.repair_needed %>
+	  		      Repairs In Progress
+	  		    <% end %>
+			    <% if vehicle.defect %>
+			      Defect Reported
+			      <% vehicle.requests.where(program_id: @set_defects.id, status: "New").each do |request|%>
+			 	    <br />
+					<span style="margin-right: 4px;">
+					  <strong>
+						Description:
+					  </strong> 
+					  <%= request.description %>
+				    </span>
+			      <% end %>
+			    <% end %>
+	  	      </td>
+		    </tr>
+		  <% end %>
 		</tbody>
 	</table>
 </div>
@@ -89,7 +95,7 @@
 	  		  <td><%= vehicle.vehicle_status %></td>
 	          <td><%= vehicle.mileage %></td>
 	          <td><%= vehicle.location %></td>
-	          <td><% vehicle.requests.where(tracker_id: "New" && "In-Progress").limit(3).each do |request| %>
+	          <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
 	  		  		<%=request.number%>
 	  				<%= request.status%>
 	  				<% end %></td>

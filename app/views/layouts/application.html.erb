@@ -42,9 +42,9 @@
 	           Vehicles
 	          </a>
 	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				<%= link_to "Dashboard", vehicles_path class: "dropdown-item" %>
+				<%= link_to "Dashboard", vehicles_path, class: "dropdown-item" %>
 				<%= link_to "Needs Service", needs_service_vehicles_path, class: "dropdown-item" %>
-				<%= link_to "Near Service", near_service_vehicles_path, class: "dropdown-item" %>
+				<%= link_to "Near Service", near_service_required_vehicles_path, class: "dropdown-item" %>
 	          </div>
 	        </li>
 			
@@ -103,7 +103,7 @@
   						    <%= link_to 'Sign In', new_user_session_path, class: "dropdown-item" %>
   		 				    <%= link_to 'Create User', new_user_registration_path, class: "dropdown-item" %>
 						  <% end %>
-						  <%= link_to "Edit Profile", edit_user_path, class: "dropdown-item" %>
+						  <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
 						  <%= link_to "All Users", all_users_path, class: "dropdown-item" %>
   	  			          <a class="dropdown-item" href="../all_users">All Users</a> 
   	  			        </div>

@@ -62,37 +62,43 @@ class VehiclesController < ApplicationController
     @request = Request.all
 
     unless @vehicle.last_a_service.nil?
-      @a_service = (@set_a_service.interval - (@vehicle.mileage - @vehicle.last_a_service))
-      if @a_service < 0
+      @vehicle.update(near_a_service_mileage: (@set_a_service.interval - (@vehicle.mileage - @vehicle.last_a_service)))
+      x = @vehicle.near_a_service_mileage
+      case
+      when x <= 0
         @vehicle.update(needs_service: true, a_service: true)
-      elsif @a_service <= 100
+      when x <= 100
         @vehicle.update(near_service: true)
-      else
+      when x > 100
         @vehicle.update(needs_service: false, a_service: false, near_service: false)
       end
     end
     unless @vehicle.last_shock_service.nil?
-      @shock_service = (@set_shock_service.interval - (@vehicle.mileage - @vehicle.last_shock_service))
-      if @shock_service < 0
+      @vehicle.update(near_shock_service_mileage: (@set_shock_service.interval - (@vehicle.mileage - @vehicle.last_shock_service)))
+      
+      y = @vehicle.near_shock_service_mileage
+      case 
+      when y <= 0
         @vehicle.update(needs_service: true, shock_service: true)
-      elsif @shock_service <= 200
+      when y <= 200
         @vehicle.update(near_service: true)
-      else
+      when y > 200
         @vehicle.update(needs_service: false, shock_service: false, near_service: false)
       end
     end
-    # when @vehicle.programs.exists?(7) == true
     unless @vehicle.last_air_filter_service.nil?
-      @air_filter_service = (@set_air_filter_service.interval - (@vehicle.mileage - @vehicle.last_air_filter_service))
-      if @air_filter_service < 0
+      @vehicle.update(near_air_filter_service_mileage: (@set_air_filter_service.interval - (@vehicle.mileage - @vehicle.last_air_filter_service)))
+      
+      z = @vehicle.near_air_filter_service_mileage
+      case
+      when z <= 0
         @vehicle.update(needs_service: true, air_filter_service: true)
-      elsif @air_filter_service <= 50
+      when z <= 50
         @vehicle.update(near_service: true)
-      else
+      when z > 50
         @vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
       end
     end
-
     respond_to do |format|
       format.html
       format.csv { send_data @vehicle.to_csv }
@@ -158,6 +164,10 @@ class VehiclesController < ApplicationController
   def edit
     @location = Location.all
   end
+  
+  def to_pdf(vehicle)
+    
+  end
 
   # POST /vehicles
   # POST /vehicles.json
@@ -184,10 +194,8 @@ class VehiclesController < ApplicationController
           @vehicle.update(repair_needed: false, defect: false)
         end
         format.html { redirect_to @vehicle, notice: 'Vehicle was successfully updated.' }
-        format.json { render :show, status: :ok, location: @vehicle }
       else
         format.html { render :edit }
-        format.json { render json: @vehicle.errors, status: :unprocessable_entity }
       end
     end
   end

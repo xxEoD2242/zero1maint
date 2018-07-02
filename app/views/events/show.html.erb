@@ -1,116 +1,194 @@
 <div class="card mt-4">
-	<div class="card-header">
-		<h3 class="display-4 text-center">Event: <%= @event.id %></h3>
-	</div>
-	<div class="card-body">
-		<div class="row">
-			<div class="col-md-6">
-				<p>
-					<% if @event.multi_day == true %>
-  					<strong>
-						Scheduled Start Date:
-					</strong>
-  					<% else %>
-  					<strong>
-						Scheduled Date:
-					</strong>
-					<% end %>
-  				  <%= @event.date.strftime('%D') %>
-			  </p>
-
-			  <% if @event.multi_day == true %>
-			  <p>
-  	 			 <strong>
-					 Scheduled End Date:
-				 </strong>
-	  		   <%= @event.date.strftime('%D') %>
-		   	  </p>
-			  <% end %>
-
-			  <p>
-  				<strong>
-					Status:
-				</strong>
-  				<% if @event.status == "Completed"%>
-  					<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
-						Completed
-					</i>
-  		  		<% else %>
-  			  		<%= @event.status %>
-  				<% end %>
-			</p>
-
+  <div class="card-header">
+    <h3 class="display-4 text-center">Event: <%= @event.id %></h3>
+  </div>
+  <div class="card-body">
+	<div class="row">
+	  <div class="col-md-6">
+        <div class="row">
+		  <div class="col-md-5">
+            <p>
+              <% if @event.multi_day %>
+                <strong>
+                  Scheduled Start Date:
+                </strong>
+              <% else %>
+                <strong>
+                  Scheduled Date:
+                </strong>
+              <% end %>
+            </p>
+          </div>
+		  <div class="col-md-7">
 			<p>
-				<strong>
-					Estimated Mileage
-				</strong>
-				<%= @event.est_mileage%> Miles
+              <%= @event.date.strftime('%D') %>
 			</p>
-			
+          </div>
+        </div>
+		<% if @event.multi_day %>
+		<div class="row">
+		  <div class="col-md-5">
+			<p>
+  	 		  <strong>
+			    Scheduled End Date:
+			  </strong>
+            </p>
+          </div>
+		  <div class="col-md-7">
+            <p>
+			  <%= @event.date.strftime('%D') %>
+            </p>
+          </div>
+        </div>
+		<% end %>
+		<div class="row">
+		  <div class="col-md-5">
 			<p>
   			  <strong>
-				  Event mileage:
+			    Status:
 			  </strong>
-  			  <% if @event.event_mileage == 0.0%>
-  				<strong style="color: red;">
-					No Mileage Added
-				</strong>
-  			  <% else%>
-  				<%= @event.event_mileage %>
-  			  <% end %>
-		  </p>
-		  
-		  <p>
-			 <strong>
-				 Number of Customers
-			 </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+  			<% if @event.status %>
+  			  <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
+			    Completed
+			  </i>
+  		  	<% else %>
+  			  <%= @event.status %>
+  			<% end %>
+			</p>
+		  </div>
+        </div>
+        <div class="row">
+		  <div class="col-md-5">
+            <p>
+              <strong>
+                Estimated Miles
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+              <%= @event.est_mileage %> Miles
+			</p>
+          </div>
+        </div>
+		<div class="row">	
+		  <div class="col-md-5">
+			<p>
+  			  <strong>
+				Event mileage:
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+		    <p>
+  			<% if @event.event_mileage == 0.0%>
+  			  <strong style="color: red;">
+				No Mileage Added
+			  </strong>
+  			<% else%>
+  			  <%= @event.event_mileage %>
+  			<% end %>
+		    </p>
+          </div>
+        </div>
+		<div class="row">
+		  <div class="col-md-5">
+		    <p>
+		      <strong>
+			    Number of Customers
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
 			 <%= @event.customers %>
-		 </p>
-
-		 <p>
-			 <strong>
-				 Number of Shares
-			 </strong>
-			 <%= @event.shares%>
-		 </p>
-		 
-		 <p>
-  		   <strong>
-			   Location:
-		   </strong>
-  		 <%= @event.location %>
-	 	</p>
-
-		<p>
-  		  <strong>
-			  Duration:
-		  </strong>
-  			<%= @event.duration %> <%= @event.duration_word%>
-		</p>
-
-		<p>
-  		  <strong>
-			  Class type:
-		  </strong>
-  			<%= @event.class_type %>
-		</p>
-
-		<p>
-  		  <strong>
-			  Event type:
-		  </strong>
-  			<%= @event.event_type %>
-		</p>
-	</div>
-	<div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
+		    </p>
+		  </div>
+        </div>
+		<div class="row">
+		  <div class="col-md-5">
+		    <p>
+		      <strong>
+			    Number of Shares
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+			  <%= @event.shares %>
+		    </p>
+		  </div>
+        </div>
+		<div class="row">
+		  <div class="col-md-5">
+		    <p>
+		      <strong>
+			    Location:
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+			  <%= @event.location %>
+		    </p>
+		  </div>
+        </div>
+		<div class="row">
+		  <div class="col-md-5">
+		    <p>
+		      <strong>
+			    Duration:
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+			  <%= @event.duration %> <%= @event.duration_word %>
+		    </p>
+		  </div>
+        </div>
+		<div class="row">
+		  <div class="col-md-5">
+		    <p>
+		      <strong>
+			    Class type:
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+			  <%= @event.class_type %>
+		    </p>
+		  </div>
+        </div>
+		<div class="row">
+		  <div class="col-md-5">
+		    <p>
+		      <strong>
+			    Event type:
+			  </strong>
+			</p>
+          </div>
+		  <div class="col-md-7">
+			<p>
+			  <%= @event.event_type %>
+		    </p>
+		  </div>
+        </div>
+	  </div>
+	  <div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
 		<div class="d-flex justify-content-between align-items-center">
 			<h4 class="text-center">
-				<%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-primary" %>
+			  <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-primary" %>
 			</h4> 
 		<% if @event.customers != nil && @event.customers > 0%>
 			<%= link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-warning"%>
 		<% end %>
-	</div>
+	    </div>
 	<p>
 		<div class="row">	
 			<div class="col-md-3">	

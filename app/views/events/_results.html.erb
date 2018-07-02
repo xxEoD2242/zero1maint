@@ -8,14 +8,14 @@
 	
 
 <div class="form-group ml-3 mb-3">
-	<%= f.label "From"%> &nbsp&nbsp
-	<%= f.date_select :date_gteq, {include_blank: "Nothing"}, class: "form-control"  %>
+	<%= f.label "From", class: "mr-2"%> 
+	<%= f.date_field :date_gteq, class: "form-control", :datepicker => true  %>
 </div>
 
 
 <div class="form-group ml-3">
-	<%= f.label "To"%> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-	<%= f.date_select :date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+	<%= f.label "To", class: "mr-4"%>
+	<%= f.date_field :date_lteq, class: "form-control", :datepicker => true  %>
 </div>
 </div>
 <div class="col-md-4">

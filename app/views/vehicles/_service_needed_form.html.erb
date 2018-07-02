@@ -1,60 +1,59 @@
-
-	
-<table class="table table-bordered table-responsive table-striped">
-  <thead>
+<table class="table table-borderless table-hover table-striped">
+  <thead class="thead-light">
     <tr>
       <th scope="col">Car</th>
-		<th scope="col">Status</th>
+      <th scope="col">Status</th>
       <th scope="col">Car Category</th>
       <th scope="col">Location</th>
       <th scope="col">Work Orders</th>
       <th scope="col">Mileage</th>
-		<th scope="col">Near Service - Miles To:
-		<th scope="col">Service Needed</th>
+      <th scope="col">Near Service - Miles To:
+      <th scope="col">Service Needed</th>
       <th colspan="2"></th>
     </tr>
   </thead>
-
   <tbody>
     <% vehicle.order(car_id: :asc).each do |vehicle| %>
       <tr>
         <th scope="row"><%= vehicle.car_id %></th>
-		  <td><%= vehicle.vehicle_status %></td>
+		<td><%= vehicle.vehicle_status %></td>
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
         <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
 		  		<%= link_to request.id, request, method: :get, class: "badge badge-primary" %>
 				<%= request.status%>
-				<% end %></td>
-        <td><%= vehicle.mileage %></td>
-        <td><% if vehicle.near_service == true %>
-		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
-				<% if (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)) <= @set_a_service.threshold_numb %>
-				<li> A-Service in <br \> <%= sprintf('%.2f', (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))) %> Miles </li> <% end %>
-		     <%  if (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) <= @set_shock_service.threshold_numb %> 
-			<li>Shock Service in <br \> <%= sprintf('%.2f', (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service))) %> Miles</li>
-			<% end %>
-		      <% if (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)) <= @set_air_filter_service.threshold_numb %>
-				<li>Air Filter Change in <br \><%= sprintf('%.2f',  (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)))%> Miles</li><% end %>
 				<% end %>
-			</ul>
-		 </td>
-		  <td>
-			<% if vehicle.a_service == true %>
-         <%= link_to "A-Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
-			  <% end %>
-       <% if vehicle.shock_service == true  %>
-         <%= link_to "Shock-Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
-			 <% end %>
-			 <% if vehicle.air_filter_service == true %>
-			<%= link_to "Air Filter Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
+		</td>
+        <td><%= vehicle.mileage %></td>
+        <td><% if vehicle.near_service %>
+		  <ul style="list-style-type:none;padding: 0;margin: 0;">
+		    <% if vehicle.near_a_service_mileage <= @set_a_service.threshold_numb %>
+			  <li> A-Service in <br \> <%= sprintf('%.2f', vehicle.near_a_service_mileage) %> Miles </li> 
+			<% end %>
+		    <%  if vehicle.near_shock_service_mileage <= @set_shock_service.threshold_numb %> 
+			  <li>Shock Service in <br \> <%= sprintf('%.2f', vehicle.near_shock_service_mileage) %> Miles</li>
+			<% end %>
+		    <% if vehicle.near_air_filter_service_mileage <= @set_air_filter_service.threshold_numb %>
+			  <li>Air Filter Change in <br \><%= sprintf('%.2f',  vehicle.near_air_filter_service_mileage)%> Miles</li><% end %>
+			<% end %>
+		  </ul>
+        </td>
+		<td>
+		<% if vehicle.a_service %>
+          <%= link_to "A-Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
+	    <% end %>
+        <% if vehicle.shock_service %>
+          <%= link_to "Shock-Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
+		<% end %>
+	    <% if vehicle.air_filter_service %>
+          <%= link_to "Air Filter Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
         <% end %>
-		  <% if vehicle.repair_needed == true %>
+	    <% if vehicle.repair_needed %>
 		  <%= link_to "Repairs In Progress", vehicle_path(id: vehicle.id), class: "badge badge-info"%>
-		  <% end %>
-	 </td>
-      <td><%= link_to 'Show', vehicle, class: "btn btn-primary btn-sm" %></td>
-		<td><%= link_to 'Create Work Order', create_work_order_requests_path(id: vehicle.id), class: "btn btn-success btn-sm"%></td>
+		<% end %>
+	    </td>
+        <td><%= link_to 'Show', vehicle, class: "btn btn-primary btn-sm" %></td>
+	    <td><%= link_to 'Create Work Order', create_work_order_requests_path(id: vehicle.id), class: "btn btn-success btn-sm"%></td>
       </tr>
     <% end %> 
   </tbody> 

@@ -14,85 +14,125 @@
       <div class="col-sm-6">
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Vehicle category:</strong>
+			<p>
+              <strong>Vehicle category:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-            <%= @vehicle.veh_category%>
+			<p>
+              <%= @vehicle.veh_category%>
+			</p>
           </div>
         </div>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Location:</strong>
+			<p>
+              <strong>Location:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-            <%= @vehicle.location%>
+			<p>
+              <%= @vehicle.location%>
+			</p>
           </div>
         </div>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Manufacturer:</strong>
+			<p>
+              <strong>Manufacturer:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-            <%= @vehicle.manufacturer %>
+			<p>
+              <%= @vehicle.manufacturer %>
+			</p>
           </div>
         </div>
 		<% if @vehicle.vehicle_status != "Sold"%>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Status:</strong>
+			<p>
+              <strong>Status:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-             <%= @vehicle.vehicle_status %>
+		    <p>
+              <%= @vehicle.vehicle_status %>
+			</p>
           </div>
         </div>
         <% end %>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Vin number:</strong>
+			<p>
+              <strong>Vin number:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-            <%= @vehicle.vin_number %>
+			<p>
+              <%= @vehicle.vin_number %>
+			</p>
           </div>
         </div>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Registration date:</strong>
+			<p>
+              <strong>Registration date:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-           <%= @vehicle.registration_date %>
+			<p>
+              <%= @vehicle.registration_date %>
+			</p>
           </div>
         </div>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Plate number:</strong>
+			<p>
+              <strong>Plate number:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-           <%= @vehicle.plate_number %>
+			<p>
+              <%= @vehicle.plate_number %>
+			</p>
           </div>
         </div>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Current Mileage:</strong>
+			<p>
+              <strong>Current Mileage:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-           <%= @vehicle.mileage %>
+			<p>
+              <%= @vehicle.mileage %>
+			</p>
           </div>
         </div>
 		<% if @vehicle.vehicle_status == "Sold"%>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Date Sold:</strong>
+			<p>
+              <strong>Date Sold:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-           <%= @vehicle.sale_date%>
+			<p>
+              <%= @vehicle.sale_date%>
+			</p>
           </div>
         </div>
         <div class="row">
 		  <div class="col-md-5">
-            <strong>Sold To:</strong>
+			<p>
+              <strong>Sold To:</strong>
+			</p>
 	      </div>
 		  <div class="col-md-7">
-           <%= @vehicle.purchaser%>
+			<p>
+              <%= @vehicle.purchaser%>
+			</p>
           </div>
         </div>
 		<% end %>	
@@ -231,7 +271,7 @@
 </div>
 </div>
 <% end %>
-<% if @vehicle.notes != nil%>
+<% if @vehicle.notes%>
 
 <div class="col-md-6">
 <br \>
@@ -241,8 +281,8 @@
 	<%= @vehicle.notes%>
 </div>
 </div>
-</div>
 <% end %>
+</div>
 
 
 

@@ -54,29 +54,12 @@
           <% if @events_by_date[date]%>
           <ul style="list-style-type: none; margin: 0; padding: 0;">
             <% @events_by_date[date].each do |event| %>
-            <% if event.status == "Completed"%>
-            <li><%= link_to event.id, event, class: "badge badge-success" %> 
-              <span>
-                <%= event.class_type%>
-						
-					
-                <% if event.vehicles.exists? %>
-						
-                <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
-                <span class="text-white"><i class="fa fa-check" aria-hidden="true"></i></span>
-                <% else %>
-                <span class="text-white"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </span>
-                <% end %>
-                <% else %>
-                <span class="text-white"><i class="fa fa-car" aria-hidden="true"></i> </span>
-					
-                <% end %>
-					
-              </span>
-					
-            </li>
-            <% else %>
-            <li><%= link_to event.id, event, class: "badge badge-danger" %> 
+            <li>
+              <% if event.status == "Completed"%>
+                <%= link_to event.id, event, class: "badge badge-success" %> 
+              <% else %>
+               <%= link_to event.id, event, class: "badge badge-danger" %>
+              <% end %>
               <span>
                 <%= event.class_type%>
                 <% if event.vehicles.exists? %>
@@ -94,7 +77,6 @@
               </span>
 					
             </li>
-            <% end %>
             <% end %>
           </ul>
           <% end %>

@@ -53,7 +53,7 @@
         <%= date.day %>
 	 
 	 
-        <% if @events_by_date[date]%>
+        <% if @events_by_date[date] %>
         <ul style="list-style-type: none; margin: 0; padding: 0;">
           <% @events_by_date[date].each do |event| %>
           
@@ -65,8 +65,6 @@
             <% end %>
             <span>
               <%= event.class_type%>
-						
-					
               <% if event.vehicles.exists? %>
 						
               <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>

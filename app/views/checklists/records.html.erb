@@ -1,174 +1,181 @@
-<div class="jumbotron">
-	<h3 class="display-3 text-center">Checklist Records</h3>
-	<div class="card">
-		<div class="card-body">
-		<div class="row">
-			<div class="col-md-4">
-		<form class="form-inline">
+<div class="jumbotron bg-dark text-white">
+  <h3 class="display-3 text-center">Checklist Records</h3>
+</div>
+<div class="card bg-dark text-white">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+        <form class="form-inline">
 			
 		
-		<%= search_form_for @q, :url => {:controller => :checklists, :action => :records} do |f|%>
+          <%= search_form_for @q, :url => {:controller => :checklists, :action => :records} do |f|%>
 		
 		
-	<div class="form-group mb-3">
-		<%= f.label "From"%> &nbsp
-		<%= f.date_select :date_gteq, {include_blank: "Nothing"}, class: "form-control"  %>
-	</div>
+          <div class="form-group mb-3">
+            <%= f.label "From", class: "mr-1 text-danger font-weight-bold" %> 
+            <%= f.date_field :date_gteq, class: "form-control", datepicker: true  %>
+          </div>
 
 
-	<div class="form-group ">
-		<%= f.label "To"%> &nbsp&nbsp&nbsp&nbsp&nbsp
-		<%= f.date_select :date_lteq, {include_blank: "Nothing" }, class: "form-control"  %>
-	</div>
-</div>
-<div class="col-md-4">
+          <div class="form-group ">
+            <%= f.label "To", class: "mr-4 text-danger font-weight-bold" %>
+            <%= f.date_field :date_lteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+        <div class="col-md-4">
 
-		<div class="form-group ml-1">
-		<%= f.select :event_type_eq, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, class: "form-control" %>
-	</div>
+          <div class="form-group ml-1">
+            <%= f.select :event_type_eq, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, class: "form-control" %>
+          </div>
 
-		<div class="form-group ml-1">
-		<%= f.select :class_type_eq, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, class: "form-control" %>
-	</div>
-	</div>
-<div class="col-md-4">	
-		<div class="form-group">
-		<%= f.select :location_eq, Event::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
-	</div>
-</div>
-</div>
-<div class="row">
-	<div class="col-md-4">
-	</div>
+          <div class="form-group ml-1">
+            <%= f.select :class_type_eq, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-md-4">	
+          <div class="form-group">
+            <%= f.select :location_eq, Event::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+        </div>
 	
-<div class="col-md-4 ">
-	<div class="form-group d-flex justify-content-center">
-		<%= f.submit "Find Events", class: "btn btn-info"%>
-	</div>
-</div>
-<div class="col-md-4">
-</div>
-</div>
+        <div class="col-md-4 ">
+          <div class="form-group d-flex justify-content-center">
+            <%= f.submit "Find Events", class: "btn btn-danger"%>
+          </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
 
-	<% end %>
-</form>
+      <% end %>
+    </form>
 	
-	</div>
+  </div>
 
 </div>
 	
 	
 	
-	<% @events.all.order(date: :desc).each do |event|%>
-	<div class="card my-3">
-		<div class="card-header d-flex justify-content-between align-items-center">
-			<h4> Event <%= link_to event.id, event_path(event.id), class: "badge badge-info"%></h4> <h4><%= event.class_type%></h4> <h4><%= event.location%></h4> <h4>Date: <%= event.date.strftime('%D')%></h4>
-		</div>
-		<div class="card-body">
-	<table class="table table-striped table-sm mb-4">
-		<thead>
-			<tr>
-				<th scope="col">Vehicle Id</th>
-				<th>Status</th>
-				<th>Date Completed</th>
-				<th>Deadlined</th>
-				<th colspan="1">
-			</tr>
-		</thead>
-		<tbody>
-			<% if event.vehicles != []%>
-			<% event.vehicles.each do |vehicle|%>
+<% @events.all.order(date: :desc).each do |event|%>
+<div class="card bg-dark text-white my-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4> Event <%= link_to event.id, event_path(event.id), class: "badge badge-danger"%></h4> 
+    <h4><%= event.class_type%></h4> 
+    <h4><%= event.location%></h4> 
+    <h4>Date: <%= event.date.strftime('%D')%></h4>
+  </div>
+  <div class="card-body">
+    <table class="table table-boderless table-hover table-sm mb-4">
+      <thead>
+        <tr>
+          <th scope="col">Vehicle Id</th>
+          <th>Status</th>
+          <th>Date Completed</th>
+          <th>Deadlined</th>
+          <th colspan="1">
+          </tr>
+        </thead>
+        <tbody>
+          <% if event.vehicles != []%>
+          <% event.vehicles.each do |vehicle|%>
 			
-			<tr>
-				<td scope="row"><%= vehicle.car_id%></td>
-				<td>
+          <tr>
+            <td scope="row"><%= vehicle.car_id%></td>
+            <td>
 					
-					<% if vehicle.checklists != []%>
-					<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-						<span style="color: green; text-size: 10px;">Completed<i class="fa fa-check-square" aria-hidden="true"></i></span>
+              <% unless vehicle.checklists.empty? %>
+              <% if vehicle.checklists.where(event_id: event.id).exists? %>
+              <span style="color: green; text-size: 10px;">Completed<i class="fa fa-check-square" aria-hidden="true"></i></span>
 					
-					<% else %>
-					<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-					<% end %>
-					<% else %>
-					<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-					<% end %>
-					</td>
-					<td>
-						<% if vehicle.checklists != []%>
-						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-												<%= vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')%>
-											<% else %>
+              <% else %>
+              <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
+                <% end %>
+                <% else %>
+                <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
+                  <% end %>
+                </td>
+                <td>
+                  <% unless vehicle.checklists.empty? %>
+                  <% if vehicle.checklists.where(event_id: event.id).exists? %>
+                  <%= vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')%>
+                  <% else %>
 											
-											<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-											<% end %>
-											<% else %>
-											<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-											<% end %>
-					</td>
-					<td>
-						<% if vehicle.checklists != []%>
-						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-												<% if vehicle.checklists.find_by(event_id: event.id).deadline == true %>
-											<span style="color: orange; background-color: lightgrey;"> <i class="fa fa-exclamation-triangle" aria-hidden="true">Deadlined </i> </span> 
-											<% else %>
-											No	
-												<% end %>
+                  <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
+                    <% end %>
+                    <% else %>
+                    <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% unless vehicle.checklists.empty? %>
+                      <% if vehicle.checklists.where(event_id: event.id).exists? %>
+                      <% if vehicle.checklists.find_by(event_id: event.id).deadline %>
+                      <span style="color: orange; background-color: lightgrey;">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true">
+                          Deadlined
+                        </i>
+                      </span> 
+                      <% else %>
+                      No	
+                      <% end %>
 												
-												<% else %>
+                      <% else %>
 											
-											<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-											<% end %>
-											<% else %>
-											<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-											<% end %>
-					</td>
-					<td>
-						<% if vehicle.checklists != []%>
-						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-							<%= link_to "Show Checklist", checklist_path( vehicle.checklists.find_by(event_id: event.id).id), class: "btn btn-info"%>
-						<% else %>
-						<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-						<% end %>
-						<% else %>
-						<span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-						<% end %>
-					</td>
-			</tr>
-			<% end %>
+                      <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
+                        <% end %>
+                        <% else %>
+                        <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
+                          <% end %>
+                        </td>
+                        <td>
+                          <% unless vehicle.checklists.empty? %>
+                          <% if vehicle.checklists.where(event_id: event.id).exists? %>
+                          <%= link_to "Show Checklist", checklist_path( vehicle.checklists.find_by(event_id: event.id).id), class: "btn btn-danger"%>
+                          <% else %>
+                          <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
+                            <% end %>
+                            <% else %>
+                            <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
+                              <% end %>
+                            </td>
+                          </tr>
+                          <% end %>
 			
 			
-			<% else %>
-			<tr>
-				<td> <span style="color: purple">
-	  		 <i class="fa fa-car" aria-hidden="true">
-	  		 	No Vehicles Added!
-	  		 </i> 
-	  	 </span></td>
-				<td> <span style="color: purple">
-	  		 <i class="fa fa-car" aria-hidden="true">
-	  		 	No Vehicles Added!
-	  		 </i> 
-	  	 </span></td>
-				<td> <span style="color: purple">
-	  		 <i class="fa fa-car" aria-hidden="true">
-	  		 	No Vehicles Added!
-	  		 </i> 
-	  	 </span> </td>
-				<td> <span style="color: purple">
-	  		 <i class="fa fa-car" aria-hidden="true">
-	  		 	No Vehicles Added!
-	  		 </i> 
-	  	 </span></td>
-			</tr>
-			<% end %>
-		</tbody>
-	</table>
-</div>
-</div>
-	<% end %>
-	<div class="container d-flex justify-content-between align-items-center">
-<%= paginate @events%>
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info " %>
-</div>
+                          <% else %>
+                          <tr>
+                            <td> <span style="color: white">
+                              <i class="fa fa-car" aria-hidden="true">
+                                No Vehicles Added!
+                              </i> 
+                            </span></td>
+                            <td> <span style="color: white">
+                              <i class="fa fa-car" aria-hidden="true">
+                                No Vehicles Added!
+                              </i> 
+                            </span></td>
+                            <td> <span style="color: white">
+                              <i class="fa fa-car" aria-hidden="true">
+                                No Vehicles Added!
+                              </i> 
+                            </span> </td>
+                            <td> <span style="color: white">
+                              <i class="fa fa-car" aria-hidden="true">
+                                No Vehicles Added!
+                              </i> 
+                            </span></td>
+                          </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <% end %>
+<div class="container d-flex justify-content-between align-items-center">
+  <%= paginate @events%>
+  <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger" %>
 </div>

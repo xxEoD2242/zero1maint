@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover table-striped">
+<table class="table table-borderless table-hover table-striped">
   <thead>
     <tr>
       <th scope="col">Car</th>
@@ -38,17 +38,17 @@
 		  </td>
           <td>
 		    <% if vehicle.dont_use_a_service %>
-              <span class="badge badge-primary"> A-Service </span>
+              <span class="badge badge-danger"> A-Service </span>
 			<% end %>
             <% if vehicle.dont_use_shock_service %>
-              <span class="badge badge-primary"> Shock Service </span>
+              <span class="badge badge-danger"> Shock Service </span>
 			<% end %>
 			<% if vehicle.dont_use_air_filter_service %>
-			  <span class="badge badge-primary"> Air Filter Service </span>
+			  <span class="badge badge-danger"> Air Filter Service </span>
             <% end %>  
 	     </td>
          <td>
-		   <%= link_to 'Show', vehicle, class: "btn btn-primary btn-sm" %>
+		   <%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %>
 	     </td
       </tr>
     <% end %> 

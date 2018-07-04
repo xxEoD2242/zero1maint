@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180630204826) do
+ActiveRecord::Schema.define(version: 20180703010419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 20180630204826) do
     t.string "creator"
     t.date "completed_date"
     t.string "status"
+    t.integer "checklist_id", default: 0
   end
 
   create_table "rotation_metrics", force: :cascade do |t|

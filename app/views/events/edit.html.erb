@@ -1,158 +1,158 @@
-<div class="jumbotron">
-<h1 class="display-3 text-center">Edit Event <%= @event.id%></h1>
-<div class="card">
-	<div class="card-body form-group">
-
-<%= simple_form_for @event do |f| %>
-  <% if @event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
-      <ul>
-      <% @event.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <strong> <%= f.label :date %></strong>
-    <%= f.date_select :date, id: :event_date, class: "form-control" %>
-  </div>
-  
-  <div class="form-group">
-	<strong>  <%= f.label "Select Time"%> </strong>
-	  <%= f.time_select :event_time, id: :event_time, class: "form-control"%>
-  </div>
-  
-	<div class="form-group">
-		
-		<%= f.select :status, Event::STATUSES, {include_blank: "Select Status"}, id: :event_status, class: "form-control"%>	
-	</div>
-	<hr>
-	<% Event::LOCATIONS.each do |location|%>
-	
-	<div class="container" style="border: 2px solid black; border-radius: 6px 6px 6px 6px; padding: 2px 2px 2px 2px">
-		<h3 class="text-center"> <%= location%></h3>
-	</div>
-  
-    <div class="card mt-3" style='background-color: lightgreen;'>
-  	  <div class="card-header">
-  	<h4 class="text-center">Select A Priority Vehicles</h4>
-  </div>
-  <div class="card-body">
-  	<h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
-  	<div class="row">
-		
-  	  <% Vehicle::CATEGORIES.each do |vehicle_category| %>
-  	   <div class="col-6">
-  		<strong>	<%= vehicle_category%>: </strong>
-  		<br \>
-  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_a: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
-		
-  	</div>
-	
-  		<% end %>
-		
-  	</div>
-  </div>
-  </div>
-
-      <div class="card card-warning bg-warning my-3" >
-    	  <div class="card-header">
-    	<h4 class="text-center">Select B Priority Vehicles</h4>
-    </div>
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="display-3 text-center">Edit Event <%= @event.id%></h1>
+  <div class="card bg-dark text-white">
     <div class="card-body">
-		 <h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
-  	<div class="row">
+      <%= simple_form_for @event do |f| %>
+      <% if @event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+        <ul>
+          <% @event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <strong> <%= f.label :date %></strong>
+            <%= f.date_field :date, id: :event_date, class: "form-control", datepicker: true %>
+          </div>
+        </div>
+        <div class="col-md-8">
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <strong>  <%= f.label "Select Time"%> </strong>
+        <%= f.time_select :event_time, id: :event_time, class: "form-control"%>
+      </div>
+  
+      <div class="form-group">
 		
-  	  <% Vehicle::CATEGORIES.each do |vehicle_category| %>
-  	   <div class="col-6">
-  		<strong>	<%= vehicle_category%>: </strong>
-  		<br \>
-  	  	<%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "form-controls" %>
-		
-  	</div>
+        <%= f.select :status, Event::STATUSES, {include_blank: "Select Status"}, id: :event_status, class: "form-control"%>	
+      </div>
+      <hr>
+      <% Event::LOCATIONS.each do |location|%>
 	
-  		<% end %>
+      <div class="container bg-secondary" style="border: 2px solid black; border-radius: 6px 6px 6px 6px; padding: 2px 2px 2px 2px">
+        <h3 class="text-center"> <%= location%></h3>
+      </div>
+  
+      <div class="card bg-secondary text-white mt-3" style='background-color: lightgreen;'>
+        <div class="card-header">
+          <h4 class="text-center">Select A Priority Vehicles</h4>
+        </div>
+        <div class="card-body">
+          <h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
+          <div class="row">
 		
-  	</div>
-  </div>
-  </div>
-  <hr>
-  <% end %>
+            <% Vehicle::CATEGORIES.each do |vehicle_category| %>
+            <div class="col-6">
+              <strong>	<%= vehicle_category%>: </strong>
+              <br \>
+              <%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_a: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
+		
+            </div>
+	
+            <% end %>
+		
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-secondary text-white my-3" >
+        <div class="card-header">
+          <h4 class="text-center">Select B Priority Vehicles</h4>
+        </div>
+        <div class="card-body">
+          <h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
+          <div class="row">
+		
+            <% Vehicle::CATEGORIES.each do |vehicle_category| %>
+            <div class="col-6">
+              <strong>	<%= vehicle_category%>: </strong>
+              <br \>
+              <%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "form-controls" %>
+		
+            </div>
+	
+            <% end %>
+		
+          </div>
+        </div>
+      </div>
+      <hr>
+      <% end %>
   
 	
-	   <div class="form-group">
-	     <strong><%=f.label "Number of Customers"%></strong>
-	     <%= f.number_field :customers, id: :customers, class: "form-control" %>
-	   </div>
+      <div class="form-group">
+        <strong><%=f.label "Number of Customers"%></strong>
+        <%= f.number_field :customers, id: :customers, class: "form-control" %>
+      </div>
 	
 	
-	   <div class="form-group">
-	     <strong><%=f.label "Number of Shares"%></strong>
-	     <%= f.number_field :shares, id: :shares, class: "form-control" %>
-	   </div>
+      <div class="form-group">
+        <strong><%=f.label "Number of Shares"%></strong>
+        <%= f.number_field :shares, id: :shares, class: "form-control" %>
+      </div>
 	
 	
-   <div class="form-group">
-     <strong class="my-2"> Estimated Mileage</strong>
-     <%= f.number_field :est_mileage, id: :event_event_mileage, class: "form-control" %>
-   </div>
+      <div class="form-group">
+        <strong class="my-2"> Estimated Mileage</strong>
+        <%= f.number_field :est_mileage, id: :event_event_mileage, class: "form-control" %>
+      </div>
 
-  <div class="form-group">
-    <strong class="my-2">Actual Mileage</strong>
-    <%= f.text_field :event_mileage, id: :event_event_mileage, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <strong class="my-2">Actual Mileage</strong>
+        <%= f.text_field :event_mileage, id: :event_event_mileage, class: "form-control" %>
+      </div>
 
-  <div class="form-group">
-    <strong> <%= f.label :location %></strong>
-    <%= f.select :location, Event::LOCATION, {include_blank: "Select Location"}, id: :event_location, class: "form-control" %>
-  </div>
-<div class="row">
-	<div class="col-md-6">
-  <div class="form-group">
-    <strong > <%= f.label :duration %></strong>
-    <%= f.number_field :duration, id: :event_duration, class: "form-control" %>
-  </div>
-</div>
-<div class="col-md-6">
-   <div class="form-group">
-     <strong><%=f.label "Increment"%></strong>
-     <%= f.select :duration_word, Event::DURATION_WORDS, {include_blank: "Select Time Increment"}, class: "form-control" %>
-   </div>
-</div>
+      <div class="form-group">
+        <strong> <%= f.label :location %></strong>
+        <%= f.select :location, Event::LOCATION, {include_blank: "Select Location"}, id: :event_location, class: "form-control" %>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong > <%= f.label :duration %></strong>
+            <%= f.number_field :duration, id: :event_duration, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong><%=f.label "Increment"%></strong>
+            <%= f.select :duration_word, Event::DURATION_WORDS, {include_blank: "Select Time Increment"}, class: "form-control" %>
+          </div>
+        </div>
   
-</div>
-<div class="row">
-	<div class="col-md-6">
-  <div class="form-group">
-    <strong> <%= f.label :event_type %></strong>
-    <%= f.select :event_type, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, id: :event_event_type, class: "form-control" %>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong> <%= f.label :event_type %></strong>
+            <%= f.select :event_type, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, id: :event_event_type, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong> <%= f.label :class_type %></strong>
+            <%= f.select :class_type, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, id: :event_class_type, class: "form-control"%>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.button :submit, class: "btn btn-danger btn-lg" %>
+      </div>
+      <% end %>
+      <%= link_to 'Show', @event, class: "btn btn-danger" %> | <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger" %>
+    </div>
+
   </div>
-</div>
-<div class="col-md-6">
-  <div class="form-group">
-    <strong> <%= f.label :class_type %></strong>
-    <%= f.select :class_type, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, id: :event_class_type, class: "form-control"%>
-  </div>
-</div>
-</div>
-
-  <div class="form-group">
-    <%= f.button :submit, class: "btn btn-success btn-lg" %>
-  </div>
-<% end %>
-<%= link_to 'Show', @event, class: "btn btn-info" %> | <%= link_to 'Back', dashboard_events_path, class: "btn btn-warning" %>
-</div>
-
-</div>
-
-	
-
-
-
 </div>
 </div>
 </div>

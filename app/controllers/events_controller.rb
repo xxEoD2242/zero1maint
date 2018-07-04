@@ -8,7 +8,6 @@ class EventsController < ApplicationController
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[vehicle_rotation new edit]
   before_action :vehicle_rotation, only: [:edit]
   after_action :calc_mileage, only: %i[update event_completed]
-  after_action :multi_day, only: [:create]
   include Multi_Day
   include Vehicle_Rotation
   include Auto_Select
@@ -119,6 +118,13 @@ class EventsController < ApplicationController
   def calc_mileage
     @event.update(calc_mileage: @event.event_mileage)
   end
+  
+  def multi_day(event)
+    numb_days = ((event.end_date.mjd - event.date.mjd) - 1)
+    numb_days.times do
+      Event.create(date: Event.last.date + 1.day, end_date: Event.last.end_date + 1.day, customers: @event.customers, status: 'Scheduled', location: @event.location, est_mileage: @event.est_mileage, event_type: @event.event_type, class_type: @event.class_type, calc_mileage: 0, multi_day: false, shares: @event.shares, event_mileage: 0, duration: @event.duration, event_time: @event.event_time, duration_word: @event.duration_word)
+    end
+  end
 
   def create
     @event = Event.new(event_params)
@@ -126,11 +132,8 @@ class EventsController < ApplicationController
       if @event.save
         @event.update(calc_mileage: 0)
 
-        if @event.multi_day == true
-          numb_days = ((@event.end_date.mjd - @event.date.mjd) - 1)
-          numb_days.times do
-            Event.create(date: Event.last.date + 1.day, end_date: Event.last.end_date + 1.day, customers: @event.customers, status: 'Scheduled', location: @event.location, est_mileage: @event.est_mileage, event_type: @event.event_type, class_type: @event.class_type, calc_mileage: 0, multi_day: false, shares: @event.shares, event_mileage: 0, duration: @event.duration, event_time: @event.event_time, duration_word: @event.duration_word)
-          end
+        if @event.multi_day
+          multi_day @event
         end
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }

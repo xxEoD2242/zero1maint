@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card bg-dark text-white">
 	<div class="card-body form-group">
 
 <%= simple_form_for @event do |f| %>
@@ -14,33 +14,38 @@
     </div>
   <% end %>
 
-  <% if Event.last != nil %>
+  <% if Event.last %>
     <div class="form-group">
       <h4>
         Event Number: <%= Event.all.last.id + 1%>
-	  </h4>
+	    </h4>
+      <div class="form-group form-check">
+        	<%= f.check_box :multi_day, id: :event_multi_day, class: "form-check-input" %>
+          <%= f.label "Multi Day", class: "form-check-label"%>
+      </div>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <strong> Scheduled Start Date &nbsp</strong>
-    <%= f.date_select :date, id: :event_date, class: "form-control" %>
-  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <strong class="mr-1"> Scheduled Start Date </strong>
+        <%= f.date_field :date, id: :event_date, class: "form-control", datepicker: true %>
+      </div>
 
-  <div class="form-group">
-    <strong> Scheduled End Date &nbsp&nbsp&nbsp</strong>
-    <%= f.date_select :end_date, id: :event_end_date, class: "form-control" %>
+      <div class="form-group">
+        <strong class="mr-3"> Scheduled End Date </strong>
+        <%= f.date_field :end_date, id: :event_end_date, class: "form-control", datepicker: true %>
+      </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-6">
+    </div>
   </div>
   
   <div class="form-group">
-    <strong> Multi-Day:
-    	<%= f.check_box :multi_day, id: :event_multi_day, class: "form-control" %>
-	</strong>
-  </div>
-  
-  
-  <div class="form-group">
-	<strong> Select Time &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</strong>
+	<strong class="mr-4"> Select Time </strong>
 	  <%= f.time_select :event_time, id: :event_time, class: "form-control"%>
   </div>
   
@@ -104,11 +109,11 @@
   </div>
   </div>
   <div class="form-group">
-    <%= f.button :submit, class: "btn btn-success btn-lg" %>
+    <%= f.button :submit, class: "btn btn-danger btn-lg" %>
   </div>
 <% end %>
 <hr>
-<%= link_to 'Back', dashboard_events_path, class: "btn btn-info" %>
+<%= link_to 'Back', dashboard_events_path, class: "btn btn-danger" %>
 </div>
 
 </div>

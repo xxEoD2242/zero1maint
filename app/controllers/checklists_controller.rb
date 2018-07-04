@@ -45,7 +45,8 @@ class ChecklistsController < ApplicationController
           Request.create(id: Request.last.id + 1, status: 'New', 
                          description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
                          vehicle_id: @vehicle.id, creator: current_user.name, program_id: @set_repairs.id,
-                         completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage)
+                         completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+                         checklist_id: @checklist.id)
         end
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }

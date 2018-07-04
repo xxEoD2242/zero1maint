@@ -1,272 +1,271 @@
-<div class="card mt-4">
+<div class="card text-white bg-dark mt-2">
   <div class="card-header">
     <h3 class="display-4 text-center">Event: <%= @event.id %></h3>
   </div>
   <div class="card-body">
-	<div class="row">
-	  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
         <div class="row">
-		  <div class="col-md-5">
+          <div class="col-md-5">
             <p>
               <% if @event.multi_day %>
-                <strong>
-                  Scheduled Start Date:
-                </strong>
+              <strong>
+                Scheduled Start Date:
+              </strong>
               <% else %>
-                <strong>
-                  Scheduled Date:
-                </strong>
+              <strong>
+                Scheduled Date:
+              </strong>
               <% end %>
             </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-              <%= @event.date.strftime('%D') %>
-			</p>
-          </div>
-        </div>
-		<% if @event.multi_day %>
-		<div class="row">
-		  <div class="col-md-5">
-			<p>
-  	 		  <strong>
-			    Scheduled End Date:
-			  </strong>
-            </p>
-          </div>
-		  <div class="col-md-7">
+          <div class="col-md-7">
             <p>
-			  <%= @event.date.strftime('%D') %>
+              <%= @event.date.strftime('%D') %>
             </p>
           </div>
         </div>
-		<% end %>
-		<div class="row">
-		  <div class="col-md-5">
-			<p>
-  			  <strong>
-			    Status:
-			  </strong>
-			</p>
+        <% if @event.multi_day %>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Scheduled End Date:
+              </strong>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-  			<% if @event.status == "Completed" %>
-  			  <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
-			    Completed
-			  </i>
-  		  	<% else %>
-  			  <%= @event.status %>
-  			<% end %>
-			</p>
-		  </div>
+          <div class="col-md-7">
+            <p>
+              <%= @event.date.strftime('%D') %>
+            </p>
+          </div>
+        </div>
+        <% end %>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Status:
+              </strong>
+            </p>
+          </div>
+          <div class="col-md-7">
+            <p>
+              <% if @event.status == "Completed" %>
+              <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
+                Completed
+              </i>
+              <% else %>
+              <%= @event.status %>
+              <% end %>
+            </p>
+          </div>
         </div>
         <div class="row">
-		  <div class="col-md-5">
+          <div class="col-md-5">
             <p>
               <strong>
                 Estimated Miles
-			  </strong>
-			</p>
+              </strong>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
+          <div class="col-md-7">
+            <p>
               <%= @event.est_mileage %> Miles
-			</p>
+            </p>
           </div>
         </div>
-		<div class="row">	
-		  <div class="col-md-5">
-			<p>
-  			  <strong>
-				Event mileage:
-			  </strong>
-			</p>
+        <div class="row">	
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Event mileage:
+              </strong>
+            </p>
           </div>
-		  <div class="col-md-7">
-		    <p>
-  			<% if @event.event_mileage == 0.0%>
-  			  <strong style="color: red;">
-				No Mileage Added
-			  </strong>
-  			<% else%>
-  			  <%= @event.event_mileage %>
-  			<% end %>
-		    </p>
+          <div class="col-md-7">
+            <p>
+              <% if @event.event_mileage == 0.0%>
+              <strong style="color: red;">
+                No Mileage Added
+              </strong>
+              <% else%>
+              <%= @event.event_mileage %>
+              <% end %>
+            </p>
           </div>
         </div>
-		<div class="row">
-		  <div class="col-md-5">
-		    <p>
-		      <strong>
-			    Number of Customers
-			  </strong>
-			</p>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Number of Customers
+              </strong>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-			 <%= @event.customers %>
-		    </p>
-		  </div>
-        </div>
-		<div class="row">
-		  <div class="col-md-5">
-		    <p>
-		      <strong>
-			    Number of Shares
-			  </strong>
-			</p>
+          <div class="col-md-7">
+            <p>
+              <%= @event.customers %>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-			  <%= @event.shares %>
-		    </p>
-		  </div>
         </div>
-		<div class="row">
-		  <div class="col-md-5">
-		    <p>
-		      <strong>
-			    Location:
-			  </strong>
-			</p>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Number of Shares
+              </strong>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-			  <%= @event.location %>
-		    </p>
-		  </div>
-        </div>
-		<div class="row">
-		  <div class="col-md-5">
-		    <p>
-		      <strong>
-			    Duration:
-			  </strong>
-			</p>
+          <div class="col-md-7">
+            <p>
+              <%= @event.shares %>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-			  <%= @event.duration %> <%= @event.duration_word %>
-		    </p>
-		  </div>
         </div>
-		<div class="row">
-		  <div class="col-md-5">
-		    <p>
-		      <strong>
-			    Class type:
-			  </strong>
-			</p>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Location:
+              </strong>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-			  <%= @event.class_type %>
-		    </p>
-		  </div>
-        </div>
-		<div class="row">
-		  <div class="col-md-5">
-		    <p>
-		      <strong>
-			    Event type:
-			  </strong>
-			</p>
+          <div class="col-md-7">
+            <p>
+              <%= @event.location %>
+            </p>
           </div>
-		  <div class="col-md-7">
-			<p>
-			  <%= @event.event_type %>
-		    </p>
-		  </div>
         </div>
-	  </div>
-	  <div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
-		<div class="d-flex justify-content-between align-items-center">
-			<h4 class="text-center">
-			  <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-primary" %>
-			</h4> 
-		<% if @event.customers != nil && @event.customers > 0%>
-			<%= link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-warning"%>
-		<% end %>
-	    </div>
-	<p>
-		<div class="row">	
-			<div class="col-md-3">	
-				<strong>
-					Vehicles:
-				</strong>
-			</div>
-			<div class="col-md-4">
-				<strong>
-					Checklists:
-				</strong>
-			</div>
-			<div class="col-md-5">
-			</div>
-		</div>
-		<div class="row mt-2">
-			<% @event.vehicles.each do |vehicle|%>
-			<div class="col-md-3 mb-2">
-				<%= vehicle.car_id %> 
-			</div>
-			<div class="col-md-6 mb-2">
-				<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
-					<i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
-						Completed
-					</i>
-					&nbsp <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-info" %>
-					<% else %>
-						<%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-success"%> 
-				<% end %>
-			</div>
-			<div class="col-md-3 mb-2">
-				<% if vehicle.use_a == false && vehicle.use_b == false  %>
-					<h5 style="color: red;border: 2px solid red;border-radius: 6px 6px 6px 6px">
-						Vehicle has been over used this month. Recommend switching vehicle
-					</h5>
-					<% elsif vehicle.vehicle_status == "Out-of-Service" %>
-					<h5 style="color: red;border: 2px solid red;border-radius: 6px 6px 6px 6px">
-						Vehicle Is Deadlined
-					</h5>
-				<% end %>
-			</div>
-			<br \>
-			<% end %>
-		</div>
-	</p>
-
-	</div>
-	</div>
-	</div>
-	<div class="card-footer d-flex justify-content-between align-items-center">
-	  <%= link_to 'Back', dashboard_events_path, class: "btn btn-info"%>
-	    <% if @event.status != "Completed"%>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Duration:
+              </strong>
+            </p>
+          </div>
+          <div class="col-md-7">
+            <p>
+              <%= @event.duration %> <%= @event.duration_word %>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Class type:
+              </strong>
+            </p>
+          </div>
+          <div class="col-md-7">
+            <p>
+              <%= @event.class_type %>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <p>
+              <strong>
+                Event type:
+              </strong>
+            </p>
+          </div>
+          <div class="col-md-7">
+            <p>
+              <%= @event.event_type %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="text-center">
+            <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-danger" %>
+          </h4> 
+          <% if @event.customers != nil && @event.customers > 0%>
+          <%= link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-danger"%>
+          <% end %>
+        </div>
+        <p>
+          <div class="row">	
+            <div class="col-md-3">	
+              <strong>
+                Vehicles:
+              </strong>
+            </div>
+            <div class="col-md-4">
+              <strong>
+                Checklists:
+              </strong>
+            </div>
+            <div class="col-md-5">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <% @event.vehicles.each do |vehicle|%>
+            <div class="col-md-3 mb-2">
+              <%= vehicle.car_id %> 
+            </div>
+            <div class="col-md-6 mb-2">
+              <% if @checklists.exists?(vehicle_id: vehicle.id) %>
+              <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
+                Completed
+              </i>
+              <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-danger ml-1" %>
+              <% else %>
+              <%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1"%> 
+              <% end %>
+            </div>
+            <div class="col-md-3 mb-2">
+              <% unless vehicle.use_a && vehicle.use_b %>
+              <h5 style="color: black;border: 2px solid red;border-radius: 6px; background: white; padding: 2px">
+                Vehicle has been over used this month.
+              </h5>
+              <% else vehicle.vehicle_status == "Out-of-Service" %>
+              <h5 style="color: black;border: 2px solid red;border-radius: 6px; background: white; padding: 2px">
+                Vehicle Is Deadlined
+              </h5>
+              <% end %>
+            </div>
+            <br \>
+            <% end %>
+          </div>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer d-flex justify-content-between align-items-center">
+    <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger"%>
+    <% if @event.status != "Completed"%>
 			
-			<%= form_tag 'event_completed' do |f| %>
-			  <div class="input-group">
-				<%= hidden_field_tag :event_id, @event.id %>
-			    <div class="input-group-prepend">
-				  <span class="input-group-text">
-				    Mileage: &nbsp
-				  </span>
-			    </div>
-			    <%= number_field_tag :event_mileage, nil, class: "form-control" %>
-			    <div class="input-group-append">
-			  	  <%= submit_tag "Complete Event", class: "btn btn-primary" %>
-				</div>
-			  </div>
-			<% end %>		
-		<% end %>
-		<%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-dark" %>
-	</div>
+    <%= form_tag 'event_completed' do |f| %>
+    <div class="input-group">
+      <%= hidden_field_tag :event_id, @event.id %>
+      <div class="input-group-prepend">
+        <span class="input-group-text bg-secondary text-white">
+          Mileage:
+        </span>
+      </div>
+      <%= number_field_tag :event_mileage, nil, class: "form-control" %>
+      <div class="input-group-append">
+        <%= submit_tag "Complete Event", class: "btn btn-danger" %>
+      </div>
+    </div>
+    <% end %>		
+    <% end %>
+    <%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-danger" %>
+  </div>
 
 </div>
 <% if @event.status != "Completed" %>
-	<div class='card my-4'>
-		<div class="card-body">
-			<p>
-				* Ensure to set the Event Mileage and the status for the event to "Completed" once the event has finished. This can be done easily with the form above this text box. *
-			</p>
-		</div>
-	</div>
+<div class='card bg-dark text-white my-2'>
+  <div class="card-body">
+    <p>
+      * Ensure to set the Event Mileage and the status for the event to "Completed" once the event has finished. This can be done easily with the form above this text box. *
+    </p>
+  </div>
+</div>
 <% end %>

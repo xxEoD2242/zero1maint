@@ -1,14 +1,19 @@
 # frozen_string_literal: true
 
 class Checklist < ApplicationRecord
-  before_save :set_fuel_level, :set_wash, :set_suspension, :set_drive_train, :set_body, :set_engine, :set_brake, :set_safety_equipment, :set_chassis, :set_electrcial, :set_cooling_system, :set_tires, :set_radio, :set_exhaust, :set_steering
+  before_save :set_fuel_level, :set_date, :set_wash, :set_suspension, :set_drive_train, :set_body, :set_engine, :set_brake, :set_safety_equipment, :set_chassis, :set_electrcial, :set_cooling_system, :set_tires, :set_radio, :set_exhaust, :set_steering
 
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
+  
 
   FUEL_LEVELS = ['Full', '3/4', '1/2', '1/4', 'None'].freeze
 
+  def set_date
+    self.date = Time.current if date.blank?
+  end
+  
   def set_fuel_level
     self.fuel_level = 'Checked' if fuel_level.blank?
     end

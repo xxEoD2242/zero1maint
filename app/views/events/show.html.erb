@@ -211,7 +211,7 @@
             </div>
             <div class="col-md-6 mb-2">
               <% if @checklists.exists?(vehicle_id: vehicle.id) %>
-              <i class="fa fa-check fa-lg" style="color: green;" aria-hidden="true">
+              <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
                 Completed
               </i>
               <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-danger ml-1" %>
@@ -220,11 +220,11 @@
               <% end %>
             </div>
             <div class="col-md-3 mb-2">
-              <% unless vehicle.use_a && vehicle.use_b %>
+              <% if vehicle.use_a == false && vehicle.use_b == false %>
               <h5 style="color: black;border: 2px solid red;border-radius: 6px; background: white; padding: 2px">
                 Vehicle has been over used this month.
               </h5>
-              <% else vehicle.vehicle_status == "Out-of-Service" %>
+              <% elsif vehicle.vehicle_status == "Out-of-Service" %>
               <h5 style="color: black;border: 2px solid red;border-radius: 6px; background: white; padding: 2px">
                 Vehicle Is Deadlined
               </h5>

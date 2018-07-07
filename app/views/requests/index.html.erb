@@ -1,9 +1,7 @@
-
-<div class="jumbotron text-center">
-<h1 class="display-3">All Work Orders</h1>
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="display-3">All Work Orders</h1>
 	
-<%= render 'service_form', request: @request_results %>
-<br \>
-<%= render 'results', q: @q, action: :index %>
-
+  <%= render 'service_form', request: @request_results %>
+  <br \>
+  <%= render 'results', q: @q, action: :index %>
 </div>

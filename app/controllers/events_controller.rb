@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_event, only: %i[show edit update destroy calc_mileage]
   before_action :set_location, only: %i[index show edit new create update]
   before_action :set_vehicles, only: %i[index show edit new create update]
@@ -28,15 +27,10 @@ class EventsController < ApplicationController
     end
   end
 
-  def json_data
-    render json: @json_data = HTTParty.get('https://zero-1-maint.herokuapp.com/:bookings', headers: { 'Content-Type' => 'application/json' })
-  end
-
   def vehicle_rotation_metrics; end
 
   def dashboard
-    @events = Event.where('date >= ?', Time.now - 7.days)
-    @display_events = @events.where('date <= ?', Time.now + 14.days)
+    @display_events = Event.where('date >= ? AND date <= ?', Time.current - 7.days, Time.current + 14.days)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: 'Vehicles Assigned')
@@ -47,8 +41,7 @@ class EventsController < ApplicationController
   def next_month_calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @next_month = @date + 1.month
-    @events = Event.where('date <= ?', @next_month + 1.month)
-    @display_events = @events.where('date >= ?', @next_month)
+    @display_events  = Event.where('date <= ? AND date >= ?', @next_month + 1.month, @next_month)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: 'Vehicles Assigned')
@@ -58,8 +51,7 @@ class EventsController < ApplicationController
   def previous_month
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @prev_month = @date - 1.month
-    @events = Event.where('date <= ?', @prev_month - 1.month)
-    @display_events = @events.where('date >= ?', @prev_month)
+    @display_events = Event.where('date <= ? AND date >= ?', @prev_month - 1.month, @prev_month)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: 'Vehicles Assigned')
@@ -81,7 +73,6 @@ class EventsController < ApplicationController
     @event_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
-  # GET /events/new
   def new
     @event = Event.new
     @vehicles = Vehicle.all
@@ -112,7 +103,6 @@ class EventsController < ApplicationController
 
   def edit
     @vehicles = Vehicle.all
-    @vehicle_categories = VehicleCategory.all
   end
 
   def calc_mileage
@@ -122,7 +112,12 @@ class EventsController < ApplicationController
   def multi_day(event)
     numb_days = ((event.end_date.mjd - event.date.mjd) - 1)
     numb_days.times do
-      Event.create(date: Event.last.date + 1.day, end_date: Event.last.end_date + 1.day, customers: @event.customers, status: 'Scheduled', location: @event.location, est_mileage: @event.est_mileage, event_type: @event.event_type, class_type: @event.class_type, calc_mileage: 0, multi_day: false, shares: @event.shares, event_mileage: 0, duration: @event.duration, event_time: @event.event_time, duration_word: @event.duration_word)
+      Event.create(date: Event.last.date + 1.day, end_date: Event.last.end_date + 1.day,
+                   customers: @event.customers, status: 'Scheduled', location: @event.location, 
+                   est_mileage: @event.est_mileage, event_type: @event.event_type, 
+                   class_type: @event.class_type, calc_mileage: 0, multi_day: false, 
+                   shares: @event.shares, event_mileage: 0, duration: @event.duration, 
+                   event_time: @event.event_time, duration_word: @event.duration_word)
     end
   end
 
@@ -136,16 +131,12 @@ class EventsController < ApplicationController
           multi_day @event
         end
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /events/1
-  # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
       if @event.update(event_params)

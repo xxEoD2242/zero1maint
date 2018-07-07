@@ -1,68 +1,55 @@
-<div class="card text-white">
+<div class="card bg-dark text-white">
 	
-		<div class="card-header" style="background-color: #da3e3e">
-			<strong> Search for Work Orders</strong>
-		</div>
-		<div class="card-body" style="background-color: #da3e3e">
-<div class="row">
-	<div class="col-md-3">
-	<form class="form-inline">
-	<%= search_form_for q, :url => {:action => action } do |f|%>
-	
-		
-			
-	<div class="form-group">
-	<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
+  <div class="card-header">
+    <strong> Search for Work Orders</strong>
+  </div>
+  <div class="card-body">
+        <form>
+          <%= search_form_for q, :url => {:action => action } do |f|%>
+		      <div class="row">
+            <div class="col-md-4">
+          <div class="form-group">
+            <%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group ">
+            <%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.select :vehicle_veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label "From", class: "mr-1"%>
+            <%= f.date_field :completion_date_gteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label "To", class: "mr-1"%>
+            <%= f.date_field :completion_date_lteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+      </div>
+
+          <div class="form-group">
+            <%= f.submit "Find Work Orders", class: "btn btn-danger"%>
+          </div>
+       
+        <% end %>
+      </form>
+  </div>
 </div>
-
-
-
-<div class="form-group mt-2 ">
-	<%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
-</div>
-</div>
-<div class='col-md-5'>
-		<div class="form-group">
-		<%= f.select :vehicle_veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
-	</div>
-</div>
- 
-<div class="col-md-4">
-	
-<div class="form-group">
-	<%= f.label "From"%> &nbsp
-	<%= f.date_select :completion_date_gteq, class: "form-control"  %>
-</div>
-
-
-
-<div class="form-group ml-3">
-	<%= f.label "To"%> &nbsp
-	<%= f.date_select :completion_date_lteq, class: "form-control"  %>
-</div>
-
-
-	
-
-<div class="form-group ml-3 mt-3">
-	<%= f.submit "Find Work Orders", class: "btn btn-info"%>
-</div>
-</div>
-
-
-
-<% end %>
-</form>
-
-</div>
-</div>
-</div>
-
-
-<br \>
+<br />
 <div class="container d-flex justify-content-between align-items-center">
-	<%= paginate @request_results%>
-	<span>
-	<%= link_to 'Back', dashboard_requests_path, class: "btn btn-info " %></span>
-</div>
+  <%= paginate @request_results%>
+  <span>
+    <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger" %></span>
+  </div>
 </div>

@@ -1,81 +1,17 @@
-
-<div class="jumbotron text-center mt-3" style="background-color: red;">
+<div class="jumbotron bg-dark text-white text-center ">
   <h1 class="display-3">Welcome to Zero 1 Maintenance</h1>
 </div>
+
+<div class="container d-flex align-items-center justify-content-between">  
+  <%= link_to "Work Orders Dashboard", dashboard_requests_path, class: "btn btn-danger btn-lg"%>
+ 
+  <%= link_to "Events Dashboard", dashboard_events_path, class: "btn btn-danger btn-lg"%>
+ 
+  <%= link_to "Vehicles Dashboard", vehicles_path, class: "btn btn-danger btn-lg"%>
   
-<ul class="list-inline">
-  <li class="list-inline-item">1</li>
-  <li class="list-inline-item">2</li>
-  <li class="list-inline-item">3</li>
-</ul>
-<div class="container d-flex justify-content-center mt-3">
-  <%= link_to "View Your Assigned Work Orders", assigned_work_orders_path, class: "btn btn-success btn-lg"%>
+  <%= link_to "Parts Dashboard", dashboard_parts_path, class: "btn btn-danger btn-lg"%>
 </div>
-<div class="row mt-3">
-  <div class="col-md-4">
-    <h4 class="d-flex justify-content-center">Work Orders</h4>
-    <div class="list-group">
-      <a class="list-group-item list-group-item-action" href="../requests/dashboard" style="background-color: lightgrey;">Work Orders</a>
-      <a class="list-group-item list-group-item-action" href="../requests/new" style="background-color: lightgrey;">Create A Work Order</a>
-				
-      <a class="list-group-item list-group-item-action" href="../completed_work_orders" style="background-color: lightgrey;">View Your Completed Work Orders</a>	
-			
-				
-    </div>
-    <hr>
-    <h4 class="d-flex justify-content-center">Vehicles</h4>
-    <div class="list-group" >
-      <a class="list-group-item list-group-item-action" style="background-color: lightblue;" href="../vehicles">Vehicle Dashboard</a>
-					
-      <a class="list-group-item list-group-item-action" href="../vehicles/needs_service" style="background-color: lightblue;">Vehicles That Need Service</a>
-      <a class="list-group-item list-group-item-action" href="../vehicles/near_service_required" style="background-color: lightblue;">Vehicles Near Service Required</a>
-			
-				
-    </div>
-  </div>
-				  
-  <div class="col-md-4 mt-10">
-    <h4 class="d-flex justify-content-center">Events</h4>
-    <div class="list-group" >
-				
-      <a class="list-group-item list-group-item-action" href="../events/dashboard" style="background-color: lightgreen;">Events Dashboard</a>
-      <a class="list-group-item list-group-item-action" href="../events/scheduled_events" style="background-color: lightgreen;">Upcoming Events</a>
-      <a class="list-group-item list-group-item-action" href="../events/new" style="background-color: lightgreen;">Create An Event</a>
-      <a class="list-group-item list-group-item-action" href="../events/vehicle_rotation" style="background-color: lightgreen;">Vehicle Rotation</a>
-      <a class="list-group-item list-group-item-action" href="../checklists/records" style="background-color: lightgreen;">Checklist Record</a>
-			
-    </div>
-						
-    <hr>
-    <h4 class="d-flex justify-content-center">Services</h4>
-    <div class="list-group" >
-				
-      <a class="list-group-item list-group-item-action list-group-item-primary" href="../programs" >View Services</a>
-      <a class="list-group-item list-group-item-action list-group-item-primary" href="../programs/new" >Create a Service</a>
-			
-    </div>
-						
-  </div>
-			
-  <div class="col-md-4">
-    <h4 class="d-flex justify-content-center">Reports</h4>
-    <div class="list-group">
-      <a class="list-group-item list-group-item-action" href="../reports/dashboard" style="background-color: orange;">Reports Dashboard</a>
-      <a class="list-group-item list-group-item-action" href="../reports/generate_report" style="background-color: orange;">Generate Report</a>
-      <a class="list-group-item list-group-item-action" href="../reports/weekly_work_order_reports" style="background-color: orange;">Weekly Work Order Reports</a>
-      <a class="list-group-item list-group-item-action" href="../reports/weekly_vehicle_reports" style="background-color: orange;">
-        Weekly Vehicle Reports
-      </a>		
-    </div>
-    <hr>
-    <h4 class="d-flex justify-content-center">Parts</h4>
-    <div class="list-group" >
-					
-      <a class="list-group-item list-group-item-action" href="../parts/dashboard" style="background-color: green;color: white;">Parts Dashboard</a>
-      <a class="list-group-item list-group-item-action" href="../parts/index" style="background-color: green;color: white;">Inventory Control</a>
-      <a class="list-group-item list-group-item-action" href="../parts/financial_report" style="background-color: green;color: white;">Work Order Financial Reports</a>
-				
-    </div>
-  </div>
-			
+<br />
+<div class="d-flex justify-content-center">
+<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Training+Fleet.jpg" alt="Main Dashboard Picture" height="425" width="935" />
 </div>

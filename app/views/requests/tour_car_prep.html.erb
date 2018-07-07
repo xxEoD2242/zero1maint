@@ -1,9 +1,6 @@
-<div class="jumbotron text-center">
-
-<h1 class="display-3">All Tour Car Prep Work Orders</h1>
-	
-<%= render 'service_form', request: @request_results %>
-<br \>
-<%= render 'results', q: @q, action: :tour_car_prep %>
-
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="display-3">All Tour Car Prep Work Orders</h1>
+  <%= render 'service_form', request: @request_results %>
+  <br \>
+  <%= render 'results', q: @q, action: :tour_car_prep %>
 </div>

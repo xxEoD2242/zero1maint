@@ -1,38 +1,36 @@
+<form class="form">
+  <%= simple_form_for @q, url: {:action => :search_for_parts}, html: {:method => :get} do |f|%>
+  <strong>	Search For Parts </strong>
 
-
-	
-	<form class="form">
-	<%= simple_form_for @q, url: {:action => :search_for_parts}, html: {:method => :get} do |f|%>
-	<strong>	Search For Parts </strong>
-
-	<div class="row mt-3">
+  <div class="row mt-3">
 		
-		<div class="col">
-			<div class="form-group">
-			<%= f.search_field :part_numb_cont, placeholder: "Part Number Contains", class: "form-control" %>
-			</div>
-		</div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.search_field :part_numb_cont, placeholder: "Part Number Contains", class: "form-control" %>
+      </div>
+    </div>
 	
-	<div class="col">
-		<div class="form-group">
-	<%= f.search_field :description_cont, placeholder: "Description Contains", class: "form-control" %>
-		</div>
-	</div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.search_field :description_cont, placeholder: "Description Contains", class: "form-control" %>
+      </div>
+    </div>
 
-<div class="col">
-	<div class="form-group">
-	<%= f.select :vehicle_category_eq, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
-</div>
-</div>
-<div class="col">
-	<div class="form-group">
-	<%= f.select :category_eq, Part::CATEGORIES, {include_blank: "Select Part Category"}, class: "form-control" %>
-</div>
-</div>
-</div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.select :vehicle_category_eq, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.select :category_eq, Part::CATEGORIES, {include_blank: "Select Part Category"}, class: "form-control" %>
+      </div>
+    </div>
+  </div>
 
-<div class="form-group">
-	<%= f.submit "Find Parts", class: "btn btn-info"%>
-</div>
+  <div class="form-group">
+    <%= f.submit "Find Parts", class: "btn btn-danger"%>
+  </div>
 
-<% end %>
+  <% end %>
+</form>

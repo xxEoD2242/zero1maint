@@ -1,9 +1,6 @@
-<div class="jumbotron text-center">
-
-<h1 class="display-3">All Defect Work Orders</h1>
-	
-<%= render 'service_form', request: @request_results %>
-<br \>
-<%= render 'results', q: @q, action: :defects %>
-
+<div class="jumbotron bg-secondary text-white text-center">
+  <h1 class="display-3">All Defect Work Orders</h1>s
+  <%= render 'service_form', request: @request_results %>
+  <br \>
+  <%= render 'results', q: @q, action: :defects %>
 </div>

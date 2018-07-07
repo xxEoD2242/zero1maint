@@ -1,194 +1,271 @@
-<div class="jumbotron">
-	<h2 class="display-3 text-center">Work Order <%= @request.id %> for <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-info"%> </h2>
-<div class="card">
-<div class="card-body">
-<div class="row">
-	<div class="col-md-6">
-
-<p>
-  <strong>Submitted By:</strong>
-  <%= @request.creator%>
-</p>
-
-<p>
-  <strong>Current Vehicle Mileage:</strong>
-  <%= @request.vehicle.mileage%>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @request.description %>
-  <% if @request.vehicle.checklists.exists? %>
-  	<% if @request.checklist_id %>
-	  <% if @request.checklist_id != 0 %>
-        <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
-      <% end %>	
-   <% end %>
- <% end %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @request.status %>
-</p>
-<% if @request.program != nil %>
-<p>
-	<strong>Service Type:</strong>
-	<%= @request.program.name %>
-</p>
-<% end %>
-
-<p>
-  <strong> Work Order Mileage:</strong>
-  <%= @request.request_mileage%>
-</p>
-<% if @request.users.exists?%>
-<p>
-  <strong> Recipents:</strong>
-  <ul style="list-style-type: none;">
-  <% @request.users.each do |user|%>
-  <li><%= user.name%></li>
-	  <% end %>
-  </ul>
-</p>
-<% end %>
-<p>
-  <strong>Estimated Completion date:</strong>
-  <%= @request.completion_date %>
-</p>
-<% if @request.completed_date != nil%>
-<p>
-  <strong>Completed date:</strong>
-  <span style="color: green;"><%= @request.completed_date %></span>
-</p>
-<% end %>
-
-
-<p>
-<%= image_tag(@request.image, size: "475x325") %>
-</p>
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<% if @part_order != []%>
-<div class="card">
-	<div class="card-header">
-	<strong>Parts: </strong>
-</div>
-<div class="card-body">
-
-		<table class="table">
-			<thead>
-			<tr>
-			<th scope="col">Item:</th>
-				<th scope="col">Qty:</th> 
-				<th scope="col">Total Cost:</th>
-				<th colspan='1'></th>
-			</tr>
-			</thead>
-			<tbody>
-				<% @part_order.each do |order|%>
-				<% if order.order_items != {}%>
-  			 <% order.order_items.each do |key, value|%>
-				<tr>
-			<td><%= Part.find(key).description%></td>
-			 <td><%= value %></td>
-			 <td><%= number_to_currency (value * Part.find(key).cost) %></td>
-			 <td> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </td>
-		 </tr>
-			  <% end %>
-			  <% end %>
-			  <% end %>
-		  </tbody>
-	  </table>
+<div class="jumbotron bg-secondary text-white">
+  <h2 class="display-3 text-center">Work Order <%= @request.id %> for <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%> </h2>
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+    
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Submitted By:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= @request.creator%>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Current Vehicle Mileage:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= @request.vehicle.mileage%>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Description:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= @request.description %>
+                <% if @request.vehicle.checklists.exists? %>
+                <% if @request.checklist_id %>
+                <% if @request.checklist_id != 0 %>
+                <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
+                <% end %>	
+                <% end %>
+                <% end %>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Status:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= @request.status %>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <% if @request.program %>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Service Type:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= @request.program.name %>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <% end %>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Work Order Mileage:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= @request.request_mileage%>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <% if @request.users.exists?%>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Recipents:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <ul style="list-style-type: none;">
+                  <% @request.users.each do |user|%>
+                  <li><%= user.name%></li>
+                  <% end %>
+                </ul>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <% end %>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Estimated Completion date:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <span class="badge badge-danger"><%= @request.completion_date.strftime("%v") %></span>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <% if @request.completed_date %>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Completed date:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <span class="badge badge-danger"><%= @request.completed_date.strftime("%v") %></span>
+              </p>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <% unless @part_order.empty?%>
+          <div class="card bg-dark text-white">
+            <div class="card-header">
+              <strong>Parts: </strong>
+            </div>
+            <div class="card-body">
+              <table class="table table-borderless table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Item:</th>
+                    <th scope="col">Qty:</th> 
+                    <th scope="col">Total Cost:</th>
+                    <th colspan='1'></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @part_order.each do |order|%>
+                  <% unless order.order_items.empty? %>
+                  <% order.order_items.each do |key, value|%>
+                  <tr>
+                    <td><%= Part.find(key).description%></td>
+                    <td><%= value %></td>
+                    <td><%= number_to_currency (value * Part.find(key).cost) %></td>
+                    <td> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </td>
+                  </tr>
+                  <% end %>
+                  <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <% total = []%>
+              <% @request.request_part_orders.each do |order| %>
+              <% if order.order_total %>
+              <% total << order.order_total %>
+              <% end %>
+              <% end %>
+		
+              Work Order Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %></span>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="card-footer">
-	  <% total = []%>
-			<% @request.request_part_orders.each do |order| %>
-		<% if order.order_total != nil%>
-       <% total << order.order_total %>
-	  <% end %>
-			<% end %>
-			
-		
-    Work Order Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %></span>
- </div>
-</div>
-<% end %>
-</div>
-</div>
-</div>
-</div>
 
 
-<div class="container d-flex justify-content-between align-items-center my-3">
-<span>
-<%= link_to 'Back', dashboard_requests_path, class: "btn btn-primary ml-3" %> &nbsp  <%= link_to 'Edit', edit_request_path(@request), class: "btn btn-success ml-3" %></span>
- 	<strong>Download:
- 	  <%= link_to "CSV", request_path(@request, params.merge(format: "csv").permit!), class: "btn btn-info" %> &nbsp
- 	  <%= link_to "PDF", request_path(@request, params.merge(format: "pdf").permit!), class: "btn btn-info" %> </strong>
-</div>
+  <div class="container d-flex justify-content-between align-items-center my-3">
+    <span>
+      <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger ml-3 mr-2" %> <%= link_to 'Edit', edit_request_path(@request), class: "btn btn-danger ml-3" %></span>
+      <strong>Download:
+        <%= link_to "CSV", request_path(@request, params.merge(format: "csv").permit!), class: "btn btn-danger mr-2" %>
+        <%= link_to "PDF", request_path(@request, params.merge(format: "pdf").permit!), class: "btn btn-danger" %> 
+      </strong>
+    </div>
 
-  <div class="card mt-3">
-  	<div class="card-header">
-  		<h4>Parts Cart</h4>
-  	</div>
-  	<div class="card-body">
-  		<ul class="list-group">
-  			<% @part_items.each do |part_item|%>
-  			<li class="list-group-item d-flex justify-content-between align-items-center"><%= part_item.part.description %> | Qty: <%= part_item.quantity%> <span> <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span></li>
-  			<% end %>
-  		</ul>
-  		<br \>
+    <div class="card bg-dark text-white mt-3">
+      <div class="card-header">
+        <h4>Parts Cart</h4>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <% @part_items.each do |part_item|%>
+          <li class="list-group-item d-flex justify-content-between align-items-center"><%= part_item.part.description %> | Qty: <%= part_item.quantity%> <span> <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span></li>
+          <% end %>
+        </ul>
+        <br \>
 		
-  		<%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-success"%> 
+        <%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-danger"%> 
 		
-  	</div>
-  </div>
-    <div class="card mt-3">
-  	  <div class="card-header">
-  		  <h6 class="display-5">Add Parts To Cart</h6>
-  	  </div>
-  	  <div class="card-body">
-  		  <%= render 'custom_form'%>
+      </div>
+    </div>
+    <div class="card bg-dark text-white mt-3">
+      <div class="card-header">
+        <h6 class="display-5">Add Parts To Cart</h6>
+      </div>
+      <div class="card-body">
+        <%= render 'custom_form'%>
 		  
-  		<br \>
-		<% if @parts.all.count != @number%>
+        <br \>
+        <% if @parts.all.count != @number%>
 			
-  			 <% Part::CATEGORIES.each do |category|%>
-			 <% if @parts.where(category: category) != []%>
+        <% Part::CATEGORIES.each do |category|%>
+        <% if @parts.where(category: category) != []%>
 			 
-  		<strong><%= label_tag category %></strong>
-		<div class="row">
-  			<% @parts.where(category: category).limit(15).each do |part|%>
+        <strong><%= label_tag category %></strong>
+        <div class="row">
+          <% @parts.where(category: category).limit(15).each do |part|%>
+          <div class="col-md-4">
+            <%= form_tag add_to_request_part_order_requests_path do |f|%>
+            <%= hidden_field_tag :part_id, part.id%>
+            <%= hidden_field_tag :request_id, @request.id%>
+            <div class="form-group">
+              [<%= label_tag part.part_numb%>] - <%= label_tag part.description %> 
+              <div class="input-group">
+                <span class="input-group-addon bg-secondary text-white">
+                  Qty: <%= part.quantity%>
+                </span>
+                <%= number_field_tag :quantity, nil, class: "form-control" %>
+                <span class="input-group-btn">
+                  <%= submit_tag "Add Parts", class: "btn btn-danger"%>
+                </span>
+              </div>
+            </div>
+            <% end %>
+          </div>
 			
-			<div class="col-md-4">
-  				<%= form_tag add_to_request_part_order_requests_path do |f|%>
-  			<%= hidden_field_tag :part_id, part.id%>
-			<%= hidden_field_tag :request_id, @request.id%>
-  			 <div class="form-group">
-  			[<%= label_tag part.part_numb%>] - <%= label_tag part.description %> 
-			
-  			<div class="input-group">
-        <span class="input-group-addon">Qty: <%= part.quantity%></span>
-        <%= number_field_tag :quantity, nil, class: "form-control" %>
-      <span class="input-group-btn">
-  	 	<%= submit_tag "Add Parts", class: "btn btn-info"%>
-  	 </span>
-   </div>
-   </div>
-  			<% end %>
-			</div>
-			
-  			<% end %>
-	</div>
-	<% end %>
-  <% end %>
+          <% end %>
+        </div>
+        <% end %>
+        <% end %>
 
-<% end %>
+        <% end %>
 
+      </div>
+    </div>
   </div>
-  </div>
-</div>

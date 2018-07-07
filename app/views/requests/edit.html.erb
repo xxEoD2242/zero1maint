@@ -1,88 +1,81 @@
-<div class="jumbotron">
-<h1 class="display-3 text-center">Edit Work Order: <%= @request.id%></h1>
-
-
-<div class="card">
-	
-
-<%= simple_form_for @request do |f| %>
-  <% if @request.errors.any? %>
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="display-3 text-center">Edit Work Order: <%= @request.id%></h1>
+  <div class="card bg-dark text-white">
+	<%= simple_form_for @request do |f| %>
+    <% if @request.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@request.errors.count, "error") %> prohibited this event from being saved:</h2>
-
       <ul>
-      <% @request.errors.full_messages.each do |message| %>
+        <% @request.errors.full_messages.each do |message| %>
         <li><%= message %></li>
-      <% end %>
+        <% end %>
       </ul>
     </div>
-  <% end %>
-<div class="card-body">
-	<div class="form-group">
-		<strong>Creator: <%= @request.creator%></strong>
-	</div>
-	
-	
-	<div class="form-group">
-		<strong>Current Status </strong> <br \>
-	  <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, class: "form-control" %>
-	</div>
+    <% end %>
+    <div class="card-body">
+      <div class="form-group">
+        <strong>Creator: <%= @request.creator%></strong>
+      </div>
+
+      <div class="form-group">
+        <strong>Current Status </strong> <br />
+        <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, class: "form-control" %>
+      </div>
   
-  <div class="form-group">
-	  <strong>Service</strong>
-	  <%= f.select :program_id, Program.all.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
-</div>
-  <div class="form-group">
-    <strong><%= f.label :description %></strong>
-    <%= f.text_area :description, id: :request_description, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <strong>Service</strong>
+        <%= f.select :program_id, Program.all.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label "Description", class: "font-weight-bold" %>
+        <%= f.text_area :description, id: :request_description, class: "form-control" %>
+      </div>
   
-	<div class="form-group">
-		<%= f.select :vehicle_id, Vehicle.all.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
-	</div>
+      <div class="form-group">
+        <%= f.label "Select Vehicle", class: "font-weight-bold" %>
+        <%= f.select :vehicle_id, Vehicle.all.collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control" %>
+      </div>
 	
-	<div class="form-group">
-		
-		<%= f.input :request_mileage, label: "Work Order Mileage", class: "form-control"%>
-	</div>
-	
+      <div class="form-group">
+        <%= f.input :request_mileage, label: "Work Order Mileage", class: "form-control"%>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong class='my-2'>Estimated Completion Date</strong>
+            <%= f.date_field :completion_date, id: :request_completion_date, class: "form-control", datepicker: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong class='my-2'>Actual Completion Date</strong>
+            <%= f.date_field :completed_date, id: :request_completion_date, class: "form-control", datepicker: true %>
+          </div>
+        </div>
+      </div>
 
-
-  <div class="form-group">
-    <strong class='my-2'>Estimated Completion Date</strong>
-    <%= f.date_select :completion_date, id: :request_completion_date, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <strong class="mb-2">Assign &/OR Email Request To: </strong>
+        <br />
+        <br />
+        <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
+      </div>
   
-  <div class="form-group">
-    <strong class='my-2'>Actual Completion Date</strong> &nbsp&nbsp&nbsp&nbsp&nbsp
-    <%= f.date_select :completed_date, id: :request_completion_date, class: "form-control" %>
+      <div class="form-group">
+        <strong class="mr-3">Upload Work Order Images: </strong>
+        <%= f.file_field :image %>
+      </div>
+
+      <div class="form-group">
+        <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-danger" %>
+      </div>
+      <% end %>
+      <div class="container d-flex justify-content-between align-items-center">
+        <%= link_to 'Back', requests_path, class: "btn btn-danger" %>
+        <%= link_to 'Show', @request, class: "btn btn-danger" %>
+      </div>
+    </div>
   </div>
-
-  <div class="form-group">
-    <strong style="margin-bottom: 2px;">Assign &/OR Email Request To: </strong>
-	 <br \>
-	 <br \>
-    <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
-  </div>
-  
-  <div class="form-group d-flex justify-content-bottom">
-    <strong>Upload Work Order Images: </strong>
-	 <br \>
-	 <br \>
-    <%= f.file_field :image %>
-  </div>
-
-  <div class="form-group">
-    <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-success" %>
- </div>
-<% end %>
-<div class="container d-flex justify-content-between align-items-center">
-<%= link_to 'Back', requests_path, class: "btn btn-info" %><%= link_to 'Show', @request, class: "btn btn-info" %></div>
-
-</div>
-</div>
-
-
-
-
 </div>

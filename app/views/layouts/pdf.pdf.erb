@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	 <title> Report </title>
-	 <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
-	     <%= wicked_pdf_javascript_include_tag "application"%>
-	     <%= csrf_meta_tags%>
-		  <style type="text/css">
-			  tr { page-break-inside: avoid }
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title> Report </title>
+  <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+  <%= wicked_pdf_javascript_include_tag "application"%>
+  <%= csrf_meta_tags%>
+  <style type="text/css">
+    tr { page-break-inside: avoid }
 			 
-			  table {
-			      font-family: arial, sans-serif;
-			      border-collapse: collapse;
-			      width: 100%;
-			  }
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
 
-			  td, th {
-			      border: 1px solid #dddddd;
-			      text-align: left;
-			      padding: 8px;
-			  }
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
 
-			  tr:nth-child(even) {
-			      background-color: #dddddd;
-			  }
-			  .object-title {
-				  border: 2px solid black; 
-				  border-radius: 6px 6px 6px 6px; 
-				  padding: 2px 2px 2px 2px;
-				  margin-bottom: 6px;
-				  margin-top: 6px;
-			  }
-			 </style>
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    .object-title {
+      border: 2px solid black; 
+      border-radius: 6px 6px 6px 6px; 
+      padding: 2px 2px 2px 2px;
+      margin-bottom: 6px;
+      margin-top: 6px;
+    }
+    </style>
   </head>
 
   <body>
 	  
-	  <div class="container">
-		  <div style="display: flex;justify-content: flex-start;">
-		  	<img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="175" height="60" alt=""></div>
-    <%= yield %>
- </div>
+    <div class="container">
+      <div style="display: flex;justify-content: flex-start;">
+        <img src="https://s3.us-east-2.amazonaws.com/zero1maintphotos/Work+Order+Pictures/Zero-One-Black-simple.png" width="175" height="60" alt="" />
+      </div>
+      <%= yield %>
+    </div>
   </body>
-</html>
+  </html>

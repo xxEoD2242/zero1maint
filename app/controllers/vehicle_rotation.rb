@@ -96,7 +96,7 @@ module Vehicle_Rotation
       format.html
       format.xls
       format.pdf do
-        render pdf: "Vehicle Rotation for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Vehicle Rotation for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
+        render pdf: "Vehicle Rotation for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Vehicle Rotation for #{Time.now.strftime('%D')}" 
       end
     end
   end

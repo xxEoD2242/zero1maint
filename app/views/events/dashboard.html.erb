@@ -1,21 +1,21 @@
-<div class="jumbotron bg-dark text-white text-center ">
+<div class="jumbotron bg-secondary text-white text-center ">
   <h1 class="display-3">Events Dashboard</h1>
 </div>
 
 <div class="row">
   <div class="col-md-3">
     <div class="list-group">
-      <%= link_to "New Event", new_event_path, class: "list-group-item bg-dark text-white list-group-item-action" %>
-      <a class="list-group-item bg-dark text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events">All Events <span class="badge badge-danger"><%= Event.all.count %></span></a>
-      <a class="list-group-item bg-dark text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/scheduled_events">Scheduled Events<span class="badge badge-danger"><%= @scheduled_events.count %></span></a>
-      <a class="list-group-item bg-dark text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/vehicles_assigned">Events w/ Assigned Vehicles<span class="badge badge-danger"><%= @assigned_events.count %></span></a>
-      <a class="list-group-item bg-dark text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/completed_events">Completed Events<span class="badge badge-danger"><%= @completed_events.count %></span></a>
+      <%= link_to "New Event", new_event_path, class: "list-group-item bg-secondary text-white list-group-item-action" %>
+      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events">All Events <span class="badge badge-danger"><%= Event.all.count %></span></a>
+      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/scheduled_events">Scheduled Events<span class="badge badge-danger"><%= @scheduled_events.count %></span></a>
+      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/vehicles_assigned">Events w/ Assigned Vehicles<span class="badge badge-danger"><%= @assigned_events.count %></span></a>
+      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/completed_events">Completed Events<span class="badge badge-danger"><%= @completed_events.count %></span></a>
 				
     </div>
 			
   </div>
   <div class="col-md-6">
-    <div class='card bg-secondary text-white'>
+    <div class='card bg-dark text-white'>
       <div class="card-body">
         <p>	Events listed below in the calendar have been created. Each event has a <span class="badge badge-danger">number</span> that can be clicked on to view that event.</p>
         <p>
@@ -30,8 +30,8 @@
 		
   <div class="col-md-3">
     <div class="list-group">
-      <a class="list-group-item list-group-item-action bg-dark text-white" href="../checklists/records">Checklist Records</a>
-      <a class="list-group-item list-group-item-action bg-dark text-white"  href="../events/vehicle_rotation">Vehicle Rotation</a>
+      <a class="list-group-item list-group-item-action bg-secondary text-white" href="../checklists/records">Checklist Records</a>
+      <a class="list-group-item list-group-item-action bg-secondary text-white"  href="../events/vehicle_rotation">Vehicle Rotation</a>
     </div>
   </div>
 			
@@ -134,10 +134,10 @@
       </div>
       <div class="card-body">
         <ul class="list-group">
-          <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center">Class:
+          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Class:
             <span class="badge badge-danger mx-1"><%= event.class_type%></span> Location:
             <span class="badge badge-danger ml-1"><%= event.location%></span></li>
-            <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center">Status:
+            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Status:
               <span class="badge badge-danger mx-1"><%= event.status%></span> Mileage:
               <span class="badge badge-danger"><%= event.event_mileage%></span></li>
 					

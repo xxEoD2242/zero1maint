@@ -19,10 +19,14 @@
 		<td><%= vehicle.vehicle_status %></td>
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
-        <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
-		  		<%= link_to request.id, request, method: :get, class: "badge badge-danger" %>
-				<%= request.status%>
-				<% end %>
+        <td>
+          <ul>
+          <% vehicle.requests.where(status: "New").limit(3).each do |request| %>
+           <li> <%= link_to request.id, request, method: :get, class: "badge badge-danger" %>
+				    <%= request.status%>
+          </li>
+				  <% end %>
+        </ul>
 		</td>
         <td><%= vehicle.mileage %></td>
         <td><% if vehicle.near_service %>
@@ -49,11 +53,12 @@
           <%= link_to "Air Filter Service", vehicle_path(id: vehicle.id), class: "badge badge-secondary" %>
         <% end %>
 	    <% if vehicle.repair_needed %>
-		  <%= link_to "Repairs In Progress", vehicle_path(id: vehicle.id), class: "badge badge-secondary"%>
+		  <%= link_to "Repairs In Progress", vehicle_path(vehicle), class: "badge badge-secondary"%>
 		<% end %>
 	    </td>
         <td><%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %></td>
-	    <td><%= link_to 'Create Work Order', create_work_order_requests_path(id: vehicle.id), class: "btn btn-danger btn-sm"%></td>
+	    <td><%= link_to 'Create WO', create_work_order_requests_path(id: vehicle.id), class: "btn btn-danger btn-sm"%></td>
+      <td><%= link_to 'Destroy Vehicle',vehicle_path(vehicle), method: :delete, data: {confirm: "Are you sure you wish to delete this vehicle?"}, class: "btn btn-danger"%>
       </tr>
     <% end %> 
   </tbody> 

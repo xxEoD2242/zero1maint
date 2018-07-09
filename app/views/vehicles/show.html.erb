@@ -219,7 +219,7 @@
                 <%= sprintf('%.2f', @vehicle.near_air_filter_service_mileage)  %>
               </span>
               <% unless @vehicle.requests.where(program_id: @set_air_filter_service.id).empty? %>
-              <% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date != nil %>
+              <% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date %>
               <span> 
                 <%= link_to "#{@vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_air_filter_service.id).last), class: "badge badge-danger"%>
               </span>
@@ -233,9 +233,14 @@
             </li>
             <% end %>
 	
-            <li class="list-group-item bg-secondary text-white"><strong>Repairs:</strong>
-              <% if @vehicle.repair_needed %>
-              No Data
+            <li class="list-group-item bg-secondary text-white">
+              <strong>
+                Repairs:
+              </strong>
+              <% if @vehicle.repair_needed == nil %>
+              <span class="float-right">
+                No Data
+              </span>
               <% elsif @vehicle.repair_needed %>
               <span class="text-white">
                 <i class="fa fa-wrench" aria-hidden="true">
@@ -243,36 +248,51 @@
                 </i>
               </span>
               <% else %>
-              No Repairs Needed
+              <span class="float-right">
+                No Repairs Needed
+              </span>
               <% end %>
             </li>
 	
-            <li class="list-group-item bg-secondary text-white"><strong>Tour Car Prep:</strong>
-              <% if @vehicle.prep %>
-              No Data
+            <li class="list-group-item bg-secondary text-white">
+              <strong>
+                Tour Car Prep:
+              </strong>
+              <% if @vehicle.prep == nil %>
+              <span class="float-right">
+                No Data
+              </span>
               <% elsif @vehicle.prep %>
-              <span class="text-white"><i class="fa fa-wrench mr-1" aria-hidden="true">
+              <span class="text-white float-right"><i class="fa fa-wrench mr-1" aria-hidden="true">
                 Preparation In-Progress
               </i>
-            </span>
+              </span>
               <% else %>
-              No Repairs Needed
+              <span class="float-right">
+                None
+              </span>
               <% end %>
             </li>
 	
-            <li class="list-group-item bg-secondary text-white"><strong>Defects:</strong>
+            <li class="list-group-item bg-secondary text-white">
+              <strong>
+                Defects:
+              </strong>
               <% if @vehicle.defect %>
-                No Data
+               <span class="float-right">
+                 No Data
+               </span>
               <% elsif @vehicle.defect %>
-                Defect Reported <%  @vehicle.requests.where(program_id: @set_defects.id, tracker_id: @set_new.id).each do |request|%>
+                <span class="float-right">Defect Reported <%  @vehicle.requests.where(program_id: @set_defects.id, tracker_id: @set_new.id).each do |request|%>
               <br class="d-flex justify-content-end"/>
               <strong class="ml-3">
                 Description:
               </strong> 
                 <%= request.description %>
+                </span>
               <% end %>
               <% else %>
-                No Defects Reported
+               <span class="float-right"> No Defects Reported</span>
               <% end %>
             </li>
 		
@@ -360,7 +380,6 @@
               <div class="col-md-3"> <%= work_order.completed_date%></div>
             </div>
           </li>
-	
           <% end %>
         </ul>
         <% end %>

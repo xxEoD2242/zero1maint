@@ -1,6 +1,6 @@
-<div class="jumbotron">
+<div class="jumbotron bg-secondary text-white">
 <h1 class="display-3 text-center">Vehicles Within 100 Miles of Service</h1>
-<div class="card">
+<div class="card bg-dark text-white">
 	<div class="card-body">
 	
 	<%= render 'service_needed_form', vehicle: @vehicle_results %>
@@ -9,10 +9,10 @@
 <br \>
 
 	<div class="container d-flex justify-content-between align-items-center">
-		<%= link_to "Back", vehicles_path, class: "btn btn-info"%>
+		<%= link_to "Back", vehicles_path, class: "btn btn-danger"%>
 	<strong>Download:
-	  <%= link_to "CSV", near_service_required_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-info" %> |
-	  <%= link_to "PDF", near_service_required_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-info" %>
+	  <%= link_to "CSV", near_service_required_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-danger" %> |
+	  <%= link_to "PDF", near_service_required_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-danger" %>
 	  </strong>
   </div>
 </div>

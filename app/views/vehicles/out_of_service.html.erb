@@ -1,30 +1,38 @@
 <div class="jumbotron">
-<h1 class="display-3 text-center">Vehicles Out-of-Service:</h1>
-<div class="card">
-	<div class="card-body">
-	<%= render 'service_needed_form', vehicle: @vehicle_results %>
-	<br \>
-		<form class="form-inline">
-		<%= search_form_for @q, :url => {:action => :out_of_service } do |f|%>
-		<div class="form-group">
-		<%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
-	</div>
+  <h1 class="display-3 text-center">Vehicles Out-of-Service:</h1>
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <%= render 'service_needed_form', vehicle: @vehicle_results %>
+      <br \>
+      <div class="container bg-secondary text-white d-flex justify-content-between align-items-center" style="padding: 10px; border: 2px solid red; border-radius: 6px;">
+        <form class="form-inline">
+          <%= search_form_for @q, :url => {:action => :out_of_service } do |f|%>
+          <div class="form-group">
+            <%= f.label "Vehicle Category", class: "font-weight-bold mr-2"%>
+            <%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+          </div>
 
-		<div class="form-group ml-3">
-		<%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
-	</div>
+          <div class="form-group ml-3">
+            <%= f.label "Vehicle Location", class: "font-weight-bold mr-2"%>
+            <%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
+          </div>
 
-	<div class="form-group ml-3">
-		<%= f.submit "Find Vehicles", class: "btn btn-info"%>
-	</div>
-	<% end %>
-</form>
-	<br \>
- 	<div class="container d-flex justify-content-between align-items-center"> 
- 	<strong>Download:
- 	  <%= link_to "CSV", out_of_service_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-info" %> &nbsp
- 	  <%= link_to "PDF", out_of_service_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-info" %> </strong>
-	  <%= link_to "Back", vehicles_path, class: "btn btn-primary"%>
-   </div>
+          <div class="form-group ml-3">
+            <%= f.submit "Find Vehicles", class: "btn btn-danger"%>
+          </div>
+          <% end %>
+        </form>
+      </div>
+      <br \>
+      <div class="container d-flex justify-content-between align-items-center"> 
+        <strong>
+          Download:
+          <%= link_to "CSV", out_of_service_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-danger mr-2" %>
+          <%= link_to "PDF", out_of_service_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-danger" %> 
+        </strong>
+        <%= link_to "Back", vehicles_path, class: "btn btn-danger" %>
+      </div>
+    </div>
+  </div>
 </div>
 	

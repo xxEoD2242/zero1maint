@@ -1,10 +1,10 @@
-<div class="jumbotron text-center">
+<div class="jumbotron bg-secondary text-white text-center">
   <h1 class="display-3">All Vehicles</h1>
-    <div class='card'>
+    <div class='card bg-dark text-white'>
       <div class="card-body">
         <%= render 'service_needed_form', vehicle: @vehicle_results %>
         <br \>
-        <div class="container d-flex justify-content-between align-items-center">
+        <div class="container bg-secondary text-white d-flex justify-content-between align-items-center" style="border: 2px solid red; border-radius: 6px; padding: 5px">
           <form class="form-inline">
 	        <%= search_form_for @q, :url => {:action => :all_vehicles }, :method => :get do |f|%>
 	          <div class="form-group">
@@ -15,12 +15,12 @@
 	            <%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
                 </div>
               <div class="form-group ml-3">
-	            <%= f.submit "Find Vehicles", class: "btn btn-info"%>
+	            <%= f.submit "Find Vehicles", class: "btn btn-danger"%>
               </div>
             <% end %>
           </form>
         <br \>
-        <%= link_to 'Back', vehicles_path, class: "btn btn-info " %>
+        <%= link_to 'Back', vehicles_path, class: "btn btn-danger" %>
       </div>
       <br \>
       <%= paginate @vehicle_results%>

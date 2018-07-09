@@ -1,5 +1,5 @@
-<table class="table table-borderless table-hover table-striped">
-  <thead class="thead-light">
+<table class="table table-borderless table-responsive table-hover table-striped">
+  <thead>
     <tr>
       <th scope="col">Car</th>
       <th scope="col">Status</th>
@@ -20,7 +20,7 @@
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
         <td><% vehicle.requests.where(status: "New").limit(3).each do |request| %>
-		  		<%= link_to request.id, request, method: :get, class: "badge badge-primary" %>
+		  		<%= link_to request.id, request, method: :get, class: "badge badge-danger" %>
 				<%= request.status%>
 				<% end %>
 		</td>
@@ -40,20 +40,20 @@
         </td>
 		<td>
 		<% if vehicle.a_service %>
-          <%= link_to "A-Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
+          <%= link_to "A-Service", vehicle_path(id: vehicle.id), class: "badge badge-secondary" %>
 	    <% end %>
         <% if vehicle.shock_service %>
-          <%= link_to "Shock-Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
+          <%= link_to "Shock-Service", vehicle_path(id: vehicle.id), class: "badge badge-secondary" %>
 		<% end %>
 	    <% if vehicle.air_filter_service %>
-          <%= link_to "Air Filter Service", vehicle_path(id: vehicle.id), class: "badge badge-info" %>
+          <%= link_to "Air Filter Service", vehicle_path(id: vehicle.id), class: "badge badge-secondary" %>
         <% end %>
 	    <% if vehicle.repair_needed %>
-		  <%= link_to "Repairs In Progress", vehicle_path(id: vehicle.id), class: "badge badge-info"%>
+		  <%= link_to "Repairs In Progress", vehicle_path(id: vehicle.id), class: "badge badge-secondary"%>
 		<% end %>
 	    </td>
-        <td><%= link_to 'Show', vehicle, class: "btn btn-primary btn-sm" %></td>
-	    <td><%= link_to 'Create Work Order', create_work_order_requests_path(id: vehicle.id), class: "btn btn-success btn-sm"%></td>
+        <td><%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %></td>
+	    <td><%= link_to 'Create Work Order', create_work_order_requests_path(id: vehicle.id), class: "btn btn-danger btn-sm"%></td>
       </tr>
     <% end %> 
   </tbody> 

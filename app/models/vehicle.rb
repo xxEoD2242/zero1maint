@@ -2,6 +2,7 @@
 
 class Vehicle < ApplicationRecord
   before_save :set_last_a_service, :set_last_shock_service, :set_last_air_filter_service
+  validates_uniqueness_of :car_id
 
   require 'csv'
   has_many :events_vehicles

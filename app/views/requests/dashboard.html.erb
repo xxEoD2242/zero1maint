@@ -144,7 +144,10 @@
         </ul>
       </div>
       <div class="card-footer d-flex justify-content-between align-items-center">
-        <strong>Estimated Completion Date: </strong> <span class="badge badge-danger"> <%= request.completion_date %></span>
+        <strong>Estimated Completion Date: </strong>
+        <% if request.completion_date %>
+         <span class="badge badge-danger"> <%= request.completion_date.strftime("%v") %></span>
+         <% end %>
       </div>
     </div>
     <hr>
@@ -183,7 +186,10 @@
           </ul>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
-          <strong>Estimated Completion Date: </strong> <span class="badge badge-danger"> <%= request.completion_date %></span>
+          <strong>Estimated Completion Date: </strong>
+          <% if request.completion_date %>
+           <span class="badge badge-danger"> <%= request.completion_date.strftime("%v") %></span>
+           <% end %>
         </div>
       </div>
       <hr>
@@ -224,7 +230,10 @@
               </ul>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center">
-              <strong>Estimated Completion Date: </strong> <span class="badge badge-danger"> <%= request.completion_date %></span>
+              <strong>Estimated Completion Date: </strong>
+              <% if request.completion_date %>
+               <span class="badge badge-danger"> <%= request.completion_date.strftime("%v") %></span>
+               <% end %>
             </div>
           </div>
           <hr>

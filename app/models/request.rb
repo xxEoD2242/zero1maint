@@ -13,6 +13,7 @@ class Request < ApplicationRecord
   has_many :request_part_orders
 
   validates :description, presence: true
+  validates :completion_date, presence: true
 
   mount_uploader :image, ImageUploader
 

@@ -136,10 +136,10 @@
           </div>
         </div>
         <% end %>	
-        <% if @vehicle.high_use == true %>
-        <p>
-          <h4 class="text-white">High Use </h4>
-        </p>
+        <% if @vehicle.high_use %>
+        <div class="container bg-secondary" style="border: 2px solid red; border-radius: 6px; padding: 10px;">
+          <h4 class="text-white text-center">High Use </h4>
+        </div>
         <% end %>
         <br />
         <div class="bg-secondary text-white" style="border: 2px solid red;border-radius: 6px; padding: 20px;">

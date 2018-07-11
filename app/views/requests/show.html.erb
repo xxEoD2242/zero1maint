@@ -1,5 +1,10 @@
 <div class="jumbotron bg-secondary text-white">
-  <h2 class="display-3 text-center">Work Order <%= @request.id %> for <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%> </h2>
+  <h2 class="display-3 text-center">
+    Work Order <%= @request.id %> for 
+    <% if !@request.vehicle.nil? %>
+      <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
+    <% end %>
+  </h2>
   <div class="card bg-dark text-white">
     <div class="card-body">
       <div class="row">
@@ -27,7 +32,9 @@
             </div>
             <div class="col-md-4">
               <p>
-                <%= @request.vehicle.mileage%>
+                <% if !@request.vehicle.nil? %>
+                  <%= @request.vehicle.mileage%>
+                <% end %>
               </p>
             </div>
             <div class="col-md-4">
@@ -42,11 +49,13 @@
             <div class="col-md-4">
               <p>
                 <%= @request.description %>
-                <% if @request.vehicle.checklists.exists? %>
-                <% if @request.checklist_id %>
-                <% if @request.checklist_id != 0 %>
-                <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
-                <% end %>	
+                <% if !@request.vehicle.nil? %>
+                  <% if @request.vehicle.checklists.exists? %>
+                    <% if @request.checklist_id %>
+                      <% if @request.checklist_id != 0 %>
+                        <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
+                      <% end %>	
+                <% end %>
                 <% end %>
                 <% end %>
               </p>
@@ -118,6 +127,7 @@
             </div>
           </div>
           <% end %>
+          <% if @request.completion_date %>
           <div class="row">
             <div class="col-md-4">
               <p>
@@ -132,6 +142,7 @@
             <div class="col-md-4">
             </div>
           </div>
+          <% end %>
           <% if @request.completed_date %>
           <div class="row">
             <div class="col-md-4">

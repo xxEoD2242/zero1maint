@@ -19,9 +19,15 @@
           <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
           <td><%= request.status %></td>
           <td><%= request.program.name %></td>
-          <td><%=request.vehicle.car_id %></td>
+          <td>
+            <% if !request.vehicle.nil? %>
+              <%=request.vehicle.car_id %>
+            <% end %>
+          </td>
           <td><%=request.created_at.strftime('%D') %></td>
+            <% if request.completion_date %>
             <td><%= request.completion_date.strftime('%D') %></td>
+            <% end %>
             <td>
               <% if request.completed_date %>
               <%= request.completed_date.strftime('%D') %>

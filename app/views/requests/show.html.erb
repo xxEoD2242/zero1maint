@@ -2,28 +2,30 @@
   <h2 class="display-3 text-center">
     Work Order <%= @request.id %> for 
     <% if !@request.vehicle.nil? %>
-      <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
+    <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
     <% end %>
   </h2>
   <div class="card bg-dark text-white">
+    <div class="card-header d-flex justify-content-between align-itmes-center">
+      <h3>
+        <strong>
+          Submitted By:
+          <span class="badge badge-danger">
+            <%= @request.creator%>
+          </span>
+        </strong>
+      </h3>
+      <h3>
+        <strong>Status:
+          <span class="badge badge-danger">
+            <%= @request.status %>
+          </span>
+        </strong>
+      </h3>
+    </div>
     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
-    
-          <div class="row">
-            <div class="col-md-4">
-              <p>
-                <strong>Submitted By:</strong>
-              </p>
-            </div>
-            <div class="col-md-4">
-              <p>
-                <%= @request.creator%>
-              </p>
-            </div>
-            <div class="col-md-4">
-            </div>
-          </div>
           <div class="row">
             <div class="col-md-4">
               <p>
@@ -33,7 +35,7 @@
             <div class="col-md-4">
               <p>
                 <% if !@request.vehicle.nil? %>
-                  <%= @request.vehicle.mileage%>
+                <%= @request.vehicle.mileage%>
                 <% end %>
               </p>
             </div>
@@ -50,28 +52,14 @@
               <p>
                 <%= @request.description %>
                 <% if !@request.vehicle.nil? %>
-                  <% if @request.vehicle.checklists.exists? %>
-                    <% if @request.checklist_id %>
-                      <% if @request.checklist_id != 0 %>
-                        <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
-                      <% end %>	
+                <% if @request.vehicle.checklists.exists? %>
+                <% if @request.checklist_id %>
+                <% if @request.checklist_id != 0 %>
+                <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
+                <% end %>	
                 <% end %>
                 <% end %>
                 <% end %>
-              </p>
-            </div>
-            <div class="col-md-4">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-              <p>
-                <strong>Status:</strong>
-              </p>
-            </div>
-            <div class="col-md-4">
-              <p>
-                <%= @request.status %>
               </p>
             </div>
             <div class="col-md-4">
@@ -131,12 +119,16 @@
           <div class="row">
             <div class="col-md-4">
               <p>
-                <strong>Estimated Completion date:</strong>
+                <h5>
+                  <strong>Estimated Completion date:</strong>
+                </h5>
               </p>
             </div>
             <div class="col-md-4">
               <p>
-                <span class="badge badge-danger"><%= @request.completion_date.strftime("%v") %></span>
+                <h5>
+                  <span class="badge badge-danger"><%= @request.completion_date.strftime("%v") %></span>
+                </h5>
               </p>
             </div>
             <div class="col-md-4">
@@ -147,12 +139,16 @@
           <div class="row">
             <div class="col-md-4">
               <p>
-                <strong>Completed date:</strong>
+                <h5>
+                  <strong>Completed date:</strong>
+                </h5>
               </p>
             </div>
             <div class="col-md-4">
               <p>
-                <span class="badge badge-danger"><%= @request.completed_date.strftime("%v") %></span>
+                <h5>
+                  <span class="badge badge-danger"><%= @request.completed_date.strftime("%v") %></span>
+                </h5>
               </p>
             </div>
             <div class="col-md-4">
@@ -208,75 +204,78 @@
       </div>
     </div>
   </div>
-
-
   <div class="container d-flex justify-content-between align-items-center my-3">
     <span>
-      <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger ml-3 mr-2" %> <%= link_to 'Edit', edit_request_path(@request), class: "btn btn-danger ml-3" %></span>
-      <strong>Download:
-        <%= link_to "CSV", request_path(@request, params.merge(format: "csv").permit!), class: "btn btn-danger mr-2" %>
-        <%= link_to "PDF", request_path(@request, params.merge(format: "pdf").permit!), class: "btn btn-danger" %> 
-      </strong>
+      <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger ml-3 mr-2" %> <%= link_to 'Edit', edit_request_path(@request), class: "btn btn-danger ml-3" %>
+    </span>
+    <strong>
+      Download:
+      <%= link_to "CSV", request_path(@request, params.merge(format: "csv").permit!), class: "btn btn-danger mr-2" %>
+      <%= link_to "PDF", request_path(@request, params.merge(format: "pdf").permit!), class: "btn btn-danger" %> 
+    </strong>
+  </div>
+
+  <div class="card bg-dark text-white mt-3">
+    <div class="card-header">
+      <h4>Parts Cart</h4>
     </div>
-
-    <div class="card bg-dark text-white mt-3">
-      <div class="card-header">
-        <h4>Parts Cart</h4>
-      </div>
-      <div class="card-body">
-        <ul class="list-group">
-          <% @part_items.each do |part_item|%>
-          <li class="list-group-item d-flex justify-content-between align-items-center"><%= part_item.part.description %> | Qty: <%= part_item.quantity%> <span> <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </span></li>
-          <% end %>
-        </ul>
-        <br \>
+    <div class="card-body">
+      <ul class="list-group">
+        <% @part_items.each do |part_item|%>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= part_item.part.description %> | Qty: <%= part_item.quantity%> 
+          <span> 
+            <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+          </span>
+        </li>
+        <% end %>
+      </ul>
+      <br />
 		
-        <%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-danger"%> 
-		
-      </div>
-    </div>
-    <div class="card bg-dark text-white mt-3">
-      <div class="card-header">
-        <h6 class="display-5">Add Parts To Cart</h6>
-      </div>
-      <div class="card-body">
-        <%= render 'custom_form'%>
-		  
-        <br \>
-        <% if @parts.all.count != @number%>
-			
-        <% Part::CATEGORIES.each do |category|%>
-        <% if @parts.where(category: category) != []%>
-			 
-        <strong><%= label_tag category %></strong>
-        <div class="row">
-          <% @parts.where(category: category).limit(15).each do |part|%>
-          <div class="col-md-4">
-            <%= form_tag add_to_request_part_order_requests_path do |f|%>
-            <%= hidden_field_tag :part_id, part.id%>
-            <%= hidden_field_tag :request_id, @request.id%>
-            <div class="form-group">
-              [<%= label_tag part.part_numb%>] - <%= label_tag part.description %> 
-              <div class="input-group">
-                <span class="input-group-addon bg-secondary text-white">
-                  Qty: <%= part.quantity%>
-                </span>
-                <%= number_field_tag :quantity, nil, class: "form-control" %>
-                <span class="input-group-btn">
-                  <%= submit_tag "Add Parts", class: "btn btn-danger"%>
-                </span>
-              </div>
-            </div>
-            <% end %>
-          </div>
-			
-          <% end %>
-        </div>
-        <% end %>
-        <% end %>
-
-        <% end %>
-
-      </div>
+      <%= link_to "Add Parts To Work Order", add_parts_requests_path(request_id: @request.id), class: "btn btn-danger"%> 
     </div>
   </div>
+  <div class="card bg-dark text-white mt-3">
+    <div class="card-header">
+      <h6 class="display-5">Add Parts To Cart</h6>
+    </div>
+    <div class="card-body">
+      <%= render 'custom_form'%>
+		  
+      <br \>
+      <% if @parts.all.count != @number%>
+			
+      <% Part::CATEGORIES.each do |category|%>
+      <% if @parts.where(category: category) != []%>
+			 
+      <strong><%= label_tag category %></strong>
+      <div class="row">
+        <% @parts.where(category: category).limit(15).each do |part|%>
+        <div class="col-md-4">
+          <%= form_tag add_to_request_part_order_requests_path do |f|%>
+          <%= hidden_field_tag :part_id, part.id%>
+          <%= hidden_field_tag :request_id, @request.id%>
+          <div class="form-group">
+            [<%= label_tag part.part_numb%>] - <%= label_tag part.description %> 
+            <div class="input-group">
+              <span class="input-group-addon bg-secondary text-white">
+                Qty: <%= part.quantity%>
+              </span>
+              <%= number_field_tag :quantity, nil, class: "form-control" %>
+              <span class="input-group-btn">
+                <%= submit_tag "Add Parts", class: "btn btn-danger"%>
+              </span>
+            </div>
+          </div>
+          <% end %>
+        </div>
+			
+        <% end %>
+      </div>
+      <% end %>
+      <% end %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

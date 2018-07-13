@@ -1,74 +1,47 @@
-<div class="jumbotron">
-	<h3 class="display-3 text-center"><%= @user.name %>'s Profile</h3>
-		<div class="container d-flex justify-content-center">
-	<p>
-	<strong> Email: </strong> &nbsp&nbsp	
-		<%= @user.email%>
-	</p>
-	&nbsp&nbsp&nbsp&nbsp
-		<p>
-		<strong> Employee ID: </strong>	&nbsp&nbsp
-		<%= @user.emplyid%>
-		</p>
-		&nbsp&nbsp&nbsp&nbsp
-		<% if @user.last_sign_in_at != nil%>
-		<p>
-			
-		<strong> Last Sign In: </strong>	&nbsp&nbsp	
-		<%= @user.last_sign_in_at.strftime('%D')%>
-		</p>
-		<% end %>
-	</div>
-	<div class="container d-flex justify-content-center mt-2">
-		<%= link_to "Back", all_users_path, class: "btn btn-info btn-lg"%>
-	</div>
+<div class="jumbotron bg-secondary text-white">
+  <h3 class="display-3 text-center"><%= @user.name %>'s Profile</h3>
+</div>
+<div class="container my-3 bg-dark text-white d-flex justify-content-between align-items-center" style="border: 2px solid red; border-radius: 6px; padding: 10px;">
+  <p>
+    <strong> Email: </strong>
+    <span class="ml-2">
+      <%= @user.email %>
+    </span>
+  </p>
+	
+  <p>
+    <strong> Employee ID: </strong>	
+    <span class="ml-2">
+      <%= @user.emplyid %>
+    </span>
+  </p>
+	
+  <% if @user.last_sign_in_at %>
+  <p>
+    <strong> Last Sign In: </strong>
+    <span class="ml-2">
+      <%= @user.last_sign_in_at.strftime('%D') %>
+    </span>
+  </p>
+  <% end %>
+  <%= link_to "Back", :back, class: "btn btn-danger btn-lg"%>
 </div>
 
-<div class="card">
-	<div class="card-body">
-		
-		
-	<br \>
-		<% if @requests != []%>
-		<h5 class="text-center"> Work Orders Assigned &nbsp&nbsp&nbsp&nbsp
-			<span class="badge badge-dark"> 
-			<%= @requests.all.count %>
-			</span>
-		</h5>
-			<div class="row">
-			<% @requests.order(completed_date: :desc).each do |request|%>
-			<div class="col-md-4 my-3">	
-				<div class="card">
-				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.tracker.track%> </strong>
-			</div>
-			<div class="card-body">
-				<ul class="list-group">
-				<li class="list-group-item">Service Type: &nbsp &nbsp <%= request.program.name%></li>
-				<li class="list-group-item">Description:  &nbsp &nbsp<%= request.description%></li>
-				<li class="list-group-item">Recipents:  &nbsp &nbsp 
-					<% request.users.each do |user|%>
-					<ul style="list-style-type: none;">
-					
-				<li><%= user.name%></li>
-				
-				</ul>
-				<% end %>
-				</li>
-				
-			</ul>
-		</div>
-		<div class="card-footer">
-			Completed Date: <span style="color: green;"><%= request.completed_date.strftime('%D')%></span>
-		</div>
-		</div>
-		</div>
-		<% end %>
-		</div>
-		<% end %>
-		
-		
-		
-	
-	</div>
+<div class="card bg-dark text-white">
+  <div class="card-header">
+    <h5 class="text-center">
+      Work Orders Assigned
+    </h5>
+  </div>
+  <div class="card-body">
+    <% unless @requests.empty? %>
+    <div class="row">
+      <% @requests.order(completed_date: :desc).each do |request|%>
+      <div class="col-md-4 my-3">	
+        <%= render "work_order", request: request %>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
 </div>

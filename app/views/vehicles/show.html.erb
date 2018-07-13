@@ -219,12 +219,12 @@
                 <%= sprintf('%.2f', @vehicle.near_air_filter_service_mileage)  %>
               </span>
               <% unless @vehicle.requests.where(program_id: @set_air_filter_service.id).empty? %>
-              <% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date %>
+                <% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date %>
               <span> 
                 <%= link_to "#{@vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_air_filter_service.id).last), class: "badge badge-danger"%>
               </span>
 	
-              <% end %>
+                <% end %>
               <% else %>
              <span class="float-right">
                None
@@ -242,7 +242,7 @@
                 No Data
               </span>
               <% elsif @vehicle.repair_needed %>
-              <span class="text-white">
+              <span class="text-white float-right">
                 <i class="fa fa-wrench" aria-hidden="true">
                   Repairs-In-Progress
                 </i>

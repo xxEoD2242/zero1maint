@@ -1,200 +1,56 @@
-<div class="jumbotron">
-	<h3 class="display-3 text-center"><%= @user.name %>'s Assigned Work Orders</h3>
+<div class="jumbotron bg-secondary text-white">
+  <h3 class="display-3 text-center"><%= @user.name %>'s Assigned Work Orders</h3>
 </div>
-
-
 <div class="container d-flex justify-content-center">
-	<%= link_to "#{@user.name}'s Completed Work Orders", completed_work_orders_path, class: "btn btn-success btn-lg"%> &nbsp&nbsp&nbsp&nbsp <%= link_to "Home", homepage_path, class: "btn btn-primary btn-lg"%>
+  <%= link_to "#{@user.name}'s Completed Work Orders", completed_work_orders_path, class: "btn btn-danger btn-lg" %> 
+  <%= link_to "Home", homepage_path, class: "btn btn-danger btn-lg ml-3" %>
+  <%= link_to 'Back', :back, class: "btn btn-danger btn-lg ml-3" %>
 </div>
-<br \>
+<br />
 
-<div class="card mb-3">
-	
-		<div class="card-header">
-			<h3 class="text-center"> Search for Work Orders</strong>
-		</div>
-		<div class="card-body" >
-
-		<form class="form">
-		<%= search_form_for @q, :url => {:action => :completed_work_orders } do |f|%>
-		<div class="row">
-			<div class="col-md-4">
+<div class="card bg-dark text-white">
+  <div class="card-body">
+    <div class="row">
+      <% unless @requests.where(status: "New").empty? %>
+      <div class="col-md-4 my-3">
+        <h3 class="text-center"> New Work Orders
+          <span class="badge badge-danger ml-4"> 
+            <%= @requests.where(status: "New").all.count %>
+          </span>
+        </h3>	
+        <% @requests.where(status: "New").order(created_at: :desc).each do |request| s%>
+        <%= render "work_order", request: request %>
+        <% end %>
+      </div>
+      <% end %>
 		
-		<div class="form-group">
-		<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
-	</div>
-
-
-
-	<div class="form-group mt-2 ">
-		<%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
-	</div>
-	
-	
-	</div>
-	<div class='col-md-4'>
-			<div class="form-group">
-			<%= f.select :vehicle_veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
-		</div>
-	</div>
-	<div class="col-md-4">
-	
- 
-	
-
-	
-	<div class="form-group">
-		<%= f.label "From"%> &nbsp
-		<%= f.date_select :completion_date_gteq, {include_blank: "Year, Month, Day"}, class: "form-control"  %>
-	</div>
-
-
-
-
-	<div class="form-group">
-		<%= f.label "To"%> &nbsp
-		<%= f.date_select :completion_date_lteq, {include_blank: "To"}, class: "form-control"  %>
-	</div>
-	
-	<div class="form-group">
-		<%= f.submit "Find Work Orders", class: "btn btn-info"%>
-	</div>
+      <% unless @requests.where(status: "In-Progress").empty? %>
+      <div class="col-md-4 my-3">
+        <h3 class="text-center"> Completed Work Orders
+          <span class="badge badge-danger"> 
+            <%= @requests.where(status: "In-Progress").all.count %>
+          </span>
+        </h3>
+        <% @requests.where(status: "In-Progress").order(created_at: :desc).each do |request| %>
+        <%= render "work_order", request: request %>
+        <% end %>
+      </div>
+      <% end %>
+		
+      <% unless @requests.where(status: "Overdue").empty? %>
+      <div class="col-md-4 my-3">
+        <h3 class="text-center"> Overdue Work Orders 
+          <span class="badge badge-danger ml-2"> 
+            <%= @requests.where(status: "Overdue").all.count %>
+          </span>
+        </h3>
+        <% @requests.where(status: "Overdue").order(created_at: :desc).each do |request| %>
+        <%= render "work_order", request: request %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-	</div>
-
-	
-
-
-
-	<% end %>
-	</form>
-
-</div>
-</div>
-
-<div class="card">
-	<div class="card-body">
-	<div class="row">
-		<% if @requests.where(status: "New") != []%>
-		<div class="col-md-4 my-3">
-		<h3 class="text-center"> New Work Orders &nbsp&nbsp&nbsp&nbsp
-			<span class="badge badge-dark"> 
-			<%= @requests.where(status: "New").all.count %>
-			</span>
-		</h3>
-			
-			<% @requests.where(status: "New").order(created_at: :desc).each do |request|%>
-				
-				<div class="card">
-				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.staus%> </strong>
-			</div>
-			<div class="card-body">
-				<ul class="list-group">
-				<li class="list-group-item">Service Type: &nbsp &nbsp <%= request.program.name%></li>
-				<li class="list-group-item">Description:  &nbsp &nbsp<%= request.description%></li>
-				<li class="list-group-item">Recipents:  &nbsp &nbsp 
-					<% request.users.each do |user|%>
-					<ul style="list-style-type: none;">
-					
-				<li><%= user.name%></li>
-				
-				</ul>
-				<% end %>
-				</li>
-				
-			</ul>
-		</div>
-		<div class="card-footer">
-			Completed Date: <span style="color: green;"><%= request.completed_date.strftime('%D')%></span>
-		</div>
-		</div>
-	
-		<% end %>
-		</div>
-		<% end %>
-		
-		<% if @requests.where(status: "In-Progress") != []%>
-			<div class="col-md-4 my-3">
-		<h3 class="text-center"> Completed Work Orders &nbsp&nbsp&nbsp&nbsp
-			<span class="badge badge-dark"> 
-			<%= @requests.where(status: "In-Progress").all.count %>
-			</span>
-		</h3>
-			
-			<% @requests.where(status: "In-Progress").order(created_at: :desc).each do |request|%>
-			
-				<div class="card">
-				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.status%> </strong>
-			</div>
-			<div class="card-body">
-				<ul class="list-group">
-				<li class="list-group-item">Service Type: &nbsp &nbsp <%= request.program.name%></li>
-				<li class="list-group-item">Description:  &nbsp &nbsp<%= request.description%></li>
-				<li class="list-group-item">Recipents:  &nbsp &nbsp 
-					<% request.users.each do |user|%>
-					<ul style="list-style-type: none;">
-					
-				<li><%= user.name%></li>
-				
-				</ul>
-				<% end %>
-				</li>
-				
-			</ul>
-		</div>
-		<div class="card-footer">
-			Completed Date: <span style="color: green;"><%= request.completed_date.strftime('%D')%></span>
-		</div>
-		</div>
-	
-		<% end %>
-		</div>
-		<% end %>
-		
-		
-		<% if @requests.where(status: "Overdue") != []%>
-		<div class="col-md-4 my-3">
-		<h3 class="text-center"> Overdue Work Orders &nbsp
-			<span class="badge badge-danger"> 
-			<%= @requests.where(status: "Overdue").all.count %>
-			</span>
-		</h3>
-			
-			<% @requests.where(status: "Overdue").order(created_at: :desc).each do |request|%>
-				
-				<div class="card card-danger bg-danger">
-				<div class="card-header d-flex justify-content-between align-items-center ">
-				<strong><%= link_to request.id, request_path(request), class: "badge badge-primary" %> &nbsp&nbsp Vehicle &nbsp <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-dark"%></strong> <strong> Status: <%= request.status%> </strong>
-			</div>
-			<div class="card-body">
-				<ul class="list-group">
-				<li class="list-group-item">Service Type: &nbsp &nbsp <%= request.program.name%></li>
-				<li class="list-group-item">Description:  &nbsp &nbsp<%= request.description%></li>
-				<li class="list-group-item">Recipents:  &nbsp &nbsp 
-					<% request.users.each do |user|%>
-					<ul style="list-style-type: none;">
-					
-				<li><%= user.name%></li>
-				
-				</ul>
-				<% end %>
-				</li>
-				
-			</ul>
-		</div>
-		<div class="card-footer">
-			Estimated Completion Date: <span style="color: yellow;"><%= request.completion_date.strftime('%D')%></span>
-		</div>
-		</div>
-		
-		<% end %>
-		</div>
-		<% end %>
-		
-		
-		
-	</div>
-	</div>
-</div>
+<br />
+<%= render "results", q: @q, action: :assigned_work_orders %>

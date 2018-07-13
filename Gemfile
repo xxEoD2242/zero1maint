@@ -34,6 +34,7 @@ gem 'popper_js', '~> 1.12.9', '>= 1.11.1'
 gem 'pry-rails', group: :development
 gem 'puma'
 gem 'rails', '~> 5.1.4'
+gem 'minitest'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'rubocop', require: false
 gem 'sass-rails', '~> 5.0'

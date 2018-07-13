@@ -1,3 +1,3 @@
-<li class="page-item">
-  <%= link_to_unless current_page.last?, raw(t 'views.pagination.next'), url, rel: 'next', remote: remote, class: 'page-link' %>
+<li class="page-item text-white page-item-secondary">
+  <%= link_to_unless current_page.last?, raw(t 'views.pagination.next'), url, rel: 'next', remote: remote, class: 'page-link page-link-danger' %>
 </li>

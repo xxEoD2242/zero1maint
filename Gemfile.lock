@@ -1,13 +1,12 @@
 GIT
   remote: https://github.com/activerecord-hackery/ransack.git
-  revision: 0fe5eace7340fceb7f348f4887864e933fd83f85
+  revision: 437f642c553c56de1b0f9a1569eaa5496d9552f4
   specs:
     ransack (1.8.8)
       actionpack (>= 3.0)
       activerecord (>= 3.0)
       activesupport (>= 3.0)
       i18n
-      polyamorous (~> 1.3.2)
 
 GIT
   remote: https://github.com/plataformatec/simple_form.git
@@ -60,29 +59,29 @@ GEM
       tzinfo (~> 1.1)
     arel (8.0.0)
     ast (2.4.0)
-    autoprefixer-rails (8.6.3)
+    autoprefixer-rails (8.6.5)
       execjs
     aws-eventstream (1.0.1)
-    aws-partitions (1.92.0)
-    aws-sdk-core (3.21.2)
+    aws-partitions (1.96.0)
+    aws-sdk-core (3.22.1)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.5.0)
+    aws-sdk-kms (1.6.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
     aws-sdk-rails (2.0.1)
       aws-sdk-ses (~> 1)
       railties (>= 3)
-    aws-sdk-s3 (1.14.0)
+    aws-sdk-s3 (1.17.0)
       aws-sdk-core (~> 3, >= 3.21.2)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
-    aws-sdk-ses (1.7.0)
+    aws-sdk-ses (1.8.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
-    aws-sigv4 (1.0.2)
+    aws-sigv4 (1.0.3)
     bcrypt (3.1.12)
     better_errors (2.4.0)
       coderay (>= 1.0.0)
@@ -99,7 +98,7 @@ GEM
     builder (3.2.3)
     byebug (10.0.2)
     cancancan (2.2.0)
-    carrierwave (1.2.2)
+    carrierwave (1.2.3)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
@@ -170,9 +169,9 @@ GEM
       fog-xml (~> 0.1.1)
       ipaddress (~> 0.5)
       json (~> 2.0)
-    fog-aliyun (0.2.2)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
+    fog-aliyun (0.3.2)
+      fog-core
+      fog-json
       ipaddress (~> 0.8)
       xml-simple (~> 1.1)
     fog-atmos (0.1.0)
@@ -223,25 +222,25 @@ GEM
     fog-joyent (0.0.1)
       fog-core (~> 1.42)
       fog-json (>= 1.0)
-    fog-json (1.0.2)
-      fog-core (~> 1.0)
+    fog-json (1.2.0)
+      fog-core
       multi_json (~> 1.10)
     fog-local (0.5.0)
       fog-core (>= 1.27, < 3.0)
-    fog-openstack (0.1.25)
-      fog-core (~> 1.40)
+    fog-openstack (0.1.27)
+      fog-core (~> 1.45.0)
       fog-json (>= 1.0)
       ipaddress (>= 0.8)
-    fog-ovirt (1.0.4)
-      fog-core (~> 1.45)
+    fog-ovirt (1.1.1)
+      fog-core
       fog-json
-      fog-xml (~> 0.1.1)
+      fog-xml
       ovirt-engine-sdk (>= 4.1.3)
       rbovirt (~> 0.1.5)
-    fog-powerdns (0.1.1)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      fog-xml (~> 0.1)
+    fog-powerdns (0.2.0)
+      fog-core
+      fog-json
+      fog-xml
     fog-profitbricks (4.1.1)
       fog-core (~> 1.42)
       fog-json (~> 1.0)
@@ -279,7 +278,7 @@ GEM
     fog-voxel (0.1.0)
       fog-core
       fog-xml
-    fog-vsphere (2.2.0)
+    fog-vsphere (2.3.0)
       fog-core
       rbvmomi (~> 1.9)
     fog-xenserver (0.3.0)
@@ -347,17 +346,15 @@ GEM
     multi_xml (0.6.0)
     netrc (0.11.0)
     nio4r (2.3.1)
-    nokogiri (1.8.3)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     ovirt-engine-sdk (4.2.4)
       json (>= 1, < 3)
     parallel (1.12.1)
-    parser (2.5.1.0)
+    parser (2.5.1.2)
       ast (~> 2.4.0)
     pg (0.21.0)
-    polyamorous (1.3.3)
-      activerecord (>= 3.0)
     popper_js (1.12.9)
     powerpack (0.1.2)
     pry (0.11.3)
@@ -405,7 +402,7 @@ GEM
     rbovirt (0.1.6)
       nokogiri
       rest-client (> 1.7.0)
-    rbvmomi (1.12.0)
+    rbvmomi (1.13.0)
       builder (~> 3.0)
       json (>= 1.8)
       nokogiri (~> 1.5)
@@ -430,10 +427,10 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    rubocop (0.57.2)
+    rubocop (0.58.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.5)
+      parser (>= 2.5, != 2.5.1.1)
       powerpack (~> 0.1)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
@@ -461,10 +458,10 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    trollop (2.1.2)
+    trollop (2.1.3)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.11)
+    uglifier (4.1.14)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -515,6 +512,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   mini_magick
+  minitest
   pg (~> 0.18)
   popper_js (~> 1.12.9, >= 1.11.1)
   pry-rails

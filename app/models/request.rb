@@ -22,4 +22,10 @@ class Request < ApplicationRecord
   accepts_nested_attributes_for :vehicle, :parts
 
   STATUS = ['New', 'In-Progress', 'Completed', 'Overdue'].freeze
+  
+  scope :is_new, -> { where(status: "New") }
+  scope :is_in_progress, -> { where(status: "In-Progress") }
+  scope :is_completed, -> { where(status: "Completed") }
+  scope :is_overdue, -> { where(status: "Overdue") }
+  scope :is_an_a_service, -> { where(program_id: Program.a_service.id) }
 end

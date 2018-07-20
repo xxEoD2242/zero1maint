@@ -3,8 +3,8 @@
 class RequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_request, only: %i[show edit update destroy]
-  before_action :set_vehicle, :set_tracker, only: %i[index show edit new]
-  before_action :set_services, :set_tracker, only: %i[show index new edit dashboard a_service shock_service air_filter_service defects repairs completed_requests in_progress]
+  before_action :set_vehicle, only: %i[index show edit new]
+  before_action :set_services, only: %i[show index new edit dashboard a_service shock_service air_filter_service defects repairs completed_requests in_progress]
   before_action :a_service, :shock_service, :air_filter_service, :repairs, :defects, :tour_car_prep, only: [:dashboard]
   before_action :check_quant, only: [:show]
 
@@ -39,7 +39,7 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
-    @number = Part.all.count
+    @number = Part.count
     @part_items = PartItem.where(request_id: @request.id)
     @q = Part.ransack(params[:q])
     @parts = @q.result
@@ -55,9 +55,8 @@ class RequestsController < ApplicationController
   end
 
   def a_service
-    @a_service = Program.find_by(name: 'A-Service')
-    @a_service_requests = Request.where(program_id: @a_service.id)
-    @q = Request.where(program_id: @a_service.id).ransack(params[:q])
+    @a_service_requests = Request.is_an_a_service
+    @q = Request.where(program_id: Program.a_service.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
@@ -97,7 +96,16 @@ class RequestsController < ApplicationController
   end
 
   def dashboard
+    limit_numb = 5
     @requests = Request.all
+    @all_wo_numb = Request.count
+    @new_wo_numb = Request.is_new.size
+    @in_progress_wo_numb = Request.is_in_progress.size
+    @overdue_wo_numb = Request.is_overdue.size
+    @completed_wo_numb = Request.is_completed.size
+    @in_progress = Request.is_in_progress.order(created_at: :desc).limit(limit_numb)
+    @new_wo = Request.is_new.order(created_at: :desc).limit(limit_numb)
+    @overdue_wo = Request.is_overdue.order(created_at: :desc).limit(limit_numb)
   end
 
   def create_work_order
@@ -106,7 +114,7 @@ class RequestsController < ApplicationController
     if @request.save
       flash[:notice] = 'Work Order Created! Please select Service, Status and enter dates.'
     else
-      flash[:alert] = 'Could not create request!'
+      flash[:alert] = 'Could not create Work Order!'
     end
     redirect_to edit_request_path(id: @request.id)
   end
@@ -177,54 +185,70 @@ class RequestsController < ApplicationController
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
   end
+  
+  def update_service_mileage(request)
+    @a_service = Program.a_service
+    @shock_service = Program.shock_service
+    @air_filter_service = Program.air_filter_service
+    @tour_car_prep = Program.tour_car_prep
+    @repairs = Program.repairs
+    @defects = Program.defect
+    
+    vehicle = request.vehicle
+    @veh_mileage = request.vehicle.mileage
+    if request.program_id == @a_service.id && request.status == 'Completed'
+      request.vehicle.update(last_a_service: @veh_mileage)
+    elsif request.program_id == @shock_service.id && request.status == 'Completed'
+      request.vehicle.update(last_shock_service: @veh_mileage)
+    elsif request.program_id == @air_filter_service.id && request.status == 'Completed'
+      request.vehicle.update(last_air_filter_service: @veh_mileage)
+    elsif request.program_id == @repairs.id && request.status == 'Completed'
+      vehicle.update(repair_needed: false, needs_service: false, vehicle_status: 'In-Service')
+    elsif request.program_id == @tour_car_prep.id && request.status == 'Completed'
+      vehicle.update(prep: false, needs_service: false, vehicle_status: 'In-Service')
+    elsif request.program_id == @defects.id && request.status == 'Completed'
+      vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
+      defect_email request
+    end
+  end
+  
+  def defect_email(request)
+    if request.users.exists?
+      defect_emails = []
+      request.users.all.each do |user|
+        defect_emails << user.email
+      end
+      UserMailer.new_request_email(defect_emails, request).deliver_now
+    end
+  end
+  
+  def request_email(request)
+    unless @request.program_id == @defects.id && @request.status == 'Completed'
+      if @request.users.exists?
+        emails = []
+        @request.users.all.each do |user|
+          emails << user.email
+        end
+        UserMailer.assign_request_email(emails, @request).deliver_now
+      end
+    end
+  end
 
-  # POST /requests
-  # POST /requests.json
   def create
     @request = Request.new(request_params)
-    @a_service = Program.find_by(name: 'A-Service')
-    @shock_service = Program.find_by(name: 'Shock Service')
-    @air_filter_service = Program.find_by(name: 'Air Filter Change')
-    @tour_car_prep = Program.find_by(name: 'Tour Car Prep')
-    @set_completed = Tracker.find_by(track: 'Completed')
-    @repairs = Program.find_by(name: 'Repairs')
-    @defects = Program.find_by(name: 'Defect')
+    @a_service = Program.a_service
+    @shock_service = Program.shock_service
+    @air_filter_service = Program.air_filter_service
+    @tour_car_prep = Program.tour_car_prep
+    @repairs = Program.repairs
+    @defects = Program.defect
 
     respond_to do |format|
       if @request.save
         vehicle = @request.vehicle
         @request.update(request_mileage: vehicle.mileage)
-        @veh_mileage = @request.vehicle.mileage
-        if @request.program_id == @a_service.id
-          @request.vehicle.update(last_a_service: @veh_mileage)
-        elsif @request.program_id == @shock_service.id
-          @request.vehicle.update(last_shock_service: @veh_mileage)
-        elsif @request.program_id == @air_filter_service.id
-          @request.vehicle.update(last_air_filter_service: @veh_mileage)
-        elsif @request.program_id == @repairs.id && @request.status == 'New'
-          @request.vehicle.update(repair_needed: true, needs_service: true, vehicle_status: 'Out-of-Service')
-        elsif @request.program_id == @defects.id && @request.status == 'New'
-          @request.vehicle.update(defect: true, needs_service: true, vehicle_status: 'Out-of-Service')
-        elsif @request.program_id == @tour_car_prep.id && @request.status == 'New'
-          @request.vehicle.update(prep: true, needs_service: true, vehicle_status: 'Out-of-Service')
-          if @request.users.exists?
-            defect_emails = []
-            @request.users.all.each do |user|
-              defect_emails << user.email
-            end
-            UserMailer.new_request_email(defect_emails, @request).deliver_now
-        end
-      end
-        unless @request.program_id == @defects.id && @request.status == 'New'
-          if @request.users.exists?
-            emails = []
-            @request.users.all.each do |user|
-              emails << user.email
-            end
-            UserMailer.assign_request_email(emails, @request).deliver_now
-          end
-      end
-
+        update_service_mileage @request
+        request_email @request
         format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
@@ -234,35 +258,17 @@ class RequestsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /requests/1
-  # PATCH/PUT /requests/1.json
   def update
     @repairs = Program.find_by(name: 'Repairs')
-    @defects = Program.find_by(name: 'Defect')
-    @a_service = Program.find_by(name: 'A-Service')
-    @shock_service = Program.find_by(name: 'Shock Service')
-    @air_filter_service = Program.find_by(name: 'Air Filter Change')
-    @tour_car_prep = Program.find_by(name: 'Tour Car Prep')
-    @set_completed = Tracker.find_by(track: 'Completed')
-    @set_overdue = Tracker.find_by(track: 'Overdue')
+    @a_service = Program.a_service
+    @shock_service = Program.shock_service
+    @air_filter_service = Program.air_filter_service
+    @tour_car_prep = Program.tour_car_prep
+    @repairs = Program.repairs
+    @defects = Program.defect
     respond_to do |format|
       if @request.update(request_params)
-        vehicle = @request.vehicle
-        @veh_mileage = @request.vehicle.mileage
-        if @request.program_id == @a_service.id && @request.status == 'Completed'
-          @request.vehicle.update(last_a_service: @veh_mileage)
-        elsif @request.program_id == @shock_service.id && @request.status == 'Completed'
-          @request.vehicle.update(last_shock_service: @veh_mileage)
-        elsif @request.program_id == @air_filter_service.id && @request.status == 'Completed'
-          @request.vehicle.update(last_air_filter_service: @veh_mileage)
-        elsif @request.program_id == @repairs.id && @request.status == 'Completed'
-          vehicle.update(repair_needed: false, needs_service: false, vehicle_status: 'In-Service')
-        elsif @request.program_id == @defects.id && @request.status == 'Completed'
-          vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
-        elsif @request.program_id == @tour_car_prep.id && @request.status == 'Completed'
-          vehicle.update(prep: false, needs_service: false, vehicle_status: 'In-Service')
-        end
-
+        update_service_mileage @request
         if @request.users.exists? && @request.status == 'New'
           emails = []
           @request.users.all.each do |user|
@@ -290,8 +296,6 @@ class RequestsController < ApplicationController
     end
   end
 
-  # DELETE /requests/1
-  # DELETE /requests/1.json
   def destroy
     @request.destroy
     respond_to do |format|
@@ -318,14 +322,6 @@ class RequestsController < ApplicationController
     @repairs = Program.find_by(name: 'Repairs')
     @defects = Program.find_by(name: 'Defect')
     @tour_car_prep = Program.find_by(name: 'Tour Car Prep')
-  end
-
-  def set_tracker
-    @tracks = Tracker.all
-    @set_new = Tracker.find_by(track: 'New')
-    @set_progress = Tracker.find_by(track: 'In-Progress')
-    @set_completed = Tracker.find_by(track: 'Completed')
-    @set_overdue = Tracker.find_by(track: 'Overdue')
   end
 
   def set_services

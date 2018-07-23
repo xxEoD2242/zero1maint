@@ -9,10 +9,8 @@
       <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events">All Events <span class="badge badge-danger"><%= Event.all.count %></span></a>
       <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/scheduled_events">Scheduled Events<span class="badge badge-danger"><%= @scheduled_events.count %></span></a>
       <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/vehicles_assigned">Events w/ Assigned Vehicles<span class="badge badge-danger"><%= @assigned_events.count %></span></a>
-      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/completed_events">Completed Events<span class="badge badge-danger"><%= @completed_events.count %></span></a>
-				
-    </div>
-			
+      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/completed_events">Completed Events<span class="badge badge-danger"><%= @completed_events.count %></span></a>	
+    </div>	
   </div>
   <div class="col-md-6">
     <div class='card bg-dark text-white'>
@@ -27,18 +25,13 @@
       </div>
     </div>
   </div>
-		
   <div class="col-md-3">
     <div class="list-group">
       <a class="list-group-item list-group-item-action bg-secondary text-white" href="../checklists/records">Checklist Records</a>
       <a class="list-group-item list-group-item-action bg-secondary text-white"  href="../events/vehicle_rotation">Vehicle Rotation</a>
     </div>
   </div>
-			
 </div>
-	
-
-
 <div class="row mt-3">
   <div class="col-md-12">
     <div class="card bg-dark text-white">
@@ -61,26 +54,21 @@
             <% if event.status == "Completed"%>
               <%= link_to event.id, event, class: "badge badge-success" %> 
             <% else %>
-             <%= link_to event.id, event, class: "badge badge-danger" %>
+              <%= link_to event.id, event, class: "badge badge-danger" %>
             <% end %>
             <span>
               <%= event.class_type%>
               <% if event.vehicles.exists? %>
-						
-              <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
-              <span class="text-white"><i class="fa fa-check" aria-hidden="true"></i></span>
+                <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
+                  <span class="text-white"><i class="fa fa-check" aria-hidden="true"></i></span>
+                <% else %>
+                  <span class="text-white"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </span>
+                <% end %>
               <% else %>
-              <span class="text-white"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </span>
+                <span class="text-white"><i class="fa fa-car" aria-hidden="true"></i> </span>
               <% end %>
-              <% else %>
-              <span class="text-white"><i class="fa fa-car" aria-hidden="true"></i> </span>
-					
-              <% end %>
-					
             </span>
-					
           </li>
-          
           <% end %>
         </ul>
         <% end %>
@@ -109,59 +97,72 @@
           <span class="badge badge-success"> # </span> Event Completed
         </span>
       </div>
-      </div>
     </div>
   </div>
 </div>
+</div>
 <% unless @display_events.empty? %>
 
-<div class="container bg-dark text-white" style=" border: 1px solid red; border-radius: 3px 3px 3px 3px;">
-  <br \>
+<div class="container bg-dark text-white border rounded p-3">
   <h4 class="text-center">
     Most Recent Events
   </h4>
-  <br \>
 </div>
-<div class="row">
-  <% @display_events.all.order(date: :desc).limit(12).each do |event|%>
-  <div class="col-md-4 my-3">	
-    <div class="card bg-dark text-white">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <h5>Event: <%=link_to event.id, event_path(id: event.id), class: "badge badge-danger" %></h5>  
-        <h3 style="text-align: right;" class="badge badge-danger">
-          Date Scheduled: <%= event.date.strftime('%D')%>
-        </h3>
-      </div>
-      <div class="card-body">
-        <ul class="list-group">
-          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Class:
-            <span class="badge badge-danger mx-1"><%= event.class_type%></span> Location:
-            <span class="badge badge-danger ml-1"><%= event.location%></span></li>
-            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Status:
-              <span class="badge badge-danger mx-1"><%= event.status%></span> Mileage:
-              <span class="badge badge-danger"><%= event.event_mileage%></span></li>
-					
-            </ul>
-          </div>
-          <div class="card-footer d-flex justify-content-center">
-            <% if event.vehicles.exists? %>
+<div class="container-fluid">
+  <div class="row">
+    <% @display_events.all.order(date: :desc).limit(12).each do |event|%>
+    <div class="col-md-4 my-3">	
+      <div class="card bg-dark text-white">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5>Event: <%=link_to event.id, event_path(id: event.id), class: "badge badge-danger" %></h5>  
+          <h3 style="text-align: right;" class="badge badge-danger">
+            Date Scheduled: <%= event.date.strftime('%D')%>
+          </h3>
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+              Class:
+              <span class="badge badge-danger mx-1"><%= event.class_type%></span>
+              Location:
+              <span class="badge badge-danger ml-1"><%= event.location%></span>
+            </li>
+            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+              Status:
+              <span class="badge badge-danger mx-1"><%= event.status%></span>
+              Mileage:
+              <span class="badge badge-danger"><%= event.event_mileage%></span>
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer d-flex justify-content-center">
+          <% if event.vehicles.exists? %>
 		
-            <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
-            <span class="text-white"><i class="fa fa-check" aria-hidden="true">Checklists Completed</i></span>
-            <% else %>
-            <span class="text-white"><i class="fa fa-exclamation-triangle" aria-hidden="true">Checklists Not Completed</i> </span>
+          <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
+          <span class="text-white">
+            <i class="fa fa-check" aria-hidden="true">
+              Checklists Completed
+            </i>
+          </span>
+          <% else %>
+          <span class="text-white">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true">
+              Checklists Not Completed
+            </i>
+          </span>
 				
-            <% end %>
-            <% else %>
-            <span class"text-white">
-              <i class="fa fa-car" aria-hidden="true">
-                No Vehicles Added!
-              </i> 
-            </span>
-            <% end %>
-          </div>
+          <% end %>
+          <% else %>
+          <span class"text-white">
+            <i class="fa fa-car" aria-hidden="true">
+              No Vehicles Added!
+            </i> 
+          </span>
+          <% end %>
         </div>
       </div>
-      <% end %>
     </div>
     <% end %>
+  </div>
+</div>
+<% end %>

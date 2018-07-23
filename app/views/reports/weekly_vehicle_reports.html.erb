@@ -1,55 +1,55 @@
 <div class='jumbotron mt-3'>
-	<h1 class='display-3 text-center'>All Weekly Vehicle Reports</h1>
+  <h1 class='display-3 text-center'>All Weekly Vehicle Reports</h1>
 </div>
-		<div class="container d-flex justify-content-start my-3">
-	<%= link_to 'Back', dashboard_reports_path, class: "btn btn-info " %>
-	</div>
-		<div class="row">
-			<div class="col-md-4">
-			<strong> All Weekly Tour Car Reports </strong>
-		<% if @weekly_tour_car != nil%>
-		<% @weekly_tour_car.order(created_at: :desc).limit(50).each do |report|%>
-			<ul class="list-group">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
-					<span>
-					Tour Cars	<%= report.created_at.strftime('%D')%>
-					</span>
-				</li>
-			</ul>
-			<% end %>
-			<% end %>
-				
-		</div>
-		
-		<div class="col-md-4">
-			<strong> All Weekly Razor Reports </strong>
-			<% if @weekly_rzr != nil %>
-		<% @weekly_rzr.order(created_at: :desc).limit(50).each do |report|%>
-			<ul class="list-group">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> <span>RZRs <%= report.created_at.strftime('%D')%></span></li>
-					 </ul>
-					 <% end %>
-					 <% end %>
-				</div>
-				
-			<div class="col-md-4">
-			<strong> All Weekly Other Vehicle Reports </strong>
-			<% if @weekly_other_vehicle != nil %>
-		<% @weekly_other_vehicles.order(created_at: :desc).limit(50).each do |report|%>
-			<ul class="list-group">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
-					<span>
-					Other Vehicles	<%= report.created_at.strftime('%D')%>
-					</span>
-				</li>
-			</ul>
-			<% end %>
-			
-			<% end %>
-				
-		</div>
-		
-	</div>
+<div class="container d-flex justify-content-start my-3">
+  <%= link_to 'Back', :back, class: "btn btn-info" %>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <strong> All Weekly Tour Car Reports </strong>
+    <% if @weekly_tour_car %>
+    <% @weekly_tour_car.order(created_at: :desc).limit(50).each do |report|%>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
+        <span>
+          Tour Cars	<%= report.created_at.strftime('%D')%>
+        </span>
+      </li>
+    </ul>
+    <% end %>
+    <% end %>		
+  </div>
+
+  <div class="col-md-4">
+    <strong> All Weekly Razor Reports </strong>
+    <% if @weekly_rzr %>
+    <% @weekly_rzr.order(created_at: :desc).limit(50).each do |report|%>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
+        <span>
+          RZRs <%= report.created_at.strftime('%D')%>
+        </span>
+      </li>
+      </ul>
+      <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <strong> All Weekly Other Vehicle Reports </strong>
+      <% if @weekly_other_vehicle %>
+        <% @weekly_other_vehicles.order(created_at: :desc).limit(50).each do |report|%>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
+            <span>
+              Other Vehicles	<%= report.created_at.strftime('%D')%>
+            </span>
+          </li>
+        </ul>
+        <% end %>
+      <% end %>	
+    </div>
+  </div>
+</div>

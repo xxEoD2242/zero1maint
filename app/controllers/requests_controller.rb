@@ -4,8 +4,7 @@ class RequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_request, only: %i[show edit update destroy]
   before_action :set_vehicle, only: %i[index show edit new]
-  before_action :set_services, only: %i[show index new edit dashboard a_service shock_service air_filter_service defects repairs completed_requests in_progress]
-  before_action :a_service, :shock_service, :air_filter_service, :repairs, :defects, :tour_car_prep, only: [:dashboard]
+  before_action :set_services, only: %i[show index new edit a_service shock_service air_filter_service defects repairs completed_requests in_progress]
   before_action :check_quant, only: [:show]
 
   # GET /requests
@@ -56,12 +55,12 @@ class RequestsController < ApplicationController
 
   def a_service
     @a_service_requests = Request.is_an_a_service
-    @q = Request.where(program_id: Program.a_service.id).ransack(params[:q])
+    @q = Request.is_an_a_service.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
   def shock_service
-    @shock_service = Program.find_by(name: 'Shock Service')
+    @shock_service = Program.shock_service
     @shock_service_requests = Request.where(program_id: @shock_service.id)
     @q = Request.where(program_id: @shock_service.id).ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
@@ -106,6 +105,12 @@ class RequestsController < ApplicationController
     @in_progress = Request.is_in_progress.order(created_at: :desc).limit(limit_numb)
     @new_wo = Request.is_new.order(created_at: :desc).limit(limit_numb)
     @overdue_wo = Request.is_overdue.order(created_at: :desc).limit(limit_numb)
+    @a_service_wo_numb = Request.is_an_a_service.size
+    @shock_service_wo_numb = Request.is_a_shock_service.size
+    @air_filter_service_wo_numb = Request.is_a_air_filter_service.size
+    @repairs_wo_numb = Request.is_a_repair.size
+    @defect_wo_numb = Request.is_a_defect.size
+    @tour_car_prep_wo_numb = Request.is_a_tour_car_prep.size
   end
 
   def create_work_order

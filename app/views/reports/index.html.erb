@@ -1,11 +1,8 @@
-
-
-<div class="jumbotron text-center">
-<h1 class="display-3">All Reports</h1>
-	
-<%= render 'service_needed_form', report: @report_results %>
-<br \>
-<%= render 'results', q: @q, action: :index %>
-<br \>
+<div class="jumbotron bg-secondary text-white text-center">
+  <h1 class="display-3">All Reports</h1>
+  <%= render 'reports_search_results', report: @report_results %>
+  <br \>
+  <%= render 'reports_search_box', q: @q, action: :index %>
+  <br \>
 </div>
 

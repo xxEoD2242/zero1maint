@@ -1,0 +1,42 @@
+<div class="card bg-dark text-white">
+  <div class="card-body">
+    <div class="table-responsive">
+    <table class="table table-borderless table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Number</th>
+          <th scope="col">Report Type</th>
+          <th scope="col">Status</th>
+          <th scope="col">Recipients</th>
+          <th scope="col">Created At</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% report.order(created_at: :asc).each do |report| %>
+        <tr>
+          <th scope="row"><%= report.id %></th>
+          <td><%= report.report_type %></td>
+          <td><%= report.status %></td>
+          <td>
+            <% report.users.limit(3).each do |user| %>
+            <%= user.name %><br \>
+            <% end %>
+          </td>
+          <td><%= report.created_at.strftime('%D') %></td>
+          <td>
+            <%= link_to 'Show', report, class: "btn btn-danger btn-sm" %>
+            <%= link_to 'Edit', edit_report_path(report), class: "btn btn-sm btn-danger" %>
+            <%= link_to 'Delete', report, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+        <% end %> 
+      </tbody> 
+    </table>
+    </div>
+  </div>
+</div>
+
+
+
+

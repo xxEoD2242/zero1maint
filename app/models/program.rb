@@ -4,7 +4,7 @@ class Program < ApplicationRecord
   has_many :requests, inverse_of: :program
   has_many :vehicles, through: :requests
 
-  validates :interval, presence: true
+  validates :rzr_interval, :tour_car_interval, :training_interval, :db_interval, :other_interval, :fleet_interval, presence: true
   
   scope :a_service, -> { find_by(name: "A-Service") }
   scope :shock_service, -> { find_by(name: 'Shock Service') }

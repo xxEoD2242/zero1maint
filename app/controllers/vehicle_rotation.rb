@@ -34,7 +34,7 @@ module Vehicle_Rotation
 
     @vehicles.all.each do |vehicle|
       unless vehicle.last_a_service.nil?
-        vehicle.update(near_a_service_mileage: (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)))
+        vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
         x = vehicle.near_a_service_mileage
         case
         when x <= 0
@@ -47,7 +47,7 @@ module Vehicle_Rotation
       end
 
       unless vehicle.last_shock_service.nil?
-        vehicle.update(near_shock_service_mileage: (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)))
+        vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
         y = vehicle.near_shock_service_mileage
         case 
         when y < 0
@@ -60,7 +60,7 @@ module Vehicle_Rotation
       end
 
       unless vehicle.last_air_filter_service.nil?
-        vehicle.update(near_air_filter_service_mileage: (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)))
+        vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
         z = vehicle.near_air_filter_service_mileage
         case
         when z < 0
@@ -114,10 +114,9 @@ module Vehicle_Rotation
   end
 
   def mileage_calculation
-    @vehicles = Vehicle.all
-    @vehicles.all.each do |vehicle|
+    Vehicle.in_service.each do |vehicle|
       unless vehicle.last_a_service.nil?
-        vehicle.update(near_a_service_mileage: (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)))
+        vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
         x = vehicle.near_a_service_mileage
         case 
         when x < 0
@@ -129,7 +128,7 @@ module Vehicle_Rotation
         end
       end
       unless vehicle.last_shock_service.nil?
-        vehicle.update(near_shock_service_mileage: (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)))
+        vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
         y = vehicle.near_shock_service_mileage
         case 
         when y < 0
@@ -141,7 +140,7 @@ module Vehicle_Rotation
         end
       end
       unless vehicle.last_air_filter_service.nil?
-        vehicle.update(near_air_filter_service_mileage: (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)))
+        vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
         z = vehicle.near_air_filter_service_mileage
         case 
         when z < 0

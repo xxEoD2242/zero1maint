@@ -4,9 +4,30 @@
     <%= f.error_notification %>
     <div class="form-inputs">
       <%= f.input :name %>
-      <%= f.input :interval %>
       <%= f.input :threshold, label: "Threshold Required" %>
       <%= f.input :threshold_numb, label: "Threshold Mileage" %>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.input :rzr_interval, label: "RZR Interval"%>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :tour_car_interval, label: "Tour Car Interval"%>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :fleet_interval, label: "Fleet Vehicle Interval"%>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.input :training_interval, label: "Training Vehicle Interval"%>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :db_interval, label: "Dirt Bike Interval"%>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :other_interval, label: "Other Vehicle Type Interval"%>
+      </div>
     </div>
     <div class="form-actions">
       <%= f.button :submit, class: "btn btn-danger" %>

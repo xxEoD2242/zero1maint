@@ -1,0 +1,49 @@
+<div class="card bg-dark text-white">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-borderless table-hover">
+        <thead>
+          <tr>
+            <th>Work Order Number</th>
+            <th>Work Order Status</th>
+            <th>Work Order Type</th>
+            <th>Vehicle</th>
+            <th>Work Order Created At</th>
+            <th>Estimated Completion Date</th>
+            <th>Completed Date</th>
+            <th colspan="3">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% request.order(id: :desc).each do |request| %>
+          <tr>
+            <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
+            <td><%= request.status %></td>
+            <td><%= request.program.name %></td>
+            <td>
+              <% if !request.vehicle.nil? %>
+              <%=request.vehicle.car_id %>
+              <% end %>
+            </td>
+            <td><%=request.created_at.strftime('%D') %></td>
+            <% if request.completion_date %>
+            <td><%= request.completion_date.strftime('%D') %></td>
+            <% end %>
+            <td>
+              <% if request.completed_date %>
+              <%= request.completed_date.strftime('%D') %>
+              <% else%>
+              <strong style="color: red;"> Not Completed </strong>
+				
+              <% end %>
+            </td>
+            <td><%= link_to "Show", request_path(request), class: "btn btn-danger btn-sm" %></td>
+            <td><%= link_to 'Edit', edit_request_path(request), class: "btn btn-danger btn-sm" %></td>
+            <td><%= link_to 'Delete', request, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger btn-sm" %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>	
+    </div>
+  </div>
+</div>

@@ -1,8 +1,6 @@
 <div class="jumbotron bg-secondary text-white text-center">
-<h1 class="display-3">Air Filter Service Requests</h1>
-	
-<%= render 'service_form', request: @request_results %>
-<br \>
-<%= render 'results', q: @q, action: :air_filter_service %>
-
+  <h1 class="display-3">Air Filter Service Requests</h1>
+  <%= render 'wo_search_results', request: @request_results %>
+  <br \>
+  <%= render 'wo_search_box', q: @q, action: :air_filter_service %>
 </div>

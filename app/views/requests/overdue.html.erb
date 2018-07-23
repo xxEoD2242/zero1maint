@@ -1,8 +1,8 @@
 <div class="jumbotron bg-secondary text-white">
 <h1 class="display-3">All Overdue Work Orders</h1>
 	
-<%= render 'service_form', request: @request_results %>
+<%= render 'wo_search_results', request: @request_results %>
 <br \>
-<%= render 'results', q: @q, action: :repairs %>
+<%= render 'wo_search_box', q: @q, action: :repairs %>
 
 </div>

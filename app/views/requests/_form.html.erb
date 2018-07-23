@@ -13,68 +13,55 @@
     </div>
     <% end %>
 
-	  <div class="row">
+    <div class="row">
       <div class="col-md-4">
-    <div class="form-group">
-      <%= f.input :completion_date, as: :date, label: "Estimated Completion Date", class: "form-control", required: true %>
-    </div>
-  </div>
-    
-    <div class="col-md-8">
-      <div class="form-group">
-        <strong style="margin-bottom: 2px;">Assign &/OR Email Request To: </strong> 
-        <span class="text-danger">*If you are the mechanic for this work order, select yourself please.*</span>
-        <br />
-        <br />
-        <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
+        <div class="form-group">
+          <%= f.input :completion_date, as: :date, label: "Estimated Completion Date", class: "form-control", required: true %>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="form-group">
+          <strong style="margin-bottom: 2px;">Assign &/OR Email Request To: </strong>
+          <br />
+          <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
+          <br />
+          <span class="text-danger">*If you are the mechanic for this work order, select yourself please.*</span>
+        </div>
       </div>
     </div>
-  </div>
 	
     <div class="form-group">
       <strong>Current Status: </strong> <br />
       <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, id: :request_status, class: "form-control" %>
     </div>
-	
-  
-  
     <div class="form-group">
       <strong> <%= f.label "Service"%> </strong>
       <%= f.select :program_id, Program.all.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
     </div>
-
     <div class="form-group">
       <strong><%= f.label "Description" %></strong>
       <%= f.text_area :description, id: :request_description, class: "form-control"%>
     </div>
-
     <div class="form-group">
-      <strong><%= f.label "Select Vehicle"%></strong>
-		
+      <strong><%= f.label "Select Vehicle"%></strong>	
       <%= f.select :vehicle_id, Vehicle.all.order(car_id: :asc).collect { |v| [v.car_id, v.id]}, {include_blank: "Select Vehicle"}, id: :request_vehicle_id, class: "form-control"%>
     </div>
-	
     <%= f.hidden_field :creator, value: current_user.name %>
-  
     <div class="form-group">
       <strong>Upload Images for Work Order: </strong>
       <br />
       <br />
       <%= f.file_field :image, class: "form-group" %>
     </div>
-  
     <%= f.hidden_field :completed_date, value: Time.now, class: "form-control" %>
-
     <br />
     <div class="form-group">
       <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-danger" %>
     </div>
     <% end %>
-
     <hr>
     <div>
       <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger" %>
     </div>
-
   </div>
 </div>

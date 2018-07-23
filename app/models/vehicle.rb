@@ -2,6 +2,7 @@
 
 class Vehicle < ApplicationRecord
   before_save :set_last_a_service, :set_last_shock_service, :set_last_air_filter_service
+  after_save :set_thresholds
   validates_uniqueness_of :car_id
 
   require 'csv'
@@ -24,6 +25,8 @@ class Vehicle < ApplicationRecord
   paginates_per 8
 
   accepts_nested_attributes_for :events
+  
+  scope :in_service, -> { where(vehicle_status: "In-Service") }
 
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold'].freeze
   CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other'].freeze
@@ -62,5 +65,33 @@ class Vehicle < ApplicationRecord
 
   def set_times_used
     self.times_used = 0 if times_used.blank?
+  end
+  
+  def set_thresholds
+    if veh_category == "RZR"
+      self.a_service_interval = Program.a_service.rzr_interval
+      self.shock_service_interval = Program.shock_service.rzr_interval
+      self.air_filter_service_interval = Program.air_filter_service.rzr_interval
+    elsif veh_category == "Fleet Vehicle"
+      self.a_service_interval = Program.a_service.fleet_interval
+      self.shock_service_interval = Program.shock_service.fleet_interval
+      self.air_filter_service_interval = Program.air_filter_service.fleet_interval
+    elsif veh_category == "Tour Car"
+      self.a_service_interval = Program.a_service.tour_car_interval
+      self.shock_service_interval = Program.shock_service.tour_car_interval
+      self.air_filter_service_interval = Program.air_filter_service.tour_car_interval
+    elsif veh_category == "Dirt Bike"
+      self.a_service_interval = Program.a_service.db_interval
+      self.shock_service_interval = Program.shock_service.db_interval
+      self.air_filter_service_interval = Program.air_filter_service.db_interval
+    elsif veh_category == "Training Vehicle"
+      self.a_service_interval = Program.a_service.training_interval
+      self.shock_service_interval = Program.shock_service.training_interval
+      self.air_filter_service_interval = Program.air_filter_service.training_interval
+    elsif veh_category == "Other"
+      self.a_service_interval = Program.a_service.other_interval
+      self.shock_service_interval = Program.shock_service.other_interval
+      self.air_filter_service_interval = Program.air_filter_service.other_interval
+    end
   end
 end

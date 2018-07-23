@@ -3,8 +3,7 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage out_of_service]
-  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles]
-  before_action :set_all_vehicles, :in_service, :out_of_service, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles]
+  before_action :set_all_vehicles, :in_service, :out_of_service, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation needs_service near_service_required all_vehicles]
   before_action :mileage_calculation, only: %i[near_service_required needs_service]
   include Vehicle_Rotation
 
@@ -58,11 +57,10 @@ class VehiclesController < ApplicationController
 
   def show
     @set_defects = Program.find_by(name: 'Defect')
-    @set_new = Tracker.find_by(track: 'New')
     @request = Request.all
 
     unless @vehicle.last_a_service.nil?
-      @vehicle.update(near_a_service_mileage: (@set_a_service.interval - (@vehicle.mileage - @vehicle.last_a_service)))
+      @vehicle.update(near_a_service_mileage: (@vehicle.a_service_interval - (@vehicle.mileage - @vehicle.last_a_service)))
       x = @vehicle.near_a_service_mileage
       case
       when x <= 0
@@ -74,7 +72,7 @@ class VehiclesController < ApplicationController
       end
     end
     unless @vehicle.last_shock_service.nil?
-      @vehicle.update(near_shock_service_mileage: (@set_shock_service.interval - (@vehicle.mileage - @vehicle.last_shock_service)))
+      @vehicle.update(near_shock_service_mileage: (@vehicle.shock_service_interval - (@vehicle.mileage - @vehicle.last_shock_service)))
       
       y = @vehicle.near_shock_service_mileage
       case 
@@ -87,7 +85,7 @@ class VehiclesController < ApplicationController
       end
     end
     unless @vehicle.last_air_filter_service.nil?
-      @vehicle.update(near_air_filter_service_mileage: (@set_air_filter_service.interval - (@vehicle.mileage - @vehicle.last_air_filter_service)))
+      @vehicle.update(near_air_filter_service_mileage: (@vehicle.air_filter_service_interval - (@vehicle.mileage - @vehicle.last_air_filter_service)))
       
       z = @vehicle.near_air_filter_service_mileage
       case
@@ -241,28 +239,15 @@ class VehiclesController < ApplicationController
     @set_defects = Program.find_by(name: 'Defect')
   end
 
-  def set_tracker
-    @tracks = Tracker.all
-  end
-
-  def set_new
-    @set_new = Tracker.find_by(track: 'New')
-  end
-
-  def set_progress
-    @set_progress = Tracker.find_by(track: 'In-Progress')
-  end
-
-  def set_completed
-    @set_completed = Tracker.find_by(track: 'Completed')
-  end
-
-  def set_overdue
-    @set_overdue = Tracker.find_by(track: 'Overdue')
-  end
-
-  # Never trust parameters from the scary internet, only allow the white list through.
   def vehicle_params
-    params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service, :vin_number, :vehicle_category_id, :registration_date, :plate_number, :notes, :repair_needed, :needs_service, :high_use, :mileage, :prep, :sale_date, :purchaser, :near_service, :a_service, :last_a_service, :last_shock_service, :last_air_filter_service, :use_a, :use_b, :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, :veh_category, :location, :shock_service, :times_used, :est_mileage, :air_filter_service, :location_id, :event_id, vehicle_ids: [])
+    params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service,
+                                    :vin_number, :vehicle_category_id, :registration_date, :plate_number, 
+                                    :notes, :repair_needed, :needs_service, :high_use, :mileage, :prep, 
+                                    :sale_date, :purchaser, :near_service, :a_service, :last_a_service, 
+                                    :last_shock_service, :last_air_filter_service, :use_a, :use_b, 
+                                    :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, 
+                                    :veh_category, :location, :shock_service, :times_used, :est_mileage,
+                                    :a_service_interval, :shock_service_interval, :air_filter_service_interval,
+                                    :air_filter_service, :location_id, :event_id, vehicle_ids: [])
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703010419) do
+ActiveRecord::Schema.define(version: 20180723150110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,12 +138,17 @@ ActiveRecord::Schema.define(version: 20180703010419) do
 
   create_table "programs", force: :cascade do |t|
     t.string "name"
-    t.float "interval"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "completed"
     t.boolean "threshold"
     t.float "threshold_numb"
+    t.float "rzr_interval", default: 0.0
+    t.float "tour_car_interval", default: 0.0
+    t.float "fleet_interval", default: 0.0
+    t.float "training_interval", default: 0.0
+    t.float "other_interval", default: 0.0
+    t.float "db_interval", default: 0.0
   end
 
   create_table "report_users", force: :cascade do |t|
@@ -296,7 +301,6 @@ ActiveRecord::Schema.define(version: 20180703010419) do
     t.string "make", default: "Blank"
     t.integer "year", default: 0
     t.string "color", default: "Blank"
-    t.integer "vehicle_category_id"
     t.boolean "use_a", default: false
     t.boolean "dont_use_a_service", default: false
     t.boolean "dont_use_shock_service", default: false
@@ -321,6 +325,9 @@ ActiveRecord::Schema.define(version: 20180703010419) do
     t.float "near_a_service_mileage", default: 0.0
     t.float "near_shock_service_mileage", default: 0.0
     t.float "near_air_filter_service_mileage", default: 0.0
+    t.float "a_service_interval", default: 0.0
+    t.float "shock_service_interval", default: 0.0
+    t.float "air_filter_service_interval", default: 0.0
   end
 
   create_table "web_hooks", force: :cascade do |t|

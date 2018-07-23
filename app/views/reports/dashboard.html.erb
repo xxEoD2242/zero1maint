@@ -1,59 +1,69 @@
-<div class="jumbotron text-center mt-3">
-	<h1 class="display-3 text-center">Reports Dashboard</h1>
+<div class="jumbotron bg-secondary text-white text-center mt-3">
+  <h1 class="display-3 text-center">Reports Dashboard</h1>
 </div>
 
 <div class="row">
-	<div class="col-md-3">
-		<div class="list-group">
-			<a class="list-group-item list-group-item-action" href="../reports/generate_report">Generate Report</a>
-				<a class="list-group-item list-group-item-action" href="../reports">All Reports</a>
-				<a class="list-group-item list-group-item-action" href="../reports/weekly_work_order_reports">Weekly Work Order Reports</a>
-				<a class="list-group-item list-group-item-action" href="../reports/weekly_vehicle_reports">Weekly Vehicle Reports</a>
-			
-				
-			</div>
-		
-			
-	</div>
-	<div class="col-md-6">
-			
-					<% @reports.all.order(created_at: :desc).limit(5).each do |report|%>
-					<div class="card mb-2" style='background-color: lightslategrey;'>
-						<div class="card-header">
-							<h4>Report Number: <%=link_to report.id, report_path(id: report.id), class: "badge badge-warning" %></h4></div>
-							
-				<div class="card-body">
-				
-				
-					<ul class="list-group ">
-					<li class="list-group-item d-flex justify-content-between align-items-center">Created On
-						<span class="badge badge-warning"><%=report.created_at.strftime('%D')%></span>Car Number
-					<span class="badge badge-warning">0</span></li>
-				
-					<li class="list-group-item d-flex justify-content-between align-items-center">Type
-					<span class="badge badge-warning"><%= report.report_type %></span>Recipents
-					<% report.users.each do |user|%>
-						<div class="badge badge-warning m-0"><%= user.name%></div>
-						<% end %></li>
-					
-				</ul>
-				</div>
-			</div>
-			<% end %>
-				
-				
-		</div>
-	
-	
-	<div class="col-md-3">
-				<ul class="list-group">
-					
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">New Reports: <span class="badge badge-dark"><%= @reports.all.count%></span></li>
-				
-				
-			</ul>
-				
-		</div>
-
-	
+  <div class="col-md-3">
+    <div class="list-group">
+      <a class="list-group-item bg-secondary text-white list-group-item-action" href="../reports/generate_report">
+        Generate Report
+      </a>
+      <a class="list-group-item bg-secondary text-white list-group-item-action" href="../reports">
+        All Reports
+      </a>
+      <a class="list-group-item bg-secondary text-white list-group-item-action" href="../reports/weekly_work_order_reports">
+        Weekly Work Order Reports
+      </a>
+      <a class="list-group-item bg-secondary text-white list-group-item-action" href="../reports/weekly_vehicle_reports">
+        Weekly Vehicle Reports
+      </a>		
+    </div>	
+  </div>
+  <div class="col-md-6">	
+    <% @reports.all.order(created_at: :desc).limit(5).each do |report|%>
+    <div class="card bg-dark text-white mb-2">
+      <div class="card-header">
+        <h4>
+          Report Number: <%=link_to report.id, report_path(id: report.id), class: "badge badge-warning" %>
+        </h4>
+      </div>	
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Created On
+            <span class="badge badge-warning">
+              <%= report.created_at.strftime('%D') %>
+            </span>
+            Car Number
+            <span class="badge badge-warning">
+              0
+            </span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Type
+            <span class="badge badge-danger">
+              <%= report.report_type %>
+            </span>
+            Recipients
+            <% report.users.each do |user|%>
+            <div class="badge badge-danger m-0">
+              <%= user.name%>
+            </div>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+        New Reports:
+        <span class="badge badge-danger">
+          <%= @reports.all.count%>
+        </span>
+      </li>		
+    </ul>			
+  </div>
 </div>

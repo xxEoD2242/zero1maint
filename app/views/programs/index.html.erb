@@ -13,7 +13,6 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Interval</th>
             <th>Threshold Mileage</th>
             <th colspan="3"></th>
           </tr>
@@ -22,7 +21,6 @@
           <% @programs.each do |program| %>
           <tr>
             <td><%= program.name %></td>
-            <td><%= program.interval %></td>
             <td>
               <% if program.threshold %>
               <%= program.threshold_numb%>

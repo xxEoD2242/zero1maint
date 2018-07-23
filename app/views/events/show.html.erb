@@ -242,16 +242,16 @@
     <% if @event.status != "Completed"%>
 			
     <%= form_tag 'event_completed' do |f| %>
+    <%= hidden_field_tag :event_id, @event.id %>
     <div class="input-group">
-      <%= hidden_field_tag :event_id, @event.id %>
-      <div class="input-group-prepend">
-        <span class="input-group-text bg-secondary text-white">
+      <div class="input-group-prepend bg-secondary text-white">
+        <div class="input-group-text form-control">
           Mileage:
-        </span>
+        </div>
       </div>
       <%= number_field_tag :event_mileage, nil, class: "form-control" %>
       <div class="input-group-append">
-        <%= submit_tag "Complete Event", class: "btn btn-danger" %>
+        <%= submit_tag "Complete Event", class: "btn btn-danger input-group-btn" %>
       </div>
     </div>
     <% end %>		

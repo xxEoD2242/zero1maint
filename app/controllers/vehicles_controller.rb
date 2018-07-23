@@ -73,7 +73,6 @@ class VehiclesController < ApplicationController
     end
     unless @vehicle.last_shock_service.nil?
       @vehicle.update(near_shock_service_mileage: (@vehicle.shock_service_interval - (@vehicle.mileage - @vehicle.last_shock_service)))
-      
       y = @vehicle.near_shock_service_mileage
       case 
       when y <= 0

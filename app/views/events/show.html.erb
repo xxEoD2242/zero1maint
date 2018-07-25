@@ -238,7 +238,7 @@
     </div>
   </div>
   <div class="card-footer d-flex justify-content-between align-items-center">
-    <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger"%>
+    <%= link_to 'Back', :back, class: "btn btn-danger"%>
     <% if @event.status != "Completed"%>
 			
     <%= form_tag 'event_completed' do |f| %>
@@ -258,11 +258,10 @@
     <% end %>
     <%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-danger" %>
   </div>
-
 </div>
 <% if @event.status != "Completed" %>
 <div class='card bg-dark text-white my-2'>
-  <div class="card-body">
+  <div class="card-body rounded">
     <p>
       * Ensure to set the Event Mileage and the status for the event to "Completed" once the event has finished. This can be done easily with the form above this text box. *
     </p>

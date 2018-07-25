@@ -1,67 +1,67 @@
-	<div>
-	   <h1 style="text-align: center;">Request Number: <%= @request.id %></h1>
-	</div>	
+<div>
+  <h1 style="text-align: center;">Request Number: <%= @request.id %></h1>
+</div>	
 
-	<p>
-		This work order has been completed. If you have any questions, please contact
-		<% if @request.users.exists? %>
-		 <% @request.users.each do |user|%>
-		 	<%= user.name %> 
-		 <% end %>
-		 <% else %>
-		 *No Users Assigned*
-		 <% end %>
-	</p>
+<p>
+  This work order has been completed. If you have any questions, please contact
+  <% if @request.users.exists? %>
+  <% @request.users.each do |user|%>
+  <%= user.name %> 
+  <% end %>
+  <% else %>
+  *No Users Assigned*
+  <% end %>
+</p>
 	
-	<p>
-	  <strong>Vehicle Name:</strong>
-	  <%= @request.vehicle.car_id%>
-	</p>
+<p>
+  <strong>Vehicle Name:</strong>
+  <%= @request.vehicle.car_id%>
+</p>
 
-	<p>
-	  <strong>Submitted By:</strong>
-	  <%= @request.creator%>
-	</p>
+<p>
+  <strong>Submitted By:</strong>
+  <%= @request.creator%>
+</p>
 
-	<p>
-	  <strong>Current Vehicle Mileage:</strong>
-	  <%= @request.vehicle.mileage%>
-	</p>
+<p>
+  <strong>Current Vehicle Mileage:</strong>
+  <%= @request.vehicle.mileage%>
+</p>
 
-	<p>
-	  <strong>Description:</strong>
-	  <%= @request.description %>
-	</p>
+<p>
+  <strong>Description:</strong>
+  <%= @request.description %>
+</p>
 
-	<p>
-	  <strong>Status:</strong>
-	  <%= @request.status%>
-	</p>
-	<% if @request.program != nil %>
-	<p>
-		<strong>Service Type:</strong>
-		<%= @request.program.name %>
-	</p>
-	<% end %>
+<p>
+  <strong>Status:</strong>
+  <%= @request.status%>
+</p>
+<% if @request.program != nil %>
+<p>
+  <strong>Service Type:</strong>
+  <%= @request.program.name %>
+</p>
+<% end %>
 
 
-	<p>
-	  <strong> Work Order Mileage:</strong>
-	  <%= @request.request_mileage%>
-	</p>
+<p>
+  <strong> Work Order Mileage:</strong>
+  <%= @request.request_mileage%>
+</p>
 
-	<p>
-	  <strong>Completed date:</strong>
-	 <span style="color: green;"> <%= @request.completed_date %> </span>
-	</p>
+<p>
+  <strong>Completed date:</strong>
+  <span style="color: green;"> <%= @request.completed_date %> </span>
+</p>
 	
-	<% if @request.users.exists?%>
-	<p>
-	  <strong> Recipents:</strong>
-	  <ul style="list-style-type: none;">
-	  <% @request.users.each do |user|%>
-	  <li><%= user.name%></li>
-		  <% end %>
-	  </ul>
-	</p>
-	<% end %>
+<% if @request.users.exists?%>
+<p>
+  <strong> Recipents:</strong>
+  <ul style="list-style-type: none;">
+    <% @request.users.each do |user|%>
+    <li><%= user.name%></li>
+    <% end %>
+  </ul>
+</p>
+<% end %>

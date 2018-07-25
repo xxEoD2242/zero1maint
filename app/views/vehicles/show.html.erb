@@ -357,7 +357,7 @@
         <ul class="list-group">
           <li class="list-group-item bg-secondary text-white">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <strong> ID </strong>
               </div>
               <div class="col-md-3">
@@ -369,16 +369,22 @@
               <div class="col-md-3">
                 <strong> Completed Date </strong>
               </div>
+              <div class="col-md-1">
             </div>
           </li>
 	
-          <% @vehicle.requests.each do |work_order|%>
+          <% @vehicle.requests.reorder(completed_date: :desc).each do |work_order|%>
           <li class="list-group-item bg-secondary text-white">
             <div class="row">
-              <div class="col-md-3"> <%= link_to work_order.id, request_path(work_order), class: "badge badge-danger"%> </div>
+              <div class="col-md-2"> 
+                <%= link_to work_order.id, request_path(work_order), class: "badge badge-danger"%>
+              </div>
               <div class="col-md-3"><%= work_order.status %> </div>
               <div class="col-md-3"><%= work_order.description%> </div>
               <div class="col-md-3"> <%= work_order.completed_date%></div>
+              <div class-"col-md-1">
+                <%= link_to "Show", request_path(work_order), class: "badge badge-danger"%>
+              </div>
             </div>
           </li>
           <% end %>

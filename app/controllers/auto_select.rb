@@ -73,10 +73,10 @@ module Auto_Select
 
     unless @people.nil?
       @numb_vehicles = if !@shares.nil?
-                         (@people - (@shares * 2)) + @shares
-                       else
-                         @people
-                     end
+        (@people - (@shares * 2)) + @shares
+      else
+        @people
+      end
     end
 
     @a = (@numb_vehicles - @use_a.all.count)
@@ -2345,15 +2345,15 @@ module Auto_Select
 
       else
         @event.update(vehicle_ids: [])
-    end
+      end
       @event.update(vehicle_ids: @event_vehicles)
 
       if @event.vehicles == []
-        flash[:alert] = 'Insufficient number of vehicles at current location. Please move vehicles to this location or maunally select vehicles.'
+        flash[:alert] = 'Insufficient number of vehicles at current location. Please move vehicles to this location or manually select vehicles.'
       else
         flash[:notice] = 'Vehicles successfully added!'
       end
       redirect_back(fallback_location: root_path)
+    end
   end
-end
 end

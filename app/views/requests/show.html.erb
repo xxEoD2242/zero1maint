@@ -2,7 +2,7 @@
   <h2 class="display-3 text-center">
     Work Order <%= @request.id %> for 
     <% if !@request.vehicle.nil? %>
-    <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
+      <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
     <% end %>
   </h2>
   <div class="card bg-dark text-white">
@@ -154,14 +154,16 @@
               </table>
             </div>
             <div class="card-footer">
-              <% total = []%>
+              <% total = [] %>
               <% @request.request_part_orders.each do |order| %>
                 <% if order.order_total %>
                   <% total << order.order_total %>
                 <% end %>
               <% end %>
-		
-              Work Order Total Cost:<span class="badge badge-success ml-3"> <%= number_to_currency total.sum %></span>
+              Work Order Total Cost:
+              <span class="badge badge-success ml-3">
+                <%= number_to_currency total.sum %>
+              </span>
             </div>
           </div>
           <% end %>
@@ -265,7 +267,6 @@
           </div>
           <% end %>
         </div>
-			
         <% end %>
       </div>
       <% end %>

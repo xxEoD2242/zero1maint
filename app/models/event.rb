@@ -38,4 +38,8 @@ class Event < ApplicationRecord
   def set_shares
     self.shares = 0 if shares.blank?
   end
+  
+  def checklists_completed
+   # self.checklists_completed = true if self.vehicles.has_checklist_completed_for_event 
+  end
 end

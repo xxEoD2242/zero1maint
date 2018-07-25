@@ -57,7 +57,6 @@
 												<% end %>
 												
 												<% else %>
-											
 											<span style="color: red;">	Not Completed</span>
 											<% end %>
 											<% else %>
@@ -66,7 +65,7 @@
 					</td>
 					<td>
 						<% if !vehicle.checklists.empty? %>
-						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
+						<% if vehicle.checklists.where(event_id: event.id).exists? %>
 							<span style="color: green;">Completed</span>
 						<% else %>
 						<span style="color: red;">Not Completed</span>

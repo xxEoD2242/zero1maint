@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180723150110) do
+ActiveRecord::Schema.define(version: 20180725151340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20180723150110) do
     t.float "calc_mileage"
     t.date "end_date"
     t.boolean "multi_day"
+    t.boolean "checklists_completed"
   end
 
   create_table "events_vehicles", force: :cascade do |t|

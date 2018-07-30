@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 class Checklist < ApplicationRecord
-  before_save :set_fuel_level, :set_date, :set_wash, :set_suspension, :set_drive_train, :set_body, :set_engine, :set_brake, :set_safety_equipment, :set_chassis, :set_electrcial, :set_cooling_system, :set_tires, :set_radio, :set_exhaust, :set_steering
-
+  before_save :set_fuel_level, :set_date, :set_wash,
+              :set_suspension, :set_drive_train, :set_body, 
+              :set_engine, :set_brake, :set_safety_equipment, 
+              :set_chassis, :set_electrcial, :set_cooling_system, 
+              :set_tires, :set_radio, :set_exhaust, :set_steering
+              
+  after_save :completed, :deadlined, only: [:save]
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
@@ -72,5 +77,22 @@ class Checklist < ApplicationRecord
 
   def set_tires
     self.tires = 'Checked' if tires.blank?
+  end
+  
+  def completed
+    self.completed = true
+  end
+  
+  def deadlined
+    @set_repairs = Program.find_by(name: 'Repairs')
+    @vehicle = self.vehicle
+    if deadline
+      @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
+      Request.create(id: Request.last.id + 1, status: 'New', 
+      description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
+      vehicle_id: @vehicle.id, creator: current_user.name, program_id: @set_repairs.id,
+      completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+      checklist_id: @checklist.id, completed_date: Date.current)
+    end
   end
 end

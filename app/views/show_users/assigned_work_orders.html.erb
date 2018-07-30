@@ -10,46 +10,7 @@
 
 <div class="card bg-dark text-white">
   <div class="card-body">
-    <div class="row">
-      <% unless @requests.where(status: "New").empty? %>
-      <div class="col-md-4 my-3">
-        <h3 class="text-center"> New Work Orders
-          <span class="badge badge-danger ml-4"> 
-            <%= @requests.where(status: "New").all.count %>
-          </span>
-        </h3>	
-        <% @requests.where(status: "New").order(created_at: :desc).each do |request| s%>
-        <%= render "work_order", request: request %>
-        <% end %>
-      </div>
-      <% end %>
-		
-      <% unless @requests.where(status: "In-Progress").empty? %>
-      <div class="col-md-4 my-3">
-        <h3 class="text-center"> Completed Work Orders
-          <span class="badge badge-danger"> 
-            <%= @requests.where(status: "In-Progress").all.count %>
-          </span>
-        </h3>
-        <% @requests.where(status: "In-Progress").order(created_at: :desc).each do |request| %>
-        <%= render "work_order", request: request %>
-        <% end %>
-      </div>
-      <% end %>
-		
-      <% unless @requests.where(status: "Overdue").empty? %>
-      <div class="col-md-4 my-3">
-        <h3 class="text-center"> Overdue Work Orders 
-          <span class="badge badge-danger ml-2"> 
-            <%= @requests.where(status: "Overdue").all.count %>
-          </span>
-        </h3>
-        <% @requests.where(status: "Overdue").order(created_at: :desc).each do |request| %>
-        <%= render "work_order", request: request %>
-        <% end %>
-      </div>
-      <% end %>
-    </div>
+    <%= render 'wo_search_results', requests: @requests %>
   </div>
 </div>
 <br />

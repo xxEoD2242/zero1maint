@@ -1,305 +1,58 @@
 <div class="jumbotron bg-secondary text-white">
-  <h3 class="display-5 text-center">
-    Showing Checklist for <%= link_to @checklist.vehicle.car_id, vehicle_path(@checklist.vehicle.id), class: "badge badge-danger"%> for Event     <span><%= link_to @checklist.event.id, event_path(@checklist.event.id), class: "badge badge-danger"%> </span>
+  <h3 class="display-4 text-center">
+    Showing Checklist for <%= link_to @checklist.vehicle.car_id, vehicle_path(@checklist.vehicle.id), class: "badge badge-danger"%> for Event    
+    <span>
+      <%= link_to @checklist.event.id, event_path(@checklist.event.id), class: "badge badge-danger"%>
+    </span>
   </h3>
-    <div class="card bg-dark text-white">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <strong>Completed By: <%= @checklist.user.name%> </strong>	<span>Date Completed: <%= @checklist.date.strftime('%D')%></span>
+  <div class="card bg-dark text-white">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <strong>Completed By: <%= @checklist.user.name%> </strong>
+      <span>
+        Date Completed: 
+        <span class="badge badge-danger">
+          <%= @checklist.date.strftime('%D')%>
+        </span>
+      </span>
+    </div>
+    <div class="card-body">
+      <% if @checklist.deadline %>
+      <div class="container bg-white text-dark mb-3 p-2 rounded border border-danger">
+        <h3 class="text-center">Deadlined</h3>
       </div>
-      <div class="card-body">
-        <% if @checklist.deadline %>
-        <div class="container mb-3" style="border: 2px solid red; border-radius: 6px; background-color: white;">
-          <h4 class="text-center">Deadlined</h4>
+      <% end %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= render "checklist_row", field: "Fuel Level", attribute: @checklist.fuel_level %>
+          <%= render "checklist_row", field: "Wash", attribute: @checklist.wash %>
+          <%= render "checklist_row", field: "Suspension", attribute: @checklist.suspension %>
+          <%= render "checklist_row", field: "Drive Train", attribute: @checklist.drive_train %>
+          <%= render "checklist_row", field: "Body", attribute: @checklist.body %>
+          <%= render "checklist_row", field: "Engine", attribute: @checklist.engine %>
+          <%= render "checklist_row", field: "Brakes", attribute: @checklist.brake %>
         </div>
-        <% end %>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Fuel Level: </strong>
-                </p>
-              </div>
-              <div class='col-md-5'>
-                <p>
-                  <% if @checklist.fuel_level == "Full"%>
-                  <span style="color: white; text-size: 10px;"><%= @checklist.fuel_level%> <i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% elsif @checklist.wash == "Checked"%>
-                  <span style="color: white; text-size: 15px;"><%= @checklist.fuel_level %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <span style="color: red;"><%= @checklist.fuel_level%></span>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Wash:</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.wash == "Checked"%>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.wash %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.wash%>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Suspension:</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.suspension == "Checked"%>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.suspension %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.suspension%>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Drive Train:</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.drive_train == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.drive_train %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.drive_train %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>	
-      
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Body:</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.body == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.body %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.body %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Engine:</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.engine == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.engine %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.engine %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Brakes:</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.brake == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.brake %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.brake %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Safety Equipment</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.safety_equipment == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.safety_equipment %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.safety_equipment %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-					
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Chassis</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.chassis == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.chassis %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.chassis %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-			
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Electrical</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.electrical == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.electrical %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.electrical %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-				
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Cooling System</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.cooling_system == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.cooling_system %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.cooling_system %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-					
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Radio</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.radio == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.radio %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.radio %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-					
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Exhaust</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.exhaust == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.exhaust %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.exhaust %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-					
-            <div class="row">
-              <div class="col-md-4">
-                <p>
-                  <strong>Steering</strong>
-                </p>
-              </div>
-              <div class="col-md-5">
-                <p>
-                  <% if @checklist.steering == "Checked" %>
-                  <span class="text-white" style="text-size: 15px;"><%= @checklist.steering %><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                  <% else %>
-                  <%= @checklist.steering %>
-                  <% end %>
-                </p>
-              </div>
-              <div class="col-md-3">
-              </div>
-            </div>
-					
-          
-          </div>
-				
-          <div class="container bg-secondary text-white" style="border: 2px solid black; border-radius: 6px 6px 6px 6px;">
-            <strong>Comments </strong>
-            <%= @checklist.comments%>
-          </div>
-          <br \>
-          <br \>
-          <div class="container d-flex justify-content-between align-items-center mt-4">
-            <%= link_to "Back to Event", event_path(@checklist.event.id), class: "btn btn-danger" %>
-            <%= link_to "Back to Records", records_checklists_path, class: "btn btn-danger" %>
-            <%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-danger" %>
-            <%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-danger" %>
-          </div>
+        <div class="col-md-6">
+          <%= render "checklist_row", field: "Safety Equipment", attribute: @checklist.safety_equipment %>
+          <%= render "checklist_row", field: "Chassis", attribute: @checklist.chassis %>
+          <%= render "checklist_row", field: "Electrical", attribute: @checklist.electrical %>
+          <%= render "checklist_row", field: "Cooling System", attribute: @checklist.cooling_system %>
+          <%= render "checklist_row", field: "Radio", attribute: @checklist.radio %>
+          <%= render "checklist_row", field: "Exhaust", attribute: @checklist.exhaust %>
+          <%= render "checklist_row", field: "Steering", attribute: @checklist.steering %>
+        </div>
+        <div class="container bg-secondary p-2 rounded border text-white">
+          <strong>Comments </strong>
+          <%= @checklist.comments%>
+        </div>
+        <br />
+        <br />
+        <div class="container d-flex justify-content-between align-items-center mt-4">
+          <%= link_to "Back to Event", event_path(@checklist.event.id), class: "btn btn-danger" %>
+          <%= link_to "Back to Records", records_checklists_path, class: "btn btn-danger" %>
+          <%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-danger" %>
+          <%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-danger" %>
         </div>
       </div>
     </div>
   </div>
+</div>

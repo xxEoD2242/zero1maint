@@ -73,7 +73,8 @@
                 <% if @request.vehicle.checklists.exists? %>
                 <% if @request.checklist_id %>
                 <% if @request.checklist_id != 0 %>
-                <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-warning mb-2" %>
+                <br />
+                <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-danger mb-2" %>
                 <% end %>	
                 <% end %>
                 <% end %>
@@ -175,27 +176,21 @@
     </div>
     <div class="card-footer">
       <div class="row">
-        <div class="col-md-4">
-          <h5>
-            <strong>Estimated Completion date:</strong>
-          </h5>
-        </div>
-        <div class="col-md-2">
-          <h5>
-            <span class="badge badge-danger"><%= @request.completion_date.strftime("%v") %></span>
-          </h5>
-        </div>
-        <div class="col-md-1">
-        </div>
         <div class="col-md-3">
-          <h5>
-            <strong>Completed date:</strong>
-          </h5>
+          <h4>
+            <strong>
+              <%= date_title @request %>
+            </strong>
+          </h4>
         </div>
         <div class="col-md-2">
-          <h5>
-            <span class="badge badge-danger"><%= @request.completed_date.strftime("%v") %></span>
-          </h5>
+          <h4>
+            <span class="badge <%= badge_color @request %>">
+              <%= date_badge @request %>
+            </span>
+          </h4>
+        </div>
+        <div class="col-md-7">
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
   <h3 class="display-3 text-center">
     <%= @user.name %>'s Completed Work Orders
     <span class="badge badge-danger"> 
-      <%= @requests.where(status: "Completed").all.count %>
+      <%= @requests.size %>
     </span> 
   </h3>
 </div>
@@ -14,17 +14,7 @@
 <br />
 <div class="card bg-dark text-white">
   <div class="card-body">
-	
-    <% unless @requests.where(status: "Completed").empty? %>
-    <div class="row">
-			
-      <% @requests.where(status: "Completed").order(created_at: :desc).each do |request|%>
-      <div class="col-md-4 my-3">
-        <%= render "work_order", request: request %>
-      </div>
-      <% end %>
-    </div>
-    <% end %>
+	  <%= render 'wo_search_results', requests: @requests %>
   </div>
 </div>
 <br />

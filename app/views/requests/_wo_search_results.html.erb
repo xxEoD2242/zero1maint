@@ -17,7 +17,7 @@
         <tbody>
           <% request.order(id: :desc).each do |request| %>
           <tr>
-            <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
+            <td><%= link_to request.id, request_path(request), class: "badge #{badge_color request}" %></td>
             <td><%= request.status %></td>
             <td><%= request.program.name %></td>
             <td>
@@ -30,11 +30,12 @@
             <td><%= request.completion_date.strftime('%D') %></td>
             <% end %>
             <td>
-              <% if request.completed_date %>
+              <% if request.completed? %>
               <%= request.completed_date.strftime('%D') %>
               <% else%>
-              <strong style="color: red;"> Not Completed </strong>
-				
+              <strong class="text-danger">
+                Not Completed
+              </strong>
               <% end %>
             </td>
             <td><%= link_to "Show", request_path(request), class: "btn btn-danger btn-sm" %></td>
@@ -43,7 +44,9 @@
           </tr>
           <% end %>
         </tbody>
-      </table>	
+      </table>
+      <br />
+      <%= paginate request%>
     </div>
   </div>
 </div>

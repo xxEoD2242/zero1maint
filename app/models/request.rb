@@ -17,7 +17,7 @@ class Request < ApplicationRecord
 
   mount_uploader :image, ImageUploader
 
-  paginates_per 5
+  paginates_per 10
 
   accepts_nested_attributes_for :vehicle, :parts
 
@@ -33,4 +33,20 @@ class Request < ApplicationRecord
   scope :is_a_repair, -> { where(program_id: Program.repairs.id) }
   scope :is_a_defect, -> { where(program_id: Program.defect.id) }
   scope :is_a_tour_car_prep, -> { where(program_id: Program.tour_car_prep.id) }
+  
+  def new?
+    status == "New"
+  end
+  
+  def in_progress?
+    status == "In-Progress"
+  end
+  
+  def completed?
+    status == "Completed"
+  end
+  
+  def overdue?
+    status == 'Overdue'
+  end
 end

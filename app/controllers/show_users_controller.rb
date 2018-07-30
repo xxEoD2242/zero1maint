@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ShowUsersController < ApplicationController
-  before_action :authenticate_user!
   def all_users
     @users = User.all
   end
@@ -13,19 +12,14 @@ class ShowUsersController < ApplicationController
 
   def assigned_work_orders
     @user = User.find(current_user.id)
-    @q = @user.requests.ransack(params[:q])
-    @requests = @q.result
-    @set_new = Tracker.find_by(track: 'New')
-    @set_progress = Tracker.find_by(track: 'In-Progress')
-    @set_completed = Tracker.find_by(track: 'Completed')
-    @set_overdue = Tracker.find_by(track: 'Overdue')
+    @q = @user.requests.where('status != ?', 'Completed').ransack(params[:q])
+    @requests = @q.result.page(params[:page])
   end
 
   def completed_work_orders
     @user = User.find(current_user.id)
-    @q = @user.requests.ransack(params[:q])
-    @requests = @q.result
-    @set_completed = Tracker.find_by(track: 'Completed')
+    @q = @user.requests.where(status: 'Completed').ransack(params[:q])
+    @requests = @q.result.page(params[:page])
   end
 
   def destroy

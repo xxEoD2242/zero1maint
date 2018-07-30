@@ -115,7 +115,9 @@ class RequestsController < ApplicationController
 
   def create_work_order
     @other_service = Program.find_by(name: 'Other Service')
-    @request = Request.create(status: 'New', program_id: @other_service.id, vehicle_id: params[:id], description: '****** Please fill this in ******', completion_date: Time.now)
+    @request = Request.create(status: 'New', program_id: @other_service.id, vehicle_id: params[:id], 
+                              description: '****** Please fill this in ******', completion_date: Date.current,
+                              creator: current_user.name, work_order_mileage: Vehicle.find(params[:id].mileage))
     if @request.save
       flash[:notice] = 'Work Order Created! Please select Service, Status and enter dates.'
     else

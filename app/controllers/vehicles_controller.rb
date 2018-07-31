@@ -57,6 +57,7 @@ class VehiclesController < ApplicationController
 
   def show
     @set_defects = Program.find_by(name: 'Defect')
+    @defects = @vehicle.defects.order(created_at: :desc)
     @request = Request.all
 
     unless @vehicle.last_a_service.nil?

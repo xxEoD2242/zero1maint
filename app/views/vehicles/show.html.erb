@@ -1,358 +1,354 @@
+<div class="jumbotron bg-secondary text-white">
+  <h2 class="text-center">
+    Vehicle:
+    <%= @vehicle.car_id %> 
+    <% if @vehicle.vehicle_status == "Sold"%>
+    <span class="badge badge-danger badge-lg">
+      SOLD
+    </span>
+    <% end %>
+  </h2>
+
 <div class="card bg-dark text-white mt-3">
   <div class="card-header">
-    <h2 class="text-center">Vehicle:
-      <%= @vehicle.car_id %> 
-      <% if @vehicle.vehicle_status == "Sold"%>
-      <span class="badge badge-danger badge-lg">
-        SOLD
-      </span>
-      <% end %>
-    </h2>
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link text-secondary active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Info</a>
+        <a class="nav-item text-secondary nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Defects</a>
+        <a class="nav-item text-secondary nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Maintenance History</a>
+      </div>
+    </nav>
   </div>
   <div class="card-body">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Vehicle category:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.veh_category%>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Location:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.location%>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Manufacturer:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.manufacturer %>
-            </p>
-          </div>
-        </div>
-        <% if @vehicle.vehicle_status != "Sold"%>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Status:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.vehicle_status %>
-            </p>
-          </div>
-        </div>
-        <% end %>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Vin number:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.vin_number %>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Registration date:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.registration_date %>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Plate number:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.plate_number %>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Current Mileage:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.mileage %>
-            </p>
-          </div>
-        </div>
-        <% if @vehicle.vehicle_status == "Sold"%>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Date Sold:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.sale_date%>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <p>
-              <strong>Sold To:</strong>
-            </p>
-          </div>
-          <div class="col-md-7">
-            <p>
-              <%= @vehicle.purchaser%>
-            </p>
-          </div>
-        </div>
-        <% end %>	
-        <% if @vehicle.high_use %>
-        <div class="container bg-secondary" style="border: 2px solid red; border-radius: 6px; padding: 10px;">
-          <h4 class="text-white text-center">High Use </h4>
-        </div>
-        <% end %>
-        <br />
-        <div class="bg-secondary text-white" style="border: 2px solid red;border-radius: 6px; padding: 20px;">
-          <strong class="text-align: center;">Notes</strong>
-          <br />
-          <%= @vehicle.notes%>
-        </div>
-      </div>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Vehicle category:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.veh_category%>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Location:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.location%>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Manufacturer:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.manufacturer %>
+                  </p>
+                </div>
+              </div>
+              <% if @vehicle.vehicle_status != "Sold"%>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Status:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.vehicle_status %>
+                  </p>
+                </div>
+              </div>
+              <% end %>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Vin number:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.vin_number %>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Registration date:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.registration_date %>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Plate number:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.plate_number %>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Current Mileage:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.mileage %>
+                  </p>
+                </div>
+              </div>
+              <% if @vehicle.vehicle_status == "Sold"%>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Date Sold:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.sale_date%>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p>
+                    <strong>Sold To:</strong>
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <p>
+                    <%= @vehicle.purchaser%>
+                  </p>
+                </div>
+              </div>
+              <% end %>	
+              <% if @vehicle.high_use %>
+              <div class="container bg-secondary border border-danger rounded p-4">
+                <h4 class="text-white text-center">High Use </h4>
+              </div>
+              <% end %>
+              <br />
+              <div class="container-fluid bg-secondary text-white p-4 border border-danger rounded">
+                <strong class="text-align: center;">Notes</strong>
+                <br />
+                <%= @vehicle.notes%>
+              </div>
+            </div>
 
-      <% if @vehicle.vehicle_status != "Sold"%>
-      <div class="col-sm-6">
-        <div class="container d-flex justify-content-between align-items-center">
-          <strong>Service:</strong>
-          <strong>Mileage Until:</strong>
-          <strong>Date Completed:</strong>
-        </div>
-        <ul class="list-group mt-2">
+            <% if @vehicle.vehicle_status != "Sold"%>
+            <div class="col-sm-6">
+              <div class="container d-flex justify-content-between align-items-center">
+                <strong>Service:</strong>
+                <strong>Mileage Until:</strong>
+                <strong>Date Completed:</strong>
+              </div>
+              <ul class="list-group mt-2">
+                <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+                  <strong>
+                    A-Service: </strong>
+	
+                    <% if @vehicle.a_service %>
+                    No Data
+                    <% elsif @vehicle.a_service %>
+                    <strong>NEEDS SERVICE</strong>
+                    <% else %>
+                    <span class="badge badge-danger"><%= sprintf('%.2f', @vehicle.near_a_service_mileage) %></span>
+	
+                    <% unless @vehicle.requests.where(program_id: @set_a_service.id).empty? %>
+                    <% if  @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date %>
+                    <span> <%= link_to "#{@vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_a_service.id).last), class: "badge badge-danger" %></span>
+	
+                    <% end %>
+                    <% else %>
+                    <span class="float-right">
+                      None
+                    </span>
+                    <% end %>
+                    <% end %>
+                  </li>
+                  <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <strong>Shock Service:</strong>
+                    <% if @vehicle.shock_service == nil %>
+                    No Data
+                    <% elsif @vehicle.shock_service %>
+                    <strong>NEEDS SERVICE</strong>
+                    <% else %>
+                    <span class="badge badge-danger">
+                      <%= sprintf('%.2f', @vehicle.near_shock_service_mileage)  %>
+                    </span>
+                    <% unless @vehicle.requests.where(program_id: @set_shock_service.id).empty? %>
+                    <% if @vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date %>
+                    <span>
+                      <%= link_to "#{@vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_shock_service.id).last), class: "badge badge-danger" %>
+                    </span>
+	
+                    <% end %>
+                    <% else %>
+                    <span class="float-right">
+                      None
+                    </span> 
+                    <% end %>
+                    <% end %>
+                  </li>
+                  <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <strong>
+                      Air Filter Service:
+                    </strong>
+                    <% if @vehicle.air_filter_service == nil %>
+                    No Data
+                    <% elsif @vehicle.air_filter_service %>
+                    <strong>
+                      NEEDS SERVICE
+                    </strong>
+                    <% else %>
+                    <span class="badge badge-danger">
+                      <%= sprintf('%.2f', @vehicle.near_air_filter_service_mileage)  %>
+                    </span>
+                    <% unless @vehicle.requests.where(program_id: @set_air_filter_service.id).empty? %>
+                    <% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date %>
+                    <span> 
+                      <%= link_to "#{@vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_air_filter_service.id).last), class: "badge badge-danger"%>
+                    </span>
+	
+                    <% end %>
+                    <% else %>
+                    <span class="float-right">
+                      None
+                    </span>
+                    <% end %>
+                  </li>
+                  <% end %>
+	
+                  <li class="list-group-item bg-secondary text-white">
+                    <strong>
+                      Repairs:
+                    </strong>
+                    <% if @vehicle.repair_needed == nil %>
+                    <span class="float-right">
+                      No Data
+                    </span>
+                    <% elsif @vehicle.repair_needed %>
+                    <span class="text-white float-right">
+                      <i class="fa fa-wrench" aria-hidden="true">
+                        Repairs-In-Progress
+                      </i>
+                    </span>
+                    <% else %>
+                    <span class="float-right">
+                      No Repairs Needed
+                    </span>
+                    <% end %>
+                  </li>
+	
+                  <li class="list-group-item bg-secondary text-white">
+                    <strong>
+                      Tour Car Prep:
+                    </strong>
+                    <% if @vehicle.prep == nil %>
+                    <span class="float-right">
+                      No Data
+                    </span>
+                    <% elsif @vehicle.prep %>
+                    <span class="text-white float-right"><i class="fa fa-wrench mr-1" aria-hidden="true">
+                      Preparation In-Progress
+                    </i>
+                  </span>
+                  <% else %>
+                  <span class="float-right">
+                    None
+                  </span>
+                  <% end %>
+                </li>
+	
+                <li class="list-group-item bg-secondary text-white">
+                  <strong>
+                    Defects:
+                  </strong>
+                  <% if @vehicle.defect %>
+                  <span class="float-right">
+                    No Data
+                  </span>
+                  <% elsif @vehicle.defect %>
+                  <span class="float-right">Defect Reported <%  @vehicle.requests.where(program_id: @set_defects.id, tracker_id: @set_new.id).each do |request|%>
+                    <br class="d-flex justify-content-end"/>
+                    <strong class="ml-3">
+                      Description:
+                    </strong> 
+                    <%= request.description %>
+                  </span>
+                  <% end %>
+                  <% else %>
+                  <span class="float-right"> No Defects Reported</span>
+                  <% end %>
+                </li>
 		
-          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
-            <strong>
-              A-Service: </strong>
+              </ul>
+            <strong> Last Vehicle Mileage for: </strong>
+            <ul class="list-group mt-2">
 	
-            <% if @vehicle.a_service == nil %>
-            No Data
-            <% elsif @vehicle.a_service %>
-            <strong>NEEDS SERVICE</strong>
-            <% else %>
-            <span class="badge badge-danger"><%= sprintf('%.2f', @vehicle.near_a_service_mileage) %></span>
-	
-            <% unless @vehicle.requests.where(program_id: @set_a_service.id).empty? %>
-            <% if  @vehicle.requests.where(program_id: @set_a_service.id).last.completed_date %>
-            <span> <%= link_to "#{@vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_a_service.id).last), class: "badge badge-danger" %></span>
-	
-            <% end %>
-            <% else %>
-            <span class="float-right">
-              None
-            </span>
-            <% end %>
-            <% end %>
-          </li>
-            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
-              <strong>Shock Service:</strong>
-              <% if @vehicle.shock_service == nil %>
-              No Data
-              <% elsif @vehicle.shock_service %>
-              <strong>NEEDS SERVICE</strong>
-              <% else %>
-              <span class="badge badge-danger">
-                <%= sprintf('%.2f', @vehicle.near_shock_service_mileage)  %>
-              </span>
-              <% unless @vehicle.requests.where(program_id: @set_shock_service.id).empty? %>
-              <% if @vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date %>
-              <span>
-                <%= link_to "#{@vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_shock_service.id).last), class: "badge badge-danger" %>
-              </span>
-	
-              <% end %>
-              <% else %>
-              <span class="float-right">
-                None
-              </span> 
-              <% end %>
-              <% end %>
-            </li>
-            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
-              <strong>
-                Air Filter Service:
-              </strong>
-              <% if @vehicle.air_filter_service == nil %>
-              No Data
-              <% elsif @vehicle.air_filter_service %>
-              <strong>
-                NEEDS SERVICE
-              </strong>
-              <% else %>
-              <span class="badge badge-danger">
-                <%= sprintf('%.2f', @vehicle.near_air_filter_service_mileage)  %>
-              </span>
-              <% unless @vehicle.requests.where(program_id: @set_air_filter_service.id).empty? %>
-                <% if @vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date %>
-              <span> 
-                <%= link_to "#{@vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')}", request_path(@vehicle.requests.where(program_id: @set_air_filter_service.id).last), class: "badge badge-danger"%>
-              </span>
-	
+              <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center"> 
+                <strong>A-Service  </strong>
+                <% if @vehicle.last_a_service %>
+                <span class="badge badge-danger"> 
+                  <%= sprintf('%.2f', @vehicle.last_a_service) %>
+                </span> 
                 <% end %>
-              <% else %>
-             <span class="float-right">
-               None
-             </span>
-              <% end %>
-            </li>
+	
+              </li>
+              <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center"> 
+                <strong>Shock Service </strong>
+                <% if @vehicle.last_shock_service %>
+                <span class="badge badge-danger"> 
+                  <%=sprintf('%.2f', @vehicle.last_shock_service)%>
+                </span> 
+                <% end %>
+              </li>
+              <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center"> 
+                <strong>Air Filter Change Service</strong>
+                <% if @vehicle.last_air_filter_service %>
+                <span class="badge badge-danger"> 
+                  <%= sprintf('%.2f', @vehicle.last_air_filter_service) %>
+                </span> 
+                <% end %>
+              </li>
+            </ul>
+          </div>
             <% end %>
-	
-            <li class="list-group-item bg-secondary text-white">
-              <strong>
-                Repairs:
-              </strong>
-              <% if @vehicle.repair_needed == nil %>
-              <span class="float-right">
-                No Data
-              </span>
-              <% elsif @vehicle.repair_needed %>
-              <span class="text-white float-right">
-                <i class="fa fa-wrench" aria-hidden="true">
-                  Repairs-In-Progress
-                </i>
-              </span>
-              <% else %>
-              <span class="float-right">
-                No Repairs Needed
-              </span>
-              <% end %>
-            </li>
-	
-            <li class="list-group-item bg-secondary text-white">
-              <strong>
-                Tour Car Prep:
-              </strong>
-              <% if @vehicle.prep == nil %>
-              <span class="float-right">
-                No Data
-              </span>
-              <% elsif @vehicle.prep %>
-              <span class="text-white float-right"><i class="fa fa-wrench mr-1" aria-hidden="true">
-                Preparation In-Progress
-              </i>
-              </span>
-              <% else %>
-              <span class="float-right">
-                None
-              </span>
-              <% end %>
-            </li>
-	
-            <li class="list-group-item bg-secondary text-white">
-              <strong>
-                Defects:
-              </strong>
-              <% if @vehicle.defect %>
-               <span class="float-right">
-                 No Data
-               </span>
-              <% elsif @vehicle.defect %>
-                <span class="float-right">Defect Reported <%  @vehicle.requests.where(program_id: @set_defects.id, tracker_id: @set_new.id).each do |request|%>
-              <br class="d-flex justify-content-end"/>
-              <strong class="ml-3">
-                Description:
-              </strong> 
-                <%= request.description %>
-                </span>
-              <% end %>
-              <% else %>
-               <span class="float-right"> No Defects Reported</span>
-              <% end %>
-            </li>
-		
-          </ul>
-        </p>
-        <strong> Last Vehicle Mileage for: </strong>
-        <ul class="list-group mt-2">
-	
-          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center"> 
-            <strong>A-Service  </strong>
-            <% if @vehicle.last_a_service %>
-            <span class="badge badge-danger"> 
-              <%= sprintf('%.2f', @vehicle.last_a_service) %>
-            </span> 
-            <% end %>
-	
-          </li>
-          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center"> 
-            <strong>Shock Service </strong>
-            <% if @vehicle.last_shock_service %>
-            <span class="badge badge-danger"> 
-              <%=sprintf('%.2f', @vehicle.last_shock_service)%>
-            </span> 
-            <% end %>
-          </li>
-          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center"> 
-            <strong>Air Filter Change Service</strong>
-            <% if @vehicle.last_air_filter_service %>
-            <span class="badge badge-danger"> 
-              <%= sprintf('%.2f', @vehicle.last_air_filter_service) %>
-            </span> 
-            <% end %>
-          </li>
-        </ul>
+        </div>
       </div>
-    </div>
-    <% end %>
-  </div>
-
-  <div class="card-footer d-flex justify-content-between align-items-center">
-    <span>
-      <%= link_to 'Edit', edit_vehicle_path(@vehicle), class: "btn btn-danger mr-2" %>
-      <%= link_to 'Back', vehicles_path, class: "btn btn-danger" %>
-    </span>
-      <span> 
-        <%= link_to 'Vehicle Mileage Report', vehicle_mileage_vehicles_path(id: @vehicle.id), class: "btn btn-danger"%>
-      </span>
-      <strong>
-        Download:
-        <%= link_to "PDF", vehicle_path(@vehicle, params.merge(format: "pdf").permit!), class: "btn btn-danger" %>
-      </strong>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <%= render 'defects_table', defects: @defects %>
       </div>
-    </div>
-
-    <div class="card bg-dark text-white mt-4">
-      <div class="card-header">
-        <h3 class="text-center"><%= @vehicle.car_id %> Maintenance History </h3>
-      </div>
-      <div class="card-body">
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="container-fluid bg-secondary text-white border border-danger rounded p-3">
+          <h3 class="text-center"><%= @vehicle.car_id %> Maintenance History </h3>
+        </div>
         <% if !@vehicle.requests.empty? %>
         <ul class="list-group">
           <li class="list-group-item bg-secondary text-white">
@@ -370,6 +366,7 @@
                 <strong> Completed Date </strong>
               </div>
               <div class="col-md-1">
+              </div>
             </div>
           </li>
 	
@@ -382,7 +379,7 @@
               <div class="col-md-3"><%= work_order.status %> </div>
               <div class="col-md-3"><%= work_order.description%> </div>
               <div class="col-md-3"> <%= work_order.completed_date%></div>
-              <div class-"col-md-1">
+              <div class="col-md-1">
                 <%= link_to "Show", request_path(work_order), class: "badge badge-danger"%>
               </div>
             </div>
@@ -390,6 +387,22 @@
           <% end %>
         </ul>
         <% end %>
-	
+        
       </div>
     </div>
+</div>
+
+<div class="card-footer d-flex justify-content-between align-items-center">
+  <span>
+    <%= link_to 'Edit', edit_vehicle_path(@vehicle), class: "btn btn-danger mr-2" %>
+    <%= link_to 'Back', vehicles_path, class: "btn btn-danger" %>
+  </span>
+  <span> 
+    <%= link_to 'Vehicle Mileage Report', vehicle_mileage_vehicles_path(id: @vehicle.id), class: "btn btn-danger"%>
+  </span>
+  <strong>
+    Download:
+    <%= link_to "PDF", vehicle_path(@vehicle, params.merge(format: "pdf").permit!), class: "btn btn-danger" %>
+  </strong>
+</div>
+</div>

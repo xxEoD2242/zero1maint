@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180731102553) do
+ActiveRecord::Schema.define(version: 20180731214905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,19 @@ ActiveRecord::Schema.define(version: 20180731102553) do
     t.integer "event_id"
     t.boolean "deadline"
     t.boolean "defect"
+  end
+
+  create_table "defects", force: :cascade do |t|
+    t.string "description"
+    t.bigint "vehicle_id"
+    t.bigint "checklist_id"
+    t.boolean "fixed", default: false
+    t.date "date_fixed", default: "2018-07-31"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "category", default: ""
+    t.index ["checklist_id"], name: "index_defects_on_checklist_id"
+    t.index ["vehicle_id"], name: "index_defects_on_vehicle_id"
   end
 
   create_table "event_reports", force: :cascade do |t|
@@ -142,7 +155,6 @@ ActiveRecord::Schema.define(version: 20180731102553) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "completed"
     t.boolean "threshold"
     t.float "threshold_numb"
     t.float "rzr_interval", default: 0.0
@@ -286,7 +298,7 @@ ActiveRecord::Schema.define(version: 20180731102553) do
     t.string "car_id", default: "Blank"
     t.string "manufacturer", default: "Blank"
     t.string "vin_number", default: "Blank"
-    t.date "registration_date", default: "2018-06-30"
+    t.date "registration_date", default: "2018-07-31"
     t.string "plate_number", default: "Blank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -318,7 +330,7 @@ ActiveRecord::Schema.define(version: 20180731102553) do
     t.string "location", default: "RZR Basecamp"
     t.boolean "high_use", default: false
     t.string "notes", default: "Blank"
-    t.date "sale_date", default: "2018-06-30"
+    t.date "sale_date", default: "2018-07-31"
     t.string "purchaser", default: "Blank"
     t.boolean "prep", default: false
     t.boolean "near_a_service", default: false

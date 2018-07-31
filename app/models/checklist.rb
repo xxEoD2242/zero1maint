@@ -7,9 +7,11 @@ class Checklist < ApplicationRecord
               :set_chassis, :set_electrcial, :set_cooling_system, 
               :set_tires, :set_radio, :set_exhaust, :set_steering,
               :defects_detected, :deadlined, :completed
+  after_save :create_defect
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
+  has_many :defects
   
 
   FUEL_LEVELS = ['Full', '3/4', '1/2', '1/4', 'None'].freeze
@@ -96,38 +98,24 @@ class Checklist < ApplicationRecord
   end
   
   def defects_detected 
-    if self.suspension != 'Checked'
-      self.defect = true
-    elsif self.drive_train != 'Checked'
-      self.defect = true
-    elsif self.body != 'Checked'
-      self.defect = true
-    elsif self.engine != 'Checked'
-      self.defect = true
-    elsif self.brake != 'Checked'
-      self.defect = true
-    elsif self.safety_equipment != 'Checked'
-      self.defect = true
-    elsif self.chassis != 'Checked'
-      self.defect = true
-    elsif self.electrical != 'Checked'
-      self.defect = true
-    elsif self.cooling_system != 'Checked'
-      self.defect = true
-    elsif self.tires != 'Checked'
-      self.defect = true
-    elsif self.radio != 'Checked'
-      self.defect = true
-    elsif self.exhaust != 'Checked'
-      self.defect = true
-    elsif self.steering != 'Checked'
-      self.defect = true
-    else
-      self.defect = false
+    maintenance = self.attribute_names.slice(5..13)
+    self.attributes.each do |k,v|
+      if v != 'Checked' && maintenance.include?(k)
+        self.defect = true
+      end
     end
   end
   
   def has_defects?
     defect == true
+  end
+  
+  def create_defect
+    maintenance = self.attribute_names.slice(5..13)
+    self.attributes.each do |k,v|
+      if v != 'Checked' && maintenance.include?(k)
+        Defect.create(description: v, checklist_id: self.id, vehicle_id: self.vehicle.id)
+      end
+    end
   end
 end

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       get 'records'
     end
   end
+  
+  resources :defects
 
   resources :reports do
     collection do

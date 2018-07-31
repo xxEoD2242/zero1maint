@@ -16,6 +16,7 @@ class Vehicle < ApplicationRecord
   has_many :reports, through: :report_vehicles
 
   has_many :checklists
+  has_many :defects
 
   validates :car_id, presence: true
   validates :vehicle_status, presence: true

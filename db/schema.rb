@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180725151340) do
+ActiveRecord::Schema.define(version: 20180731102553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20180725151340) do
     t.date "date"
     t.integer "event_id"
     t.boolean "deadline"
+    t.boolean "defect"
   end
 
   create_table "event_reports", force: :cascade do |t|

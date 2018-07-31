@@ -76,6 +76,10 @@ class ChecklistsController < ApplicationController
   end
 
   def checklist_params
-    params.require(:checklist).permit(:date, :user_id, :event_id, :vehicle_id, :fuel_level, :wash, :deadline, :suspension, :drive_train, :body, :engine, :brake, :safety_equipment, :chassis, :electrical, :cooling_system, :tires, :radio, :exhaust, :steering, :comments, :completed)
+    params.require(:checklist).permit(:date, :user_id, :event_id, :vehicle_id, :fuel_level,
+                                      :wash, :deadline, :suspension, :drive_train, :body, 
+                                      :engine, :brake, :safety_equipment, :chassis, :electrical,
+                                      :cooling_system, :tires, :radio, :exhaust, :steering,
+                                      :comments, :completed, :defect)
   end
 end

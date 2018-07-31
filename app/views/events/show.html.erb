@@ -185,9 +185,7 @@
           <h4 class="text-center">
             <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-danger" %>
           </h4> 
-          <% if @event.customers != nil && @event.customers > 0%>
-          <%= link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-danger"%>
-          <% end %>
+          <%= auto_select_vehicles @event%>
         </div>
         <p>
           <div class="row">	
@@ -205,7 +203,7 @@
             </div>
           </div>
           <div class="row mt-2">
-            <% @event.vehicles.each do |vehicle|%>
+            <% @vehicles.each do |vehicle|%>
             <div class="col-md-3 mb-2">
               <%= vehicle.car_id %> 
             </div>
@@ -214,7 +212,7 @@
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
                 Completed
               </i>
-              <%= link_to "Checklist", checklist_path(@checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-danger ml-1" %>
+              <%= checklist_button_color @checklists, vehicle%>
               <% else %>
               <%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1"%> 
               <% end %>

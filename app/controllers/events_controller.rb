@@ -18,6 +18,7 @@ class EventsController < ApplicationController
 
   def show
     @checklists = Checklist.where(event_id: @event.id)
+    @vehicles = @event.vehicles
     respond_to do |format|
       format.html
       format.xls

@@ -36,7 +36,13 @@
   <div class="col-md-12">
     <div class="card bg-dark text-white">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <span> <%= link_to "#{(@date - 1.month).strftime('%B %Y')}", previous_month_events_path, class: "btn btn-danger"%> </span><h2> <%= @date.strftime('%B %Y') %> </h2> <span>
+        <span>
+          <%= link_to "#{(@date - 1.month).strftime('%B %Y')}", previous_month_events_path, class: "btn btn-danger"%>
+        </span>
+        <h2>
+          <%= @date.strftime('%B %Y') %>
+        </h2>
+        <span>
           <%= link_to "#{(@date + 1.month).strftime('%B %Y')}", next_month_calendar_events_path, class: "btn btn-danger"%>
         </span>
       </div>
@@ -51,22 +57,12 @@
           <% @events_by_date[date].each do |event| %>
           
           <li>
-            <% if event.status == "Completed"%>
-              <%= link_to event.id, event, class: "badge badge-success" %> 
-            <% else %>
-              <%= link_to event.id, event, class: "badge badge-danger" %>
-            <% end %>
+            <%= link_to event.id, event, class: "badge #{event_link_color event}" %> 
             <span>
               <%= event.class_type%>
-              <% if event.vehicles.exists? %>
-                <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
-                  <span class="text-white"><i class="fa fa-check" aria-hidden="true"></i></span>
-                <% else %>
-                  <span class="text-white"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </span>
-                <% end %>
-              <% else %>
-                <span class="text-white"><i class="fa fa-car" aria-hidden="true"></i> </span>
-              <% end %>
+              <span class="text-white">
+                <i class="fa <%= calendar_symbol event %>" aria-hidden="true"></i>
+              </span>
             </span>
           </li>
           <% end %>
@@ -136,29 +132,12 @@
           </ul>
         </div>
         <div class="card-footer d-flex justify-content-center">
-          <% if event.vehicles.exists? %>
-		
-          <% if event.vehicles.count == Checklist.where(event_id: event.id, completed: true).count %>
           <span class="text-white">
-            <i class="fa fa-check" aria-hidden="true">
-              Checklists Completed
+            <i class="fa <%= calendar_symbol event %>" aria-hidden="true">
+              <%= calendar_event_word event%>
             </i>
           </span>
           <% else %>
-          <span class="text-white">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true">
-              Checklists Not Completed
-            </i>
-          </span>
-				
-          <% end %>
-          <% else %>
-          <span class"text-white">
-            <i class="fa fa-car" aria-hidden="true">
-              No Vehicles Added!
-            </i> 
-          </span>
-          <% end %>
         </div>
       </div>
     </div>

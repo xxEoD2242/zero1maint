@@ -40,6 +40,26 @@ class Event < ApplicationRecord
   end
   
   def checklists_completed
-   # self.checklists_completed = true if self.vehicles.has_checklist_completed_for_event 
+    self.checklists_completed = true if self.checklists.exists? && self.vehicles.count == Checklist.where(event_id: self.id, completed: true).count
+  end
+  
+  def is_completed?
+    status == 'Completed'
+  end
+  
+  def is_scheduled?
+    status == 'Scheduled'
+  end
+  
+  def is_vehicles_assigned?
+    status == 'Vehicles Assigned'
+  end
+  
+  def is_cancelled?
+    status == 'Cancelled'
+  end
+  
+  def is_in_progress?
+    status == 'In-Progress'
   end
 end

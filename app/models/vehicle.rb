@@ -94,4 +94,8 @@ class Vehicle < ApplicationRecord
       self.air_filter_service_interval = Program.air_filter_service.other_interval
     end
   end
+  
+  def has_checklist_completed_for_event
+    
+  end
 end

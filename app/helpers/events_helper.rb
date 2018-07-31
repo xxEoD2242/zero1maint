@@ -6,17 +6,50 @@ module EventsHelper
       
     end
   end
-  
+
   def auto_select_vehicles(event)
     if @event.customers && @event.customers > 0
     link_to "Auto Select Vehicles", auto_select_vehicles_events_path(id: @event.id), class: "btn btn-danger"
     end
   end
+  
   def checklist_button_color(checklists, vehicle)
     if checklists.find_by(vehicle_id: vehicle.id).has_defects?
       link_to "Checklist", checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-warning ml-1"
     else
       link_to "Checklist", checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: "btn btn-danger ml-1"
+    end
+  end
+  
+  def calendar_symbol(event)
+    if event.checklists.exists?
+      if event.checklists_completed
+        'fa-check'
+      else
+        'fa-exclamation-triangle'
+      end
+    else
+      'fa-car'
+    end
+  end
+  
+  def calendar_event_word(event)
+    if event.checklists.exists?
+      if event.checklists_completed
+        'Checklists Completed'
+      else
+        'Checklists Not Completed'
+      end
+    else
+      'No Vehicles Added!'
+    end
+  end
+  
+  def event_link_color(event)
+    if event.is_completed?
+      'badge-success'
+    else
+      'badge-danger'
     end
   end
 end

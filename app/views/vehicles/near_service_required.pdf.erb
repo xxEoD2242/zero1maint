@@ -22,34 +22,34 @@
 		  <td><%= vehicle.vehicle_status %></td>
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
-        <td><% vehicle.requests.where(tracker_id: 1).each do |request| %>
+        <td><% vehicle.requests.where(status: 'New').each do |request| %>
 		  		<%= request.number %>
 				<%= request.tracker.track%>
 				<% end %></td>
         <td><%= vehicle.mileage %></td>
-         <td><% if vehicle.near_service == true %>
+         <td><% if vehicle.near_service %>
  		 	<ul style="list-style-type:none;padding: 0;margin: 0;">
- 				<% if (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service)) <= 100 %>
- 				<li> A-Service in <br \> <%= (@set_a_service.interval - (vehicle.mileage - vehicle.last_a_service))%> Miles </li> <% end %>
- 		     <%  if (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) <= 200 %> 
- 			<li>Shock Service in <br \> <%= (@set_shock_service.interval - (vehicle.mileage - vehicle.last_shock_service)) %> Miles</li>
+ 				<% if vehicle.near_a_service_mileage <= 100 %>
+ 				<li> A-Service in <br \> <%= vehicle.near_a_service_mileage %> Miles </li> <% end %>
+ 		     <%  if vehicle.near_shock_service_mileage <= 200 %> 
+ 			<li>Shock Service in <br \> <%= vehicle.near_shock_service_mileage %> Miles</li>
  			<% end %>
- 		      <% if (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service)) <= 50 %>
- 				<li>Air Filter Change in <br \><%= (@set_air_filter_service.interval - (vehicle.mileage - vehicle.last_air_filter_service))%> Miles</li><% end %>
+ 		      <% if vehicle.near_air_filter_service_mileage <= 50 %>
+ 				<li>Air Filter Change in <br \><%= vehicle.near_air_filter_service_mileage %> Miles</li><% end %>
  				<% end %>
  			</ul>
  		 </td>
 		  <td>
-			<% if vehicle.a_service == true %>
+			<% if vehicle.a_service %>
          A-Service
 			<% end %>
-       <% if vehicle.shock_service == true  %>
+       <% if vehicle.shock_service  %>
          Shock-Service
 			 <% end %>
-			 <% if vehicle.air_filter_service == true %>
+			 <% if vehicle.air_filter_service %>
 			Air Filter Service
         <% end %>
-		  <% if vehicle.repair_needed == true %>
+		  <% if vehicle.repair_needed %>
 		  Repairs In Progress
 		  <% end %>
 	 </td>

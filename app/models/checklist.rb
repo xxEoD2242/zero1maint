@@ -114,7 +114,7 @@ class Checklist < ApplicationRecord
     maintenance = self.attribute_names.slice(5..13)
     self.attributes.each do |k,v|
       if v != 'Checked' && maintenance.include?(k)
-        Defect.create(description: v, checklist_id: self.id, vehicle_id: self.vehicle.id)
+        Defect.create(description: v, checklist_id: self.id, vehicle_id: self.vehicle.id, category: k)
       end
     end
   end

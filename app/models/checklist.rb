@@ -98,7 +98,10 @@ class Checklist < ApplicationRecord
   end
   
   def defects_detected 
-    maintenance = self.attribute_names.slice(5..13)
+    maintenance = ['engine', 'suspension', 'steering', 'tires',
+                  'radio', 'chassis', 'exhaust', 'cooling_system',
+                  'electrical', 'safety_equipment', 'brake', 'body',
+                  'drive_train', 'suspension']
     self.attributes.each do |k,v|
       if v != 'Checked' && maintenance.include?(k)
         self.defect = true
@@ -111,7 +114,10 @@ class Checklist < ApplicationRecord
   end
   
   def create_defect
-    maintenance = self.attribute_names.slice(5..13)
+    maintenance = ['engine', 'suspension', 'steering', 'tires', 
+                   'radio', 'chassis', 'exhaust', 'cooling_system',
+                   'electrical', 'safety_equipment', 'brake', 'body', 
+                   'drive_train', 'suspension']
     self.attributes.each do |k,v|
       if v != 'Checked' && maintenance.include?(k)
         Defect.create(description: v, checklist_id: self.id, vehicle_id: self.vehicle.id, category: k)

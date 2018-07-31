@@ -87,11 +87,11 @@ class Checklist < ApplicationRecord
     @vehicle = self.vehicle
     if deadline
       @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
-      Request.create(id: Request.last.id + 1, status: 'New', 
+      Request.create(status: 'New', 
       description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
-      vehicle_id: @vehicle.id, creator: current_user.name, program_id: @set_repairs.id,
+      vehicle_id: @vehicle.id, creator: User.find(self.user_id).name, program_id: @set_repairs.id,
       completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
-      checklist_id: @checklist.id, completed_date: Date.current)
+      checklist_id: self.id, completed_date: Date.current)
     end
   end
   

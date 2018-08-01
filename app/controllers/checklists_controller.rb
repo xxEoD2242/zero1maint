@@ -15,10 +15,29 @@ class ChecklistsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: 'Checklist', layout: 'pdf.pdf.erb', 
-               title: "Checklist for #{@checklist.vehicle.car_id} for Event #{@checklist.event.id}" # Excluding ".pdf" extension.
+        render pdf: 'Checklist',
+               layout: 'pdf.pdf.erb',
+               title: "Checklist for #{@checklist.vehicle.car_id} for Event #{@checklist.event.id}"
       end
     end
+  end
+  
+  def create_work_order
+    @checklist = Checklist.find(params[:checklist_id])
+    @vehicle = Vehicle.find(params[:vehicle_id])
+    @repairs = Program.find_by(name: 'Repairs')
+    @request = Request.create(status: 'New', program_id: @repairs.id,
+                              description: '****** Please fill this in ******',
+                              creator: current_user.name, request_mileage: @vehicle.mileage,
+                              vehicle_id: @vehicle.id, creator: User.find(@checklist.user.id).name,
+                              completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+                              checklist_id: @checklist.id, completed_date: Date.current)
+    if @request.save
+      flash[:notice] = 'Work Order Created! Please select Service, Status and enter dates.'
+    else
+      flash[:alert] = 'Could not create Work Order!'
+    end
+    redirect_to edit_request_path(id: @request.id)
   end
 
   def edit
@@ -40,7 +59,6 @@ class ChecklistsController < ApplicationController
         format.json { render :show, status: :created, location: @checklist }
       else
         format.html { render :new }
-        format.json { render json: @checklist.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -49,10 +67,8 @@ class ChecklistsController < ApplicationController
     respond_to do |format|
       if @checklist.update(checklist_params)
         format.html { redirect_to @checklist, notice: 'Checklist was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
-        format.json { render json: @checklist.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -61,7 +77,6 @@ class ChecklistsController < ApplicationController
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Checklist was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

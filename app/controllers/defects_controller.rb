@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class DefectsController < ApplicationController
+  
+  def by_event
+    @events = Event.where(checklists_completed: true).page(params[:page])
+  end
+  
+  def index
+    @q = Defect.all.ransack(params[:q])
+    @defects = @q.result.page(params[:page])
+  end
+
   def create
     @defect = Defect.new(defect_params)
     respond_to do |format|

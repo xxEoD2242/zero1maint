@@ -39,8 +39,12 @@ class Event < ApplicationRecord
     self.shares = 0 if shares.blank?
   end
   
-  def checklists_completed
-    self.checklists_completed = true if self.checklists.exists? && self.vehicles.count == Checklist.where(event_id: self.id, completed: true).count
+  def set_checklists_completed
+    if self.vehicles.count == Checklist.where(event_id: self.id, completed: true).count
+      self.update(checklists_completed: true)
+    else
+      self.update(checklists_completed: false)
+    end
   end
   
   def is_completed?

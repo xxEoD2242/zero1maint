@@ -1,0 +1,54 @@
+<div class="card bg-dark text-white">
+  <div class="card-body rounded">
+    <div class="table-responsive">
+      <table class="table table-borderless table-hover">
+        <thead>
+          <tr>
+            <th scope="row">Created On</th>
+            <th scope="rwo">Vehicle</th>
+            <th scope="row">Category</th>
+            <th scope="row">Description</th>
+            <th scope="row">Status</th>
+            <th scope="row">Date Fixed</th>
+            <th colspan="1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% defects.each do |defect|%>
+          <tr>
+            <th scope="col">
+              <h5>
+                <span class="badge badge-danger">
+                  <%= defect.created_at.strftime('%v') %>
+                </span>
+              </h5>
+            </th>
+            <td><%= link_to defect.vehicle.car_id, vehicle_path(defect.vehicle.id), class: "badge badge-danger"%></td>
+            <td><%= defect.category %></td>
+            <td><%= defect.description %></td>
+            <td>
+              <h5>
+                <span class="badge <%= fixed_defect_badge defect %>">
+                  <%= fixed_defect_word defect %>
+                </span>
+              </h5>
+            </td>
+            <td>
+              <h5>
+                <span class="badge <%= fixed_defect_badge defect %>">
+                  <%= defect_date defect%>
+                </span>
+              </h5>
+            </td>
+            <td>
+              <% if defect.checklist %>
+              <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger" %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

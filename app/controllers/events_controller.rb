@@ -31,12 +31,16 @@ class EventsController < ApplicationController
   def vehicle_rotation_metrics; end
 
   def dashboard
-    @display_events = Event.where('date >= ? AND date <= ?', Time.current - 7.days, Time.current + 14.days)
+    @display_events = Event.where('date >= ? AND date <= ?', Date.current - 7.days, Date.current + 14.days)
+    @set_completed_events = Event.where('date <= ?', Date.current)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: 'Vehicles Assigned')
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = Event.group('events.id').group_by(&:date)
+    @set_completed_events.all.each do |event|
+      event.set_checklists_completed
+    end
   end
 
   def next_month_calendar

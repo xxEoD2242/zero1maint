@@ -22,12 +22,10 @@ module EventsHelper
   end
   
   def calendar_symbol(event)
-    if event.checklists.exists?
-      if event.checklists_completed
+    if event.vehicles.exists? && event.checklists_completed
         'fa-check'
-      else
+    elsif !event.checklists_completed && event.vehicles.exists?
         'fa-exclamation-triangle'
-      end
     else
       'fa-car'
     end

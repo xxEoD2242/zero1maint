@@ -1,0 +1,31 @@
+<% defects.each do |defect|%>
+<tr>
+  <th scope="col">
+    <h5>
+      <span class="badge badge-danger">
+        <%= defect.created_at.strftime('%v') %>
+      </span>
+    </h5>
+  </th>
+  <td><%= link_to defect.vehicle.car_id, vehicle_path(defect.vehicle.id), class: "badge badge-danger"%></td>
+  <td><%= defect.category %></td>
+  <td><%= defect.description %></td>
+  <td>
+    <h5>
+      <span class="badge <%= fixed_defect_badge defect %>">
+        <%= fixed_defect_word defect %>
+      </span>
+    </h5>
+  </td>
+  <td>
+    <h5>
+      <span class="badge <%= fixed_defect_badge defect %>">
+        <%= defect_date defect%>
+      </span>
+    </h5>
+  </td>
+  <td>
+    <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger" %>
+  </td>
+</tr>
+<% end %>

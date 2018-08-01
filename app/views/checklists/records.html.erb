@@ -6,16 +6,11 @@
     <div class="row">
       <div class="col-md-4">
         <form class="form-inline">
-			
-		
           <%= search_form_for @q, :url => {:controller => :checklists, :action => :records} do |f|%>
-		
-		
           <div class="form-group mb-3">
             <%= f.label "From", class: "mr-1 text-danger font-weight-bold" %> 
             <%= f.date_field :date_gteq, class: "form-control", datepicker: true  %>
           </div>
-
 
           <div class="form-group ">
             <%= f.label "To", class: "mr-4 text-danger font-weight-bold" %>
@@ -23,7 +18,6 @@
           </div>
         </div>
         <div class="col-md-4">
-
           <div class="form-group ml-1">
             <%= f.select :event_type_eq, Event::EVENT_TYPES, {include_blank: "Select Event Type"}, class: "form-control" %>
           </div>
@@ -53,13 +47,9 @@
 
       <% end %>
     </form>
-	
   </div>
-
 </div>
-	
-	
-	
+
 <% @events.all.order(date: :desc).each do |event|%>
 <div class="card bg-dark text-white my-3">
   <div class="card-header d-flex justify-content-between align-items-center">
@@ -80,102 +70,73 @@
           </tr>
         </thead>
         <tbody>
-          <% if event.vehicles != []%>
+          <% unless event.vehicles.empty? %>
           <% event.vehicles.each do |vehicle|%>
-			
           <tr>
             <td scope="row"><%= vehicle.car_id%></td>
             <td>
-					
-              <% unless vehicle.checklists.empty? %>
-              <% if vehicle.checklists.where(event_id: event.id).exists? %>
-              <span style="color: green; text-size: 10px;">Completed<i class="fa fa-check-square" aria-hidden="true"></i></span>
-					
-              <% else %>
-              <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-                <% end %>
-                <% else %>
-                <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-                  <% end %>
-                </td>
-                <td>
-                  <% unless vehicle.checklists.empty? %>
-                  <% if vehicle.checklists.where(event_id: event.id).exists? %>
-                  <%= vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')%>
-                  <% else %>
-											
-                  <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-                    <% end %>
-                    <% else %>
-                    <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-                      <% end %>
-                    </td>
-                    <td>
-                      <% unless vehicle.checklists.empty? %>
-                      <% if vehicle.checklists.where(event_id: event.id).exists? %>
-                      <% if vehicle.checklists.find_by(event_id: event.id).deadline %>
-                      <span style="color: orange; background-color: lightgrey;">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true">
-                          Deadlined
-                        </i>
-                      </span> 
-                      <% else %>
-                      No	
-                      <% end %>
-												
-                      <% else %>
-											
-                      <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-                        <% end %>
-                        <% else %>
-                        <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-                          <% end %>
-                        </td>
-                        <td>
-                          <% unless vehicle.checklists.empty? %>
-                          <% if vehicle.checklists.where(event_id: event.id).exists? %>
-                          <%= link_to "Show Checklist", checklist_path( vehicle.checklists.find_by(event_id: event.id).id), class: "btn btn-danger"%>
-                          <% else %>
-                          <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Completed</i>
-                            <% end %>
-                            <% else %>
-                            <span style="color: red;">	<i class="fa fa-thumbs-down" aria-hidden="true">Not Created</i>
-                              <% end %>
-                            </td>
-                          </tr>
-                          <% end %>
-			
-			
-                          <% else %>
-                          <tr>
-                            <td> <span style="color: white">
-                              <i class="fa fa-car" aria-hidden="true">
-                                No Vehicles Added!
-                              </i> 
-                            </span></td>
-                            <td> <span style="color: white">
-                              <i class="fa fa-car" aria-hidden="true">
-                                No Vehicles Added!
-                              </i> 
-                            </span></td>
-                            <td> <span style="color: white">
-                              <i class="fa fa-car" aria-hidden="true">
-                                No Vehicles Added!
-                              </i> 
-                            </span> </td>
-                            <td> <span style="color: white">
-                              <i class="fa fa-car" aria-hidden="true">
-                                No Vehicles Added!
-                              </i> 
-                            </span></td>
-                          </tr>
-                          <% end %>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <% end %>
-<div class="container d-flex justify-content-between align-items-center">
-  <%= paginate @events%>
-  <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger" %>
-</div>
+              <span class=<%= status_word_color vehicle, event %>>
+                <%= status_word vehicle, event %>
+                <i class="fa <%= status_symbol vehicle, event %> ml-1" aria-hidden="true"></i>
+              </span>
+            </td>
+            <td>
+              <span class=<%= status_word_color vehicle, event %>>
+                <%= status_date_word vehicle, event %>
+                <i class="fa <%= status_symbol vehicle, event %> ml-1" aria-hidden="true"></i>
+              </span>
+            </td>
+            <td>
+              <span class="badge <%= deadline_badge_color vehicle, event %>">
+                <i class="fa <%= deadline_symbol vehicle, event %>" aria-hidden="true">
+                  <%= deadline_word vehicle, event %>
+                </i>
+              </span>
+            </td>
+            <td>
+              <%= checklist_link vehicle, event %>
+            </td>
+          </tr>
+          <% end %>
+
+          <% else %>
+          <tr>
+            <td>
+              <span style="color: white">
+                <i class="fa fa-car" aria-hidden="true">
+                  No Vehicles Added!
+                </i> 
+              </span>
+            </td>
+            <td> 
+              <span style="color: white">
+                <i class="fa fa-car" aria-hidden="true">
+                  No Vehicles Added!
+                </i> 
+              </span>
+            </td>
+            <td>
+              <span style="color: white">
+                <i class="fa fa-car" aria-hidden="true">
+                  No Vehicles Added!
+                </i> 
+              </span>
+            </td>
+            <td> 
+              <span style="color: white">
+                <i class="fa fa-car" aria-hidden="true">
+                  No Vehicles Added!
+                </i> 
+              </span>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% end %>
+  <div class="container d-flex justify-content-between align-items-center">
+    <%= paginate @events%>
+    <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger" %>
+  </div>

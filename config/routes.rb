@@ -9,10 +9,15 @@ Rails.application.routes.draw do
   resources :checklists do
     collection do
       get 'records'
+      get 'create_work_order'
     end
   end
   
-  resources :defects
+  resources :defects do
+    collection do
+     get 'by_event' 
+    end
+  end
 
   resources :reports do
     collection do
@@ -41,13 +46,16 @@ Rails.application.routes.draw do
       post :import
     end
   end
+
   resources :programs
+
   get 'all_users' => 'show_users#all_users'
   get 'homepage' => 'welcome#homepage'
   get 'fare_harbor' => 'welcome#fare_harbor_data'
   get 'show' => 'show_users#show'
   get 'assigned_work_orders' => 'show_users#assigned_work_orders'
   get 'completed_work_orders' => 'show_users#completed_work_orders'
+
   resources :requests do
     collection do
       get 'a_service'
@@ -70,6 +78,7 @@ Rails.application.routes.draw do
       get 'create_work_order'
     end
   end
+
   resources :events do
     collection do
       get 'dashboard'

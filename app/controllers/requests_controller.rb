@@ -9,8 +9,6 @@ class RequestsController < ApplicationController
                                         defects repairs completed_requests in_progress]
   before_action :check_quant, only: [:show]
 
-  # GET /requests
-  # GET /requests.json
   def index
     @requests = Request.all.page(params[:page])
     @q = Request.ransack(params[:q])
@@ -117,7 +115,7 @@ class RequestsController < ApplicationController
     @other_service = Program.find_by(name: 'Other Service')
     @request = Request.create(status: 'New', program_id: @other_service.id, vehicle_id: params[:id], 
                               description: '****** Please fill this in ******', completion_date: Date.current,
-                              creator: current_user.name, work_order_mileage: Vehicle.find(params[:id].mileage))
+                              creator: current_user.name, request_mileage: Vehicle.find(params[:id].mileage))
     if @request.save
       flash[:notice] = 'Work Order Created! Please select Service, Status and enter dates.'
     else
@@ -182,12 +180,10 @@ class RequestsController < ApplicationController
     redirect_back(fallback_location: root_path) if @part_quant.ids == Part.ids
   end
 
-  # GET /requests/new
   def new
     @request = Request.new
   end
 
-  # GET /requests/1/edit
   def edit
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
@@ -313,7 +309,6 @@ class RequestsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_request
     @request = Request.find(params[:id])
   end
@@ -330,11 +325,6 @@ class RequestsController < ApplicationController
     @defects = Program.find_by(name: 'Defect')
     @tour_car_prep = Program.find_by(name: 'Tour Car Prep')
   end
-
-  def set_services
-    @programs = Program.all
-  end
-  # Never trust parameters from the scary internet, only allow the white list through.
 
   def request_params
     params.require(:request).permit(:number, :description, :special_requets, :completion_date, :completed_date, :poc, :checklist_numb, :creator, :vehicle_id, :status, :image, :creator, :request_mileage, :program_id, part_ids: [], user_ids: [])

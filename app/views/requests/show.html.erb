@@ -231,10 +231,10 @@
       <%= render 'custom_form'%>
 		  
       <br \>
-      <% if @parts.count != @number%>
+      <% if @parts.count != @number %>
 			
       <% Part::CATEGORIES.each do |category|%>
-      <% if @parts.where(category: category) != []%>
+      <% unless @parts.where(category: category).empty? %>
 			 
       <strong><%= label_tag category %></strong>
       <div class="row">

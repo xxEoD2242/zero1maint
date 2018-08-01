@@ -1,5 +1,5 @@
 <div class="jumbotron bg-secondary text-white">
-	<h3 class="display-5 text-center">Edit Checklist for <%= @checklist.vehicle.car_id%> for Event: &nbsp <%= link_to @checklist.event.id, event_path(@checklist.event.id), class: "badge badge-primary"%> </h3>
+  <h3 class="display-5 text-center">Edit Checklist for <%= @checklist.vehicle.car_id%> for Event: <%= link_to @checklist.event.id, event_path(@checklist.event.id), class: "badge badge-danger ml-1"%> </h3>
 	
-	<%= render 'checklist_form', checklist: @checklist%>
+  <%= render 'checklist_form', checklist: @checklist%>
 </div>

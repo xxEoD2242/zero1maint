@@ -1,0 +1,41 @@
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="text-center display-4">Events with Defects Present</h1>
+</div>
+
+<div class="container-fluid d-flex justify-content-between align-items-center">
+  <%= link_to 'Work Order Dashboard', dashboard_requests_path, class: "btn btn-danger"%>
+  <%= link_to 'All Defects Reported', defects_path, class: "btn btn-danger"%>
+</div>
+
+<% @events.each do |event| %>
+<div class="card bg-dark text-white my-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4> Event <%= link_to event.id, event_path(event.id), class: "badge badge-danger"%></h4> 
+    <h4><%= event.class_type%></h4> 
+    <h4><%= event.location%></h4> 
+    <h4>Date: <%= event.date.strftime('%D')%></h4>
+  </div>
+  <div class="card-body">
+    <table class="table table-borderless table-hover">
+      <thead>
+      <tr>
+        <th scope="row">Created On</th>
+        <th scope="row">Vehicle</th>
+        <th scope="row">Category</th>
+        <th scope="row">Description</th>
+        <th scope="row">Status</th>
+        <th scope="row">Date Fixed</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% event.checklists.where(defect: true).each do |checklist|%>
+        <%= render 'defects_row', defects: Defect.where(checklist_id: checklist.id) %>
+      <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+<br />
+<%= paginate @events%>

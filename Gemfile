@@ -42,7 +42,7 @@ gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'
 gem 'sprockets-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
-gem 'wicked_pdf'
+gem 'wicked_pdf', '~> 1.1.0'
 gem 'wkhtmltopdf-binary'
 gem 'yaml_db'
 

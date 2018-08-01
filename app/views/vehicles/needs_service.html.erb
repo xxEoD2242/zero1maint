@@ -2,16 +2,13 @@
   <h1 class="display-3 text-center">Needs Service:</h1>
   <div class="card bg-dark text-white">
     <div class="card-body">
-      <%= render 'service_needed_form', vehicle: @vehicle_results %>
-      <br />
-      <%= render 'results', q: @q, action: :needs_service %>
-      <br />
-      <br />
+      <%= render 'service_needed_form', vehicle: @needs_service_vehicles %>
+      <br \>
       <div class="container d-flex justify-content-between align-items-cetner">
         <%= link_to "Back", vehicles_path, class: "btn btn-danger"%>
         <strong>Download:
           <%= link_to "CSV", needs_service_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-danger btn-sm mr-2" %>
-          <%= link_to "PDF", needs_service_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-danger btn-sm" %>
+          <%= link_to "PDF", needs_service_vehicles_path(format: "pdf"), class: "btn btn-danger btn-sm" %>
         </strong>
       </div>
     </div>

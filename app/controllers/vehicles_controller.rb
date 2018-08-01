@@ -3,7 +3,7 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage out_of_service]
-  before_action :set_all_vehicles, :in_service, :out_of_service, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation needs_service near_service_required all_vehicles]
+  before_action :in_service, :out_of_service, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation all_vehicles]
   before_action :mileage_calculation, only: %i[near_service_required needs_service]
   include Vehicle_Rotation
 
@@ -45,17 +45,11 @@ class VehiclesController < ApplicationController
   def near_service_required
     @q = Vehicle.where(near_service: true).ransack(params[:q])
     @vehicle_results = @q.result.page
-    respond_to do |format|
-      format.html
-      format.csv { send_data @vehicle_results.to_csv }
-      format.xls
-      format.pdf do
-        render pdf: "Near Service Vehicles for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Near Service Vehicles for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf @vehicle_results, "Near Service Vehicles for #{Date.current.strftime('%D')}"
   end
 
   def show
+    @vehicle.set_thresholds
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc)
     @request = Request.all
@@ -97,42 +91,21 @@ class VehiclesController < ApplicationController
         @vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
       end
     end
-    respond_to do |format|
-      format.html
-      format.csv { send_data @vehicle.to_csv }
-      format.xls
-      format.pdf do
-        render pdf: "Vehicle #{@vehicle.car_id}", layout: 'pdf.pdf.erb', title: "Vehicle #{@vehicle.car_id} on #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
   end
 
   def in_service
     @in_service = Vehicle.where(vehicle_status: 'In-Service')
     @q = Vehicle.where(vehicle_status: 'In-Service').ransack(params[:q])
     @vehicle_results = @q.result
-    respond_to do |format|
-      format.html
-      format.csv { send_data @vehicle_results.to_csv }
-      format.xls
-      format.pdf do
-        render pdf: "In Service Vehicles for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "In Service Vehicles for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf @vehicle_results, "In Service Vehicles for #{Date.current.strftime('%D')}"
   end
 
   def out_of_service
     @out_of_service = Vehicle.where(vehicle_status: 'Out-of-Service')
     @q = Vehicle.where(vehicle_status: 'Out-of-Service').ransack(params[:q])
     @vehicle_results = @q.result
-    respond_to do |format|
-      format.html
-      format.csv { send_data @vehicle_results.to_csv }
-      format.xls
-      format.pdf do
-        render pdf: "Out of Service Vehicles for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Out of Service Vehicles for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf @vehicle_results, "Out of Service Vehicles for #{Date.current.strftime('%D')}"
   end
 
   def all_vehicles
@@ -141,50 +114,41 @@ class VehiclesController < ApplicationController
   end
 
   def needs_service
-    @q = Vehicle.where(needs_service: true).ransack(params[:q])
-    @vehicle_results = @q.result
-    respond_to do |format|
-      format.html
-      format.csv { send_data @vehicle_results.to_csv }
-      format.xls
-      format.pdf do
-        render pdf: "Vehicles That Need Service for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb' # Excluding ".pdf" extension.
-      end
-    end
+    @needs_service_vehicles = Vehicle.where(needs_service: true).all
+    to_pdf @needs_service_vehicles, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
   end
 
-  # GET /vehicles/new
   def new
     @vehicle = Vehicle.new
   end
 
-  # GET /vehicles/1/edit
   def edit
     @location = Location.all
   end
-  
-  def to_pdf(vehicle)
-    
+
+  def to_pdf(vehicles, file_name)
+    respond_to do |format|
+      format.html
+      format.csv { send_data vehicles.to_csv }
+      format.xls
+      format.pdf do
+        render pdf: file_name, layout: 'pdf.pdf.erb', title: file_name
+      end
+    end
   end
 
-  # POST /vehicles
-  # POST /vehicles.json
   def create
     @vehicle = Vehicle.new(vehicle_params)
 
     respond_to do |format|
       if @vehicle.save
         format.html { redirect_to @vehicle, notice: 'Vehicle was successfully created.' }
-        format.json { render :show, status: :created, location: @vehicle }
       else
         format.html { render :new }
-        format.json { render json: @vehicle.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /vehicles/1
-  # PATCH/PUT /vehicles/1.json
   def update
     respond_to do |format|
       if @vehicle.update(vehicle_params)
@@ -198,8 +162,6 @@ class VehiclesController < ApplicationController
     end
   end
 
-  # DELETE /vehicles/1
-  # DELETE /vehicles/1.json
   def destroy
     @vehicle.destroy
     respond_to do |format|
@@ -210,7 +172,6 @@ class VehiclesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_vehicle
     @vehicle = Vehicle.find(params[:id])
   end

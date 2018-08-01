@@ -1,112 +1,84 @@
-<div>
-  <h3 style="text-align: center;">Vehicle:
-  <%= @vehicle.car_id %></h3>
-</div>
-<div>
-	<div class="row">
-		<div class="col-sm-6">
-<p>
-  <strong>Vehicle category:</strong>
-  <%= @vehicle.veh_category%>
-</p>
-
-<p>
-	<strong>Location:</strong>
-	<%= @vehicle.location%>
-</p>
-
-<p>
-  <strong>Manufacturer:</strong>
-  <%= @vehicle.manufacturer %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @vehicle.vehicle_status %>
-</p>
-
-<p>
-  <strong>Vin number:</strong>
-  <%= @vehicle.vin_number %>
-</p>
-
-<p>
-  <strong>Registration date:</strong>
-  <%= @vehicle.registration_date %>
-</p>
-
-<p>
-  <strong>Plate number:</strong>
-  <%= @vehicle.plate_number %>
-</p>
-
-<p>
-  <strong>Work Orders: </strong>
-  <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
-  		  	<span style="color: green;">	<%=request.id%></span>
-				(<%= request.status%>)
-  				<% end %>
-</p>
-<p>
-  <strong>Current Mileage:</strong>
-  <%= @vehicle.mileage %>
-</p>
-</div>
-<div class="col-sm-6">
-	<strong>Mileage Until:</strong>
-	<ul style="list-style-type: none;">
-		
-	<li class="list-group-item"><strong>A-Service:</strong> &nbsp&nbsp&nbsp&nbsp
+<%= render 'pdf_title', title: "Vehicle: #{@vehicle.car_id}" %>
+  <div>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= render 'pdf_show_column', title: 'Vehicle category:', data: @vehicle.veh_category %>
+        <%= render 'pdf_show_column', title: 'Location:', data: @vehicle.location %>
+        <%= render 'pdf_show_column', title: 'Manufacturer:', data: @vehicle.manufacturer %>
+        <%= render 'pdf_show_column', title: 'Status:', data: @vehicle.vehicle_status %>
+        <%= render 'pdf_show_column', title: 'VIN Number:', data: @vehicle.vin_number %>
+        <%= render 'pdf_show_column', title: 'Registration Date:', data: @vehicle.registration_date %>
+        <%= render 'pdf_show_column', title: 'Plate Number:', data: @vehicle.plate_number %>
+        <%= render 'pdf_show_column', title: 'Current Mileage', data: @vehicle.mileage %>
+        <div class="row">
+          <div class="col-md-4">
+            <strong>Work Orders: </strong>
+          </div>
+          <div class="col-md-4">
+            <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
+            <span class="badge badge-dark">	<%= request.id %></span>
+            (<%= request.status%>)
+            <% end %>
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="col-sm-6">
+        <strong>Mileage Until:</strong>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong class="mr-4">A-Service:</strong>
+            <% if @vehicle.a_service == nil %>
+            No Data
+            <% elsif @vehicle.a_service %>
+            <strong style="color: red;">NEEDS SERVICE</strong> 
+            <% else %>
+            <span class="text-success"><%= (@vehicle.a_service_interval - (@vehicle.mileage - @vehicle.last_a_service)) %> Miles</span>
+            <% end%></li>
+            <li class="list-group-item">
+              <strong class="mr-4">Shock Service:</strong> 
+              <% if @vehicle.shock_service == nil %>
+              No Data
+              <% elsif @vehicle.shock_service %>
+              <strong style="color:red;">NEEDS SERVICE</strong>
+              <% else %>
+              <span style="color: green;"><%= (@vehicle.shock_service_interval - (@vehicle.mileage - @vehicle.last_shock_service)) %> Miles</span>
+              <% end %>
+            </li>
+            <li class="list-group-item">
+              <strong class="mr-4">Air Filter Service:</strong>
+              <% if @vehicle.air_filter_service == nil %>
+              No Data
+              <% elsif @vehicle.air_filter_service %>
+              <strong style="color: red;">NEEDS SERVICE</strong>
+              <% else %>
+              <span style="color: green;"><%=(@vehicle.air_filter_service_interval - (@vehicle.mileage - @vehicle.last_air_filter_service))%> Miles</span>
+              <% end %>
+            </li>
 	
-	<% if @vehicle.a_service == nil %>
-	No Data
-	<% elsif @vehicle.a_service == true%>
-			<strong style="color: red;">NEEDS SERVICE</strong> 
-			<% else %>
-	<span style="color: green;"><%= (@vehicle.a_service_interval - (@vehicle.mileage - @vehicle.last_a_service)) %> Miles</span>
-	<% end%></li>
-	<li class="list-group-item"><strong>Shock Service:</strong> &nbsp&nbsp&nbsp&nbsp
-				<% if @vehicle.shock_service == nil %>
-		No Data
-		<% elsif @vehicle.shock_service == true %>
-		<strong style="color:red;">NEEDS SERVICE</strong>
-		<% else %>
-	<span style="color: green;"><%= (@vehicle.shock_service_interval - (@vehicle.mileage - @vehicle.last_shock_service)) %> Miles</span>
-		<% end %>
-</li>
-	<li class="list-group-item"><strong style="margin-right: 6px;">Air Filter Service:</strong> &nbsp&nbsp&nbsp&nbsp
-		<% if @vehicle.air_filter_service == nil %>
-		No Data
-		<% elsif @vehicle.air_filter_service == true%>
-		<strong style="color: red;">NEEDS SERVICE</strong>
-		<% else %>
-	<span style="color: green;"><%=(@vehicle.air_filter_service_interval - (@vehicle.mileage - @vehicle.last_air_filter_service))%> Miles</span>
-	
-	<% end %>
-	</li>
-	
-	<li class="list-group-item"><strong>Repairs:</strong>
-		<% if @vehicle.repair_needed == nil %>
-		No Data
-		<% elsif @vehicle.repair_needed == true%>
-		Repairs-In-Progress
-		<% else %>
-		No Repairs Needed
-	</li>
-	<% end %>
-	<li class="list-group-item"><strong>Defects:</strong>
-		<% if @vehicle.defect == nil %>
-		No Data
-		<% elsif @vehicle.defect == true %>
-		Defect Reported <%  @vehicle.requests.where(program_id: @set_defects.id, status: "New").each do |request|%>
-		<br class="d-flex justify-content-end">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Description:</strong> <%= request.description %>
-		<% end %>
-		<% else %>
-		No Defects Reported
-		<% end %>
-	</li>
-		
-</ul>
-</p>
-</div>
-</div>
+            <li class="list-group-item"><strong>Repairs:</strong>
+              <% if @vehicle.repair_needed == nil %>
+              No Data
+              <% elsif @vehicle.repair_needed %>
+              Repairs-In-Progress
+              <% else %>
+              No Repairs Needed
+              <% end %>
+            </li>
+            <li class="list-group-item"><strong>Defects:</strong>
+              <% if @vehicle.defect == nil %>
+              No Data
+              <% elsif @vehicle.defect == true %>
+              Defect Reported <%  @vehicle.requests.where(program_id: @set_defects.id, status: "New").each do |request|%>
+              <br class="d-flex justify-content-end">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Description:</strong> <%= request.description %>
+              <% end %>
+              <% else %>
+              No Defects Reported
+              <% end %>
+            </li>
+          </ul>
+        </p>
+      </div>
+    </div>

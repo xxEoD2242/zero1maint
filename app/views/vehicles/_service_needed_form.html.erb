@@ -59,7 +59,7 @@
         </td>
         <td><%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %></td>
         <td><%= link_to 'Create WO', create_work_order_requests_path(id: vehicle.id), class: "btn btn-danger btn-sm"%></td>
-        <td><%= link_to 'Destroy Vehicle',vehicle_path(vehicle), method: :delete, data: {confirm: "Are you sure you wish to delete this vehicle?"}, class: "btn btn-danger"%></td>
+        <td><%= link_to 'Destroy Vehicle',vehicle_path(vehicle), method: :delete, data: {confirm: "Are you sure you wish to delete this vehicle?"}, class: "btn btn-danger btn-sm"%></td>
       </tr>
       <% end %> 
     </tbody> 

@@ -1,0 +1,73 @@
+<table class="table table-borderless table-sm">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Car</th>
+      <th scope="col">Status</th>
+      <th scope="col">Car Category</th>
+      <th scope="col">Location</th>
+      <th scope="col">Work Orders</th>
+      <th scope="col">Mileage</th>
+      <th scope="col">Near Service Miles To</th>
+      <th scope="col">Service Needed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% vehicles.each do |vehicle| %>
+    <tr>
+      <th scope="row"><%= vehicle.car_id %></th>
+      <td><%= vehicle.vehicle_status %></td>
+      <td><%= vehicle.veh_category%></td>
+      <td><%= vehicle.location %></td>
+      <td>
+        <% vehicle.requests.where(status: "New").limit(3).each do |request| %>
+        <span class="badge badge-danger">
+          <%= request.id %>
+        </span>
+        [<%= request.status%>]
+        <% end %>
+      </td>
+      <td>
+        <span class="badge badge-dark">
+          <%= vehicle.mileage %>
+        <span>
+      </td>
+      <td><% if vehicle.near_service %>
+        <ul style="list-style-type:none;padding: 0;margin: 0;">
+          <% if vehicle.near_a_service_mileage <= 100 %>
+          <li> A-Service in <br \> <%= vehicle.near_a_service_mileage %> Miles </li>
+          <% end %>
+          <%  if vehicle.near_shock_service_mileage <= 200 %> 
+          <li>Shock Service in <br \> <%= vehicle.near_shock_service_mileage %> Miles</li>
+          <% end %>
+          <% if vehicle.near_air_filter_service_mileage <= 50 %>
+          <li>Air Filter Change in <br \><%= vehicle.near_air_filter_service_mileage%> Miles</li>
+          <% end %>
+          <% end %>
+        </ul>
+      </td>
+      <td>
+        <% if vehicle.a_service %>
+        <span class="badge badge-danger">
+          A-Service
+        </span>
+        <% end %>
+        <% if vehicle.shock_service %>
+        <span class="badge badge-danger">
+          Shock-Service
+        </span>
+        <% end %>
+        <% if vehicle.air_filter_service %>
+        <span class="badge badge-danger">
+          Air Filter Service
+        </span>
+        <% end %>
+        <% if vehicle.repair_needed %>
+        <span class="badge badge-danger">
+          Repairs In Progress
+        </span>
+        <% end %>
+      </td>
+    </tr>
+    <% end %> 
+  </tbody> 
+</table>

@@ -7,7 +7,7 @@ class DefectsController < ApplicationController
     @defect = Program.find_by(name: 'Defect')
     @request = Request.create(status: 'New', program_id: @defect.id,
                               description: '****** Please fill this in ******',
-                              creator: current_user.name, request_mileage: @vehicle.mileage,
+                              request_mileage: @vehicle.mileage,
                               vehicle_id: @vehicle.id, creator: User.find(@checklist.user.id).name,
                               completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
                               checklist_id: @checklist.id, defect_ids: [params[:defect_id]], completed_date: Date.current)

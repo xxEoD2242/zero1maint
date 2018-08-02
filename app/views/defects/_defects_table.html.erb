@@ -10,7 +10,7 @@
             <th scope="row">Description</th>
             <th scope="row">Status</th>
             <th scope="row">Date Fixed</th>
-            <th colspan="1"></th>
+            <th colspan="2"></th>
           </tr>
         </thead>
         <tbody>
@@ -44,11 +44,11 @@
             </td>
             <td>
               <% if defect.checklist %>
-              <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger" %>
+              <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger btn-sm" %>
               <% end %>
             </td>
             <td>
-              <% if defect.requests.exists? %>
+              <%= work_order_link defect %>
             </td>
           </tr>
           <% end %>

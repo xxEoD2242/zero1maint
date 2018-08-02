@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :defects do
     collection do
       get 'by_event'
+      get 'create_defect_work_order'
     end
   end
 

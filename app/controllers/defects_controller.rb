@@ -1,6 +1,24 @@
 # frozen_string_literal: true
 
 class DefectsController < ApplicationController
+  def create_defect_work_order
+    @checklist = Checklist.find(params[:checklist_id])
+    @vehicle = Vehicle.find(params[:vehicle_id])
+    @defect = Program.find_by(name: 'Defect')
+    @request = Request.create(status: 'New', program_id: @defect.id,
+                              description: '****** Please fill this in ******',
+                              creator: current_user.name, request_mileage: @vehicle.mileage,
+                              vehicle_id: @vehicle.id, creator: User.find(@checklist.user.id).name,
+                              completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+                              checklist_id: @checklist.id, defect_ids: [params[:defect_id]], completed_date: Date.current)
+    if @request.save
+      flash[:notice] = 'Defect Work Order Created! Please select Service, Status and enter dates.'
+    else
+      flash[:alert] = 'Could not create Work Order!'
+    end
+    redirect_to edit_request_path(id: @request.id)
+  end
+  
   def by_event
     @vehicles = Vehicle.all
     @q = Event.where(defects_reported: true).ransack(params[:q])

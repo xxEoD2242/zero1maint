@@ -7,6 +7,7 @@ class ChecklistsController < ApplicationController
 
   def new
     @vehicle = Vehicle.find(params[:id])
+    @defects = @vehicle.defects.where(fixed: false).page(params[:page])
     @event = Event.find(params[:event_id])
     @checklist = Checklist.new
   end
@@ -30,7 +31,7 @@ class ChecklistsController < ApplicationController
                               description: '****** Please fill this in ******',
                               request_mileage: @vehicle.mileage,
                               vehicle_id: @vehicle.id, creator: User.find(@checklist.user.id).name,
-                              completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+                              completion_date: (Time.now + 7.days),
                               checklist_id: @checklist.id, completed_date: Date.current)
     if @request.save
       flash[:notice] = 'Work Order Created! Please select Service, Status and enter dates.'
@@ -43,6 +44,7 @@ class ChecklistsController < ApplicationController
   def edit
     @vehicle = @checklist.vehicle
     @event = @checklist.event
+    @defects = @vehicle.defects.where(fixed: false).page(params[:page])
   end
 
   def records

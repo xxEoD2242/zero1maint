@@ -2,7 +2,7 @@
   <h2 class="display-3 text-center">
     Work Order <%= @request.id %> for 
     <% if !@request.vehicle.nil? %>
-      <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
+    <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
     <% end %>
   </h2>
   <div class="card bg-dark text-white">
@@ -35,9 +35,9 @@
             <div class="col-md-4">
               <p>
                 <% if !@request.vehicle.nil? %>
-                  <span class="badge badge-light text-dark">
-                    <%= @request.vehicle.mileage%>
-                  </span>
+                <span class="badge badge-light text-dark">
+                  <%= @request.vehicle.mileage%>
+                </span>
                 <% end %>
               </p>
             </div>
@@ -99,32 +99,6 @@
           </div>
           <% end %>
           
-          <% if @request.defects.exists? %>
-          <div class="row">
-            <div class="col-md-5">
-              <p>
-                <strong>Defects:</strong>
-              </p>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                  <% @request.defects.each do |defect|%>
-                  <div class="col-md-4">
-                    <span class="badge badge-danger">
-                      <%= defect.created_at.strftime('%v') %>
-                    </span>
-                  </div>
-                  <div class="col-md-8">
-                    <%= defect.description%>
-                  </div>
-                  <% end %>
-                </div>
-            </div>
-            <div class="col-md-1">
-            </div>
-          </div>
-          <% end %>
-          
           <% if @request.users.exists?%>
           <div class="row">
             <div class="col-md-5">
@@ -133,15 +107,15 @@
               </p>
             </div>
             <div class="col-md-6">
-                <div class="row">
-                  <% @request.users.each do |user|%>
-                  <div class="col-md-6">
-                    <%= user.name%>
-                  </div>
-                  <div class="col-md-6">
-                  </div>
-                  <% end %>
+              <div class="row">
+                <% @request.users.each do |user|%>
+                <div class="col-md-6">
+                  <%= user.name%>
                 </div>
+                <div class="col-md-6">
+                </div>
+                <% end %>
+              </div>
             </div>
             <div class="col-md-1">
             </div>
@@ -149,6 +123,44 @@
           <% end %>
         </div>
         <div class="col-md-6 mb-3">
+          <% if @request.defects.exists? %>
+          <div class="card bg-secondary text-white">
+            <div class="card-header">
+              <h5 class="text-center">
+                Defects:
+              </h5>
+            </div>
+            <div class="card-body rounded">
+              <div class="row">
+                <div class="col-md-1">
+                  <strong>ID</strong>
+                </div>
+                <div class="col-md-2">
+                  <strong>Event ID</strong>
+                </div>
+                <div class="col-md-9">
+                  <strong>Description</strong>
+                </div>
+              </div>
+              <br /> 
+              <% @request.defects.each do |defect|%>
+              <div class="row">
+                <div class="col-md-1">
+                  <span class="badge badge-danger">
+                    <%= defect.id %>
+                  </span>
+                </div>
+                <div class="col-md-2">
+                  <%= last_event defect%>
+                </div>
+                <div class="col-md-9">
+                  <%= defect.description %>
+                </div>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <% end %>
           <% unless @part_order.empty?%>
           <div class="card bg-secondary text-white">
             <div class="card-header">
@@ -183,9 +195,9 @@
             <div class="card-footer">
               <% total = [] %>
               <% @request.request_part_orders.each do |order| %>
-                <% if order.order_total %>
-                  <% total << order.order_total %>
-                <% end %>
+              <% if order.order_total %>
+              <% total << order.order_total %>
+              <% end %>
               <% end %>
               Work Order Total Cost:
               <span class="badge badge-success ml-3">

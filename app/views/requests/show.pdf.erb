@@ -1,9 +1,6 @@
-<div>
-   <h1 style="text-align: center;">Work Order Number: <%= @request.id %> for <%= @request.vehicle.car_id%> </h1>
-</div>	
-
-
-
+<div class="jumbotron">
+   <h1 class="text-center" >Work Order Number: <%= @request.id %> for <%= @request.vehicle.car_id%> </h1>
+</div>
 <p>
   <strong>Submitted By:</strong>
   <%= @request.creator%>
@@ -73,7 +70,6 @@
 			<th scope="col">Item:</th>
 				<th scope="col">Qty:</th> 
 				<th scope="col">Total Cost:</th>
-				
 			</tr>
 			</thead>
 			<tbody>

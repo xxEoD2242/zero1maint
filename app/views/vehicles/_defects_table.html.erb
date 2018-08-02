@@ -2,7 +2,10 @@
   <table class="table table-borderless table-hover">
     <thead>
       <tr>
+        <th scope="row">ID</th>
         <th scope="row">Created On</th>
+        <th scope="row">Times Reported</th>
+        <th scope="row">Last Event Reported</th>
         <th scope="row">Category</th>
         <th scope="row">Description</th>
         <th scope="row">Status</th>
@@ -13,6 +16,7 @@
     <tbody>
       <% defects.each do |defect|%>
       <tr>
+        <th scope="col"><%= defect.id %></th>
         <th scope="col">
           <h5>
           <span class="badge badge-danger">
@@ -20,7 +24,9 @@
           </span>
         </h5>
         </th>
-        <td><%= defect.category %></td>
+        <td><%= defect.times_reported %></td>
+        <td><%= last_event defect %>
+        <td><%= category_words defect %></td>
         <td><%= defect.description %></td>
         <td>
           <h5>
@@ -37,7 +43,10 @@
         </h5>
         </td>
         <td>
-          <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger" %>
+          <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger btn-sm" %>
+        </td>
+        <td>
+          <%= work_order_link defect %>
         </td>
       </tr>
       <% end %>

@@ -1,0 +1,48 @@
+<div class="container-fluid bg-secondary text-white p-2 rounded border mb-3">
+  <h4 class="text-center">Current Defects</h4>
+</div>
+<div class="table-responsive">
+  <table class="table table-borderless table-hover table-sm bg-secondary text-white">
+    <thead>
+      <tr>
+        <th scope="row">ID</th>
+        <th scope="row">Created On</th>
+        <th scope="row">Times Reported</th>
+        <th scope="row">Last Event Reported</th>
+        <th scope="row">Category</th>
+        <th scope="row">Description</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% defects.each do |defect|%>
+      <tr>
+        <th scope='col'><%= defect.id %></th>
+        <td>
+          <h5>
+            <span class="badge badge-danger">
+              <%= defect.created_at.strftime('%v') %>
+            </span>
+          </h5>
+        </td>
+        <td>
+          <%= category_words defect %>
+        </td>
+        <td><%= defect.times_reported %></td>
+        <td><%= last_event defect %>
+        <td><%= defect.description %></td>
+        <td>
+          <% if defect.checklist %>
+          <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger btn-sm" %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% unless !defects.exists? %>
+<div class="container-fluid bg-secondary text-white p-4 rounded border mt-3">
+  <%= paginate defects %>
+</div>
+<% end %>

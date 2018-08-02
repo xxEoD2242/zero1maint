@@ -16,11 +16,14 @@
     <h4>Date: <%= event.date.strftime('%D')%></h4>
   </div>
   <div class="card-body">
-    <table class="table table-borderless table-hover">
+    <table class="table table-borderless table-hover table-sm">
       <thead>
       <tr>
+        <th scope="row">ID</th>
         <th scope="row">Created On</th>
         <th scope="row">Vehicle</th>
+        <th scope="row">Last Reported</th>
+        <th scope="row">Last Event Reported On</th>
         <th scope="row">Category</th>
         <th scope="row">Description</th>
         <th scope="row">Status</th>

@@ -2,50 +2,50 @@
 
 module RequestsHelper
   def date_title(request)
-    unless request.completed?
-      "Estimated Completion date:"
-    else
+    if request.completed?
       'Completed Date:'
+    else
+      'Estimated Completion date:'
     end
   end
-  
+
   def date_badge(request)
-    unless request.completed?
-      request.completion_date.strftime("%v")
-    else
+    if request.completed?
       request.completed_date.strftime('%v')
+    else
+      request.completion_date.strftime('%v')
     end
   end
-  
+
   def badge_color(request)
-    unless request.completed?
-      'badge-danger'
-    else
+    if request.completed?
       'badge-success'
+    else
+      'badge-danger'
     end
   end
-  
+
   def date_column(request)
-    unless request.completed?
-      'col-md-4'
-    else
+    if request.completed?
       'col-md-3'
+    else
+      'col-md-4'
     end
   end
-  
+
   def empty_date_column(request)
-    unless request.completed?
-      'col-md-6'
-    else
+    if request.completed?
       'col-md-7'
+    else
+      'col-md-6'
     end
   end
-  
+
   def table_date(request)
-    unless request.completed?
-      'Not Completed'
-    else
+    if request.completed?
       request.completed_date.strftime('%v')
+    else
+      'Not Completed'
     end
   end
 end

@@ -2,9 +2,9 @@
 
 class Checklist < ApplicationRecord
   before_save :set_fuel_level, :set_date, :set_wash,
-              :set_suspension, :set_drive_train, :set_body, 
-              :set_engine, :set_brake, :set_safety_equipment, 
-              :set_chassis, :set_electrcial, :set_cooling_system, 
+              :set_suspension, :set_drive_train, :set_body,
+              :set_engine, :set_brake, :set_safety_equipment,
+              :set_chassis, :set_electrcial, :set_cooling_system,
               :set_tires, :set_radio, :set_exhaust, :set_steering,
               :defects_detected, :deadlined, :completed
   after_save :create_defect
@@ -12,14 +12,13 @@ class Checklist < ApplicationRecord
   belongs_to :user
   belongs_to :event
   has_many :defects
-  
 
   FUEL_LEVELS = ['Full', '3/4', '1/2', '1/4', 'None'].freeze
 
   def set_date
     self.date = Time.current if date.blank?
   end
-  
+
   def set_fuel_level
     self.fuel_level = 'Checked' if fuel_level.blank?
     end
@@ -79,48 +78,46 @@ class Checklist < ApplicationRecord
   def set_tires
     self.tires = 'Checked' if tires.blank?
   end
-  
+
   def completed
     self.completed = true
   end
-  
+
   def deadlined
     @set_repairs = Program.find_by(name: 'Repairs')
-    @vehicle = self.vehicle
+    @vehicle = vehicle
     if deadline
       @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
-      Request.create(status: 'New', 
-      description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
-      vehicle_id: @vehicle.id, creator: User.find(self.user_id).name, program_id: @set_repairs.id,
-      completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
-      checklist_id: self.id, completed_date: Date.current)
+      Request.create(status: 'New',
+                     description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
+                     vehicle_id: @vehicle.id, creator: User.find(user_id).name, program_id: @set_repairs.id,
+                     completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+                     checklist_id: id, completed_date: Date.current)
     end
   end
-  
-  def defects_detected 
-    maintenance = ['engine', 'suspension', 'steering', 'tires',
-                  'radio', 'chassis', 'exhaust', 'cooling_system',
-                  'electrical', 'safety_equipment', 'brake', 'body',
-                  'drive_train', 'suspension']
-    self.attributes.each do |k,v|
-      if v != 'Checked' && maintenance.include?(k)
-        self.defect = true
-      end
+
+  def defects_detected
+    maintenance = %w[engine suspension steering tires
+                     radio chassis exhaust cooling_system
+                     electrical safety_equipment brake body
+                     drive_train suspension]
+    attributes.each do |k, v|
+      self.defect = true if v != 'Checked' && maintenance.include?(k)
     end
   end
-  
+
   def has_defects?
     defect == true
   end
-  
+
   def create_defect
-    maintenance = ['engine', 'suspension', 'steering', 'tires', 
-                   'radio', 'chassis', 'exhaust', 'cooling_system',
-                   'electrical', 'safety_equipment', 'brake', 'body', 
-                   'drive_train', 'suspension']
-    self.attributes.each do |k,v|
+    maintenance = %w[engine suspension steering tires
+                     radio chassis exhaust cooling_system
+                     electrical safety_equipment brake body
+                     drive_train suspension]
+    attributes.each do |k, v|
       if v != 'Checked' && maintenance.include?(k)
-        Defect.create(description: v, checklist_id: self.id, vehicle_id: self.vehicle.id, category: k)
+        Defect.create(description: v, checklist_id: id, vehicle_id: vehicle.id, category: k)
       end
     end
   end

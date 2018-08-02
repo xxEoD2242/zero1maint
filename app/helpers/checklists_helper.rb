@@ -2,55 +2,57 @@
 
 module ChecklistsHelper
   def status_symbol(vehicle, event)
-    unless vehicle.checklists.empty?
+    if vehicle.checklists.empty?
+      'fa-thumbs-down'
+    else
       if vehicle.checklists.where(event_id: event.id).exists?
         'fa-check'
       else
-        "fa-thumbs-down"
+        'fa-thumbs-down'
       end
-    else
-      "fa-thumbs-down"
     end
   end
-  
+
   def status_word(vehicle, event)
-    unless vehicle.checklists.empty?
+    if vehicle.checklists.empty?
+      'Not Created'
+    else
       if vehicle.checklists.where(event_id: event.id).exists?
         'Completed'
       else
-        "Not Completed"
+        'Not Completed'
       end
-    else
-      "Not Created"
     end
   end
-  
+
   def status_word_color(vehicle, event)
-    unless vehicle.checklists.empty?
+    if vehicle.checklists.empty?
+      'text-danger'
+    else
       if vehicle.checklists.where(event_id: event.id).exists?
         'text-success'
       else
-        "text-warning"
+        'text-warning'
       end
-    else
-      "text-danger"
     end
   end
-  
+
   def status_date_word(vehicle, event)
-    unless vehicle.checklists.empty?
+    if vehicle.checklists.empty?
+      'Not Created'
+    else
       if vehicle.checklists.where(event_id: event.id).exists?
         vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')
       else
-        "Not Completed"
+        'Not Completed'
       end
-    else
-      "Not Created"
     end
   end
-  
+
   def deadline_word(vehicle, event)
-    unless vehicle.checklists.empty?
+    if vehicle.checklists.empty?
+      'Not Created'
+    else
       if vehicle.checklists.where(event_id: event.id).exists?
         if vehicle.checklists.find_by(event_id: event.id).deadline
           'Deadlined'
@@ -58,13 +60,11 @@ module ChecklistsHelper
           'Not Deadlined'
         end
       else
-        "Not Completed"
+        'Not Completed'
       end
-    else
-      "Not Created"
     end
   end
-  
+
   def deadline_badge_color(vehicle, event)
     unless vehicle.checklists.empty?
       if vehicle.checklists.where(event_id: event.id).exists?
@@ -74,11 +74,11 @@ module ChecklistsHelper
           'badge-success'
         end
       else
-        'badge-warnining'
+        'badge-warning'
       end
     end
   end
-  
+
   def deadline_symbol(vehicle, event)
     unless vehicle.checklists.empty?
       if vehicle.checklists.where(event_id: event.id).exists?
@@ -92,16 +92,16 @@ module ChecklistsHelper
       end
     end
   end
-  
+
   def checklist_link(vehicle, event)
-    unless vehicle.checklists.empty?
-      if vehicle.checklists.where(event_id: event.id).exists?
-        link_to "Show Checklist", checklist_path( vehicle.checklists.find_by(event_id: event.id).id), class: "btn btn-danger btn-sm"
-      else
-        "Not Completed"
-      end
+    if vehicle.checklists.empty?
+      'Not Created'
     else
-      "Not Created"
+      if vehicle.checklists.where(event_id: event.id).exists?
+        link_to 'Show Checklist', checklist_path(vehicle.checklists.find_by(event_id: event.id).id), class: 'btn btn-danger btn-sm'
+      else
+        'Not Completed'
+      end
     end
   end
 end

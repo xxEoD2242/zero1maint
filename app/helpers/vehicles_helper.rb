@@ -8,7 +8,7 @@ module VehiclesHelper
       'badge-danger'
     end
   end
-  
+
   def fixed_defect_word(defect)
     if defect.fixed
       'Fixed'
@@ -16,7 +16,7 @@ module VehiclesHelper
       'Not Fixed'
     end
   end
-  
+
   def defect_date(defect)
     if defect.fixed
       defect.date_fixed.strftime('%v')

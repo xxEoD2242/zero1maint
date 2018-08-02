@@ -24,7 +24,9 @@
               </h5>
             </th>
             <td><%= link_to defect.vehicle.car_id, vehicle_path(defect.vehicle.id), class: "badge badge-danger"%></td>
-            <td><%= defect.category %></td>
+            <td>
+              <%= category_words defect %>
+            </td>
             <td><%= defect.description %></td>
             <td>
               <h5>

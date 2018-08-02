@@ -29,12 +29,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails', '~> 4.3.1'
 gem 'kaminari'
 gem 'mini_magick'
+gem 'minitest'
 gem 'pg', '~> 0.18'
 gem 'popper_js', '~> 1.12.9', '>= 1.11.1'
 gem 'pry-rails', group: :development
 gem 'puma'
 gem 'rails', '~> 5.1.4'
-gem 'minitest'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'rubocop', require: false
 gem 'sass-rails', '~> 5.0'
@@ -53,8 +53,8 @@ end
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console', '>= 3.3.0'
   gem 'rack-mini-profiler', require: false
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :production do

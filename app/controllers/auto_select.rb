@@ -73,9 +73,9 @@ module Auto_Select
 
     unless @people.nil?
       @numb_vehicles = if !@shares.nil?
-        (@people - (@shares * 2)) + @shares
-      else
-        @people
+                         (@people - (@shares * 2)) + @shares
+                       else
+                         @people
       end
     end
 

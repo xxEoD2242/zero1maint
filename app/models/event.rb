@@ -20,6 +20,12 @@ class Event < ApplicationRecord
 
   accepts_nested_attributes_for :vehicles
 
+  scope :are_scheduled?, -> { where(status: 'Scheduled') }
+  scope :are_completed?, -> { where(status: 'Completed') }
+  scope :are_vehicles_assigned?, -> { where(status: 'Vehicles Assigned') }
+  scope :are_in_progress?, -> { where(status: 'In-Progress') }
+  scope :are_cancelled?, -> { where(status: 'Cancelled') }
+
   STATUSES = ['Scheduled', 'Vehicles Assigned', 'In-Progress', 'Completed', 'Cancelled'].freeze
   EVENT_TYPES = ['Odyssey', 'RZR', 'Military Training', 'Race Event', 'Filming', 'Special Event', 'Training Non-NSW', 'Demonstration'].freeze
   CLASS_TYPES = ['Road Runner', 'Mojave', 'Pioneer', 'Sundown', '2 Day Odyssey', '3 Day Odyssey', '4 Day Odyssey', 'Special Event', 'Training', 'Race'].freeze
@@ -38,31 +44,39 @@ class Event < ApplicationRecord
   def set_shares
     self.shares = 0 if shares.blank?
   end
-  
+
   def set_checklists_completed
-    if self.vehicles.count == Checklist.where(event_id: self.id, completed: true).count
-      self.update(checklists_completed: true)
+    if vehicles.count == Checklist.where(event_id: id, completed: true).count
+      update(checklists_completed: true)
     else
-      self.update(checklists_completed: false)
+      update(checklists_completed: false)
     end
   end
-  
+
+  def set_defects_reported
+    if checklists.where(defect: true).exists?
+      update(defects_reported: true)
+    else
+      update(defects_reported: false)
+    end
+  end
+
   def is_completed?
     status == 'Completed'
   end
-  
+
   def is_scheduled?
     status == 'Scheduled'
   end
-  
+
   def is_vehicles_assigned?
     status == 'Vehicles Assigned'
   end
-  
+
   def is_cancelled?
     status == 'Cancelled'
   end
-  
+
   def is_in_progress?
     status == 'In-Progress'
   end

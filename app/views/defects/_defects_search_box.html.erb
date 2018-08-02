@@ -1,0 +1,51 @@
+<div class="card bg-dark text-white">
+  <div class="card-header">
+    <strong> Search for Defects</strong>
+  </div>
+  <div class="card-body">
+        <form>
+          <%= search_form_for q, :url => {:action => action } do |f|%>
+		      <div class="row">
+            <div class="col-md-4">
+          <div class="form-group">
+            <%= f.select :vehicle_id_eq, options_from_collection_for_select(@vehicles, "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-check">
+            <%= f.check_box :fixed_eq, class: "form-check-input"  %>
+            <%= f.label "Fixed", class: "form-check-label"%>
+          </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label "Date Fixed From", class: "mr-1"%>
+            <%= f.date_field :date_fixed_gteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label "Date Fixed To", class: "mr-1"%>
+            <%= f.date_field :date_fixed_lteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+      </div>
+
+          <div class="form-group">
+            <%= f.submit "Find Defects", class: "btn btn-danger"%>
+          </div>
+       
+        <% end %>
+      </form>
+  </div>
+</div>
+<br />
+<div class="container d-flex justify-content-between align-items-center">
+  <span>
+    <%= link_to 'Back', :back, class: "btn btn-danger" %></span>
+  </div>
+</div>

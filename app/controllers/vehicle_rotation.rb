@@ -36,10 +36,9 @@ module Vehicle_Rotation
       unless vehicle.last_a_service.nil?
         vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
         x = vehicle.near_a_service_mileage
-        case
-        when x <= 0
+        if x <= 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
-        when x <= @set_a_service.threshold_numb
+        elsif x <= @set_a_service.threshold_numb
           vehicle.update(use_near_service: true, dont_use_a_service: false)
         else
           vehicle.update(dont_use_a_service: false)
@@ -49,10 +48,9 @@ module Vehicle_Rotation
       unless vehicle.last_shock_service.nil?
         vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
         y = vehicle.near_shock_service_mileage
-        case 
-        when y < 0
+        if y < 0
           vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
-        when y <= @set_shock_service.threshold_numb
+        elsif y <= @set_shock_service.threshold_numb
           vehicle.update(use_near_service: true, dont_use_shock_service: false)
         else
           vehicle.update(dont_use_shock_service: false)
@@ -62,10 +60,9 @@ module Vehicle_Rotation
       unless vehicle.last_air_filter_service.nil?
         vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
         z = vehicle.near_air_filter_service_mileage
-        case
-        when z < 0
+        if z < 0
           vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
-        when z <= @set_air_filter_service.threshold_numb
+        elsif z <= @set_air_filter_service.threshold_numb
           vehicle.update(use_near_service: true, dont_use_air_filter_service: false)
         else
           vehicle.update(dont_use_air_filter_service: false)
@@ -96,7 +93,7 @@ module Vehicle_Rotation
       format.html
       format.xls
       format.pdf do
-        render pdf: "Vehicle Rotation for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Vehicle Rotation for #{Time.now.strftime('%D')}" 
+        render pdf: "Vehicle Rotation for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Vehicle Rotation for #{Time.now.strftime('%D')}"
       end
     end
   end
@@ -118,10 +115,9 @@ module Vehicle_Rotation
       unless vehicle.last_a_service.nil?
         vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
         x = vehicle.near_a_service_mileage
-        case 
-        when x < 0
+        if x < 0
           vehicle.update(needs_service: true, a_service: true)
-        when x  <= @set_a_service.threshold_numb
+        elsif x <= @set_a_service.threshold_numb
           vehicle.update(near_service: true)
         else
           vehicle.update(needs_service: false, a_service: false, near_service: false)
@@ -130,26 +126,23 @@ module Vehicle_Rotation
       unless vehicle.last_shock_service.nil?
         vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
         y = vehicle.near_shock_service_mileage
-        case 
-        when y < 0
+        if y < 0
           vehicle.update(needs_service: true, shock_service: true)
-        when y <= @set_shock_service.threshold_numb
+        elsif y <= @set_shock_service.threshold_numb
           vehicle.update(near_service: true)
         else
           vehicle.update(needs_service: false, shock_service: false, near_service: false)
         end
       end
-      unless vehicle.last_air_filter_service.nil?
-        vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
-        z = vehicle.near_air_filter_service_mileage
-        case 
-        when z < 0
-          vehicle.update(needs_service: true, air_filter_service: true)
-        when z <= @set_air_filter_service.threshold_numb
-          vehicle.update(near_service: true)
-        else
-          vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
-        end
+      next if vehicle.last_air_filter_service.nil?
+      vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
+      z = vehicle.near_air_filter_service_mileage
+      if z < 0
+        vehicle.update(needs_service: true, air_filter_service: true)
+      elsif z <= @set_air_filter_service.threshold_numb
+        vehicle.update(near_service: true)
+      else
+        vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
       end
     end
   end

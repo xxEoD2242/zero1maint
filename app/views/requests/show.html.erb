@@ -99,11 +99,37 @@
           </div>
           <% end %>
           
+          <% if @request.defects.exists? %>
+          <div class="row">
+            <div class="col-md-5">
+              <p>
+                <strong>Defects:</strong>
+              </p>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                  <% @request.defects.each do |defect|%>
+                  <div class="col-md-4">
+                    <span class="badge badge-danger">
+                      <%= defect.created_at.strftime('%v') %>
+                    </span>
+                  </div>
+                  <div class="col-md-8">
+                    <%= defect.description%>
+                  </div>
+                  <% end %>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+          </div>
+          <% end %>
+          
           <% if @request.users.exists?%>
           <div class="row">
             <div class="col-md-5">
               <p>
-                <strong>Recipents:</strong>
+                <strong>Recipients:</strong>
               </p>
             </div>
             <div class="col-md-6">

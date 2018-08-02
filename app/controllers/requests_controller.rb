@@ -4,9 +4,6 @@ class RequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_request, only: %i[show edit update destroy]
   before_action :set_vehicle, only: %i[index show edit new]
-  before_action :set_services, only: %i[show index new edit a_service 
-                                        shock_service air_filter_service 
-                                        defects repairs completed_requests in_progress]
   before_action :check_quant, only: [:show]
 
   def index
@@ -113,7 +110,7 @@ class RequestsController < ApplicationController
 
   def create_work_order
     @other_service = Program.find_by(name: 'Other Service')
-    @request = Request.create(status: 'New', program_id: @other_service.id, vehicle_id: params[:id], 
+    @request = Request.create(status: 'New', program_id: @other_service.id, vehicle_id: params[:id],
                               description: '****** Please fill this in ******', completion_date: Date.current,
                               creator: current_user.name, request_mileage: Vehicle.find(params[:id].mileage))
     if @request.save
@@ -185,48 +182,13 @@ class RequestsController < ApplicationController
   end
 
   def edit
+    @defects = Vehicle.find(@request.vehicle.id).defects
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
   end
-  
-  def update_service_mileage(request)
-    @a_service = Program.a_service
-    @shock_service = Program.shock_service
-    @air_filter_service = Program.air_filter_service
-    @tour_car_prep = Program.tour_car_prep
-    @repairs = Program.repairs
-    @defects = Program.defect
-    
-    vehicle = request.vehicle
-    @veh_mileage = request.vehicle.mileage
-    if request.program_id == @a_service.id && request.status == 'Completed'
-      request.vehicle.update(last_a_service: @veh_mileage)
-    elsif request.program_id == @shock_service.id && request.status == 'Completed'
-      request.vehicle.update(last_shock_service: @veh_mileage)
-    elsif request.program_id == @air_filter_service.id && request.status == 'Completed'
-      request.vehicle.update(last_air_filter_service: @veh_mileage)
-    elsif request.program_id == @repairs.id && request.status == 'Completed'
-      vehicle.update(repair_needed: false, needs_service: false, vehicle_status: 'In-Service')
-    elsif request.program_id == @tour_car_prep.id && request.status == 'Completed'
-      vehicle.update(prep: false, needs_service: false, vehicle_status: 'In-Service')
-    elsif request.program_id == @defects.id && request.status == 'Completed'
-      vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
-      defect_email request
-    end
-  end
-  
-  def defect_email(request)
-    if request.users.exists?
-      defect_emails = []
-      request.users.all.each do |user|
-        defect_emails << user.email
-      end
-      UserMailer.new_request_email(defect_emails, request).deliver_now
-    end
-  end
-  
-  def request_email(request)
-    unless @request.program_id == @defects.id && @request.status == 'Completed'
+
+  def request_email(_request)
+    unless @request.defect? && @request.completed?
       if @request.users.exists?
         emails = []
         @request.users.all.each do |user|
@@ -239,18 +201,11 @@ class RequestsController < ApplicationController
 
   def create
     @request = Request.new(request_params)
-    @a_service = Program.a_service
-    @shock_service = Program.shock_service
-    @air_filter_service = Program.air_filter_service
-    @tour_car_prep = Program.tour_car_prep
-    @repairs = Program.repairs
-    @defects = Program.defect
 
     respond_to do |format|
       if @request.save
         vehicle = @request.vehicle
         @request.update(request_mileage: vehicle.mileage)
-        update_service_mileage @request
         request_email @request
         format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
         format.json { render :show, status: :created, location: @request }
@@ -271,7 +226,6 @@ class RequestsController < ApplicationController
     @defects = Program.defect
     respond_to do |format|
       if @request.update(request_params)
-        update_service_mileage @request
         if @request.users.exists? && @request.status == 'New'
           emails = []
           @request.users.all.each do |user|
@@ -317,16 +271,10 @@ class RequestsController < ApplicationController
     @vehicles = Vehicle.all
   end
 
-  def set_services
-    @a_service = Program.find_by(name: 'A-Service')
-    @shock_service = Program.find_by(name: 'Shock Service')
-    @air_filter_service = Program.find_by(name: 'Air Filter Change')
-    @repairs = Program.find_by(name: 'Repairs')
-    @defects = Program.find_by(name: 'Defect')
-    @tour_car_prep = Program.find_by(name: 'Tour Car Prep')
-  end
-
   def request_params
-    params.require(:request).permit(:number, :description, :special_requets, :completion_date, :completed_date, :poc, :checklist_numb, :creator, :vehicle_id, :status, :image, :creator, :request_mileage, :program_id, part_ids: [], user_ids: [])
+    params.require(:request).permit(:number, :description, :special_requets, :completion_date,
+                                    :completed_date, :poc, :checklist_numb, :creator, :vehicle_id,
+                                    :status, :image, :creator, :request_mileage, :program_id,
+                                    part_ids: [], user_ids: [], defect_ids: [])
   end
 end

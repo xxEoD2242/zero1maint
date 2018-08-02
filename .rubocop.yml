@@ -1,0 +1,9 @@
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'db/schema.rb'

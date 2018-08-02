@@ -21,7 +21,7 @@ class ChecklistsController < ApplicationController
       end
     end
   end
-  
+
   def create_work_order
     @checklist = Checklist.find(params[:checklist_id])
     @vehicle = Vehicle.find(params[:vehicle_id])
@@ -54,7 +54,7 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.new(checklist_params)
     respond_to do |format|
       if @checklist.save
-        
+
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }
       else
@@ -92,7 +92,7 @@ class ChecklistsController < ApplicationController
 
   def checklist_params
     params.require(:checklist).permit(:date, :user_id, :event_id, :vehicle_id, :fuel_level,
-                                      :wash, :deadline, :suspension, :drive_train, :body, 
+                                      :wash, :deadline, :suspension, :drive_train, :body,
                                       :engine, :brake, :safety_equipment, :chassis, :electrical,
                                       :cooling_system, :tires, :radio, :exhaust, :steering,
                                       :comments, :completed, :defect)

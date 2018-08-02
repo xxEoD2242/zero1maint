@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVehicleSpecificIntervalsToServices < ActiveRecord::Migration[5.1]
   def change
     add_column :programs, :rzr_interval, :float, default: 0.0

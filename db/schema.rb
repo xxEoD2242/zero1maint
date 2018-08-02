@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180731214905) do
+ActiveRecord::Schema.define(version: 20180802112348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(version: 20180731214905) do
     t.integer "event_id"
     t.boolean "deadline"
     t.boolean "defect"
+  end
+
+  create_table "defect_requests", force: :cascade do |t|
+    t.integer "defect_id"
+    t.integer "request_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "defects", force: :cascade do |t|
@@ -84,6 +91,7 @@ ActiveRecord::Schema.define(version: 20180731214905) do
     t.date "end_date"
     t.boolean "multi_day"
     t.boolean "checklists_completed"
+    t.boolean "defects_reported"
   end
 
   create_table "events_vehicles", force: :cascade do |t|

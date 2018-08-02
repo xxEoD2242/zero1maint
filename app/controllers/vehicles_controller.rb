@@ -57,37 +57,34 @@ class VehiclesController < ApplicationController
     unless @vehicle.last_a_service.nil?
       @vehicle.update(near_a_service_mileage: (@vehicle.a_service_interval - (@vehicle.mileage - @vehicle.last_a_service)))
       x = @vehicle.near_a_service_mileage
-      case
-      when x <= 0
+      if x <= 0
         @vehicle.update(needs_service: true, a_service: true)
-      when x <= 100
+      elsif x <= 100
         @vehicle.update(near_service: true)
-      when x > 100
+      elsif x > 100
         @vehicle.update(needs_service: false, a_service: false, near_service: false)
       end
     end
     unless @vehicle.last_shock_service.nil?
       @vehicle.update(near_shock_service_mileage: (@vehicle.shock_service_interval - (@vehicle.mileage - @vehicle.last_shock_service)))
       y = @vehicle.near_shock_service_mileage
-      case 
-      when y <= 0
+      if y <= 0
         @vehicle.update(needs_service: true, shock_service: true)
-      when y <= 200
+      elsif y <= 200
         @vehicle.update(near_service: true)
-      when y > 200
+      elsif y > 200
         @vehicle.update(needs_service: false, shock_service: false, near_service: false)
       end
     end
     unless @vehicle.last_air_filter_service.nil?
       @vehicle.update(near_air_filter_service_mileage: (@vehicle.air_filter_service_interval - (@vehicle.mileage - @vehicle.last_air_filter_service)))
-      
+
       z = @vehicle.near_air_filter_service_mileage
-      case
-      when z <= 0
+      if z <= 0
         @vehicle.update(needs_service: true, air_filter_service: true)
-      when z <= 50
+      elsif z <= 50
         @vehicle.update(near_service: true)
-      when z > 50
+      elsif z > 50
         @vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
       end
     end
@@ -202,11 +199,11 @@ class VehiclesController < ApplicationController
 
   def vehicle_params
     params.require(:vehicle).permit(:car_id, :manufacturer, :vehicle_status, :use_near_service,
-                                    :vin_number, :vehicle_category_id, :registration_date, :plate_number, 
-                                    :notes, :repair_needed, :needs_service, :high_use, :mileage, :prep, 
-                                    :sale_date, :purchaser, :near_service, :a_service, :last_a_service, 
-                                    :last_shock_service, :last_air_filter_service, :use_a, :use_b, 
-                                    :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service, 
+                                    :vin_number, :vehicle_category_id, :registration_date, :plate_number,
+                                    :notes, :repair_needed, :needs_service, :high_use, :mileage, :prep,
+                                    :sale_date, :purchaser, :near_service, :a_service, :last_a_service,
+                                    :last_shock_service, :last_air_filter_service, :use_a, :use_b,
+                                    :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service,
                                     :veh_category, :location, :shock_service, :times_used, :est_mileage,
                                     :a_service_interval, :shock_service_interval, :air_filter_service_interval,
                                     :air_filter_service, :location_id, :event_id, vehicle_ids: [])

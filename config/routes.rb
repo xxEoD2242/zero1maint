@@ -12,10 +12,10 @@ Rails.application.routes.draw do
       get 'create_work_order'
     end
   end
-  
+
   resources :defects do
     collection do
-     get 'by_event' 
+      get 'by_event'
     end
   end
 

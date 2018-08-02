@@ -7,7 +7,7 @@
   <%= link_to 'All Defects Reported', defects_path, class: "btn btn-danger"%>
 </div>
 
-<% @events.each do |event| %>
+<% @event_results.each do |event| %>
 <div class="card bg-dark text-white my-3">
   <div class="card-header d-flex justify-content-between align-items-center">
     <h4> Event <%= link_to event.id, event_path(event.id), class: "badge badge-danger"%></h4> 
@@ -38,4 +38,6 @@
 </div>
 <% end %>
 <br />
-<%= paginate @events%>
+<%= paginate @event_results%>
+<br />
+<%= render 'event_search_box', q: @q, action: :by_event%>

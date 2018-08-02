@@ -5,6 +5,9 @@
   <%= link_to 'Work Order Dashboard', dashboard_requests_path, class: "btn btn-danger"%>
   <%= link_to 'Defects By Event', by_event_defects_path, class: "btn btn-danger"%>
 </div>
+
 <%= render 'defects_table', defects: @defects %>
 <br />
 <%= paginate @defects%>
+<br />
+<%= render 'defects_search_box', q: @q, action: :index %>

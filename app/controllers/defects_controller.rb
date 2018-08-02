@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class DefectsController < ApplicationController
-  
   def by_event
-    @events = Event.where(checklists_completed: true).page(params[:page])
+    @vehicles = Vehicle.all
+    @q = Event.where(defects_reported: true).ransack(params[:q])
+    @event_results = @q.result.order(id: :desc).page(params[:page])
   end
-  
+
   def index
-    @q = Defect.all.ransack(params[:q])
+    @vehicles = Vehicle.all
+    @q = Defect.all.order(id: :desc).ransack(params[:q])
     @defects = @q.result.page(params[:page])
   end
 
@@ -38,7 +40,7 @@ class DefectsController < ApplicationController
       format.html { redirect_to defects_url, notice: 'Defect was successfully destroyed.' }
     end
   end
-  
+
   private
 
   def set_defect

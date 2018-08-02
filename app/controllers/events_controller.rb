@@ -17,6 +17,8 @@ class EventsController < ApplicationController
   end
 
   def show
+    @event.set_checklists_completed
+    @event.set_defects_reported
     @checklists = Checklist.where(event_id: @event.id)
     @vehicles = @event.vehicles
     respond_to do |format|
@@ -32,15 +34,13 @@ class EventsController < ApplicationController
 
   def dashboard
     @display_events = Event.where('date >= ? AND date <= ?', Date.current - 7.days, Date.current + 14.days)
-    @set_completed_events = Event.where('date <= ?', Date.current)
-    @scheduled_events = Event.where(status: 'Scheduled')
-    @completed_events = Event.where(status: 'Completed')
+    @set_completed_events = Event.where('date = ?', Date.current)
+    @scheduled_events = Event.are_scheduled?
+    @completed_events = Event.are_completed?
     @assigned_events = Event.where(status: 'Vehicles Assigned')
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = Event.group('events.id').group_by(&:date)
-    @set_completed_events.all.each do |event|
-      event.set_checklists_completed
-    end
+    @set_completed_events.all.each(&:set_checklists_completed)
   end
 
   def next_month_calendar
@@ -213,6 +213,9 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:date, :event_mileage, :location, :event_time, :duration, :end_date, :duration_word, :event_type, :multi_day, :est_mileage, :customers, :calc_mileage, :shares, :class_type, :number, :status, vehicle_ids: [])
+    params.require(:event).permit(:date, :event_mileage, :location, :event_time,
+                                  :duration, :end_date, :duration_word, :event_type,
+                                  :multi_day, :est_mileage, :customers, :calc_mileage,
+                                  :shares, :class_type, :defects_reported, :number, :status, vehicle_ids: [])
   end
 end

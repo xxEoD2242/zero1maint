@@ -182,7 +182,7 @@ class RequestsController < ApplicationController
   end
 
   def edit
-    @defects = Vehicle.find(@request.vehicle.id).defects
+    @defects = Vehicle.find(@request.vehicle.id).defects.where(fixed: false)
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
   end

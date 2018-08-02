@@ -6,7 +6,7 @@ class Checklist < ApplicationRecord
               :set_engine, :set_brake, :set_safety_equipment,
               :set_chassis, :set_electrcial, :set_cooling_system,
               :set_tires, :set_radio, :set_exhaust, :set_steering,
-              :defects_detected, :deadlined, :completed
+              :defects_detected, :completed
   after_save :create_defect
   belongs_to :vehicle
   belongs_to :user

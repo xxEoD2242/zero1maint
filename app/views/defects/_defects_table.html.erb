@@ -47,6 +47,9 @@
               <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger" %>
               <% end %>
             </td>
+            <td>
+              <% if defect.requests.exists? %>
+            </td>
           </tr>
           <% end %>
         </tbody>

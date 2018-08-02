@@ -8,7 +8,7 @@
         <th scope="row">ID</th>
         <th scope="row">Created On</th>
         <th scope="row">Times Reported</th>
-        <th scope="row">Last Event Reported</th>
+        <th scope="row">Event</th>
         <th scope="row">Category</th>
         <th scope="row">Description</th>
         <th colspan="1"></th>
@@ -25,11 +25,11 @@
             </span>
           </h5>
         </td>
+        <td><%= defect.times_reported %></td>
+        <td><%= last_event defect %>
         <td>
           <%= category_words defect %>
         </td>
-        <td><%= defect.times_reported %></td>
-        <td><%= last_event defect %>
         <td><%= defect.description %></td>
         <td>
           <% if defect.checklist %>

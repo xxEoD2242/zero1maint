@@ -42,7 +42,7 @@ class DefectsController < ApplicationController
     @request = Request.create(status: 'New', program_id: @defect.id,
                               description: '****** Please fill this in ******',
                               request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id,
-                              creator: User.find(@checklist.user.id).name,
+                              creator: User.find(current_user.id).name,
                               completion_date: (Time.now + 7.days), checklist_id: @checklist.id, 
                               defect_ids: [params[:defect_id]], completed_date: Date.current)
     if @request.save
@@ -59,7 +59,7 @@ class DefectsController < ApplicationController
     @request = Request.create(status: 'New', program_id: @defect.id,
                               description: '****** Please fill this in ******',
                               request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id,
-                              creator: User.find(@checklist.user.id).name,
+                              creator: User.find(current_user.id).name,
                               completion_date: (Time.now + 7.days), 
                               defect_ids: [params[:defect_id]], completed_date: Date.current)
     if @request.save
@@ -132,6 +132,7 @@ class DefectsController < ApplicationController
   end
 
   def defect_params
-    params.require(:defect).permit(:date_fixed, :vehicle_id, :request_id, :fixed, :description, :manually_reported, :category, checklist_ids: [])
+    params.require(:defect).permit(:date_fixed, :vehicle_id, :request_id, :fixed, :description,
+                                   :manually_reported, :category, checklist_ids: [])
   end
 end

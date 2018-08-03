@@ -31,8 +31,40 @@
       </tr>
     </thead>
     <tbody>
-      <% event.checklists.have_defects?.each do |checklist|%>
-        <%= render 'defects_row', defects: Defect.where(checklist_ids: checklist.id) %>
+      <% Defect.where(last_event_reported: event.id).each do |defect|%>
+      <tr>
+        <th scope="col">
+          <h5>
+            <%= defect.id %>
+          </h5>
+        </th>
+        <th scope="col">
+          <h6>
+            <span class="badge badge-danger">
+              <%= defect.created_at.strftime('%v') %>
+            </span>
+          </h6>
+        </th>
+        <td><%= defect.vehicle.car_id %></td>
+        <td><%= defect.times_reported %></td>
+        <td><%= last_event defect %>
+        <td><%= category_words defect %></td>
+        <td><%= defect.description %></td>
+        <td>
+          <h6>
+            <span class="badge <%= fixed_defect_badge defect %>">
+              <%= fixed_defect_word defect %>
+            </span>
+          </h6>
+        </td>
+        <td>
+          <h6>
+            <span class="badge <%= fixed_defect_badge defect %>">
+              <%= defect_date defect%>
+            </span>
+          </h6>
+        </td>
+      </tr>
       <% end %>
     </tbody>
     </table>

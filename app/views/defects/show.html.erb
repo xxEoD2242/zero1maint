@@ -1,0 +1,26 @@
+<div class="card bg-dark text-white mt-3">
+  <div class='card-header'>
+    <h4>Defect #
+      <span class='badge badge-danger'><%= @defect.id %></span>
+    </h4>
+    <h5>
+      Status:
+      <span class='badge <%= %>'>
+    </h5>
+  </div>
+  <div class='card-body'>
+    <div class="row">
+      <div class='col-md-6'>
+        <%= render 'show_column_with_badge', title: 'Category', data: category_words @defect %>
+        <%= render 'show_column', title: 'Description', data: @defect.description %>
+        <%= render 'show_column_with_badge', title: 'Times Reported', data: @defect.times_reported %>
+      </div>
+      <div class='col-md-6'>
+        <%= render 'show_column_with_badge', title: 'Times Reported', data: @defect.times_reported %>
+      </div>
+    </div>
+  </div>
+  <div class='card-footer'>
+    <%= render 'footer_links' %>
+  </div>
+</div>

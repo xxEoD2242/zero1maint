@@ -12,6 +12,9 @@ class Checklist < ApplicationRecord
   belongs_to :user
   belongs_to :event
   has_many :defects
+  
+  scope :completed?, -> { where(defect: true) }
+  scope :have_defects?, -> { where(defect: true) }
 
   FUEL_LEVELS = ['Full', '3/4', '1/2', '1/4', 'None'].freeze
 

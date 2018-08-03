@@ -3,3 +3,16 @@
 @import "font-awesome";
 
 tr { page-break-inside: avoid }
+
+.event_title {
+  display: inline;
+}
+
+#event_type {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+#event_location {
+  margin-right: 10px;
+}

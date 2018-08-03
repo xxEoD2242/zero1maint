@@ -9,7 +9,14 @@ class Defect < ApplicationRecord
   
   paginates_per 20
   
+  scope :are_fixed?, -> { where(fixed: true) }
+  scope :are_not_fixed?, -> { where(fixed: false) }
+  
   def user_naming
     "&nbsp; #{description} &nbsp;".html_safe
+  end
+  
+  def fixed?
+    fixed == true
   end
 end

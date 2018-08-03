@@ -1,0 +1,9 @@
+<%= render 'title_box', title: "Defects for #{@vehicle.car_id}" %>
+
+<%= render 'defects_table', defects: @defects %>
+<br />
+<%= paginate @defects %>
+<br />
+<%= render 'footer_links' %>
+
+<%= render 'defects_search_box_for_vehicle', q: @q, action: :by_vehicle %>

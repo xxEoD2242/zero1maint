@@ -1,6 +1,30 @@
 # frozen_string_literal: true
 
 class DefectsController < ApplicationController
+  before_action :set_all_vehicles, only: [:by_event, :index]
+
+  def show
+    
+  end
+
+  def new
+ 
+  end
+
+  def edit
+    
+  end
+ 
+  def fixed
+    @defects = Defect.where(fixed: true)
+  end
+
+  def by_vehicle
+    @vehicle = Vehicle.find(params[:id])
+    @q = @vehicle.defects.ransack(params[:q])
+    @defects = @q.result.order(fixed: :desc).page(params[:page])
+  end
+
   def create_defect_work_order
     @checklist = Checklist.find(params[:checklist_id])
     @vehicle = Vehicle.find(params[:vehicle_id])
@@ -20,15 +44,26 @@ class DefectsController < ApplicationController
   end
   
   def by_event
-    @vehicles = Vehicle.all
-    @q = Event.where(defects_reported: true).ransack(params[:q])
+    @q = Event.defects_reported?.ransack(params[:q])
     @event_results = @q.result.order(id: :desc).page(params[:page])
+    to_pdf "Defects by event for #{Date.current.strftime('%v')} "
   end
 
   def index
-    @vehicles = Vehicle.all
     @q = Defect.all.order(id: :desc).ransack(params[:q])
     @defects = @q.result.page(params[:page])
+    to_pdf "All Defects for #{Date.current.strftime('%v')} "
+  end
+  
+  def to_pdf(header)
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: header,
+               layout: 'pdf.pdf.erb',
+               title: header
+      end
+    end
   end
 
   def create
@@ -60,6 +95,10 @@ class DefectsController < ApplicationController
   end
 
   private
+  
+  def set_all_vehicles
+    @vehicles = Vehicle.all
+  end
 
   def set_defect
     @defect = Defect.find(params[:id])

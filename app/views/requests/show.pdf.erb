@@ -55,48 +55,65 @@
 </p>
 <% end %>
 
-
-
-<% if @part_order != []%>
-<div class="card">
-	<div class="card-header">
-	<strong>Parts: </strong>
-</div>
-<div class="card-body">
-
-		<table>
-			<thead>
-			<tr>
-			<th scope="col">Item:</th>
-				<th scope="col">Qty:</th> 
-				<th scope="col">Total Cost:</th>
-			</tr>
-			</thead>
-			<tbody>
-				<% @part_order.each do |order|%>
-				<% if order.order_items != {}%>
-  			 <% order.order_items.each do |key, value|%>
-				<tr>
-			<td><%= Part.find(key).description%></td>
-			 <td><%= value %></td>
-			 <td><%= value * Part.find(key).cost%></td>
-			 
-		 </tr>
-			  <% end %>
-			  <% end %>
-			  <% end %>
-		  </tbody>
-	  </table>
+<% if @request.defects.exists?%>
+<div class="card mb-3">
+  <div class="card-header">
+    <h5 class="text-center">
+      Defects:
+    </h5>
   </div>
-	  <% total = []%>
-			<% @request.request_part_orders.each do |order| %>
-		<% if order.order_total != nil%>
-       <% total << order.order_total %>
-	  <% end %>
-			<% end %>
-		<div>
-    Work Order Total Cost:&nbsp<span> <%= number_to_currency total.sum %></span>
- </div>
-<% else %>
-<h4> No Parts Add To Work ORder
+  <div class="card-body">
+    <ul style="list-style-type: none;">
+      <% @request.defects.where(fixed: false).each do |defect|%>
+      <li>
+        <span class="badge badge-danger mr-2"> <%= defect.id %> </span>
+          <%= defect.description %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
 <% end %>
+
+<% unless @part_order.empty? %>
+<div class="card">
+  <div class="card-header">
+    <strong>Parts:</strong>
+  </div>
+  <div class="card-body">
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th scope="col">Item:</th>
+          <th scope="col">Qty:</th> 
+          <th scope="col">Total Cost:</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @part_order.each do |order|%>
+        <% unless order.order_items.empty? %>
+        <% order.order_items.each do |key, value|%>
+        <tr>
+          <td><%= Part.find(key).description%></td>
+          <td><%= value %></td>
+          <td><%= value * Part.find(key).cost%></td>
+        </tr>
+        <% end %>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% total = []%>
+  <% @request.request_part_orders.each do |order| %>
+  <% if order.order_total != nil%>
+  <% total << order.order_total %>
+  <% end %>
+  <% end %>
+  <div>
+    Work Order Total Cost:
+    <span class="ml-1"><%= number_to_currency total.sum %></span>
+  </div>
+  <% else %>
+  <h4> No Parts Add To Work Order</h4>
+    <% end %>

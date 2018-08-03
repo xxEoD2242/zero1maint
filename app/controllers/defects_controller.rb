@@ -73,7 +73,7 @@ class DefectsController < ApplicationController
   def by_event
     @q = Event.defects_reported?.ransack(params[:q])
     @event_results = @q.result.order(id: :desc).page(params[:page])
-    to_pdf "Defects by event for #{Date.current.strftime('%v')} "
+    to_pdf "Defects by event for #{Date.current.strftime('%v')}"
   end
 
   def index

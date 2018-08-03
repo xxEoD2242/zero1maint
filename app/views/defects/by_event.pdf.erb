@@ -32,7 +32,7 @@
     </thead>
     <tbody>
       <% event.checklists.have_defects?.each do |checklist|%>
-        <%= render 'defects_row', defects: Defect.where(checklist_id: checklist.id) %>
+        <%= render 'defects_row', defects: Defect.where(checklist_ids: checklist.id) %>
       <% end %>
     </tbody>
     </table>

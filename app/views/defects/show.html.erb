@@ -1,22 +1,33 @@
 <div class="card bg-dark text-white mt-3">
-  <div class='card-header'>
-    <h4>Defect #
-      <span class='badge badge-danger'><%= @defect.id %></span>
-    </h4>
+  <div class='card-header d-flex justify-content-between align-items-center'>
     <h5>
       Status:
-      <span class='badge <%= %>'>
+      <span class='badge <%= fixed_defect_badge @defect %>'>
+        <%= fixed_defect_word @defect%>
+      </span>
+    </h5>
+    <h4>Defect #
+      <span class='badge badge-danger ml-2'><%= @defect.id %></span>
+    </h4>
+    <h5>
+      Date Fixed:
+      <span class='badge <%= fixed_defect_badge @defect %>'>
+        <%= defect_date @defect%>
+      </span>
     </h5>
   </div>
   <div class='card-body'>
     <div class="row">
       <div class='col-md-6'>
-        <%= render 'show_column_with_badge', title: 'Category', data: category_words @defect %>
+        <%= render 'show_column', title: 'Category', data: (category_words @defect) %>
         <%= render 'show_column', title: 'Description', data: @defect.description %>
         <%= render 'show_column_with_badge', title: 'Times Reported', data: @defect.times_reported %>
+        <%= link_to 'Edit', edit_defect_path(@defect), class: 'btn btn-danger'%>
       </div>
       <div class='col-md-6'>
-        <%= render 'show_column_with_badge', title: 'Times Reported', data: @defect.times_reported %>
+        <%= render 'show_column', title: 'Last Event Reported', data: (last_event @defect) %>
+        <%= render 'show_column', title: 'Checklist', data: (defect_checklist @defect) %>
+        <%= render 'show_column', title: 'Vehicle', data: (link_to "View #{@defect.vehicle.car_id}", vehicle_path(@defect.vehicle.id), class: 'badge badge-light text-dark') %>
       </div>
     </div>
   </div>

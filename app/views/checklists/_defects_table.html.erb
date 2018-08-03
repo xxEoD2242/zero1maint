@@ -17,7 +17,10 @@
     <tbody>
       <% defects.each do |defect|%>
       <tr>
-        <th scope='col'><%= defect.id %></th>
+        <th scope='col'>
+          <h5>
+            <%= link_to "Show #{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
+          </h5>
         <td>
           <h5>
             <span class="badge badge-danger">
@@ -32,9 +35,7 @@
         </td>
         <td><%= defect.description %></td>
         <td>
-          <% if defect.checklist %>
-          <%= link_to 'Checklist', checklist_path(defect.checklist.id), class: "btn btn-danger btn-sm" %>
-          <% end %>
+          <%= defect_checklist defect %>
         </td>
       </tr>
       <% end %>

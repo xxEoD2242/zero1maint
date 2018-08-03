@@ -48,10 +48,4 @@ module RequestsHelper
       'Not Completed'
     end
   end
-  
-  def last_event(defect)
-    if defect.last_event_reported
-      link_to "Event #{defect.last_event_reported}", event_path(defect.last_event_reported), class: "badge badge-danger"
-    end
-  end
 end

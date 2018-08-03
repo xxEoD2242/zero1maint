@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
 class DefectsController < ApplicationController
-  before_action :set_all_vehicles, only: [:by_event, :index]
+  before_action :set_all_vehicles, only: [:by_event, :new, :edit, :index]
+  before_action :set_defect, only: [:show, :edit, :update, :destroy]
 
-  def show
-    
-  end
+  def show;end
 
   def new
- 
+    @defect = Defect.new
+    @vehicles = Vehicle.all
   end
 
-  def edit
-    
-  end
+  def edit;end
  
   def fixed
     @defects = Defect.where(fixed: true)
@@ -23,6 +21,18 @@ class DefectsController < ApplicationController
     @vehicle = Vehicle.find(params[:id])
     @q = @vehicle.defects.ransack(params[:q])
     @defects = @q.result.order(fixed: :desc).page(params[:page])
+  end
+  
+  def report
+    @vehicle = Vehicle.find(params[:vehicle_id])
+    @defect = Defect.create(description: '**** Please fill this in! ****', vehicle_id: @vehicle.id, fixed: false,
+                            manually_reported: true, times_reported: 0)
+    if @defect.save
+      flash[:notice] = 'Defect Created! Please fill in the remaining information'
+    else
+      flash[:alert] = 'Could not create Defect!'
+    end              
+    redirect_to edit_defect_path(id: @defect.id)            
   end
 
   def create_defect_work_order
@@ -34,6 +44,23 @@ class DefectsController < ApplicationController
                               request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id,
                               creator: User.find(@checklist.user.id).name,
                               completion_date: (Time.now + 7.days), checklist_id: @checklist.id, 
+                              defect_ids: [params[:defect_id]], completed_date: Date.current)
+    if @request.save
+      flash[:notice] = 'Defect Work Order Created! Please select Service, Status and enter dates.'
+    else
+      flash[:alert] = 'Could not create Work Order!'
+    end
+    redirect_to edit_request_path(id: @request.id)
+  end
+  
+  def create_manual_defect_work_order
+    @vehicle = Vehicle.find(params[:vehicle_id])
+    @defect = Program.find_by(name: 'Defect')
+    @request = Request.create(status: 'New', program_id: @defect.id,
+                              description: '****** Please fill this in ******',
+                              request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id,
+                              creator: User.find(@checklist.user.id).name,
+                              completion_date: (Time.now + 7.days), 
                               defect_ids: [params[:defect_id]], completed_date: Date.current)
     if @request.save
       flash[:notice] = 'Defect Work Order Created! Please select Service, Status and enter dates.'
@@ -105,6 +132,6 @@ class DefectsController < ApplicationController
   end
 
   def defect_params
-    params.require(:defect).permit(:date_fixed, :vehicle_id, :checklist_id, :request_id, :fixed, :description, :category)
+    params.require(:defect).permit(:date_fixed, :vehicle_id, :request_id, :fixed, :description, :manually_reported, :category, checklist_ids: [])
   end
 end

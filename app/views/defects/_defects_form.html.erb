@@ -1,0 +1,43 @@
+<div class='card bg-dark text-white mt-3'>
+  <div class='card-header'>
+    <h3 class='text-center'>
+      <%= title %>
+    </h3>
+  </div>
+  <div class='card-body'>
+    <%= simple_form_for @defect do |f| %>
+      
+      <div class='form-group'>
+        <%= f.label 'Select Vehicle', class: 'font-weight-bold' %>
+        <%= f.select :vehicle_id, Vehicle.all.order(car_id: :asc).collect { |v| [v.car_id, v.id] }, {include_blank: "Select Vehicle"}, id: :defect_vehicle_id, class: "form-control"%>
+      </div>
+
+      <div class='form-group'>
+        <strong>Select Category</strong>
+        <%= f.select :category, Defect::MAINTENANCE, {include_blank: "Select Category"}, class: 'form-control' %>
+      </div>
+
+      <div class='form-group'>
+        <%= f.input :description, class: 'form-control'%>
+      </div>
+
+      <div class='form-check mb-3'>
+        <%= f.check_box :fixed, class: 'form-check-input' %>
+        <%= f.label 'Fixed', class: 'form-check-label'%>
+      </div>
+
+      <div class='form-group'>
+        <%= f.input :date_fixed, as: :date, class: 'form-control' %>
+      </div>
+
+      <%= f.hidden_field :times_reported, value: 0 %>
+      <%= f.hidden_field :manually_reported, value: false%>
+
+      <%= f.button :submit, "Create Defect", class: "btn btn-lg btn-danger" %>
+
+    <% end %>
+  </div>
+  <div class='card-footer'>
+    <%= render 'footer_links' %>
+  </div>
+</div>

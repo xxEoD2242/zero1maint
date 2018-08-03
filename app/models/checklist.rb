@@ -11,7 +11,9 @@ class Checklist < ApplicationRecord
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
-  has_many :defects
+  
+  has_many :checklist_defects
+  has_many :defects, through: :checklist_defects
   
   scope :completed?, -> { where(defect: true) }
   scope :have_defects?, -> { where(defect: true) }
@@ -114,10 +116,10 @@ class Checklist < ApplicationRecord
   end
 
   def create_defect
-    ids = []
+    current_ids = []
     (1..100000).each do |numb|
       string = numb.to_s
-      ids << string
+      current_ids << string
     end
     @last_defect_id = Defect.last.id
     maintenance = %w[engine suspension steering tires
@@ -125,9 +127,9 @@ class Checklist < ApplicationRecord
                      electrical safety_equipment brake body
                      drive_train suspension]
     self.attributes.each do |k, v|
-      if v != 'Checked' && maintenance.include?(k) && !ids.include?(v)
-        @new_defect = Defect.create(description: v, checklist_id: id, vehicle_id: vehicle.id, category: k, times_reported: 0, last_event_reported: self.event_id)
-      elsif v != 'Checked' && maintenance.include?(k) && ids.include?(v)
+      if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
+        @new_defect = Defect.create(description: v, checklist_ids: [id], vehicle_id: vehicle.id, manually_reported: false, category: k, times_reported: 0, last_event_reported: self.event_id)
+      elsif v != 'Checked' && maintenance.include?(k) && current_ids.include?(v)
         if v.to_i < @last_defect_id
         @defect = Defect.where(id: v).last
         @defect.update(times_reported: (@defect.times_reported + 1), last_event_reported: self.event_id)

@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180802164025) do
+ActiveRecord::Schema.define(version: 20180803181459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "checklist_defects", force: :cascade do |t|
+    t.integer "checklist_id"
+    t.integer "defect_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "checklists", force: :cascade do |t|
     t.integer "vehicle_id"
@@ -53,7 +60,6 @@ ActiveRecord::Schema.define(version: 20180802164025) do
   create_table "defects", force: :cascade do |t|
     t.string "description"
     t.bigint "vehicle_id"
-    t.bigint "checklist_id"
     t.boolean "fixed", default: false
     t.date "date_fixed", default: "2018-07-31"
     t.datetime "created_at", null: false
@@ -61,7 +67,7 @@ ActiveRecord::Schema.define(version: 20180802164025) do
     t.string "category", default: ""
     t.integer "times_reported"
     t.integer "last_event_reported"
-    t.index ["checklist_id"], name: "index_defects_on_checklist_id"
+    t.boolean "manually_reported"
     t.index ["vehicle_id"], name: "index_defects_on_vehicle_id"
   end
 

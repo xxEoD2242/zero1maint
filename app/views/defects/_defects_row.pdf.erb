@@ -1,6 +1,10 @@
 <% defects.each do |defect|%>
 <tr>
-  <th scope="col"><%= defect.id %></th>
+  <th scope="col">
+    <h5>
+      <%= defect.id %>
+    </h5>
+  </th>
   <th scope="col">
     <h6>
       <span class="badge badge-danger">
@@ -8,7 +12,7 @@
       </span>
     </h6>
   </th>
-  <td><%= link_to defect.vehicle.car_id, vehicle_path(defect.vehicle.id), class: "badge badge-danger"%></td>
+  <td><%= defect.vehicle.car_id %></td>
   <td><%= defect.times_reported %></td>
   <td><%= last_event defect %>
   <td><%= category_words defect %></td>

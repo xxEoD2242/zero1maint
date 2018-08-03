@@ -17,8 +17,10 @@ Rails.application.routes.draw do
     collection do
       get 'by_event'
       get 'create_defect_work_order'
+      get 'create_manual_defect_work_order'
       get 'fixed'
       get 'by_vehicle'
+      get 'report'
     end
   end
 

@@ -2,7 +2,7 @@
 <tr>
   <th scope='col'>
     <h5>
-      <%= link_to "Show #{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
+      <%= link_to "#{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
     </h5>
   </th>
   <th scope="col">
@@ -36,6 +36,9 @@
   </td>
   <td>
     <%= work_order_link defect %>
+  </td>
+  <td>
+    <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
   </td>
 </tr>
 <% end %>

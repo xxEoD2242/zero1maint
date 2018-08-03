@@ -132,7 +132,7 @@ class Checklist < ApplicationRecord
       elsif v != 'Checked' && maintenance.include?(k) && current_ids.include?(v)
         if v.to_i < @last_defect_id
         @defect = Defect.where(id: v).last
-        @defect.update(times_reported: (@defect.times_reported + 1), last_event_reported: self.event_id)
+        @defect.update(times_reported: (@defect.times_reported + 1), last_event_reported: self.event_id, checklist_ids: [id])
         end
       end
     end

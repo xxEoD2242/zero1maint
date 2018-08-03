@@ -11,7 +11,7 @@
         <th scope="row">Event</th>
         <th scope="row">Category</th>
         <th scope="row">Description</th>
-        <th colspan="1"></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
     <tbody>
@@ -19,7 +19,7 @@
       <tr>
         <th scope='col'>
           <h5>
-            <%= link_to "Show #{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
+            <%= link_to "#{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
           </h5>
         <td>
           <h5>
@@ -36,6 +36,9 @@
         <td><%= defect.description %></td>
         <td>
           <%= defect_checklist defect %>
+        </td>
+        <td>
+          <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
         </td>
       </tr>
       <% end %>

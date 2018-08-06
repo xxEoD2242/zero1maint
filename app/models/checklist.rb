@@ -7,7 +7,7 @@ class Checklist < ApplicationRecord
               :set_chassis, :set_electrcial, :set_cooling_system,
               :set_tires, :set_radio, :set_exhaust, :set_steering,
               :defects_detected, :deadlined, :completed
-  after_save :create_defect
+  after_save :create_defect, only: [:create]
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
@@ -89,6 +89,7 @@ class Checklist < ApplicationRecord
   end
 
   def deadlined
+    # Add in the ability to attach defects to the Work Order when this automatically created.
     @set_repairs = Program.find_by(name: 'Repairs')
     @vehicle = vehicle
     if deadline

@@ -18,37 +18,25 @@
 </div>
 <div class="row mb-3">
   <div class="col-md-4">
-    <strong>Generate Work Order Reports</strong>
+    <h5 class='text-center'>Generate Work Order Reports</h5>
     <div class="list-group">
-      <a class="list-group-item list-group-item-action" href="../reports/work_order_completed_report">
-        Completed Work Orders Report
-      </a>
-      <a class="list-group-item list-group-item-action" href="../reports/work_order_in_progress_report">
-        New & In-Progress Work Orders Report
-      </a>
-      <a class="list-group-item list-group-item-action" href="../reports/work_order_defects_report">
-        Defect Work Orders Report
-      </a>	
+      <%= link_to 'Completed Work Orders Report', work_order_completed_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
+      <%= link_to 'New & In-Progress Work Orders Report', work_order_in_progress_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
+      <%= link_to 'Defect Work Orders Report', work_order_defects_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
     </div>
   </div>
   <div class="col-md-4">
-    <strong>Generate Checklist Reports</strong>
+    <h5 class='text-center'>Generate Checklist Reports</h5>
     <div class="list-group">
-      <a class="list-group-item list-group-item-action" href="../reports/checklist_report">Checklist Records Report</a>
+      <%= link_to 'Checklist Records Report', checklist_report_reports_path, class: 'list-group-item bg-dark text-white list-group-item-action' %>
     </div>
   </div>
   <div class="col-md-4">
-    <strong>Generate Vehicle Reports</strong>
+    <h5 class='text-center'>Generate Vehicle Reports</h5>
     <div class="list-group">
-      <a class="list-group-item list-group-item-action" href="../reports/rzr_report">
-        Razor Report
-      </a>
-      <a class="list-group-item list-group-item-action" href="../reports/tour_car_report">
-        Tour Car Report
-      </a>
-      <a class="list-group-item list-group-item-action" href="../reports/other_vehicles_report">
-        Other Vehicles Report
-      </a>
+      <%= link_to 'Razor Report', rzr_report_reports_path, class: 'list-group-item bg-dark text-white list-group-item-action' %>
+      <%= link_to 'Tour Car Report', tour_car_report_reports_path, class: 'list-group-item bg-dark text-white list-group-item-action' %>
+      <%= link_to 'Other Vehicles Report', other_vehicles_report_reports_path, class: 'list-group-item bg-dark text-white list-group-item-action' %>
     </div>
   </div>
 </div>

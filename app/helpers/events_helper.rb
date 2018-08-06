@@ -50,4 +50,10 @@ module EventsHelper
       'badge-danger'
     end
   end
+  
+  def vehicle_rotation_services_badges(vehicle)
+    return 'A-Service' if vehicle.dont_use_a_service
+    return 'Shock Service' if vehicle.dont_use_shock_service
+    return 'Air Filter Service' if vehicle.dont_use_air_filter_service
+  end
 end

@@ -111,39 +111,57 @@ module Vehicle_Rotation
   end
 
   def mileage_calculation
-    Vehicle.in_service.each do |vehicle|
-      unless vehicle.last_a_service.nil?
-        vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
-        x = vehicle.near_a_service_mileage
-        if x < 0
-          vehicle.update(needs_service: true, a_service: true)
-        elsif x <= @set_a_service.threshold_numb
-          vehicle.update(near_service: true)
-        else
-          vehicle.update(needs_service: false, a_service: false, near_service: false)
-        end
-      end
-      unless vehicle.last_shock_service.nil?
-        vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
-        y = vehicle.near_shock_service_mileage
-        if y < 0
-          vehicle.update(needs_service: true, shock_service: true)
-        elsif y <= @set_shock_service.threshold_numb
-          vehicle.update(near_service: true)
-        else
-          vehicle.update(needs_service: false, shock_service: false, near_service: false)
-        end
-      end
-      next if vehicle.last_air_filter_service.nil?
-      vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
-      z = vehicle.near_air_filter_service_mileage
-      if z < 0
-        vehicle.update(needs_service: true, air_filter_service: true)
-      elsif z <= @set_air_filter_service.threshold_numb
-        vehicle.update(near_service: true)
-      else
-        vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
-      end
+    Vehicle.in_service?.each do |vehicle|
+      a_service_check vehicle
+      shock_service_check vehicle 
+      air_filter_service_check vehicle
+      need_service_check vehicle
+      near_service_check vehicle
+    end
+  end
+
+  def need_service_check(vehicle)
+    if !vehicle.air_filter_service && !vehicle.shock_service && !vehicle.a_service
+      vehicle.update(needs_service: false)
+    end 
+  end
+
+  def near_service_check(vehicle)
+    if !vehicle.near_air_filter_service && !vehicle.near_shock_service && !vehicle.near_a_service
+      vehicle.update(near_service: false)
+    end 
+  end
+
+  def air_filter_service_check(vehicle)
+    vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
+    if vehicle.near_air_filter_service_mileage < 0
+      vehicle.update(needs_service: true, air_filter_service: true)
+    elsif vehicle.near_air_filter_service_mileage <= @set_air_filter_service.threshold_numb
+      vehicle.update(near_air_filter_service: true, near_service: true)
+    else
+      vehicle.update(air_filter_service: false, near_air_filter_service: false)
+    end
+  end
+
+  def shock_service_check(vehicle)
+    vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
+    if vehicle.near_shock_service_mileage < 0
+      vehicle.update(needs_service: true, shock_service: true)
+    elsif vehicle.near_shock_service_mileage <= @set_shock_service.threshold_numb
+      vehicle.update(near_shock_service: true, near_service: true)
+    else
+      vehicle.update(shock_service: false, near_shock_service: false)
+    end
+  end
+
+  def a_service_check(vehicle)
+    vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
+    if vehicle.near_a_service_mileage < 0
+      vehicle.update(needs_service: true, a_service: true)
+    elsif vehicle.near_a_service_mileage <= @set_a_service.threshold_numb
+      vehicle.update(near_a_service: true, near_service: true)
+    else
+      vehicle.update(a_service: false, near_a_service: false)
     end
   end
 end

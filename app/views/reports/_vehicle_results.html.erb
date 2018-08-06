@@ -1,12 +1,103 @@
-	<form class="form-inline">
-	<%= search_form_for q, :url => {:action => action } do |f|%>
-	
-	<div class="form-group ml-3">
-	<%= f.select :location_eq,Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
+<div class="card bg-dark text-white mb-4">
+  <div class='card-header'>
+    <h3 class='text-center'>
+      <%= table_title %>
+    </h3>
+  </div>
+  <div class="card-body">
+    <div class='table-responsive'>
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">Vehicle Number</th>
+            <th scope="col">Status</th>
+            <th scope="col">Mileage</th>
+            <th scope="col">Location</th>
+            <th scope="col">Open Work Orders</th>
+            <th scope="col">Near Service - Miles Until:</th>
+            <th scope="col">Services Required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% vehicles.each do |vehicle| %>
+          <tr>
+            <th scope="row"><%= vehicle.car_id %></th>
+            <td><%= vehicle.vehicle_status %></td>
+            <td>
+              <span class='badge badge-light text-dark'>
+                <%= vehicle.mileage %>
+              </span>
+            </td>
+            <td><%= vehicle.location %></td>
+            <td><% vehicle.requests.where(status: 'In-Progress').limit(3).each do |request| %>
+              <%= link_to request.id, request, method: :get, class: "badge badge-danger" %>
+              <%= request.status%>
+              <br />
+              <% end %>
+            </td>
+            <td>
+              <% if vehicle.near_service %>
+              <ul style='list_style_type: none; padding: 0; margin: 0;'>
+                <% if vehicle.near_a_service %>
+                <li> A-Service: 
+                  <span class='badge <%= near_service_badge_color vehicle.near_a_service_mileage %>'>
+                    <%= vehicle.near_a_service_mileage %>
+                    Miles
+                  </span>
+                </li>
+                <% end %>
+                <%  if vehicle.near_shock_service %>
+                <li>Shock Service:
+                  <span class='badge <%= near_service_badge_color vehicle.near_shock_service_mileage %>'>
+                    <%= vehicle.near_shock_service_mileage %> Miles
+                  </span>
+                  </li>
+                  <% end %>
+                  <% if vehicle.near_air_filter_service %>
+                  <li>Air Filter Change: 
+                    <span class='badge <%= near_service_badge_color vehicle.near_air_filter_service_mileage %>'>
+                      <%= vehicle.near_air_filter_service_mileage %>
+                      Miles
+                    </span>
+                  </li>
+                  <% end %>
+                  <% end %>
+                </ul>
+            </td>
+            <td>
+             <% if vehicle.a_service %>
+             <span class='badge badge-danger'>
+               <%= vehicle_services_badges vehicle %>
+             </span>
+             <% end %>
+             <% if vehicle.shock_service %>
+             <span class='badge badge-danger'>
+               <%= vehicle_services_badges vehicle %>
+             </span>
+             <% end %>
+             <% if vehicle.air_filter_service %>
+             <span class='badge badge-danger'>
+               <%= vehicle_services_badges vehicle %>
+             </span>
+             <% end %>
+             <% if vehicle.repair_needed %>
+             <span class='badge badge-danger'>
+               <%= vehicle_services_badges vehicle %>
+             </span>
+             <% end %>
+             <% if vehicle.defect %>
+             <span class='badge badge-danger'>
+               <%= vehicle_services_badges vehicle %>
+             </span>
+             <% end %>
+            </td>
+                <td>
+       		   <%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
-<div class="form-group ml-3">
-	<%= f.submit "Find Vehicles", class: "btn btn-info"%>
-</div>
-<% end %>
-</form>

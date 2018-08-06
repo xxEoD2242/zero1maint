@@ -1,22 +1,15 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_report, only: %i[show edit update destroy]
-  before_action :set_vehicles, :in_service, :out_of_service, only: %i[show a_service_calculation shock_service_calculation air_filter_calculation rzr_report tour_car_report other_vehicles_report]
-  before_action :set_tracker, :set_new, :set_progress, :set_completed, :set_overdue, only: %i[show a_service_calculation shock_service_calculation air_filter_calculation rzr_report work_order_completed_report work_order_in_progress_report weekly_work_order_reports weekly_vehicle_reports work_order_defects_report other_vehicles_report tour_car_report]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[show a_service_calculation shock_service_calculation air_filter_calculation rzr_report tour_car_report other_vehicles_report work_order_defects_report]
 
-  # GET /reports
-  # GET /reports.json
   def index
     @reports = Report.all
     @q = Report.all.ransack(params[:q])
     @report_results = @q.result.page(params[:page])
   end
 
-  # GET /reports/1
-  # GET /reports/1.json
   def show
     @out_of_service = ReportVehicleOrder.where(vehicle_status: 'Out-of-Service', report_id: @report.id)
     @in_service = ReportVehicleOrder.where(vehicle_status: 'In-Service', report_id: @report.id)
@@ -45,40 +38,21 @@ class ReportsController < ApplicationController
   end
 
   def rzr_report
-    @q = Vehicle.where(veh_category: 'RZR').ransack(params[:q])
+    @q = Vehicle.are_rzr.ransack(params[:q])
     @rzrs = @q.result
-    respond_to do |format|
-      format.html
-      format.xls
-      format.pdf do
-        render pdf: "RZR Report for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "RZR Report for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf "RZR Report for #{Date.current.strftime('%D')}"
   end
 
   def tour_car_report
     @q = Vehicle.where(veh_category: 'Tour Car').ransack(params[:q])
     @tour_cars = @q.result
-    respond_to do |format|
-      format.html
-      format.xls
-      format.pdf do
-        render pdf: 'Tour Car Report', layout: 'pdf.pdf.erb', title: "Tour Car Vehicle Report for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf "Tour Car Report for #{Date.current.strftime('%v')}"
   end
 
   def other_vehicles_report
-    @q = Vehicle.all.ransack(params[:q])
+    @q = Vehicle.where('veh_category != ? AND veh_category != ?', 'RZR', 'Tour Car').ransack(params[:q])
     @vehicles = @q.result
-
-    respond_to do |format|
-      format.html
-      format.xls
-      format.pdf do
-        render pdf: 'Other Vehicle Report', layout: 'pdf.pdf.erb', title: "Other Vehicle Report for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf "Other Vehicle Report for #{Date.current.strftime('%v')}"
   end
 
   def checklist_report
@@ -138,11 +112,16 @@ class ReportsController < ApplicationController
     @requests = Request.where(status: 'Completed')
     @q = @requests.ransack(params[:q])
     @completed = @q.result
+    to_pdf "Work Orders that are Completed for #{Date.current.strftime('%v')}"
+  end
+  
+  def to_pdf(file_name)
     respond_to do |format|
       format.html
-      format.xls
       format.pdf do
-        render pdf: 'Completed Work Order Reports', layout: 'pdf.pdf.erb', title: "Work Order Completed Report for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
+        render pdf: file_name,
+               layout: 'pdf.pdf.erb',
+               title: file_name
       end
     end
   end
@@ -151,17 +130,13 @@ class ReportsController < ApplicationController
     @reports = Report.all
   end
 
-  # GET /reports/new
   def new
     @report = Report.new
-    @vehicle_categories = VehicleCategory.all
   end
 
-  # GET /reports/1/edit
+
   def edit; end
 
-  # POST /reports
-  # POST /reports.json
   def create
     @report = Report.new(report_params)
 
@@ -176,8 +151,6 @@ class ReportsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /reports/1
-  # PATCH/PUT /reports/1.json
   def update
     respond_to do |format|
       if @report.update(report_params)
@@ -190,8 +163,6 @@ class ReportsController < ApplicationController
     end
   end
 
-  # DELETE /reports/1
-  # DELETE /reports/1.json
   def destroy
     @report.destroy
     respond_to do |format|
@@ -202,17 +173,8 @@ class ReportsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_report
     @report = Report.find(params[:id])
-  end
-
-  def in_service
-    @in_service = Vehicle.where(vehicle_status: 'In-Service')
-  end
-
-  def out_of_service
-    @out_of_service = Vehicle.where(vehicle_status: 'Out-of-Service')
   end
 
   def set_vehicles
@@ -241,26 +203,6 @@ class ReportsController < ApplicationController
 
   def set_defects
     @set_defects = Program.find_by(name: 'Defect')
-  end
-
-  def set_tracker
-    @tracks = Tracker.all
-  end
-
-  def set_new
-    @set_new = Tracker.find_by(track: 'New')
-  end
-
-  def set_progress
-    @set_progress = Tracker.find_by(track: 'In-Progress')
-  end
-
-  def set_completed
-    @set_completed = Tracker.find_by(track: 'Completed')
-  end
-
-  def set_overdue
-    @set_overdue = Tracker.find_by(track: 'Overdue')
   end
 
   def set_parts

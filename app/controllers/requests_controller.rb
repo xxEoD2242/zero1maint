@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RequestsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_request, only: %i[show edit update destroy]
   before_action :set_vehicle, only: %i[index show edit new]
   before_action :check_quant, only: [:show]
@@ -91,7 +90,7 @@ class RequestsController < ApplicationController
 
   def dashboard
     limit_numb = 5
-    @requests = Request.limit(10).order(created_at: :desc).page(params[:page])
+    @requests = Request.last(10).reverse
     @all_wo_numb = Request.count
     @new_wo_numb = Request.is_new.size
     @in_progress_wo_numb = Request.is_in_progress.size

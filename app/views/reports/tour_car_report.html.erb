@@ -1,18 +1,15 @@
-<div class="jumbotron mt-3">
-	<h1 class="display-3 text-center">Tour Car Report for <%= Time.now.strftime('%D')%></h1>
-	<h3>In-Service Vehicles</h3>
-	<%= render 'vehicle', vehicle: @tour_cars.where(vehicle_status: "In-Service").order(car_id: :asc) %>
-	<br \>
-	<h3>Out-Of-Service Vehicles</h3>
-	<%= render 'vehicle', vehicle: @tour_cars.where(vehicle_status: "Out-of-Service").order(car_id: :asc) %>
-	<br \>
-		<div class="container d-flex justify-content-between align-items-center">
-			<strong>Download:
-			<%= link_to "PDF", tour_car_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%></strong>
-			<%= render 'vehicle_results', q: @q, action: :tour_car_report%> 
-			<%= link_to "Back", generate_report_reports_path, class: "btn btn-warning"%>
-			
-		</div>
-	</div>
-	</div>
-	
+<%= render 'report_title_box', title: "Tour Car Report for #{Time.now.strftime('%D')}" %>
+<br />
+<%= render 'vehicle_search_box', q: @q, action: :tour_car_report %>
+<br />
+<%= render 'vehicle_results', vehicles: @tour_cars.in_service?.order(car_id: :asc), table_title: 'In-Service Tour Cars' %>
+
+<%= render 'vehicle_results', vehicles: @tour_cars.out_of_service?.order(car_id: :asc), table_title: 'Out_of_Service Tour Cars' %>
+
+<div class="container d-flex justify-content-between align-items-center">
+  <strong>
+    Download:
+    <%= link_to "PDF", tour_car_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-danger"%>
+  </strong> 
+  <%= link_to "Back", generate_report_reports_path, class: "btn btn-danger"%>
+</div>	

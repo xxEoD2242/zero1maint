@@ -60,4 +60,20 @@ module ApplicationHelper
       'No Category Given'
     end
   end
+
+  def vehicle_services_badges(vehicle)
+    return 'A-Service' if vehicle.a_service
+    return 'Shock Service' if vehicle.shock_service
+    return 'Air Filter Service' if vehicle.air_filter_service
+    return 'Repairs In Progress' if vehicle.repair_needed
+    return 'Defects Reported' if vehicle.defect
+  end
+  
+  def near_service_badge_color(mileage)
+    if mileage < 0
+      'badge-danger'
+    else
+      'badge-warning'
+    end
+  end
 end

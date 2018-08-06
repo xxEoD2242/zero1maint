@@ -2,7 +2,7 @@
 
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage out_of_service]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage in_service out_of_service]
   before_action :in_service, :out_of_service, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation all_vehicles]
   before_action :mileage_calculation, only: %i[near_service_required needs_service]
   include Vehicle_Rotation
@@ -54,40 +54,11 @@ class VehiclesController < ApplicationController
     @defects = @vehicle.defects.order(created_at: :desc)
     @request = Request.all
 
-    unless @vehicle.last_a_service.nil?
-      @vehicle.update(near_a_service_mileage: (@vehicle.a_service_interval - (@vehicle.mileage - @vehicle.last_a_service)))
-      x = @vehicle.near_a_service_mileage
-      if x <= 0
-        @vehicle.update(needs_service: true, a_service: true)
-      elsif x <= 100
-        @vehicle.update(near_service: true)
-      elsif x > 100
-        @vehicle.update(needs_service: false, a_service: false, near_service: false)
-      end
-    end
-    unless @vehicle.last_shock_service.nil?
-      @vehicle.update(near_shock_service_mileage: (@vehicle.shock_service_interval - (@vehicle.mileage - @vehicle.last_shock_service)))
-      y = @vehicle.near_shock_service_mileage
-      if y <= 0
-        @vehicle.update(needs_service: true, shock_service: true)
-      elsif y <= 200
-        @vehicle.update(near_service: true)
-      elsif y > 200
-        @vehicle.update(needs_service: false, shock_service: false, near_service: false)
-      end
-    end
-    unless @vehicle.last_air_filter_service.nil?
-      @vehicle.update(near_air_filter_service_mileage: (@vehicle.air_filter_service_interval - (@vehicle.mileage - @vehicle.last_air_filter_service)))
-
-      z = @vehicle.near_air_filter_service_mileage
-      if z <= 0
-        @vehicle.update(needs_service: true, air_filter_service: true)
-      elsif z <= 50
-        @vehicle.update(near_service: true)
-      elsif z > 50
-        @vehicle.update(needs_service: false, air_filter_service: false, near_service: false)
-      end
-    end
+    a_service_check @vehicle
+    shock_service_check @vehicle 
+    air_filter_service_check @vehicle
+    need_service_check @vehicle
+    near_service_check @vehicle
     to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
   end
 

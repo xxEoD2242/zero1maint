@@ -1,18 +1,9 @@
-<div class="jumbotron mt-3">
-	<h1 class="display-3 text-center">Weekly Razor Report</h1>
-	<div class="container d-flex justify-content-between align-items-center mb-3">
-	<h2>In-Service Vehicles</h2> <%= link_to "Back", generate_report_reports_path, class: "btn btn-dark"%>
+<%= render 'report_title_box', title: "Weekly Razor Report for #{Date.current.strftime('%v')}" %>
+<%= render 'vehicle_results', vehicles: @rzrs.in_service?, table_title: 'In-Service Razors' %>
+<%= render 'vehicle_results', vehicles: @rzrs.out_of_service?, table_title: 'Out-of-Service Razors' %>
+<div class="container d-flex justify-content-between align-items-center">
+   <%= link_to "Back", generate_report_reports_path, class: "btn btn-danger"%>
+  <strong>
+    Download: <%= link_to "PDF", rzr_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-danger" %>
+  </strong>
 </div>
-	<%= render 'vehicle', vehicle: @rzrs.where(vehicle_status: "In-Service").order(car_id: :asc) %>
-	<br \>
-	<h3>Out-Of-Service Vehicles</h3>
-	<%= render 'vehicle', vehicle: @rzrs.where(vehicle_status: 'Out-of-Service').order(car_id: :asc)%>
-	<br \>
-	<div class="container d-flex justify-content-between align-items-center">
-		<strong> Download: <%= link_to "PDF", rzr_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%></strong>
-		<%= render 'vehicle_results', q: @q, action: :rzr_report%> 
-		<% link_to "Back", generate_report_reports_path, class: "btn btn-warning"%>
-		
-	</div>
-</div>
-

@@ -1,76 +1,28 @@
-<div class="jumbotron mt-3">
-	<h1 class="display-3 text-center">Other Vehicles Report</h1>
-	
-	<div class="card">
-		<div class="card-body">
-<h3>In-Service Vehicles</h3>
-	<table class="table table-bordered table-responsive">
-		<thead>
-			<tr>
-				<th scope="col">Vehicle Number</th>
-				<th scope="col">Status</th>
-				<th scope="col">Mileage</th>
-				<th scope="col">Location</th>
-				<th scope="col">Open Work Orders</th>
-				<th scope="col">Near Service - Miles Until:</th>
-				<th scope="col">Services Required</th>
-			</tr>
-		</thead>
-		<tbody>
-	
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Fleet Vehicle", vehicle_status: "In-Service")%>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Dirt Bike", vehicle_status: "In-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Other", vehicle_status: "In-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Training Vehicle", vehicle_status: "In-Service") %>
-		</tbody>
-	</table>
+<%= render 'report_title_box', title: "Other Vehicles Report for #{Date.current.strftime('%v')}" %>
 
-	
-	<br \>
-	<h3>Out-Of-Service Vehicles</h3>
-	<table class="table table-bordered table-responsive">
-		<thead>
-			<tr>
-				<th scope="col">Vehicle Number</th>
-				<th scope="col">Status</th>
-				<th scope="col">Mileage</th>
-				<th scope="col">Location</th>
-				<th scope="col">Open Work Orders</th>
-				<th scope="col">Near Service - Miles Until:</th>
-				<th scope="col">Services Required</th>
-			</tr>
-		</thead>
-		<tbody>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Fleet Vehicle", vehicle_status: "Out-of-Service")%>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Dirt Bike", vehicle_status: "Out-of-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Other", vehicle_status: "Out-of-Service") %>
-	<%= render 'custom_vehicle', vehicle: @vehicles.where(veh_category: "Training Vehicle", vehicle_status: "Out-of-Service") %>
-		</tbody>
-	</table>
-	<br \>
-	
-	
-	<div class="container d-flex justify-content-between align-items-center">
-		<strong><%= link_to "Download PDF", other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-info"%> </strong>
-			<form class="form-inline">
-			<%= search_form_for @q, :url => {:action => :other_vehicles_report } do |f|%>
+<%= render 'vehicle_results', vehicles: @vehicles.in_service?, table_title: 'In-Service Vehicles' %>
+
+<%= render 'vehicle_results', vehicles: @vehicles.out_of_service?, table_title: 'Out-of-Service Vehicles' %>
+
+<div class="container d-flex justify-content-between align-items-center">
+  <strong>
+    <%= link_to "Download PDF", other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-danger"%>
+  </strong>
+  <form class="form-inline">
+    <%= search_form_for @q, :url => {:action => :other_vehicles_report } do |f|%>
 			
-				<div class="form-group">
-				<%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
-			</div>
+    <div class="form-group">
+      <%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+    </div>
 	
-			<div class="form-group ml-3">
-			<%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
-		</div>
+    <div class="form-group ml-3">
+      <%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
+    </div>
 
-		<div class="form-group ml-3">
-			<%= f.submit "Find Vehicles", class: "btn btn-info"%>
-		</div>
-		<% end %>
-		</form>
-		 <%= link_to "Back", generate_report_reports_path, class: "btn btn-warning"%>
-	</div>
-	</div>
-	</div>
-	
+    <div class="form-group ml-3">
+      <%= f.submit "Find Vehicles", class: "btn btn-danger"%>
+    </div>
+    <% end %>
+  </form>
+  <%= link_to "Back", generate_report_reports_path, class: "btn btn-danger"%>
 </div>

@@ -27,7 +27,9 @@ class Vehicle < ApplicationRecord
 
   accepts_nested_attributes_for :events
 
-  scope :in_service, -> { where(vehicle_status: 'In-Service') }
+  scope :in_service?, -> { where(vehicle_status: 'In-Service') }
+  scope :out_of_service?, -> { where(vehicle_status: 'Out-of-Service') }
+  scope :are_rzr, -> { where(veh_category: 'RZR') }
 
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold'].freeze
   CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other'].freeze

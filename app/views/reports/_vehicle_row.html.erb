@@ -1,0 +1,48 @@
+<% vehicles.order(veh_category: :asc).each do |vehicle| %>
+<tr>
+  <th scope="row"><%= vehicle.car_id %></th>
+  <td><%= vehicle.vehicle_status %></td>
+  <td><%= vehicle.mileage %></td>
+  <td><%= vehicle.location %></td>
+  <td><% vehicle.requests.where(status: 'In-Progress').limit(3).each do |request| %>
+    <%= link_to request.number, request, method: :get, class: "badge badge-danger" %>
+    <%= request.status %>
+    <% end %></td>
+    <td><% if vehicle.near_service %>
+      <ul>
+        <% if vehicle.near_a_service_mileage %>
+        <li> A-Service: - <%= vehicle.near_a_service_mileage %> Miles </li>
+        <% end %>
+        <%  if vehicle.near_shock_service_mileage %> 
+        <li>Shock Service: - <%= vehicle.near_shock_service_mileage %> Miles</li>
+        <% end %>
+        <% if vehicle.near_air_filter_service_mileage %>
+        <li>Air Filter Change: - <%= vehicle.near_air_filter_service_mileage %> Miles</li>
+        <% end %>
+        <% end %>
+      </ul>
+    </td>
+    <td>
+      <% if vehicle.a_service %>
+      A-Service 
+      <% end %>
+      <% if vehicle.shock_service %>
+      Shock-Service 
+      <% end %>
+      <% if vehicle.air_filter_service %>
+      Air Filter Service 
+      <% end %>
+      <% if vehicle.repair_needed %>
+      Repairs In Progress
+      <% end %>
+      <% if vehicle.defect %>
+      Defect Reported
+      <%  vehicle.requests.where(program_id: @set_defects.id, status: 'New').each do |request|%>
+      <br>
+      <strong class='mr-3'>Description:</strong> <%= request.description %>
+      <% end %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+	

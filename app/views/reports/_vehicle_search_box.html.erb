@@ -1,0 +1,14 @@
+<div class='container-fluid bg-dark text-white p-2 border border-danger rounded'>
+  <form class="form-inline">
+    <%= search_form_for q, :url => {:action => action } do |f|%>
+	
+    <div class="form-group ml-3">
+      <%= f.select :location_eq,Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
+    </div>
+
+    <div class="form-group ml-3">
+      <%= f.submit "Find Vehicles", class: "btn btn-danger"%>
+    </div>
+    <% end %>
+  </form>
+</div>

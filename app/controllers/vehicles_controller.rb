@@ -3,7 +3,7 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage in_service out_of_service]
-  before_action :in_service, :out_of_service, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation all_vehicles]
+  before_action :in_service, :out_of_service, only: %i[a_service_calculation index shock_service_calculation air_filter_calculation all_vehicles]
   before_action :mileage_calculation, only: %i[near_service_required needs_service]
   include Vehicle_Rotation
 

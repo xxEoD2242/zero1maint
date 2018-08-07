@@ -17,7 +17,11 @@
       <% vehicle.order(car_id: :asc).each do |vehicle| %>
       <tr>
         <th scope="row"><%= vehicle.car_id %></th>
-        <td><%= vehicle.vehicle_status %></td>
+        <td>
+          <span class='badge <%= vehicle_status_badge_color vehicle %>'>
+            <%= vehicle.vehicle_status %>
+          </span>
+        </td>
         <td><%= vehicle.veh_category %></td>
         <td><%= vehicle.location %></td>
         <td>
@@ -29,66 +33,34 @@
             <% end %>
           </ul>
         </td>
-        <td><%= vehicle.mileage %></td>
         <td>
-          <% if vehicle.near_service %>
+          <span class='badge badge-light text-dark'>
+            <%= vehicle.mileage %>
+          </span>
+        </td>
+        <td>
           <ul style='list_style_type: none; padding: 0; margin: 0;'>
-            <% if vehicle.near_a_service %>
-            <li> A-Service: 
-              <span class='badge <%= near_service_badge_color vehicle.near_a_service_mileage %>'>
-                <%= vehicle.near_a_service_mileage %>
-                Miles
-              </span>
-            </li>
-            <% end %>
-            <%  if vehicle.near_shock_service %>
-            <li>Shock Service:
-              <span class='badge <%= near_service_badge_color vehicle.near_shock_service_mileage %>'>
-                <%= vehicle.near_shock_service_mileage %> Miles
-              </span>
-            </li>
-            <% end %>
-            <% if vehicle.near_air_filter_service %>
-            <li>Air Filter Change: 
-              <span class='badge <%= near_service_badge_color vehicle.near_air_filter_service_mileage %>'>
-                <%= vehicle.near_air_filter_service_mileage %>
-                Miles
-              </span>
-            </li>
-            <% end %>
-            <% end %>
+            <%= near_a_service_badge vehicle %>
+            <%= near_shock_service_badge vehicle %>
+            <%= near_air_filter_service_badge vehicle %>
           </ul>
         </td>
         <td>
-         <% if vehicle.a_service %>
-         <span class='badge badge-danger'>
-           <%= vehicle_services_badges vehicle %>
-         </span>
-         <% end %>
-         <% if vehicle.shock_service %>
-         <span class='badge badge-danger'>
-           <%= vehicle_services_badges vehicle %>
-         </span>
-         <% end %>
-         <% if vehicle.air_filter_service %>
-         <span class='badge badge-danger'>
-           <%= vehicle_services_badges vehicle %>
-         </span>
-         <% end %>
-         <% if vehicle.repair_needed %>
-         <span class='badge badge-danger'>
-           <%= vehicle_services_badges vehicle %>
-         </span>
-         <% end %>
-         <% if vehicle.defect %>
-         <span class='badge badge-danger'>
-           <%= vehicle_services_badges vehicle %>
-         </span>
-         <% end %>
+         <%= a_service_badge vehicle %>
+         <%= shock_service_badge vehicle %>
+         <%= air_filter_service_badge vehicle %>
+         <%= repairs_badge vehicle %>
+         <%= defects_badge vehicle %>
         </td>
-        <td><%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %></td>
-        <td><%= link_to 'Create WO', create_work_order_requests_path(id: vehicle.id), class: "btn btn-danger btn-sm"%></td>
-        <td><%= link_to 'Destroy Vehicle',vehicle_path(vehicle), method: :delete, data: {confirm: "Are you sure you wish to delete this vehicle?"}, class: "btn btn-danger btn-sm"%></td>
+        <td>
+          <%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %>
+        </td>
+        <td>
+          <%= link_to 'Create WO', create_work_order_requests_path(id: vehicle.id), class: "btn btn-danger btn-sm"%>
+        </td>
+        <td>
+          <%= link_to 'Destroy Vehicle',vehicle_path(vehicle), method: :delete, data: {confirm: "Are you sure you wish to delete this vehicle?"}, class: "btn btn-danger btn-sm"%>
+        </td>
       </tr>
       <% end %> 
     </tbody> 

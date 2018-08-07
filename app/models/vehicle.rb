@@ -97,4 +97,12 @@ class Vehicle < ApplicationRecord
       self.air_filter_service_interval = Program.air_filter_service.other_interval
     end
   end
+  
+  def is_in_service?
+    vehicle_status == 'In-Service'
+  end
+  
+  def is_out_of_service?
+    vehicle_status == 'Out-of-Service'
+  end
 end

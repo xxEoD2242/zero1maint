@@ -18,60 +18,18 @@
       <td><%= vehicle.mileage %></td>
       <td><%= vehicle.location %></td>
       <td>
-        <% if vehicle.near_service %>
         <ul style='list_style_type: none; padding: 0; margin: 0;'>
-          <% if vehicle.near_a_service %>
-          <li> A-Service: 
-            <span class='badge <%= near_service_badge_color vehicle.near_a_service_mileage %>'>
-              <%= vehicle.near_a_service_mileage %>
-              Miles
-            </span>
-          </li>
-          <% end %>
-          <%  if vehicle.near_shock_service %>
-          <li>Shock Service:
-            <span class='badge <%= near_service_badge_color vehicle.near_shock_service_mileage %>'>
-              <%= vehicle.near_shock_service_mileage %> Miles
-            </span>
-          </li>
-          <% end %>
-          <% if vehicle.near_air_filter_service %>
-          <li>Air Filter Change: 
-            <span class='badge <%= near_service_badge_color vehicle.near_air_filter_service_mileage %>'>
-              <%= vehicle.near_air_filter_service_mileage %>
-              Miles
-            </span>
-          </li>
-          <% end %>
-          <% end %>
+          <%= near_a_service_badge vehicle %>
+          <%= near_shock_service_badge vehicle %>
+          <%= near_air_filter_service_badge vehicle %>
         </ul>
       </td>
       <td>
-        <% if vehicle.a_service %>
-        <span class='badge badge-danger'>
-          <%= vehicle_services_badges vehicle %>
-        </span>
-        <% end %>
-        <% if vehicle.shock_service %>
-        <span class='badge badge-danger'>
-          <%= vehicle_services_badges vehicle %>
-        </span>
-        <% end %>
-        <% if vehicle.air_filter_service %>
-        <span class='badge badge-danger'>
-          <%= vehicle_services_badges vehicle %>
-        </span>
-        <% end %>
-        <% if vehicle.repair_needed %>
-        <span class='badge badge-danger'>
-          <%= vehicle_services_badges vehicle %>
-        </span>
-        <% end %>
-        <% if vehicle.defect %>
-        <span class='badge badge-danger'>
-          <%= vehicle_services_badges vehicle %>
-        </span>
-        <% end %>
+       <%= a_service_badge vehicle %>
+       <%= shock_service_badge vehicle %>
+       <%= air_filter_service_badge vehicle %>
+       <%= repairs_badge vehicle %>
+       <%= defects_badge vehicle %>
       </td>
     </tr>
     <% end %>

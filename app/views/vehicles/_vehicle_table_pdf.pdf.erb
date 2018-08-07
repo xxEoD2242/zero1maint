@@ -31,41 +31,19 @@
           <%= vehicle.mileage %>
         <span>
       </td>
-      <td><% if vehicle.near_service %>
-        <ul style="list-style-type:none;padding: 0;margin: 0;">
-          <% if vehicle.near_a_service_mileage <= 100 %>
-          <li> A-Service in <br \> <%= vehicle.near_a_service_mileage %> Miles </li>
-          <% end %>
-          <%  if vehicle.near_shock_service_mileage <= 200 %> 
-          <li>Shock Service in <br \> <%= vehicle.near_shock_service_mileage %> Miles</li>
-          <% end %>
-          <% if vehicle.near_air_filter_service_mileage <= 50 %>
-          <li>Air Filter Change in <br \><%= vehicle.near_air_filter_service_mileage%> Miles</li>
-          <% end %>
-          <% end %>
+      <td>
+        <ul style='list_style_type: none; padding: 0; margin: 0;'>
+          <%= near_a_service_badge vehicle %>
+          <%= near_shock_service_badge vehicle %>
+          <%= near_air_filter_service_badge vehicle %>
         </ul>
       </td>
       <td>
-        <% if vehicle.a_service %>
-        <span class="badge badge-danger">
-          A-Service
-        </span>
-        <% end %>
-        <% if vehicle.shock_service %>
-        <span class="badge badge-danger">
-          Shock-Service
-        </span>
-        <% end %>
-        <% if vehicle.air_filter_service %>
-        <span class="badge badge-danger">
-          Air Filter Service
-        </span>
-        <% end %>
-        <% if vehicle.repair_needed %>
-        <span class="badge badge-danger">
-          Repairs In Progress
-        </span>
-        <% end %>
+       <%= a_service_badge vehicle %>
+       <%= shock_service_badge vehicle %>
+       <%= air_filter_service_badge vehicle %>
+       <%= repairs_badge vehicle %>
+       <%= defects_badge vehicle %>
       </td>
     </tr>
     <% end %> 

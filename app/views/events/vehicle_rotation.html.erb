@@ -50,7 +50,7 @@
     <h2 class="text-center">Priority A</h2>
   </div>
   <div class="card-body">
-    <% if @vehicle_results != nil%>
+    <% if @vehicle_results %>
     <%= render 'vehicle_table', vehicle: @vehicle_results.where(use_a: true, vehicle_status: "In-Service").order(times_used: :asc)%>
     <% end %>
   </div>
@@ -61,8 +61,8 @@
     <h2 class="text-center">Priority B</h2>
   </div>
   <div class="card-body">
-    <% if @vehicle_results != nil%>
-    <%= render 'vehicle_table', vehicle: @vehicle_results.where(use_b: true, vehicle_status: "In-Service")%>
+    <% if @vehicle_results %>
+    <%= render 'vehicle_table', vehicle: @vehicle_results.where(use_b: true, vehicle_status: "In-Service") %>
     <% end %>
   </div>
 </div>
@@ -72,6 +72,6 @@
     <h2 class="text-center">Don't Use</h2>
   </div>
   <div class="card-body">
-    <%= render 'vehicle_table', vehicle: @vehicle_results.where(use_a: false, use_b: false)%>
+    <%= render 'vehicle_table', vehicle: @vehicle_results.where(use_a: false, use_b: false) %>
   </div>
 </div>

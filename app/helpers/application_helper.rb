@@ -61,14 +61,62 @@ module ApplicationHelper
     end
   end
 
-  def vehicle_services_badges(vehicle)
-    return 'A-Service' if vehicle.a_service
-    return 'Shock Service' if vehicle.shock_service
-    return 'Air Filter Service' if vehicle.air_filter_service
-    return 'Repairs In Progress' if vehicle.repair_needed
-    return 'Defects Reported' if vehicle.defect
+  def a_service_badge(vehicle)
+    if vehicle.a_service
+      render 'service_badge', service: 'A-Service'
+    end
+  end
+
+  def shock_service_badge(vehicle)
+    if vehicle.shock_service
+      render 'service_badge', service: 'Shock Service'
+    end
+  end
+
+  def air_filter_service_badge(vehicle)
+    if vehicle.air_filter_service
+      render 'service_badge', service: 'Air Filter Service'
+    end
   end
   
+  def repairs_badge(vehicle)
+    if vehicle.repair_needed
+      render 'service_badge', service: 'Repairs In Progress'
+    end
+  end
+  
+  def defects_badge(vehicle)
+    if vehicle.defect
+      render 'service_badge', service: 'Defects Reported'
+    end
+  end
+  
+  def near_a_service_badge(vehicle)
+    if vehicle.near_a_service
+      render 'near_service_badge', vehicle_mileage: vehicle.near_a_service_mileage, service: 'A-Service'
+    end
+  end
+  
+  def near_shock_service_badge(vehicle)
+    if vehicle.near_shock_service
+      render 'near_service_badge', vehicle_mileage: vehicle.near_shock_service_mileage, service: 'Shock Service'
+    end
+  end
+
+  def near_air_filter_service_badge(vehicle)
+    if vehicle.near_air_filter_service
+      render 'near_service_badge', vehicle_mileage: vehicle.near_air_filter_service_mileage, service: 'Air Filter Service'
+    end
+  end
+  
+  def vehicle_status_badge_color(vehicle)
+    if vehicle.is_in_service?
+      'badge-success'
+    else
+      'badge-danger'
+    end
+  end
+
   def near_service_badge_color(mileage)
     if mileage < 0
       'badge-danger'

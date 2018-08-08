@@ -11,20 +11,20 @@
       <%= render 'dashboard_link', title: "In-Progress Work Orders", numb: @in_progress_wo_numb, url: "../requests/in_progress" %>
       <%= render 'dashboard_link', title: "Completed Work Orders", numb: @completed_wo_numb, url: "../requests/completed" %>
       <%= render 'dashboard_link', title: "Overdue Work Orders", numb: @overdue_wo_numb, url: "../requests/overdue" %>
-      <a class="list-group-item  bg-secondary text-white list-group-item-action" href="../assigned_work_orders">
+      <a class="list-group-item bg-secondary text-white list-group-item-action" href="../assigned_work_orders">
         Assigned Work Orders
       </a>	
-      <a class="list-group-item  bg-secondary text-white list-group-item-action" href="../completed_work_orders">
+      <a class="list-group-item bg-secondary text-white list-group-item-action" href="../completed_work_orders">
         Completed Work Orders
       </a>	
     </div>		
   </div>
   <div class="col-md-6">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-    <%= link_to 'Defects by Event', by_event_defects_path, class: "btn btn-danger btn-lg"%>
-    <%= link_to 'All Defects', defects_path, class: "btn btn-danger btn-lg"%>
+    <div class="list-group">
+    <%= render 'dashboard_link', title: "All Defects Reported", numb: @defects, url: "../defects" %>
+    <%= render 'dashboard_link', title: "Defects By Event", numb: @all_wo_numb, url: "../defects/by_event" %>
     </div>
-    <div class="card bg-dark text-white">
+    <div class="card bg-dark text-white mt-3">
       <div class="card-body">
         <p>
           To create a work order:

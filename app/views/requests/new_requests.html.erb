@@ -1,6 +1,5 @@
-<div class="jumbotron bg-secondary text-white">
-  <h2 class="display-3 text-center">New Work Orders</h2>
-  <%= render 'wo_search_results', request: @request_results %>
-  <br \>
-  <%= render 'wo_search_box', q: @q, action: :new_requests %>
-</div>
+<%= render 'work_order_title_box', title: 'New Work Orders' %>
+<%= render 'work_order_page_links' %>
+<%= render 'wo_search_results', request: @request_results %>
+<br />
+<%= render 'wo_search_box', q: @q, action: :new_requests %>

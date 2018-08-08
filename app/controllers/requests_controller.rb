@@ -16,7 +16,7 @@ class RequestsController < ApplicationController
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
-  def completed_requests
+  def completed
     @q = Request.where(status: 'Completed').ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
@@ -89,16 +89,13 @@ class RequestsController < ApplicationController
   end
 
   def dashboard
-    limit_numb = 5
     @requests = Request.last(10).reverse
+    @defects = Defect.count
     @all_wo_numb = Request.count
     @new_wo_numb = Request.is_new.size
     @in_progress_wo_numb = Request.is_in_progress.size
     @overdue_wo_numb = Request.is_overdue.size
     @completed_wo_numb = Request.is_completed.size
-    @in_progress = Request.is_in_progress.order(created_at: :desc).limit(limit_numb)
-    @new_wo = Request.is_new.order(created_at: :desc).limit(limit_numb)
-    @overdue_wo = Request.is_overdue.order(created_at: :desc).limit(limit_numb)
     @a_service_wo_numb = Request.is_an_a_service.size
     @shock_service_wo_numb = Request.is_a_shock_service.size
     @air_filter_service_wo_numb = Request.is_a_air_filter_service.size

@@ -1,6 +1,5 @@
-<div class="jumbotron bg-secondary text-white">
-  <h1 class="display-3">All Shock Service Work Orders</h1>
-  <%= render 'wo_search_results', request: @request_results %>
-  <br \>
-  <%= render 'wo_search_box', q: @q, action: :shock_service %>
-</div>
+<%= render 'work_order_title_box', title: 'All Shock Service Work Orders' %>
+<%= render 'work_order_page_links' %>
+<%= render 'wo_search_results', request: @request_results %>
+<br />
+<%= render 'wo_search_box', q: @q, action: :shock_service %>

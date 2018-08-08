@@ -19,6 +19,7 @@
       <tbody>
         <% work_orders.order(id: :desc).each do |request|%>
         <tr>
+          <%= logger.debug "This work order's id is #{request.id} "%>
           <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
           <td><%= request.status %></td>
           <td><%= request.program.name %></td>

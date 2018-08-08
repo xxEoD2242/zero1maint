@@ -1,0 +1,12 @@
+<h4 class='text-center'> <%= title %> </h4>
+<% reports.order(created_at: :desc).limit(50).each do |report|%>
+<ul class="list-group">
+  <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+    <%= link_to report.id, report_path(id: report.id), class: "badge badge-danger" %> 
+    <%= work_order_type %>
+    <span class='badge badge-danger'>
+      <%= report.created_at.strftime('%D')%>
+    </span>
+  </li>
+</ul>
+<% end %>

@@ -1,63 +1,38 @@
-<div class="jumbotron">
-	<h4 class="display-4 text-center">All Defect Work Orders </h4>
-
-<div class="card">
-	
-	<div class="card-body">
-		<% if @work_orders != []%>
-		<h4>New Defect Work Orders</h4>
-		<%= render "request_form", request: @work_orders.where(status: "New")%>
-		<br \>
-		<br \>
-		<h4>In-Progress Defect Work Orders</h4>
-			<%= render "request_form", request: @work_orders.where(status: "In-Progress")%>
-			<br \>
-			<br \>
-			<h4>Completed Defect Work Orders</h4>
-			<%= render "request_form", request: @work_orders.where(status: "Completed")%>
-			<% end %>
-		
-</div>
-	<br \>
-	
-	
-		<div class="container d-flex align-items-center">
-	
-			<form class="form-inline">
-			<%= search_form_for @q, :url => {:action => :work_order_defects_report } do |f|%>
-	<div class="form-group mr-3">
-		<%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
-	</div>
-	
-			<div class="form-group ml-3">
-				<%= f.label "Select Status"%>
-				<%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
-			</div>
-		<div class="form-group ml-3">
-			<%= f.label "From"%> &nbsp
-			<%= f.date_select :completion_date_gteq, class: "form-control"  %>
-		</div>
-
-
-		<div class="form-group ml-3">
-			<%= f.label "To"%> &nbsp
-			<%= f.date_select :completion_date_lteq, class: "form-control"  %>
-		</div>
-
-		<div class="form-group ml-3">
-			<%= f.submit "Find Reports", class: "btn btn-info"%>
-		</div>
-		<% end %>
-	</form>
-	
-
-		
-		
-	</div>
-	<br \>
-	<div class="container mb-4 d-flex justify-content-between align-items-center">
-		<%= link_to "Download PDF", work_order_defects_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-warning"%> 
-		<%= link_to 'Back', generate_report_reports_path, class: "btn btn-primary " %>
-	</div>
-</div>
-</div>
+<%= render 'report_title_box', title: "All Defect Work Orders as of #{Date.current.strftime('%v')}" %>
+<%= render 'report_page_links', url: work_order_defects_report_reports_path(params.merge(format: 'pdf').permit!) %>
+<div class="container-fluid bg-dark text-white p-4 border border-danger rounded d-flex justify-content-center">
+      <form class="form-inline">
+        <%= search_form_for @q, :url => {:action => :work_order_defects_report } do |f|%>
+        <div class="form-group mr-3">
+          <%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+        </div>
+        <div class="form-group ml-3">
+          <%= f.label "Select Status"%>
+          <%= f.select :status_eq, Request::STATUS, {include_blank: "Select Work Order Status"}, class: "form-control"  %>
+        </div>
+        <div class="form-group ml-3">
+          <%= f.label "From", class: 'mr-1' %>
+          <%= f.date_select :completion_date_gteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+        </div>
+        <div class="form-group ml-3">
+          <%= f.label "To", class: 'mr-1' %>
+          <%= f.date_select :completion_date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+        </div>
+        <div class="form-group ml-3">
+          <%= f.submit "Find Reports", class: "btn btn-danger" %>
+        </div>
+        <% end %>
+      </form>
+    </div>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_new,
+    title: 'New Defect Work Orders' %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_in_progress,
+    title: 'In-Progress Defect Work Orders' %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_completed,
+    title: 'Completed Defect Work Orders' %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_overdue,
+    title: 'Overdue Defect Work Orders' %>

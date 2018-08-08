@@ -1,13 +1,12 @@
 <%= render 'report_title_box', title: "Other Vehicles Report for #{Date.current.strftime('%v')}" %>
 
+<%= render 'report_page_links', url: other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!) %>
+
 <%= render 'vehicle_results', vehicles: @vehicles.in_service?, table_title: 'In-Service Vehicles' %>
 
 <%= render 'vehicle_results', vehicles: @vehicles.out_of_service?, table_title: 'Out-of-Service Vehicles' %>
 
-<div class="container d-flex justify-content-between align-items-center">
-  <strong>
-    <%= link_to "Download PDF", other_vehicles_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-danger"%>
-  </strong>
+<div class="container-fluid bg-dark text-white p-3 border border-danger rounded d-flex justify-content-center">
   <form class="form-inline">
     <%= search_form_for @q, :url => {:action => :other_vehicles_report } do |f|%>
 			
@@ -24,5 +23,4 @@
     </div>
     <% end %>
   </form>
-  <%= link_to "Back", generate_report_reports_path, class: "btn btn-danger"%>
 </div>

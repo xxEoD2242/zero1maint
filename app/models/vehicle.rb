@@ -30,6 +30,7 @@ class Vehicle < ApplicationRecord
   scope :in_service?, -> { where(vehicle_status: 'In-Service') }
   scope :out_of_service?, -> { where(vehicle_status: 'Out-of-Service') }
   scope :are_rzr, -> { where(veh_category: 'RZR') }
+  scope :are_tour_cars, -> { where(veh_category: 'Tour Car') }
 
   STATUSES = ['In-Service', 'Out-of-Service', 'Sold'].freeze
   CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other'].freeze

@@ -1,0 +1,6 @@
+<%= render 'email_title_box',
+    title: "All Repair Work Orders for #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}" %>
+<%= render 'work_order_table', title: 'New Repair Work Orders', work_orders: @new_work_orders %>
+<%= render 'work_order_table', title: 'In-Progress Repair Work Orders', work_orders: @in_progress_work_orders %>
+<%= render 'work_order_table', title: 'Completed Repair Work Orders', work_orders: @completed_work_orders %>
+<%= render 'work_order_table', title: 'Overdue Repair Work Orders', work_orders: @overdue_work_orders %>

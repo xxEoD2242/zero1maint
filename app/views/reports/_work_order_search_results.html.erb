@@ -1,6 +1,9 @@
-<div class="card bg-dark text-white">
+<div class="card bg-dark text-white my-3">
+  <div class='card-header'>
+    <h3 class='text-center'><%= title %></h3>
+  </div>
   <div class="card-body">
-    <table class="table table-bordered table-striped">
+    <table class="table table-borderless table-striped">
       <thead>
         <tr>
           <th>Work Order Number</th>
@@ -14,25 +17,29 @@
         </tr>
       </thead>
       <tbody>
-        <% request.order(id: :desc).each do |request|%>
+        <% work_orders.order(id: :desc).each do |request|%>
         <tr>
           <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
           <td><%= request.status %></td>
           <td><%= request.program.name %></td>
-          <td><%=request.vehicle.car_id%></td>
-          <td><%=request.created_at.strftime('%D')%></td>
+          <td><%= request.vehicle.car_id %></td>
           <td>
-            <span class='badge <%= work_order_completed_badge request %>'>
+            <span class='badge badge-danger'>
+              <%= request.created_at.strftime('%D') %>
+            </span>
+          </td>
+          <td>
+            <span class='badge <%= work_order_completed_date_badge request %>'>
               <%= work_order_completion_date request %>
             </span>
           </td>
           <td>
-            <span class='badge <%= work_order_completed_badge request %>'>
+            <span class='badge <%= work_order_completed_date_badge request %>'>
               <%= work_order_completed_date request %>
             </span>
           </td>
-          <td><%= link_to "Show", request_path(request), class: "btn btn-info btn-sm" %></td>
-          <td><%= link_to 'Edit', edit_request_path(request), class: "btn btn-warning btn-sm" %></td>
+          <td><%= link_to "Show", request_path(request), class: "btn btn-danger btn-sm" %></td>
+          <td><%= link_to 'Edit', edit_request_path(request), class: "btn btn-danger btn-sm" %></td>
           <td><%= link_to 'Delete', request, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger btn-sm" %></td>
         </tr>
         <% end %>

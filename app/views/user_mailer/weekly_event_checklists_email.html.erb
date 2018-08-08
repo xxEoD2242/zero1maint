@@ -2,107 +2,107 @@
   <h1 style="text-align: center;">Checklist Records for Events from <%=(Time.now - 7.days).strftime('%D')%> to     <%=Time.now.strftime('%D')%></h1>
 </div>
 <% @events.all.order(date: :desc).each do |event|%>
-  <div class="object-title" >
-    <h4 style="text-align: center;"> 
-		Event <%= event.id%> <%= event.class_type%> <%= event.location%> Date: <%= event.date.strftime('%D')%>
-	</h4>
-  </div>	
-  <table>
-    <thead>
+<div class="object-title" >
+  <h4 style="text-align: center;"> 
+    Event <%= event.id%> <%= event.class_type%> <%= event.location%> Date: <%= event.date.strftime('%D')%>
+  </h4>
+</div>	
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Vehicle Id</th>
+      <th>Status</th>
+      <th>Date Completed</th>
+      <th>Deadlined</th>
+      <th colspan="1">
+      </tr>
+    </thead>
+    <tbody>
+      <% unless event.vehicles.empty? %>
+      <% event.vehicles.each do |vehicle|%>
       <tr>
-				<th scope="col">Vehicle Id</th>
-				<th>Status</th>
-				<th>Date Completed</th>
-				<th>Deadlined</th>
-				<th colspan="1">
-			</tr>
-		</thead>
-		<tbody>
-			<% if !vehicle.checklists.empty? %>
-			<% event.vehicles.each do |vehicle|%>
-			<tr>
-				<td scope="row"><%= vehicle.car_id%></td>
-				<td>
+        <td scope="row"><%= vehicle.car_id %></td>
+        <td>
 					
-					<% if !vehicle.checklists.empty? %>
-					<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-						<span style="color: green; text-size: 10px;">Completed</span>
+          <% if !vehicle.checklists.empty? %>
+          <% if vehicle.checklists.where(event_id: event.id).exists? %>
+          <span style="color: green; text-size: 10px;">Completed</span>
 					
-					<% else %>
-					<span style="color: red;">Not Completed</span>
-					<% end %>
-					<% else %>
-					<span style="color: red;">Not Created</span>
-					<% end %>
-					</td>
-					<td>
-						<% if !vehicle.checklists.empty? %>
-						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-												<%= vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')%>
-											<% else %>
+          <% else %>
+          <span style="color: red;">Not Completed</span>
+          <% end %>
+          <% else %>
+          <span style="color: red;">Not Created</span>
+          <% end %>
+        </td>
+        <td>
+          <% if !vehicle.checklists.empty? %>
+          <% if vehicle.checklists.where(event_id: event.id).exists? == true %>
+          <%= vehicle.checklists.find_by(event_id: event.id).date.strftime('%D')%>
+          <% else %>
 											
-											<span style="color: red;">Not Completed</span>
-											<% end %>
-											<% else %>
-											<span style="color: red;">Not Created</span>
-											<% end %>
-					</td>
-					<td>
-						<% if !vehicle.checklists.empty? %>
-						<% if vehicle.checklists.where(event_id: event.id).exists? == true %>
-												<% if vehicle.checklists.find_by(event_id: event.id).deadline == true %>
-											<span style="color: orange; background-color: lightgrey;">Deadlined </span> 
-											<% else %>
-											In-Service	
-												<% end %>
+          <span style="color: red;">Not Completed</span>
+          <% end %>
+          <% else %>
+          <span style="color: red;">Not Created</span>
+          <% end %>
+        </td>
+        <td>
+          <% if !vehicle.checklists.empty? %>
+          <% if vehicle.checklists.where(event_id: event.id).exists? == true %>
+          <% if vehicle.checklists.find_by(event_id: event.id).deadline == true %>
+          <span style="color: orange; background-color: lightgrey;">Deadlined </span> 
+          <% else %>
+          In-Service	
+          <% end %>
 												
-												<% else %>
-											<span style="color: red;">	Not Completed</span>
-											<% end %>
-											<% else %>
-											<span style="color: red;">Not Created</span>
-											<% end %>
-					</td>
-					<td>
-						<% if !vehicle.checklists.empty? %>
-						<% if vehicle.checklists.where(event_id: event.id).exists? %>
-							<span style="color: green;">Completed</span>
-						<% else %>
-						<span style="color: red;">Not Completed</span>
-						<% end %>
-						<% else %>
-						<span style="color: red;">Not Created</span>
-						<% end %>
-					</td>
-			</tr>
-			<% end %>
+          <% else %>
+          <span style="color: red;">	Not Completed</span>
+          <% end %>
+          <% else %>
+          <span style="color: red;">Not Created</span>
+          <% end %>
+        </td>
+        <td>
+          <% if !vehicle.checklists.empty? %>
+          <% if vehicle.checklists.where(event_id: event.id).exists? %>
+          <span style="color: green;">Completed</span>
+          <% else %>
+          <span style="color: red;">Not Completed</span>
+          <% end %>
+          <% else %>
+          <span style="color: red;">Not Created</span>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
 			
 			
-			<% else %>
-			<tr>
-			  <td> 
-				<span style="color: purple">
-	  		 	  No Vehicles Added!
-	  	 	 	</span>
-	 	      </td>
-			  <td>
-				<span style="color: purple">
-	  		 	  No Vehicles Added!
-                </span>
-			  </td>
-			  <td>
-				<span style="color: purple">
-	  		 	  No Vehicles Added!
-                </span>
-			  </td>
-  			  <td>
-  				<span style="color: purple">
-  	  		 	  No Vehicles Added!
-                  </span>
-  			  </td>
-			</tr>
-		  <% end %>
-		</tbody>
-	</table>
-<% end %>
+      <% else %>
+      <tr>
+        <td> 
+          <span style="color: purple">
+            No Vehicles Added!
+          </span>
+        </td>
+        <td>
+          <span style="color: purple">
+            No Vehicles Added!
+          </span>
+        </td>
+        <td>
+          <span style="color: purple">
+            No Vehicles Added!
+          </span>
+        </td>
+        <td>
+          <span style="color: purple">
+            No Vehicles Added!
+          </span>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
 	

@@ -1,57 +1,15 @@
-<div class='jumbotron mt-3'>
-	<h1 class='display-3 text-center'>All Weekly Work Order Reports</h1>
+<%= render 'report_title_box', title: 'All Weekly Work Order Reports' %>
+
+<%= render 'report_top_links' %>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= render 'weekly_work_order_reports_column', reports: @weekly_defect, title: 'All Weekly Defect Work Order Reports', work_order_type: 'Defect Work Orders' %>
+  </div>		
+  <div class="col-md-4">
+    <%= render 'weekly_work_order_reports_column', reports: @weekly_in_progress, title: 'All Weekly New & In-Progress Work Order Reports', work_order_type: 'New & In-Progress Work Orders' %>
+  </div>
+  <div class="col-md-4">
+    <%= render 'weekly_work_order_reports_column', reports: @weekly_completed, title: 'All Weekly Completed Work Order Reports', work_order_type: 'Completed Work Orders' %>
+  </div>
 </div>
-		<div class="container d-flex justify-content-start my-3">
-	
-	<%= link_to 'Back', dashboard_reports_path, class: "btn btn-info " %>
-	</div>
-	
-		<div class="row">
-			<div class="col-md-4">
-			<strong> All Weekly Defect Work Order Reports </strong>
-			<% if @weekly_defects != nil%>
-		<% @weekly_defects.order(created_at: :desc).limit(50).each do |report|%>
-			<ul class="list-group">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
-					<span>
-					Defect Work Orders	<%= report.created_at.strftime('%D')%>
-					</span>
-				</li>
-			</ul>
-			<% end %>
-				<% end %>
-		</div>
-		
-		<div class="col-md-4">
-			<strong> All Weekly New & In-Progress Reports </strong>
-			<% if @in_progress != nil %>
-				<% @weekly_in_progress.order(created_at: :desc).limit(50).each do |report|%>
-			<ul class="list-group">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %>
-					<span>
-						In-Progress Work Orders <%= report.created_at.strftime('%D')%>
-					</span>
-				</li>
-					 </ul>
-					 <% end %>
-					 <% end %>
-				</div>
-				<div class="col-md-4">
-						<strong> All Weekly Completed Reports </strong>
-						<% if @completed != nil %>
-							<% @weekly_completed.order(created_at: :desc).limit(50).each do |report|%>
-						<ul class="list-group">
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								<%= link_to report.id, report_path(id: report.id), class: "badge badge-dark" %> 
-								<span>
-									In-Progress Work Orders <%= report.created_at.strftime('%D')%>
-								</span>
-							</li>
-						</ul>
-								 <% end %>
-								<% end %>
-		</div>
-		
-	</div>

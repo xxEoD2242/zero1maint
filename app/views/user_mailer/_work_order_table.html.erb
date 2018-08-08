@@ -1,5 +1,8 @@
-<table border='1'>
-	<caption><b>Completed Work Orders</b></caption>
+<div class="object-title">
+	<h4 style="text-align: center;"><%= title %></h4>
+</div>
+<div style="color: black;">
+<table>
 	<thead>
 		<tr>
 			<th>Work Order Number</th>
@@ -13,17 +16,19 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% work_order.order(tracker_id: :asc).each do |request|%>
+		<% work_orders.order(status: :asc).each do |request|%>
 	<tr>
 		<td><%= request.number%></td>
-		<td><%= request.tracker.track %></td>
+		<td><%= request.status %></td>
 		<td><%= request.program.name %></td>
 		<td><%= request.vehicle.car_id%></td>
 		<td><%= request.description %>
 		<td><%=request.created_at.strftime('%D')%>
 		<td><%= request.completion_date.strftime('%D') %>
-		
 	</tr>
 	<% end %>
 	</tbody>
-</table>
+</table>	
+</div>
+<br \>
+<br \>

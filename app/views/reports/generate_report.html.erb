@@ -1,27 +1,12 @@
-<div class='jumbotron bg-secondary text-white mt-3'>
-  <h1 class='display-3 text-center'>Generate Reports</h1>
-</div>
-<div class="row mb-3">
-  <div class="col-md-2">
-  </div>
-  <div class="col-md-8">
-    <div class="card bg-secondary text-white">
-      <div class="card-body">
-        <p>On this page, you can generate real-time reports on select data.</p>
-        <p>To create the report, simply click on a link below.</p>
-        <p>Each report has a button at the bottom that will allow you to create a PDF of the report and print as necessary.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2">
-  </div>
-</div>
+<%= render 'report_title_box', title: 'Generate Reports' %>
+<%= render 'report_top_links' %>
 <div class="row mb-3">
   <div class="col-md-4">
     <h5 class='text-center'>Generate Work Order Reports</h5>
     <div class="list-group">
-      <%= link_to 'Completed Work Orders Report', work_order_completed_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
       <%= link_to 'New & In-Progress Work Orders Report', work_order_in_progress_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
+       <%= link_to 'Completed Work Orders Report', work_order_completed_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
+       <%= link_to 'Overdue Work Orders Report', work_orders_overdue_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
       <%= link_to 'Defect Work Orders Report', work_order_defects_report_reports_path, class: 'list-group-item list-group-item-action bg-dark text-white' %>
     </div>
   </div>
@@ -40,6 +25,18 @@
     </div>
   </div>
 </div>
-<div class="my-4">
-  <%= link_to "Back", dashboard_reports_path, class: "btn btn-danger"%>
+<div class="row mb-3">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8">
+    <div class="card bg-secondary text-white">
+      <div class="card-body">
+        <p>On this page, you can generate real-time reports on select data.</p>
+        <p>To create the report, simply click on a link below.</p>
+        <p>Each report has a button at the top that will allow you to create a PDF of the report and print as necessary.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2">
+  </div>
 </div>

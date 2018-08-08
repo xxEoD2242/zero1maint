@@ -1,0 +1,15 @@
+<tr>
+  <td scope="row"><%= vehicle.car_id%></td>
+  <td>
+    <%= completed_checklists vehicle, event %>
+  </td>
+  <td>
+    <%= completed_date_checklists vehicle, event %>
+  </td>
+  <td>
+    <%= deadlined_field vehicle, event %>
+  </td>
+  <td>
+    <%= checklist_button vehicle, event %>
+  </td>
+</tr>

@@ -1,0 +1,43 @@
+<h3 class='text-center'><%= title %></h3>
+<br />
+<table class="table table-borderless table-striped">
+  <thead>
+    <tr>
+      <th>Work Order Number</th>
+      <th>Work Order Status</th>
+      <th>Work Order Type</th>
+      <th>Vehicle</th>
+      <th>Work Order Created At</th>
+      <th>Estimated Completion Date</th>
+      <th>Completed Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% work_orders.order(id: :desc).each do |request|%>
+    <tr>
+      <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
+      <td><%= request.status %></td>
+      <td><%= request.program.name %></td>
+      <td><%= request.vehicle.car_id %></td>
+      <td>
+        <span class='badge badge-danger'>
+          <%= request.created_at.strftime('%D') %>
+        </span>
+      </td>
+      <td>
+        <span class='badge <%= work_order_completed_date_badge request %>'>
+          <%= work_order_completion_date request %>
+        </span>
+      </td>
+      <td>
+        <span class='badge <%= work_order_completed_date_badge request %>'>
+          <%= work_order_completed_date request %>
+        </span>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>	
+
+
+

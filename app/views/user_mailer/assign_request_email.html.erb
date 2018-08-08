@@ -1,43 +1,46 @@
 <div>
-   <h1 style="text-align: center;">Work Order #<%= @request.id %> for <%= @request.vehicle.car_id%></h1>
+   <h1 style="text-align: center;">Work Order #<%= @request.id %> for <%= @request.vehicle.car_id %></h1>
 </div>	
 
 <p>
 	You have been assigned &/OR CC'd this work order. If you have any questions, please contact <%= @request.creator%>.
 </p>
-	
 
 <p>
   <strong>Submitted By:</strong>
-  <br \>
+  <br />
   <%= @request.creator%>
 </p>
 
 <p>
   <strong>Current Vehicle Mileage:</strong>
-  <br \>
+  <br />
   <%= @request.vehicle.mileage%>
 </p>
 
 <p>
   <strong>Description:</strong>
-  <br \>
+  <br />
   <%= @request.description %>
 </p>
 
 <p>
   <strong>Status:</strong>
+  <br />
   <%= @request.status %>
 </p>
-<% if @request.program != nil %>
+
+<% if @request.program %>
 <p>
 	<strong>Service Type:</strong>
+  <br />
 	<%= @request.program.name %>
 </p>
 <% end %>
 
 <p>
   <strong>Estimated Completion date:</strong>
+  <br />
   <%= @request.completion_date %>
 </p>
 
@@ -47,6 +50,17 @@
   <ul style="list-style-type: none;">
   <% @request.users.each do |user|%>
   <li><%= user.name%></li>
+	  <% end %>
+  </ul>
+</p>
+<% end %>
+
+<% if @request.defects.exists?%>
+<p>
+  <strong> Defects:</strong>
+  <ul style="list-style-type: none;">
+  <% @request.users.each do |user| %>
+  <li><%= defect.description %> | <%= defect.created_at.strftime('%v')%></li>
 	  <% end %>
   </ul>
 </p>

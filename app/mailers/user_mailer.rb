@@ -53,24 +53,11 @@ class UserMailer < ApplicationMailer
     mail(to: emails, subject: "Weekly Event Report for #{Time.now.strftime('%D')}")
   end
 
-  def weekly_new_progress_report_email
-    emails = []
-    User.all.each do |user|
-      emails << user.email
-    end
-
-    @requests = Request.where('created_at > ?', 1.month.ago)
-    @new = @requests.where(status: 'New')
-    @in_progress = @requests.where(status: 'In-Progress')
-    mail(to: emails, subject: "Weekly New & In-Progress Work Orders Report for #{Time.now.strftime('%D')}")
-  end
-
   def weekly_event_checklists_email
     emails = []
     User.all.each do |user|
       emails << user.email
     end
-
     @eve = Event.where('date >= ?', Time.now - 7.days)
     @now = @eve.where('date <= ?', Time.now)
     @events = @now.all
@@ -83,21 +70,29 @@ class UserMailer < ApplicationMailer
     User.all.each do |user|
       emails << user.email
     end
-    @rzr = VehicleCategory.find_by(name: 'RZR')
-    @out_of_service = Vehicle.where(vehicle_category_id: @rzr.id, vehicle_status: 'Out-of-Service')
-    @vehicles = Vehicle.where(vehicle_category_id: @rzr.id, vehicle_status: 'In-Service')
-    @requests = Request.all
-    @set_a_service = Program.find_by(name: 'A-Service')
-    @set_shock_service = Program.find_by(name: 'Shock Service')
-    @set_air_filter_service = Program.find_by(name: 'Air Filter Change')
-    @set_repairs = Program.find_by(name: 'Repairs')
-    @set_defects = Program.find_by(name: 'Defect')
-    @tracks = Tracker.all
-    @set_new = Tracker.find_by(track: 'New')
-    @set_progress = Tracker.find_by(track: 'In-Progress')
-    @set_completed = Tracker.find_by(track: 'Completed')
-    @set_overdue = Tracker.find_by(track: 'Overdue')
-    mail(to: emails, subject: "Weekly Razor Report for #{Time.now.strftime('%D')}")
+    @out_of_service = Vehicle.are_rzr.out_of_service?
+    @in_service = Vehicle.are_rzr.in_service?
+    mail(to: emails, subject: "Weekly Razor Report for #{Date.current.strftime('%D')}")
+  end
+  
+  def weekly_tour_car_report
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    @out_of_service = Vehicle.are_tour_cars.out_of_service?
+    @in_service = Vehicle.are_tour_cars.in_service?
+    mail(to: emails, subject: "Weekly Tour Car Report for #{Date.current.strftime('%D')}")
+  end
+  
+  def weekly_other_vehicles_report
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    @out_of_service = Vehicle.where('veh_category != ? AND veh_category != ?', 'RZR', 'Tour Car').out_of_service?
+    @in_service = Vehicle.where('veh_category != ? AND veh_category != ?', 'RZR', 'Tour Car').in_service?
+    mail(to: emails, subject: "Weekly Other Vehicles Report for #{Time.now.strftime('%D')}")
   end
 
   def weekly_defects_report_email
@@ -105,13 +100,25 @@ class UserMailer < ApplicationMailer
     User.all.each do |user|
       emails << user.email
     end
-    @set_new = Tracker.find_by(track: 'New')
-    @set_progress = Tracker.find_by(track: 'In-Progress')
     @set_defects = Program.find_by(name: 'Defect')
-    @request = Request.where(program_id: @set_defects.id, tracker_id: @set_new.id)
-    @in_progress = Request.where(program_id: @set_defects.id, tracker_id: @set_progress.id)
-
-    mail(to: emails, subject: "Weekly Defect Work Order Report for #{Time.now.strftime('%D')}")
+    @new_work_orders = Request.is_a_defect.is_new
+    @in_progress_work_orders = Request.is_a_defect.is_in_progress
+    @completed_work_orders = Request.is_a_defect.is_completed
+    @overdue_work_orders = Request.is_a_defect.is_overdue
+    mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
+  end
+  
+  def weekly_repairs_report
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    @set_repairs = Program.find_by(name: 'Repairs')
+    @new_work_orders = Request.is_a_repair.is_new
+    @in_progress_work_orders = Request.is_a_repair.is_in_progress
+    @completed_work_orders = Request.is_a_repair.is_completed
+    @overdue_work_orders = Request.is_a_repair.is_overdue
+    mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
 
   def weekly_work_order_report_email
@@ -125,16 +132,11 @@ class UserMailer < ApplicationMailer
     @set_air_filter_service = Program.find_by(name: 'Air Filter Change')
     @set_repairs = Program.find_by(name: 'Repairs')
     @set_defects = Program.find_by(name: 'Defect')
-    @tracks = Tracker.all
-    @set_new = Tracker.find_by(track: 'New')
-    @set_progress = Tracker.find_by(track: 'In-Progress')
-    @set_completed = Tracker.find_by(track: 'Completed')
-    @set_overdue = Tracker.find_by(track: 'Overdue')
-    @requests = Request.where('created_at > ?', 1.month.ago)
-    @new = @requests.where(tracker_id: @set_new.id)
-    @in_progress = @requests.where(tracker_id: @set_progress.id)
-    @completed = @requests.where(tracker_id: @set_completed.id)
-    @overdue = @requests.where(tracker_id: @set_overdue.id)
-    mail(to: emails, subject: 'Weekly Work Order Report')
+    @requests = Request.where('created_at > ? AND program_id != ?', 1.month.ago, @set_defects.id)
+    @new = @requests.is_new
+    @in_progress = @requests.is_in_progress
+    @completed = @requests.is_completed
+    @overdue = @requests.is_overdue
+    mail(to: emails, subject: "Weekly Work Order Report for #{Date.current.strftime('%D')}")
   end
 end

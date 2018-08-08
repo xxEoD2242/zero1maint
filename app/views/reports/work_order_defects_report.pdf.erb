@@ -1,107 +1,13 @@
-
-<div>
-	<h1 style='text-decoration: underline; text-align: center;'>Defect Work Orders </h1>
-</div>
-<br \>
-<div class="object-title">
-	<h4 style="text-align: center;">New Defect Work Orders</h4>
-</div>
-<table>
-	
-	<thead>
-		<tr>
-			<th>Work Order Number</th>
-			<th>Work Order Status</th>
-			<th>Work Order Type</th>
-			<th>Vehicle</th>
-			<th>Defect Description</th>
-			<th>Work Order Created At</th>
-			<th>Estimated Completion Date</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-		<% @work_orders.where(status: "New").order(completion_date: :desc).each do |request|%>
-	<tr>
-		<td><%= request.id%></td>
-		<td><%= request.status %></td>
-		<td><%= request.program.name %></td>
-		<td><%= request.vehicle.car_id%></td>
-		<td><%= request.description %>
-		<td><%=request.created_at.strftime('%D')%>
-		<td><%= request.completion_date.strftime('%D') %>
-		
-	</tr>
-	<% end %>
-	</tbody>
-</table>	
-
-<br \>
-<br \>
-<div class="object-title">
-	<h4 style="text-align: center;">In-Progress Defect Work Orders</h4>
-</div>
-<table>
-	
-	<thead>
-		<tr>
-			<th>Work Order Number</th>
-			<th>Work Order Status</th>
-			<th>Work Order Type</th>
-			<th>Vehicle</th>
-			<th>Defect Description</th>
-			<th>Work Order Created At</th>
-			<th>Estimated Completion Date</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-		<% @work_orders.where(status: "In-Progress").order(completion_date: :desc).each do |request|%>
-	<tr>
-		<td><%= request.id%></td>
-		<td><%= request.tracker.track %></td>
-		<td><%= request.program.name %></td>
-		<td><%= request.vehicle.car_id%></td>
-		<td><%= request.description %>
-		<td><%=request.created_at.strftime('%D')%>
-		<td><%= request.completion_date.strftime('%D') %>
-		
-	</tr>
-	<% end %>
-	</tbody>
-</table>
-
-<br \>
-<br \>
-<div class="object-title">
-	<h4 style="text-align: center;">Completed Defect Work Orders</h4>
-</div>
-<table>
-	
-	<thead>
-		<tr>
-			<th>Work Order Number</th>
-			<th>Work Order Status</th>
-			<th>Work Order Type</th>
-			<th>Vehicle</th>
-			<th>Defect Description</th>
-			<th>Work Order Created At</th>
-			<th>Estimated Completion Date</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-		<% @work_orders.where(status: "Completed").order(completion_date: :desc).each do |request|%>
-	<tr>
-		<td><%= request.id%></td>
-		<td><%= request.status %></td>
-		<td><%= request.program.name %></td>
-		<td><%= request.vehicle.car_id%></td>
-		<td><%= request.description %>
-		<td><%=request.created_at.strftime('%D')%>
-		<td><%= request.completion_date.strftime('%D') %>
-		
-	</tr>
-	<% end %>
-	</tbody>
-</table>
+<%= render 'report_title_box', title: "All Defect Work Orders as of #{Date.current.strftime('%v')}" %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_new,
+    title: 'New Defect Work Orders' %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_in_progress,
+    title: 'In-Progress Defect Work Orders' %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_completed,
+    title: 'Completed Defect Work Orders' %>
+<%= render "work_order_search_results",
+    work_orders: @work_orders.is_overdue,
+    title: 'Overdue Defect Work Orders' %>

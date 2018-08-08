@@ -2,7 +2,7 @@
 
 module ReportsHelper
   def work_order_completed_date_badge(request)
-    if request.completed_date
+    if request.completed?
       'badge-success'
     else
       'badge-danger'
@@ -10,7 +10,7 @@ module ReportsHelper
   end
 
   def work_order_completed_date(request)
-    if request.completed_date
+    if request.completed?
       request.completed_date.strftime('%v')
     else
       'Not Completed'
@@ -18,7 +18,7 @@ module ReportsHelper
   end
   
   def work_order_completion_date(request)
-    if request.completion_date
+    if request.completed?
       request.completion_date.strftime('%v')
     else
       'Not Completed'
@@ -36,7 +36,7 @@ module ReportsHelper
       render 'not_created_checklists'
     end
   end
-  
+
   def deadlined_field(vehicle, event)
     unless vehicle.checklists.empty? 
       if vehicle.checklists.where(event_id: event.id).exists?

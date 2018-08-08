@@ -1,0 +1,4 @@
+<%= render 'email_title_box',
+    title: "Weekly Other Vehicles report for #{(Date.current - 7.days).strftime('%D')} - #{Date.current.strftime('%D')}"%>
+<%= render 'vehicles_table', vehicles: @in_service, title: 'In-Service Other Vehicles' %>
+<%= render 'vehicles_table', vehicles: @out_of_service, title: 'Out-of-Service Other Vehicles' %>

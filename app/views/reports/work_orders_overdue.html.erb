@@ -1,0 +1,4 @@
+<%= render 'report_title_box', title: "All Overdue Work Orders as of #{Date.current.strftime('%v')}" %>
+<%= render 'report_page_links', url: work_orders_overdue_reports_path(params.merge(format: 'pdf').permit!) %>
+<%= render 'work_order_search_results', work_orders: @work_orders.is_overdue, title: '' %>
+<%= render 'work_order_search_box', q: @q, action: :work_orders_overdue %>

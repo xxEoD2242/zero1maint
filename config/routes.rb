@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get 'other_vehicles_report'
       get 'work_order_report'
       get 'checklist_report'
+      get 'work_orders_overdue'
     end
   end
   resources :parts do

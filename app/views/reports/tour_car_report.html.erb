@@ -1,15 +1,7 @@
 <%= render 'report_title_box', title: "Tour Car Report for #{Time.now.strftime('%D')}" %>
-<br />
+<%= render 'report_page_links', url: tour_car_report_reports_path(params.merge(format: 'pdf').permit!) %>
 <%= render 'vehicle_search_box', q: @q, action: :tour_car_report %>
 <br />
 <%= render 'vehicle_results', vehicles: @tour_cars.in_service?.order(car_id: :asc), table_title: 'In-Service Tour Cars' %>
 
 <%= render 'vehicle_results', vehicles: @tour_cars.out_of_service?.order(car_id: :asc), table_title: 'Out_of_Service Tour Cars' %>
-
-<div class="container d-flex justify-content-between align-items-center">
-  <strong>
-    Download:
-    <%= link_to "PDF", tour_car_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-danger"%>
-  </strong> 
-  <%= link_to "Back", generate_report_reports_path, class: "btn btn-danger"%>
-</div>	

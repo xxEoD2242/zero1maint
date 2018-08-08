@@ -1,26 +1,5 @@
-<div class="jumbotron">
-	<h4 class="display-4 text-center">All New & In-Progress Work Orders</h4>
-
-<div class="card">
-	
-	<div class="card-body">
-		<h3>New Work Orders</h3>
-		<%= render "request_form", request: @work_orders.where(status: "New")%>
-		<br \>
-		<br \>
-		<h3>In-Progress Work Orders</h3>
-<%= render "request_form", request: @work_orders.where(status: "In-Progress")%>
-</div>
-	<br \>
-	<div class="container">
-	<%= render 'work_order_results', q: @q, action: :work_order_in_progress_report%>
-</div>
-<br \>
-		<div class="container mb-4 d-flex justify-content-between align-items-center">
-			<%= link_to " Download PDF", work_order_in_progress_report_reports_path(params.merge(format: 'pdf').permit!), class: "btn btn-warning"%>
-			
-			<%= link_to 'Back', generate_report_reports_path, class: "btn btn-primary " %>
-		</div>
-	
-</div>
-</div>
+<%= render 'report_title_box', title: 'All New & In-Progress Work Orders' %>
+<%= render 'report_page_links', url: work_order_in_progress_report_reports_path(params.merge(format: 'pdf').permit!) %>
+<%= render 'work_order_search_results', work_orders: @work_orders.is_new, title: 'New Work Orders' %>
+<%= render 'work_order_search_results', work_orders: @work_orders.is_in_progress, title: 'In-Progress Work Orders' %>
+<%= render 'work_order_search_box', q: @q, action: :work_order_in_progress_report%>

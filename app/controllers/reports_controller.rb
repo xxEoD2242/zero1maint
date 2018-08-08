@@ -99,22 +99,21 @@ class ReportsController < ApplicationController
   def work_order_in_progress_report
     @q = Request.all.ransack(params[:q])
     @work_orders = @q.result
-    respond_to do |format|
-      format.html
-      format.xls
-      format.pdf do
-        render pdf: 'New/In-Progress Work Order Report', layout: 'pdf.pdf.erb', title: "New/In-Progress Work Order Report for #{Time.now.strftime('%D')}" # Excluding ".pdf" extension.
-      end
-    end
+    to_pdf "New/In-Progress Work Order Report for #{Time.now.strftime('%D')}"
   end
 
   def work_order_completed_report
-    @requests = Request.where(status: 'Completed')
-    @q = @requests.ransack(params[:q])
-    @completed = @q.result
+    @q = Request.is_completed.ransack(params[:q])
+    @work_orders = @q.result
     to_pdf "Work Orders that are Completed for #{Date.current.strftime('%v')}"
   end
   
+  def work_orders_overdue
+    @q = Request.is_overdue.ransack(params[:q])
+    @work_orders = @q.result
+    to_pdf "Work Orders that are overdue for #{Date.current.strftime('%v')}"
+  end
+
   def to_pdf(file_name)
     respond_to do |format|
       format.html

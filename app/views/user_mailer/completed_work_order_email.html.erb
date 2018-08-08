@@ -1,31 +1,19 @@
 <div>
-  <h1 style="text-align: center;">Request Number: <%= @request.id %></h1>
+  <h1 style="text-align: center;">Work Order <%= @request.id %> for <%= @request.vehicle.car_id %></h1>
 </div>	
 
 <p>
-  This work order has been completed. If you have any questions, please contact
-  <% if @request.users.exists? %>
-  <% @request.users.each do |user|%>
-  <%= user.name %> 
-  <% end %>
-  <% else %>
-  *No Users Assigned*
-  <% end %>
+  This work order has been completed. If you have any questions, please contact <%= @request.creator %>
 </p>
 	
 <p>
   <strong>Vehicle Name:</strong>
-  <%= @request.vehicle.car_id%>
-</p>
-
-<p>
-  <strong>Submitted By:</strong>
-  <%= @request.creator%>
+  <%= @request.vehicle.car_id %>
 </p>
 
 <p>
   <strong>Current Vehicle Mileage:</strong>
-  <%= @request.vehicle.mileage%>
+  <%= @request.vehicle.mileage %>
 </p>
 
 <p>
@@ -35,15 +23,14 @@
 
 <p>
   <strong>Status:</strong>
-  <%= @request.status%>
+  <%= @request.status %>
 </p>
-<% if @request.program != nil %>
+<% if @request.program %>
 <p>
   <strong>Service Type:</strong>
   <%= @request.program.name %>
 </p>
 <% end %>
-
 
 <p>
   <strong> Work Order Mileage:</strong>
@@ -59,9 +46,21 @@
 <p>
   <strong> Recipents:</strong>
   <ul style="list-style-type: none;">
-    <% @request.users.each do |user|%>
-    <li><%= user.name%></li>
+    <% @request.users.each do |user| %>
+    <li><%= user.name %></li>
     <% end %>
   </ul>
 </p>
 <% end %>
+
+<% if @request.defects.exists?%>
+<p>
+  <strong> Defects:</strong>
+  <ul style="list-style-type: none;">
+  <% @request.users.each do |user| %>
+  <li><%= defect.description %> | <%= defect.created_at.strftime('%v') %></li>
+	  <% end %>
+  </ul>
+</p>
+<% end %>
+

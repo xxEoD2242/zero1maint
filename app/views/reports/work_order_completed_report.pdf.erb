@@ -1,34 +1,3 @@
-	<div>
-	<h1 style='text-decoration: underline; text-align: center;'>All Completed Work Orders for <%= Time.now.strftime('%D')%></h1>
-</div>
+<%= render 'report_title_box', title: "All Completed Work Orders as of #{Date.current.strftime('%v')}" %>
 
-<div>
-<table>
-	<thead>
-		<tr>
-			<th>Work Order Number</th>
-			<th>Work Order Status</th>
-			<th>Work Order Type</th>
-			<th>Vehicle</th>
-			<th>Defect Description</th>
-			<th>Work Order Created At</th>
-			<th>Estimated Completion Date</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-		<% @completed.order(completion_date: :desc).each do |request|%>
-	<tr>
-		<td><%= request.id%></td>
-		<td><%= request.status %></td>
-		<td><%= request.program.name %></td>
-		<td><%= request.vehicle.car_id%></td>
-		<td><%= request.description %>
-		<td><%=request.created_at.strftime('%D')%>
-		<td><%= request.completion_date.strftime('%D') %>
-		
-	</tr>
-	<% end %>
-	</tbody>
-</table>
-</div>
+<%= render 'work_order_search_results', work_orders: @work_orders, title: 'All Completed Work Orders' %>

@@ -1,27 +1,24 @@
-<div class="bg-secondary p-4 text-white border border-danger d-flex justify-content-between align-items-center">
-	
-	<form class="form-inline">
-	<%= search_form_for q, :url => {:action => action } do |f|%>
-	
-	<div class="form-group mr-3">
-		<%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
-	</div>
-	
-<div class="form-group ml-3">
-	<%= f.label "From"%> &nbsp
-	<%= f.date_select :completion_date_gteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
-</div>
-
-
-<div class="form-group ml-3">
-	<%= f.label "To"%> &nbsp
-	<%= f.date_select :completion_date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
-</div>
-
-<div class="form-group ml-3">
-	<%= f.submit "Find Reports", class: "btn btn-info"%>
-</div>
-<% end %>
-<br \>
-
+<div class="container-fluid bg-dark p-4 text-white border border-danger d-flex justify-content-center">
+  <form class="form-inline">
+    <%= search_form_for q, :url => {:action => action } do |f|%>
+    <div class="form-group mr-3">
+      <%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+    </div>
+  	<div class="form-group">
+  		<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>
+  	</div>
+    <div class="form-group ml-3">
+      <%= f.label "From", class: 'mr-1'%>
+      <%= f.date_select :completion_date_gteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+    </div>
+    <div class="form-group ml-3">
+      <%= f.label "To", class: 'mr-1' %>
+      <%= f.date_select :completion_date_lteq, {include_blank: "Input Date of Request"}, class: "form-control"  %>
+    </div>
+    <div class="form-group ml-3">
+      <%= f.submit "Find Reports", class: "btn btn-danger"%>
+    </div>
+    <% end %>
+  </form>
+  <br />
 </div>

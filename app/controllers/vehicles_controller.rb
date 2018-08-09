@@ -8,6 +8,8 @@ class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.all
     @request = Request.all
+    @in_service = Vehicle.in_service?
+    @out_of_service = Vehicle.out_of_service?
   end
 
   def sold_vehicles

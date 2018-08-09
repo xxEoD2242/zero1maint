@@ -20,11 +20,11 @@
 <div class="col-md-3">
 	<ul class="list-group">
 		<li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Total Vehicles:	
-			<span class="badge badge-danger badge-pill"><%=@vehicles.count%></span></li>
+			<span class="badge badge-danger badge-pill"><%= @vehicles.count %></span></li>
 		<li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Vehicles In-Service:	
-			<span class="badge badge-danger badge-pill"><%=@in_service.count%></span></li>
+			<span class="badge badge-danger badge-pill"><%= @in_service.count %></span></li>
 		<li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Vehicles Out-of-Service:
-			<span class="badge badge-danger badge-pill">	<%=@out_of_service.count%></span></li>
+			<span class="badge badge-danger badge-pill">	<%= @out_of_service.count %></span></li>
 		<li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Vehicles Need Service: 
 			<span><%= link_to @vehicles.where(needs_service: true).count, needs_service_vehicles_path, class: "badge badge-danger badge-pill"%></span></li>
 			<li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">Vehicles Near Service: 

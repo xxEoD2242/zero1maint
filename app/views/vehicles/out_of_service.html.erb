@@ -1,20 +1,5 @@
-<div class="jumbotron bg-secondary text-white">
-  <h1 class="display-3 text-center">Vehicles Out-of-Service:</h1>
-  <div class="card bg-dark text-white">
-    <div class="card-body">
-      <%= render 'service_needed_form', vehicle: @vehicle_results %>
-      <br \>
-      <%= render 'results', q: @q, action: :out_of_service %>
-      <br \>
-      <div class="container d-flex justify-content-between align-items-center"> 
-        <strong>
-          Download:
-          <%= link_to "CSV", out_of_service_vehicles_path(params.merge(format: "csv").permit!), class: "btn btn-danger mr-2" %>
-          <%= link_to "PDF", out_of_service_vehicles_path(params.merge(format: "pdf").permit!), class: "btn btn-danger" %> 
-        </strong>
-        <%= link_to "Back", vehicles_path, class: "btn btn-danger" %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'vehicle_page_layout',
+    action: :out_of_service, title: 'Vehicles that are Out-of-Service',
+    url: out_of_service_vehicles_path(params.merge(format: "pdf").permit!),
+    status: 'active' %>
 	

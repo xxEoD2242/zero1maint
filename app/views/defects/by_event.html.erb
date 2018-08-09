@@ -1,12 +1,6 @@
-<div class="jumbotron bg-secondary text-white">
-  <h1 class="text-center display-4">Events with Defects Present</h1>
-</div>
+<%= render 'defects_title_box', title: 'Events with Defects Present' %>
 
-<div class="container-fluid d-flex justify-content-between align-items-center">
-  <%= link_to 'Work Order Dashboard', dashboard_requests_path, class: "btn btn-danger"%>
-  <%= link_to 'All Defects Reported', defects_path, class: "btn btn-danger"%>
-  <%= link_to 'Download(PDF)', by_event_defects_path(params.merge(format: "pdf").permit!), class: 'btn btn-danger'%>
-</div>
+<%= render 'defects_nav_bar', url: by_event_defects_path(params.merge(format: "pdf").permit!) %>
 
 <% @event_results.each do |event| %>
 <div class="card bg-dark text-white my-3">

@@ -1,13 +1,7 @@
 <div class="jumbotron bg-secondary text-white">
-  <h1 class="text-center dispaly-3">All Defects</h1>
+  <h1 class="text-center display-3">All Defects</h1>
 </div>
-<div class="container-fluid d-flex justify-content-between align-items-center mb-3">
-  <%= link_to 'Work Order Dashboard', dashboard_requests_path, class: "btn btn-danger"%>
-  <%= link_to 'Report a New Defect', new_defect_path, class: 'btn btn-danger'%>
-  <%= link_to 'Defects By Event', by_event_defects_path, class: "btn btn-danger"%>
-  <%= link_to 'Download(PDF)', defects_path(params.merge(format: "pdf").permit!), class: 'btn btn-danger'%>
-</div>
-
+<%= render 'defects_nav_bar', url: defects_path(params.merge(format: "pdf").permit!) %>
 <%= render 'defects_table', defects: @defects %>
 <br />
 <%= paginate @defects%>

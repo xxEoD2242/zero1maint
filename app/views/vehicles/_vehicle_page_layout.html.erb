@@ -1,0 +1,13 @@
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="display-3 text-center"><%= title %></h1>
+</div>
+<%= render 'vehicle_nav_bar', url: url, status: status %>
+<div class='card bg-dark text-white'>
+  <div class="card-body">
+    <%= render 'vehicle_search_results', vehicle: @search_results %>
+    <br />
+    <%= render "vehicle_search_box", q: @q, action: action %>
+    <br />
+    <%= paginate @search_results %>
+  </div>
+</div>

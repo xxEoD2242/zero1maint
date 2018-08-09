@@ -1,15 +1,4 @@
-<div class="jumbotron bg-secondary text-white text-center">
-  <h1 class="display-3">All Vehicles</h1>
-  <div class='card bg-dark text-white'>
-    <div class="card-body">
-      <%= render 'service_needed_form', vehicle: @vehicle_results %>
-      <br />
-      <%= render "results", q: @q, action: :all_vehicles %>
-      <br />
-      <%= link_to 'Back', vehicles_path, class: "btn btn-danger" %>
-      <br />
-      <%= paginate @vehicle_results %>
-    </div>
-  </div>
-</div>
- 
+<%= render 'vehicle_page_layout',
+    action: :all_vehicles, title: 'All Vehicles',
+    url: all_vehicles_vehicles_path(format: 'pdf'),
+    status: 'disabled' %>

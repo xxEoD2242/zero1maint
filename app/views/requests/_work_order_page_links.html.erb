@@ -1,7 +1,7 @@
-<div class='container-fluid d-flex justify-content-between align-items-center mb-3'>
-  <%= link_to 'Work Orders Dashboard', dashboard_requests_path, class: 'btn btn-danger' %>
-  <%= link_to 'All Work Orders', requests_path, class: 'btn btn-danger' %>
-  <%= link_to 'Create A Work Order', new_request_path, class: 'btn btn-danger' %>
-  <%= link_to 'View All Defects', defects_path, class: 'btn btn-danger' %>
-  <%= link_to 'Back', :back, class: 'btn btn-danger' %>
-</div>
+<ul class='nav nav-pills nav-fill bg-danger rounded mb-3'>
+    <%= link_to 'Work Orders Dashboard', dashboard_requests_path, class: 'nav-link btn btn-danger nav-item' %>
+    <%= link_to 'All Work Orders', requests_path, class: 'nav-link btn btn-danger nav-item' %>
+    <%= link_to 'Create A Work Order', new_request_path, class: 'nav-link btn btn-danger nav-item' %>
+    <%= link_to 'Download(PDF)', url, class: "nav-link btn btn-danger #{status} nav-item" %>
+    <%= link_to 'Back', :back, class: 'btn btn-danger nav-link nav-item' %>
+</ul>

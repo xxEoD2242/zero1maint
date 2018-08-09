@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-4">
+    <p>
+      <strong><%= field %> </strong>
+    </p>
+  </div>
+  <div class='col-md-5'>
+    <p>
+      <% if attribute == "Full"%>
+      <span style="color: green; text-size: 10px;">
+        <%= attribute %>
+      </span>
+      <% elsif attribute == "Checked"%>
+      <span style="color: green; text-size: 15px;">
+        <%= attribute %>
+      </span>
+      <% else %>
+      <span class="mr-2" style="color: red;">
+        <%= attribute %>
+      </span>
+      <% end %>
+    </p>
+  </div>
+  <div class="col-md-3">
+  </div>
+</div>

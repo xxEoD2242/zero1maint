@@ -1,13 +1,4 @@
-<div class="jumbotron bg-secondary text-white text-center">
-  <h1 class="display-3">Vehicles In-Service:</h1>
-  <div class="card bg-dark text-white">
-    <div class="card-body">
-      <%= render 'service_needed_form', vehicle: @vehicle_results %>
-      <br />
-      <%= render 'results', q: @q, action: :in_service %>
-      <hr>
-      <%= link_to "Back", vehicles_path, class: "btn btn-info"%>
-    </div>
-  </div>
-</div>
-	
+<%= render 'vehicle_page_layout',
+    action: :in_service, title: 'In-Service Vehicles',
+    url: in_service_vehicles_path(format: 'pdf'),
+    status: 'disabled' %>

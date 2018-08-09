@@ -1,6 +1,10 @@
 <div class="jumbotron bg-dark text-white">
   <h3 class="display-3 text-center">Checklist Records</h3>
 </div>
+<ul class='nav nav-pills nav-fill bg-danger mb-3 rounded'>
+    <%= link_to 'Events Dashboard', dashboard_events_path, class: 'nav-item nav-link btn btn-danger'%>
+    <%= link_to 'Back', :back, class: 'nav-link nav-item btn btn-danger'%>
+</ul>
 <div class="card bg-dark text-white">
   <div class="card-body">
     <div class="row">
@@ -138,5 +142,4 @@
   <% end %>
   <div class="container d-flex justify-content-between align-items-center">
     <%= paginate @events%>
-    <%= link_to 'Back', dashboard_events_path, class: "btn btn-danger" %>
   </div>

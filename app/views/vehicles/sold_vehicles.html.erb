@@ -1,51 +1,50 @@
 <div class="jumbotron bg-secondary text-white text-center">
   <h1 class="display-3">All Sold Vehicles</h1>
-  <div class='card bg-dark text-white'>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-borderless table-hover table-striped">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">Car</th>
-              <th scope="col">Status</th>
-              <th scope="col">Car Category</th>
-              <th scope="col">Location</th>
-              <th scope="col">Mileage</th>
-              <th scope="col">Sold To</th>
-              <th scope="col">Date Sold</th>
-              <th scope="col">Notes</th>
-              <th colspan="2"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @vehicle_results.order(car_id: :asc).each do |vehicle| %>
-            <tr>
-              <th scope="row"><%= vehicle.car_id %></th>
-              <td><%= vehicle.vehicle_status %></td>
-              <td><%= vehicle.veh_category %></td>
-              <td><%= vehicle.location %></td>
-              <td><%= vehicle.mileage %></td>
-              <% if vehicle.purchaser %>
-              <td><%= vehicle.purchaser %></td>
-              <% end %>
-              <% if vehicle.sale_date %>
-              <td><%= vehicle.sale_date %></td>
-              <% end %>
-              <% if vehicle.notes %>
-              <td><%= vehicle.notes %></td>
-              <% end %>
-              <td><%= link_to "Show", vehicle_path(id: vehicle.id), class: "btn btn-danger"%></td>
-            </tr>
-            <% end %> 
-          </tbody> 
-        </table>
-      </div>
-      <br />
-        <%= render "results", q: @q, action: :sold_vehicles %>
-        <br />
-        <%= link_to 'Back', vehicles_path, class: "btn btn-info " %>
-      <br />
-      <%= paginate @vehicle_results%>
+</div>
+<%= render 'vehicle_nav_bar', url: sold_vehicles_vehicles_path(format: 'pdf'), status: 'disabled' %>
+<div class='card bg-dark text-white'>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-borderless table-hover table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Car</th>
+            <th scope="col">Status</th>
+            <th scope="col">Car Category</th>
+            <th scope="col">Location</th>
+            <th scope="col">Mileage</th>
+            <th scope="col">Sold To</th>
+            <th scope="col">Date Sold</th>
+            <th scope="col">Notes</th>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @vehicle_results.order(car_id: :asc).each do |vehicle| %>
+          <tr>
+            <th scope="row"><%= vehicle.car_id %></th>
+            <td><%= vehicle.vehicle_status %></td>
+            <td><%= vehicle.veh_category %></td>
+            <td><%= vehicle.location %></td>
+            <td><%= vehicle.mileage %></td>
+            <% if vehicle.purchaser %>
+            <td><%= vehicle.purchaser %></td>
+            <% end %>
+            <% if vehicle.sale_date %>
+            <td><%= vehicle.sale_date %></td>
+            <% end %>
+            <% if vehicle.notes %>
+            <td><%= vehicle.notes %></td>
+            <% end %>
+            <td><%= link_to "Show", vehicle_path(id: vehicle.id), class: "btn btn-danger"%></td>
+          </tr>
+          <% end %> 
+        </tbody> 
+      </table>
     </div>
+    <br />
+    <%= render "vehicle_search_box", q: @q, action: :sold_vehicles %>
+    <br />
+    <%= paginate @vehicle_results%>
   </div>
 </div>

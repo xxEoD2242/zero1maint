@@ -1,5 +1,5 @@
 <%= render 'work_order_title_box', title: 'All A-Service Work Orders' %>
-<%= render 'work_order_page_links' %>
+<%= render 'work_order_page_links', url: a_service_requests_path(format: 'pdf'), status: 'disabled' %>
 <%= render 'wo_search_results', request: @request_results %>
 <br />
 <%= render 'wo_search_box', q: @q, action: :a_service %>

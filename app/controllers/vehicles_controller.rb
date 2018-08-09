@@ -3,8 +3,6 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage in_service out_of_service]
-  before_action :in_service, :out_of_service, only: %i[a_service_calculation index shock_service_calculation air_filter_calculation all_vehicles]
-  before_action :mileage_calculation, only: %i[near_service_required needs_service]
   include Vehicle_Rotation
 
   def index
@@ -14,7 +12,7 @@ class VehiclesController < ApplicationController
 
   def sold_vehicles
     @q = Vehicle.where(vehicle_status: 'Sold').ransack(params[:q])
-    @vehicle_results = @q.result.page(params[:page])
+    @search_results = @q.result.page(params[:page])
   end
 
   def import
@@ -44,8 +42,8 @@ class VehiclesController < ApplicationController
 
   def near_service_required
     @q = Vehicle.where(near_service: true).ransack(params[:q])
-    @vehicle_results = @q.result.page
-    to_pdf @vehicle_results, "Near Service Vehicles for #{Date.current.strftime('%D')}"
+    @search_results = @q.result.page(params[:page])
+    to_pdf @search_results, "Near Service Vehicles for #{Date.current.strftime('%D')}"
   end
 
   def show
@@ -63,27 +61,26 @@ class VehiclesController < ApplicationController
   end
 
   def in_service
-    @in_service = Vehicle.where(vehicle_status: 'In-Service')
     @q = Vehicle.where(vehicle_status: 'In-Service').ransack(params[:q])
-    @vehicle_results = @q.result
-    to_pdf @vehicle_results, "In Service Vehicles for #{Date.current.strftime('%D')}"
+    @search_results = @q.result.page(params[:page])
+    to_pdf @search_results, "In Service Vehicles for #{Date.current.strftime('%D')}"
   end
 
   def out_of_service
-    @out_of_service = Vehicle.where(vehicle_status: 'Out-of-Service')
     @q = Vehicle.where(vehicle_status: 'Out-of-Service').ransack(params[:q])
-    @vehicle_results = @q.result
-    to_pdf @vehicle_results, "Out of Service Vehicles for #{Date.current.strftime('%D')}"
+    @search_results = @q.result.page(params[:page])
+    to_pdf @search_results, "Out of Service Vehicles for #{Date.current.strftime('%D')}"
   end
 
   def all_vehicles
     @q = Vehicle.ransack(params[:q])
-    @vehicle_results = @q.result.page(params[:page])
+    @search_results = @q.result.page(params[:page])
   end
 
   def needs_service
-    @needs_service_vehicles = Vehicle.where(needs_service: true).all
-    to_pdf @needs_service_vehicles, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
+    @q = Vehicle.where(needs_service: true).ransack(params[:q])
+    @search_results = @q.result.page(params[:page])
+    to_pdf @search_results, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
   end
 
   def new

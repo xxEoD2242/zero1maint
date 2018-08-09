@@ -1,4 +1,2 @@
-<div class="jumbotron">
-<h1 class="text-center">All Vehicles Near Required Services</h1>
-</div>
-<%= render 'vehicle_table_pdf', vehicles: @vehicle_results %>
+<%= render 'pdf_title', title: 'All Vehicles Near Required Services' %>
+<%= render 'vehicle_table_pdf', vehicles: @search_results %>

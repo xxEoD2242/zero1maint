@@ -48,4 +48,12 @@ module RequestsHelper
       'Not Completed'
     end
   end
+  
+  def show_work_order_status_badge(work_order)
+    if work_order.completed?
+      'badge-success'
+    else
+      'badge-danger'
+    end
+  end
 end

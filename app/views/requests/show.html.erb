@@ -17,7 +17,7 @@
       </h3>
       <h3>
         <strong>Status:
-          <span class="badge badge-danger">
+          <span class="badge <%= show_work_order_status_badge @request %>">
             <%= @request.status %>
           </span>
         </strong>

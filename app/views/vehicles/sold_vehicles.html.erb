@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @vehicle_results.order(car_id: :asc).each do |vehicle| %>
+          <% @search_results.order(car_id: :asc).each do |vehicle| %>
           <tr>
             <th scope="row"><%= vehicle.car_id %></th>
             <td><%= vehicle.vehicle_status %></td>
@@ -36,7 +36,7 @@
             <% if vehicle.notes %>
             <td><%= vehicle.notes %></td>
             <% end %>
-            <td><%= link_to "Show", vehicle_path(id: vehicle.id), class: "btn btn-danger"%></td>
+            <td><%= link_to "Show", vehicle_path(id: vehicle.id), class: "btn btn-danger" %></td>
           </tr>
           <% end %> 
         </tbody> 
@@ -45,6 +45,6 @@
     <br />
     <%= render "vehicle_search_box", q: @q, action: :sold_vehicles %>
     <br />
-    <%= paginate @vehicle_results%>
+    <%= paginate @search_results %>
   </div>
 </div>

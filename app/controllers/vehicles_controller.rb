@@ -2,7 +2,7 @@
 
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[a_service_calculation index mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage in_service out_of_service]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, :set_tour_car_prep, only: %i[a_service_calculation mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage in_service out_of_service]
   include Vehicle_Rotation
 
   def index
@@ -57,9 +57,19 @@ class VehiclesController < ApplicationController
     a_service_check @vehicle
     shock_service_check @vehicle 
     air_filter_service_check @vehicle
+    if @vehicle.veh_category == 'Tour Car'
+      tour_car_prep_check @vehicle
+    end
+    defects_check @vehicle
     need_service_check @vehicle
     near_service_check @vehicle
     to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
+  end
+  
+  def defects_check(vehicle)
+    if vehicle.defects.where(fixed: false).exists?
+      vehicle.update(defect: true)
+    end
   end
 
   def in_service
@@ -165,6 +175,10 @@ class VehiclesController < ApplicationController
 
   def set_defects
     @set_defects = Program.find_by(name: 'Defect')
+  end
+  
+  def set_tour_car_prep
+    @set_tour_car_prep = Program.find_by(name: 'Tour Car Prep')
   end
 
   def vehicle_params

@@ -115,6 +115,9 @@ module Vehicle_Rotation
       a_service_check vehicle
       shock_service_check vehicle 
       air_filter_service_check vehicle
+      if vehicle.veh_category == 'Tour Car'
+        tour_car_prep_check vehicle
+      end
       need_service_check vehicle
       near_service_check vehicle
     end
@@ -162,6 +165,19 @@ module Vehicle_Rotation
       vehicle.update(near_a_service: true, near_service: true)
     else
       vehicle.update(a_service: false, near_a_service: false)
+    end
+  end
+  
+  def tour_prep_check(vehicle)
+    if vehicle.veh_category == 'Tour Car'
+      vehicle.update(near_tour_car_prep_mileage: (vehicle.tour_car_prep_interval - (vehicle.mileage - vehicle.last_tour_car_prep_mileage)))
+      if vehicle.near_tour_car_prep_mileage < 0
+        vehicle.update(needs_service: true, tour_car_prep: true)
+      elsif vehicle.near_tour_car_prep_mileage < 100
+        vehicle.update(near_service: true, near_tour_car_prep: true)
+      else
+        vehicle.update(tour_car_prep: false, near_tour_car_prep: false)
+      end
     end
   end
 end

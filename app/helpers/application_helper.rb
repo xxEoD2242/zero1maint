@@ -79,6 +79,12 @@ module ApplicationHelper
     end
   end
   
+  def tour_car_prep_badge(vehicle)
+    if vehicle.tour_car_prep
+      render 'service_badge', service: 'Tour Car Prep'
+    end
+  end
+  
   def repairs_badge(vehicle)
     if vehicle.repair_needed
       render 'service_badge', service: 'Repairs In Progress'
@@ -106,6 +112,12 @@ module ApplicationHelper
   def near_air_filter_service_badge(vehicle)
     if vehicle.near_air_filter_service
       render 'near_service_badge', vehicle_mileage: vehicle.near_air_filter_service_mileage, service: 'Air Filter Service'
+    end
+  end
+  
+  def near_tour_car_prep_badge(vehicle)
+    if vehicle.near_tour_car_prep
+      render 'near_service_badge', vehicle_mileage: vehicle.near_tour_car_prep_mileage, service: 'Tour Car Prep'
     end
   end
   

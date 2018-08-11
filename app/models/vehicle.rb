@@ -23,7 +23,7 @@ class Vehicle < ApplicationRecord
   validates :mileage, presence: true
   validates :location, presence: true
 
-  paginates_per 8
+  paginates_per 10
 
   accepts_nested_attributes_for :events
 
@@ -84,6 +84,7 @@ class Vehicle < ApplicationRecord
       self.a_service_interval = Program.a_service.tour_car_interval
       self.shock_service_interval = Program.shock_service.tour_car_interval
       self.air_filter_service_interval = Program.air_filter_service.tour_car_interval
+      self.tour_car_prep_interval = Program.tour_car_prep.tour_car_interval
     elsif veh_category == 'Dirt Bike'
       self.a_service_interval = Program.a_service.db_interval
       self.shock_service_interval = Program.shock_service.db_interval

@@ -115,7 +115,7 @@ module Vehicle_Rotation
       a_service_check vehicle
       shock_service_check vehicle 
       air_filter_service_check vehicle
-      if vehicle.veh_category == 'Tour Car'
+      if vehicle.tour_car?
         tour_car_prep_check vehicle
       end
       need_service_check vehicle
@@ -124,13 +124,13 @@ module Vehicle_Rotation
   end
 
   def need_service_check(vehicle)
-    if !vehicle.air_filter_service && !vehicle.shock_service && !vehicle.a_service
+    if !vehicle.air_filter_service && !vehicle.shock_service && !vehicle.a_service && !vehicle.tour_car_prep
       vehicle.update(needs_service: false)
     end 
   end
 
   def near_service_check(vehicle)
-    if !vehicle.near_air_filter_service && !vehicle.near_shock_service && !vehicle.near_a_service
+    if !vehicle.near_air_filter_service && !vehicle.near_shock_service && !vehicle.near_a_service && !vehicle.near_tour_car_prep
       vehicle.update(near_service: false)
     end 
   end

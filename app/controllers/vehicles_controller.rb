@@ -43,6 +43,7 @@ class VehiclesController < ApplicationController
   end
 
   def near_service_required
+    mileage_calculation
     @q = Vehicle.where(near_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
     to_pdf @search_results, "Near Service Vehicles for #{Date.current.strftime('%D')}"
@@ -90,6 +91,7 @@ class VehiclesController < ApplicationController
   end
 
   def needs_service
+    mileage_calculation
     @q = Vehicle.where(needs_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
     to_pdf @search_results, "Vehicles That Need Service for #{Date.current.strftime('%D')}"

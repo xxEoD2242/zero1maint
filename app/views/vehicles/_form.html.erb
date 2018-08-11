@@ -12,13 +12,23 @@
       </ul>
     </div>
     <% end %>
-
-    <div class="form-group">
-      <strong><%= form.label "Car ID" %></strong>
-      <%= form.text_field :car_id, id: :vehicle_car_id, class: "form-control" %>
+    
+    <div class='form-row'>
+      <div class='col-md-6'>
+        <div class="form-group">
+          <strong><%= form.label "Car ID" %></strong>
+          <%= form.text_field :car_id, id: :vehicle_car_id, class: "form-control" %>
+        </div>
+      </div>
+      <div class='col-md-6'>
+        <div class="form-group">
+          <strong> <%= form.label :mileage %> </strong>
+          <%= form.number_field :mileage, id: :vehicle_mileage, class: "form-control"%>
+        </div>
+      </div>
     </div>
     
-    <div class="row">
+    <div class="form-row">
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label "Vehicle Status" %>
@@ -40,38 +50,34 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <strong> <%= form.label :mileage %> </strong>
-      <%= form.number_field :mileage, id: :vehicle_mileage, class: "form-control"%>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
+    <div class="form-row">
+      <div class="col-md-3">
         <div class="form-group">
           <strong><%= form.label :manufacturer %></strong>
           <%= form.text_field :manufacturer, id: :vehicle_manufacturer, class: "form-control" %>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="form-group">
           <strong> <%= form.label :vin_number %></strong>
           <%= form.text_field :vin_number, id: :vehicle_vin_number, class: "form-control" %>
         </div>
       </div>
-      <div class="col-md-4">
-
+      <div class="col-md-3">
         <div class="form-group">
           <strong><%= form.label :registration_date %></strong>
           <%= form.date_field :registration_date, id: :vehicle_registration_date, class: "form-control", datepicker: true %>
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <strong><%= form.label :plate_number %></strong>
-      <%= form.text_field :plate_number, id: :vehicle_plate_number, class: "form-control" %>
+      <div class='col-md-3'>
+        <div class="form-group">
+          <strong><%= form.label :plate_number %></strong>
+          <%= form.text_field :plate_number, id: :vehicle_plate_number, class: "form-control" %>
+        </div>
+      </div>
     </div>
 
-    <div class="row">
+    <div class="form-row">
       <div class="col-md">
         <div class="form-group">
           <strong class="mb-2"> Last A Service Mileage  </strong>
@@ -97,8 +103,23 @@
         </div>
       </div>
     </div>
-    
-    <div class="row">
+
+    <div class='row'>
+      <div class='col-md-6'>
+        <div class="form-group">
+          <strong>Date Sold</strong>
+          <%= form.date_field :sale_date, id: :vehicle_sale_date, class: "form-control", datepicker: true %>
+        </div>
+      </div>
+      <div class='col-md-6'>
+        <div class="form-group">
+          <strong>Sold To</strong>
+          <%= form.text_field :purchaser, id: :vehicle_purchaser, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
       <div class="col-md-2">
         <div class="form-check">
           <%= form.check_box :high_use, id: :vehicle_high_use, class: "form-check-input" %>
@@ -110,32 +131,20 @@
         </div>
       </div>
     </div>
-  
+
     <div class="form-group">
       <strong>Add Notes</strong>
       <%= form.text_area :notes, id: :vehicle_notes, class: "form-control"%>
     </div>
-   <% if @vehicle.vehicle_status == "Sold" %>
+
     <div class="form-group">
-      <strong>Date Sold</strong>
-      <%= form.date_field :sale_date, id: :vehicle_sale_date, class: "form-control", datepicker: true %>
-    </div>
-    
-   
-    <div class="form-group">
-      <strong>Sold To</strong>
-      <%= form.text_field :purchaser, id: :vehicle_purchaser, class: "form-control" %>
-    </div>
-    <% end %>
-    <br \>
-    <div class="form-group">
-      <%= form.submit "Create Vehicle", class: "btn btn-danger" %>
+      <%= form.submit "Submit", class: "btn btn-danger" %>
     </div>
  
     <% end %>
     <hr>
     <div >
-      <%= link_to 'Dashboard', vehicles_path, class: "btn btn-danger" %>
+      <%= link_to 'Vehicles Dashboard', vehicles_path, class: "btn btn-danger" %>
     </div>
   </div>
 </div>

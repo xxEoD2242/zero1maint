@@ -168,7 +168,7 @@ module Vehicle_Rotation
     end
   end
   
-  def tour_prep_check(vehicle)
+  def tour_car_prep_check(vehicle)
     if vehicle.veh_category == 'Tour Car'
       vehicle.update(near_tour_car_prep_mileage: (vehicle.tour_car_prep_interval - (vehicle.mileage - vehicle.last_tour_car_prep_mileage)))
       if vehicle.near_tour_car_prep_mileage < 0

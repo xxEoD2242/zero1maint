@@ -56,10 +56,10 @@ module VehiclesHelper
     end
   end
   
-  def show_page_tour_car_prep_service_row(vehicle)
+  def show_page_tour_car_prep_row(vehicle)
     if vehicle.tour_car_prep == nil
       'No Data'
-    elsif vehicle.a_service
+    elsif vehicle.tour_car_prep
       render 'needs_service_show_badge', mileage: vehicle.near_tour_car_prep_mileage
     else
       render 'near_service_mileage_badge', mileage: vehicle.near_tour_car_prep_mileage

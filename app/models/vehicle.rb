@@ -107,4 +107,8 @@ class Vehicle < ApplicationRecord
   def is_out_of_service?
     vehicle_status == 'Out-of-Service'
   end
+  
+  def tour_car?
+    veh_category == 'Tour Car'
+  end
 end

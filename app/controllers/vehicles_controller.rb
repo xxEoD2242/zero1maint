@@ -190,6 +190,7 @@ class VehiclesController < ApplicationController
                                     :dont_use_shock_service, :dont_use_a_service, :dont_use_air_filter_service,
                                     :veh_category, :location, :shock_service, :times_used, :est_mileage,
                                     :a_service_interval, :shock_service_interval, :air_filter_service_interval,
-                                    :air_filter_service, :location_id, :event_id, vehicle_ids: [])
+                                    :air_filter_service, :tour_car_prep, :near_tour_car_prep, :near_tour_car_prep_mileage,
+                                    :last_tour_car_prep_mileage, :location_id, :event_id, vehicle_ids: [])
   end
 end

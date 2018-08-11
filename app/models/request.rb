@@ -98,7 +98,7 @@ class Request < ApplicationRecord
     elsif self.repairs? && self.completed?
       vehicle.update(repair_needed: false, needs_service: false, vehicle_status: 'In-Service')
     elsif self.tour_car_prep? && self.completed?
-      vehicle.update(prep: false, needs_service: false, vehicle_status: 'In-Service')
+      vehicle.update(tour_car_prep: false, needs_service: false, vehicle_status: 'In-Service', last_tour_car_prep_mileage: veh_mileage)
     elsif self.defect? && self.completed?
       vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
       defect_email

@@ -13,7 +13,7 @@ class EventsController < ApplicationController
 
   def index
     @q = Event.all.ransack(params[:q])
-    @event_results = @q.result.includes(:vehicles).page(params[:page])
+    @search_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
   def show
@@ -33,7 +33,7 @@ class EventsController < ApplicationController
   def vehicle_rotation_metrics; end
 
   def dashboard
-    @display_events = Event.where('date >= ? AND date <= ?', Date.current - 7.days, Date.current + 14.days)
+    @search_results = Event.where('date >= ? AND date <= ?', Date.current - 14.days, Date.current + 14.days).page(params[:page])
     @set_completed_events = Event.where('date = ?', Date.current)
     @scheduled_events = Event.are_scheduled?
     @completed_events = Event.are_completed?
@@ -46,7 +46,7 @@ class EventsController < ApplicationController
   def next_month_calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @next_month = @date + 1.month
-    @display_events  = Event.where('date <= ? AND date >= ?', @next_month + 1.month, @next_month)
+    @search_results  = Event.where('date <= ? AND date >= ?', @next_month + 1.month, @next_month)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: 'Vehicles Assigned')
@@ -56,7 +56,7 @@ class EventsController < ApplicationController
   def previous_month
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @prev_month = @date - 1.month
-    @display_events = Event.where('date <= ? AND date >= ?', @prev_month - 1.month, @prev_month)
+    @search_results = Event.where('date <= ? AND date >= ?', @prev_month - 1.month, @prev_month)
     @scheduled_events = Event.where(status: 'Scheduled')
     @completed_events = Event.where(status: 'Completed')
     @assigned_events = Event.where(status: 'Vehicles Assigned')
@@ -65,17 +65,17 @@ class EventsController < ApplicationController
 
   def completed_events
     @q = Event.where(status: 'Completed').order(:created_at).ransack(params[:q])
-    @event_results = @q.result.includes(:vehicles).page(params[:page])
+    @search_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
   def vehicles_assigned
     @q = Event.where(status: 'Vehicles Assigned').order(:created_at).ransack(params[:q])
-    @event_results = @q.result.includes(:vehicles).page(params[:page])
+    @search_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
   def scheduled_events
     @q = Event.where(status: 'Scheduled').order(:created_at).ransack(params[:q])
-    @event_results = @q.result.includes(:vehicles).page(params[:page])
+    @search_results = @q.result.includes(:vehicles).page(params[:page])
   end
 
   def new

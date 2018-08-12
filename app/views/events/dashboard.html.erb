@@ -1,37 +1,7 @@
 <div class="jumbotron bg-secondary text-white text-center ">
   <h1 class="display-3">Events Dashboard</h1>
 </div>
-
-<div class="row">
-  <div class="col-md-3">
-    <div class="list-group">
-      <%= link_to "New Event", new_event_path, class: "list-group-item bg-secondary text-white list-group-item-action" %>
-      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events">All Events <span class="badge badge-danger"><%= Event.all.count %></span></a>
-      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/scheduled_events">Scheduled Events<span class="badge badge-danger"><%= @scheduled_events.count %></span></a>
-      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/vehicles_assigned">Events w/ Assigned Vehicles<span class="badge badge-danger"><%= @assigned_events.count %></span></a>
-      <a class="list-group-item bg-secondary text-white list-group-item-action d-flex justify-content-between align-items-center" href="../events/completed_events">Completed Events<span class="badge badge-danger"><%= @completed_events.count %></span></a>	
-    </div>	
-  </div>
-  <div class="col-md-6">
-    <div class='card bg-dark text-white'>
-      <div class="card-body">
-        <p>	Events listed below in the calendar have been created. Each event has a <span class="badge badge-danger">number</span> that can be clicked on to view that event.</p>
-        <p>
-          Checklists are monitored here and when all checklists are completed, then the event will have a green check mark next to it.
-        </p>
-        <p style="color: gold;">
-          * To add vehicles to an event or to add milegae to event, scroll down to the calendar and select the event you wish to view. Then, click on the <span class="badge badge-danger">Add Vehicles/Events</span> button on the right hand side. *
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="list-group">
-      <a class="list-group-item list-group-item-action bg-secondary text-white" href="../checklists/records">Checklist Records</a>
-      <a class="list-group-item list-group-item-action bg-secondary text-white"  href="../events/vehicle_rotation">Vehicle Rotation</a>
-    </div>
-  </div>
-</div>
+<%= render 'dashboard_links' %>
 <div class="row mt-3">
   <div class="col-md-12">
     <div class="card bg-dark text-white">
@@ -72,76 +42,40 @@
         <% end %>
       </div>
       <div class="card-footer d-flex justify-content-center">
-        <span class="mr-4" style="color: white;">
-          <i class="fa fa-check" aria-hidden="true">Checklists Completed</i>
-        </span>
-        <span class="mr-4" style="color: white">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true">Checklists Not Completed</i> 
-        </span>
-        
-        <span class="mr-4" style="color: white">
-          <i class="fa fa-car" aria-hidden="true">
-            No Vehicles Added!
-          </i> 
-        </span>
-       
-        <span class="mr-4" style="color: white">
-          <span class="badge badge-danger"> # </span> Event Not Completed
-        </span>
-       
-        <span style="color: white">
-          <span class="badge badge-success"> # </span> Event Completed
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<% unless @display_events.empty? %>
-
-<div class="container bg-dark text-white border rounded p-3">
-  <h4 class="text-center">
-    Most Recent Events
-  </h4>
-</div>
-<div class="container-fluid">
-  <div class="row">
-    <% @display_events.all.order(date: :desc).limit(12).each do |event|%>
-    <div class="col-md-4 my-3">	
-      <div class="card bg-dark text-white">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h5>Event: <%=link_to event.id, event_path(id: event.id), class: "badge badge-danger" %></h5>  
-          <h3 style="text-align: right;" class="badge badge-danger">
-            Date Scheduled: <%= event.date.strftime('%D')%>
-          </h3>
-        </div>
-        <div class="card-body">
-          <ul class="list-group">
-            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
-              Class:
-              <span class="badge badge-danger mx-1"><%= event.class_type%></span>
-              Location:
-              <span class="badge badge-danger ml-1"><%= event.location%></span>
-            </li>
-            <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
-              Status:
-              <span class="badge badge-danger mx-1"><%= event.status%></span>
-              Mileage:
-              <span class="badge badge-danger"><%= event.event_mileage%></span>
-            </li>
-          </ul>
-        </div>
-        <div class="card-footer d-flex justify-content-center">
-          <span class="text-white">
-            <i class="fa <%= calendar_symbol event %>" aria-hidden="true">
-              <%= calendar_event_word event%>
-            </i>
+        <h6>
+          <span class="badge badge-light text-dark mr-4" style="color: white;">
+            <i class="fa fa-check mr-1" aria-hidden="true"></i>
+            Checklists Completed
           </span>
-          <% else %>
-        </div>
+          <span class="badge badge-light text-dark mr-4" style="color: white">
+            <i class="fa fa-exclamation-triangle mr-1" aria-hidden="true"></i>
+            Checklists Not Completed 
+          </span>
+                
+          <span class=" badge badge-light text-dark mr-4 text-light" style="color: white">
+            <i class="fa fa-car mr-1" aria-hidden="true">
+            </i>
+            No Vehicles Added!
+          </span>
+              
+          <span class="badge badge-light text-dark mr-4">
+            <span class="badge badge-danger"> # </span> Event Not Completed
+          </span>
+               
+          <span class="badge badge-light text-dark mr-4">
+            <span class="badge badge-success"> # </span> Event Completed
+          </span>
+        </h6>
       </div>
     </div>
-    <% end %>
   </div>
 </div>
+<% unless @search_results.empty? %>
+
+<div class="container bg-dark text-white border rounded p-3 my-3">
+<h4 class="text-center">
+  Most Recent Events
+</h4>
+</div>
+<%= render 'events_search_results', event: @search_results %>
 <% end %>

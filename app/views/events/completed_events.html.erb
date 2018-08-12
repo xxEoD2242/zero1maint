@@ -1,8 +1,1 @@
-<div class="jumbotron text-center">
-<h1 class="display-3">All Completed Events</h1>
-	
-<%= render 'service_needed_form', event: @event_results %>
-<br \>
-<%= render 'results', q: @q, action: :completed_events %>
-
-</div>
+<%= render 'events_table_layout', action: :completed_events, title: 'All Completed Events' %>

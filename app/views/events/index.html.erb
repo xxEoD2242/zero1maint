@@ -1,8 +1,1 @@
-<div class="jumbotron bg-secondary text-white text-center">
-<h1 class="display-3">All Events</h1>
-	
-<%= render 'service_needed_form', event: @event_results %>
-<br \>
-<%= render 'results', q: @q, action: :index %>
-
-</div>
+<%= render 'events_table_layout', action: :index, title: 'All Events' %>

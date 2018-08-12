@@ -56,4 +56,12 @@ module EventsHelper
     return 'Shock Service' if vehicle.dont_use_shock_service
     return 'Air Filter Service' if vehicle.dont_use_air_filter_service
   end
+  
+  def event_status_badge(event)
+    if event.is_completed?
+      'badge-success'
+    else
+      'badge-danger'
+    end
+  end
 end

@@ -1,0 +1,7 @@
+<div class="jumbotron bg-secondary text-white">
+  <h1 class="display-3 text-center"><%= title %></h1>
+  <%= render 'event_page_links' %>
+  <%= render 'events_search_results', event: @search_results %>
+  <br />
+  <%= render 'events_search_box', q: @q, action: action %>
+</div>

@@ -26,7 +26,7 @@
         <div class='col-md-4'>
           <div class='form-group'>
             <%= f.label 'Select Vehicle' %>
-            <%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all, "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+            <%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
           </div>
         </div>
         <div class="col-md-4">

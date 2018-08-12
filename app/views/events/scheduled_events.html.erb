@@ -1,8 +1,1 @@
-<div class="jumbotron bg-secondary text-white text-center">
-<h1 class="display-3">Scheduled Events</h1>
-	
-<%= render 'service_needed_form', event: @event_results %>
-<br \>
-<%= render 'results', q: @q, action: :scheduled_events %>
-
-</div>
+<%= render 'events_table_layout', action: :scheduled_events, title: 'All Scheduled Events' %>

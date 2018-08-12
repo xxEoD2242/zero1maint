@@ -1,75 +1,59 @@
-<div>
-	<h1 style="text-align: center;text-decoration: underline;">Event: <%= @event.id %></h1>
+<div class='jumbotron'>
+  <h1 class='text-center'>Event: <%= @event.id %></h1>
 </div>
-<div class="card-body">
-<p>
-  <strong>Scheduled Date:</strong>
-  <%= @event.date.strftime('%D') %>
-</p>
+<div class="card">
+  <div class='card-body rounded'>
+    <p>
+      <strong>Scheduled Date:</strong>
+      <%= @event.date.strftime('%D') %>
+    </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @event.status %>
-</p>
+    <p>
+      <strong>Status:</strong>
+      <%= @event.status %>
+    </p>
 
+    <p>
+      <strong>Event mileage:</strong>
+      <% if @event.event_mileage == 0.0 %>
+      <strong style="color: red;">No Mileage Added</strong>
+      <% else%>
+      <%= @event.event_mileage %> Miles
+      <% end %>
+    </p>
 
-<p>
-  <strong>Event mileage:</strong>
-  <% if @event.event_mileage == 0.0%>
-  <strong style="color: red;">No Mileage Added</strong>
-  <% else%>
-  <%= @event.event_mileage %>
-  <% end %>
+    <p>
+      <strong>Location:</strong>
+      <%= @event.location %>
+    </p>
 
-</p>
+    <p>
+      <strong>Duration:</strong>
+      <%= @event.duration %>: <%= @event.duration_word%>
+    </p>
 
-<p>
-  <strong>Location:</strong>
-  <%= @event.location %>
-</p>
+    <p>
+      <strong>Class type:</strong>
+      <%= @event.class_type %>
+    </p>
 
-<p>
-  <strong>Duration:</strong>
-  <%= @event.duration %> <%= @event.duration_word%>
-</p>
+    <p>
+      <strong>Event type:</strong>
+      <%= @event.event_type %>
+    </p>
 
-<p>
-  <strong>Class type:</strong>
-  <%= @event.class_type %>
-</p>
-
-<p>
-  <strong>Event type:</strong>
-  <%= @event.event_type %>
-</p>
-
-<p>
-	
-		
-	<div class="col-md-2">	
-	<strong>Vehicles:</strong>
+    <p>
+      <strong>Vehicles:</strong>
+      <br />
+      <% @event.vehicles.each do |vehicle|%>
+      <%= vehicle.car_id %> 
+      <% if @checklists.exists?(vehicle_id: vehicle.id) %>
+      <span style="color: green;">Checklist Completed</span> 
+      <% else %>
+      <span style="color: red;">Checklist Not Completed</span>
+      <% end %>
+      <br />
+      <% end %>
+    </p>
+  </div>
 </div>
-<br \>
-
-
-	<div class="row mt-2">
-	<% @event.vehicles.each do |vehicle|%>
-	<div class="col-md-2 mb-2">
-	<%= vehicle.car_id %> 
-</div>
-	<div class="col-md-4 mb-2">
-		<% if @checklists.exists?(vehicle_id: vehicle.id) == true %>
-			<span style="color: green;">Checklist Completed</span> 
-		<% else %>
-		<span style="color: red;">Checklist Not Completed</span>
-		<% end %>
-	</div>
-	<div class="col-md-6 mb-2">
-	</div>
-	<br \>
-	<% end %>
-</div>
-</p>
-
-</div>
-

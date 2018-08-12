@@ -46,6 +46,43 @@ class ChecklistsController < ApplicationController
     @event = @checklist.event
     @defects = @vehicle.defects.where(fixed: false).page(params[:page])
   end
+  
+  def deadlined(checklist)
+    # Add in the ability to attach defects to the Work Order when this automatically created.
+    @set_repairs = Program.find_by(name: 'Repairs')
+    @vehicle = checklist.vehicle
+    if checklist.deadline
+      @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
+      Request.create(status: 'New',
+                     description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
+                     vehicle_id: @vehicle.id, creator: User.find(checklist.user_id).name, program_id: @set_repairs.id,
+                     completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
+                     checklist_id: checklist.id, completed_date: Date.current)
+    end
+  end
+  
+  def create_defect(checklist)
+    current_ids = []
+    (1..100000).each do |numb|
+      string = numb.to_s
+      current_ids << string
+    end
+    @last_defect_id = Defect.last.id
+    maintenance = %w[engine suspension steering tires
+                     radio chassis exhaust cooling_system
+                     electrical safety_equipment brake body
+                     drive_train suspension]
+    checklist.attributes.each do |k, v|
+      if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
+        @new_defect = Defect.create(description: v, checklist_ids: [checklist.id], vehicle_id: checklist.vehicle.id, manually_reported: false, category: k, times_reported: 0, last_event_reported: checklist.event_id)
+      elsif v != 'Checked' && maintenance.include?(k) && current_ids.include?(v)
+        if v.to_i < @last_defect_id
+        @defect = Defect.where(id: v).last
+        @defect.update(times_reported: (@defect.times_reported + 1), last_event_reported: checklist.event_id, checklist_ids: [checklist.id])
+        end
+      end
+    end
+  end
 
   def records
     @q = Event.all.ransack(params[:q])
@@ -56,7 +93,8 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.new(checklist_params)
     respond_to do |format|
       if @checklist.save
-
+        deadlined @checklist
+        create_defect @checklist
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }
       else

@@ -93,4 +93,12 @@ module VehiclesHelper
       'No Defects Reported'
     end
   end
+
+  def check_for_checklists(event, vehicle)
+    if vehicle.checklists.exists?(:event_id => event.id)
+      link_to "Event Checklist", checklist_path(@checklists.find_by(event_id: event.id)), class: "btn btn-danger"
+    else
+    'No Checklist Completed'
+    end
+  end
 end

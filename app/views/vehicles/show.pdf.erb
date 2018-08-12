@@ -56,6 +56,20 @@
     </span>
     <% end %>
   </li>
+  <% if @vehicle.tour_car? %>
+  <li class="list-group-item">
+    <strong class="mr-4">Tour Car Prep:</strong>
+    <% if @vehicle.tour_car_prep == nil %>
+    No Data
+    <% elsif @vehicle.tour_car_prep %>
+    <strong style="color: red;">NEEDS SERVICE</strong>
+    <% else %>
+    <span style="color: green;">
+      <%= @vehicle.near_tour_car_prep_mileage %> Miles
+    </span>
+    <% end %>
+  </li>
+  <% end %>
 
   <li class="list-group-item">
     <strong>Repairs:</strong>

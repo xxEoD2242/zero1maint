@@ -6,8 +6,7 @@ class Checklist < ApplicationRecord
               :set_engine, :set_brake, :set_safety_equipment,
               :set_chassis, :set_electrcial, :set_cooling_system,
               :set_tires, :set_radio, :set_exhaust, :set_steering,
-              :defects_detected, :deadlined, :completed
-  after_save :create_defect, only: [:create]
+              :defects_detected, :completed
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
@@ -88,20 +87,6 @@ class Checklist < ApplicationRecord
     self.completed = true
   end
 
-  def deadlined
-    # Add in the ability to attach defects to the Work Order when this automatically created.
-    @set_repairs = Program.find_by(name: 'Repairs')
-    @vehicle = vehicle
-    if deadline
-      @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
-      Request.create(status: 'New',
-                     description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
-                     vehicle_id: @vehicle.id, creator: User.find(user_id).name, program_id: @set_repairs.id,
-                     completion_date: (Time.now + 7.days), request_mileage: @vehicle.mileage,
-                     checklist_id: id, completed_date: Date.current)
-    end
-  end
-
   def defects_detected
     maintenance = %w[engine suspension steering tires
                      radio chassis exhaust cooling_system
@@ -114,28 +99,5 @@ class Checklist < ApplicationRecord
 
   def has_defects?
     defect == true
-  end
-
-  def create_defect
-    current_ids = []
-    (1..100000).each do |numb|
-      string = numb.to_s
-      current_ids << string
-    end
-    @last_defect_id = Defect.last.id
-    maintenance = %w[engine suspension steering tires
-                     radio chassis exhaust cooling_system
-                     electrical safety_equipment brake body
-                     drive_train suspension]
-    self.attributes.each do |k, v|
-      if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
-        @new_defect = Defect.create(description: v, checklist_ids: [id], vehicle_id: vehicle.id, manually_reported: false, category: k, times_reported: 0, last_event_reported: self.event_id)
-      elsif v != 'Checked' && maintenance.include?(k) && current_ids.include?(v)
-        if v.to_i < @last_defect_id
-        @defect = Defect.where(id: v).last
-        @defect.update(times_reported: (@defect.times_reported + 1), last_event_reported: self.event_id, checklist_ids: [id])
-        end
-      end
-    end
   end
 end

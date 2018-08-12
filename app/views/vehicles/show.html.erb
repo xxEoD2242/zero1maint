@@ -165,10 +165,16 @@
 
             <% if @vehicle.vehicle_status != "Sold"%>
             <div class="col-sm-6">
-              <div class="container d-flex justify-content-between align-items-center">
-                <strong>Service:</strong>
-                <strong>Mileage Until:</strong>
-                <strong>Date Completed:</strong>
+              <div class="row">
+                <div class='col-md-4'>
+                  <strong>Service:</strong>
+                </div>
+                <div class='col-md-4 d-flex justify-content-center'>
+                  <strong class='text-center'>Mileage Until:</strong>
+                </div>
+                <div class='col-md-4 d-flex justify-content-center'>
+                  <strong class='text-center'>Date Completed:</strong>
+                </div>
               </div>
               <ul class="list-group mt-2">
                 <li class="list-group-item bg-secondary text-white">

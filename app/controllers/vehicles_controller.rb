@@ -24,8 +24,8 @@ class VehiclesController < ApplicationController
 
   def vehicle_mileage
     @vehicle = Vehicle.find(params[:id])
-    @events = @vehicle.events.where('date >= ?', Time.now - 1.year).page(params[:page])
-    @events_month = @vehicle.events.where('date >= ?', Time.now - 1.month)
+    @events = @vehicle.events.where('date >= ?', Date.current - 1.year).page(params[:page])
+    @events_month = @vehicle.events.where('date >= ?', Date.current - 1.month)
     @ytd_mileage = 0
     @mtd_mileage = 0
     @events.all.each do |event|
@@ -34,11 +34,14 @@ class VehiclesController < ApplicationController
     @events_month.all.each do |event|
       @mtd_mileage += event.event_mileage
     end
-    @times_used = @events.all.count
-    @times_used_month = @events_month.all.count
-    @last_a_service = @vehicle.requests.where(program_id: @set_a_service.id).last
-    @last_shock_service = @vehicle.requests.where(program_id: @set_shock_service.id).last
-    @last_air_filter_service = @vehicle.requests.where(program_id: @set_air_filter_service.id).last
+    @times_used = @events.size
+    @times_used_month = @events_month.size
+    @last_a_service = @vehicle.requests.is_an_a_service.last
+    @last_shock_service = @vehicle.requests.is_a_shock_service.last
+    @last_air_filter_service = @vehicle.requests.is_a_air_filter_service.last
+    if @vehicle.tour_car?
+      @last_tour_car_prep = @vehicle.requests.is_a_tour_car_prep.last
+    end
     @checklists = @vehicle.checklists.all
   end
 

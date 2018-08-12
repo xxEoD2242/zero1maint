@@ -83,7 +83,7 @@ class Request < ApplicationRecord
   end
 
   def tour_car_prep?
-    program_id == Program.defect.id
+    program_id == Program.tour_car_prep.id
   end
   
   def update_service_mileage

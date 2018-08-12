@@ -131,7 +131,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         @event.update(calc_mileage: 0)
-
         if @event.multi_day
           multi_day @event
         end
@@ -162,10 +161,8 @@ class EventsController < ApplicationController
         end
 
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -174,7 +171,6 @@ class EventsController < ApplicationController
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

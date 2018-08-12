@@ -1,133 +1,98 @@
 <div class="jumbotron bg-secondary text-white">
   <div class="card bg-dark text-white">
-    <div class="card-header">
-      <span class="d-flex justify-content-between align-items-center">
-        <span>
-          Location: <span class="badge badge-danger ml-2"> <%=@vehicle.location %> </span>
-          </span>
-          <h2>
-            <%= @vehicle.car_id%>
-          </h2> 
-          <span>
-            Current Vehicle Mileage:<span class="badge badge-danger ml-2"> <%=@vehicle.mileage%> </span>
-          </span>
-        </span>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4>
+        Location: <span class="badge badge-danger ml-2"> <%=@vehicle.location %> </span>
+      </h4>
+      <h1>
+        <%= @vehicle.car_id%>
+      </h1> 
+      <h4>
+        Current Vehicle Mileage:<span class="badge badge-danger ml-2"> <%=@vehicle.mileage%> </span>
+      </h4>
+    </div>
+    <div class="card-body">
+      <div class="bg-secondary p-2 border border-danger rounded">
+        <div class="row">
+          <div class="col">
+            <%= render 'number_row_vehicle_mileage', title: 'Year-To-Date Mileage', data: @ytd_mileage %>
+          </div>
+          <div class="col">
+          </div>
+          <div class="col">
+            <%= render 'number_row_vehicle_mileage', title: 'Month-To-Date Mileage', data: @mtd_mileage %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <%= render 'number_row_vehicle_mileage', title: 'Times Used This Year', data: @times_used %>
+          </div>
+          <div class="col">
+          </div>
+          <div class="col">
+            <%= render 'number_row_vehicle_mileage', title: 'Times Used This Month', data: @times_used_month %>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <%= render 'last_wo_vehicle_mileage',
+          service: 'Last A-Service',
+          date: (last_a_service_badge @vehicle) %>
+          <%= render 'last_wo_vehicle_mileage',
+          service: 'Last Shock Service',
+          date: (last_shock_service_badge @vehicle) %>
+          <%= render 'last_wo_vehicle_mileage',
+          service: 'Last Air Filter Service',
+          date: (last_air_filter_service_badge @vehicle) %>
+          <% if @vehicle.tour_car? %>
+          <%= render 'last_wo_vehicle_mileage',
+          service: 'Last Tour Car Prep',
+          date: (last_tour_car_prep_badge @vehicle) %>
+          <% end %>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="bg-secondary" style="border: solid red 2px; border-radius: 6px; padding: 10px;">
-          <div class="row">
-            <div class="col">
-              <span>
-                Year-To-Date Mileage: <span class="badge badge-danger"> <%= @ytd_mileage %> </span>
-              </span>
-            </div>
-            <div class="col">
-            </div>
-            <div class="col">
-              <span>
-                Month-To-Date Mileage: <span class="badge badge-danger"> <%= @mtd_mileage %> </span>
-              </span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <span>
-                Times Used this Year: <span class="badge badge-danger"> <%= @times_used%> </span>
-              </span>
-            </div>
-            <div class="col">
-            </div>
-            <div class="col">
-              <span>
-                Times Used this Month: <span class="badge badge-danger"> <%= @times_used_month%> </span>
-              </span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <span>
-                <% if @last_a_service %>
-                Date of Last A-Service: 
-                <br \>
-                <strong>
-                  <%= link_to "#{@last_a_service.completed_date.strftime('%D')}", request_path(@last_a_service), class: "badge badge-lg badge-danger"%> 
-                </strong>
-                <% else%>
-                Date of Last A-Service: 
-                <br \>
-                No Data
-                <% end %>
-              </span>
-            </div>
-            <div class="col">
-              <span>
-                <% if @last_shock_service %>
-                Date of Last Shock Service:
-                <br \> 
-                <strong>
-                  <%= link_to "#{@last_shock_service.completed_date.strftime('%D')}", request_path(@last_shock_service), class: "badge badge-lg badge-danger"%>
-                </strong>
-                <% else%>
-                Date of Last Shock Service: 
-                <br \>
-                No Data
-                <% end %>
-              </span>
-            </div>
-            <div class="col">
-              <span>
-                <% if @last_air_filter_service %>
-                Date of Last Air Filter Service: 
-                <br \>
-                <strong>
-                  <%= link_to "#{@last_air_filter_service.completed_date.strftime('%D')}", request_path(@last_air_filter_service), class: "badge badge-lg badge-danger"%>
-                </strong>
-                <% else%>
-                Date of Last Air Filter Service: 
-                <br \>
-                No Data
-                <% end %>
-              </span>
-            </div>
-          </div>
-        </div>
-        <br />
-        <div class="table-responsive">
-          <table class="table table-hover table-borderless">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col"> Event ID </th>
-                <th scope="col"> Event Mileage </th>
-                <th scope="col"> Event Date </th>
-                <th colspan="2"> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @events.order(date: :desc).each do |event|%>
-              <tr>
-                <th scope="row"> <%= event.id%> </th>
-                <td> <%= event.event_mileage%> </td>
-                <td> <%= event.date%> </td>
-                <td> 
-                  <% if @vehicle.checklists.exists?(:event_id => event.id) %>
-                  <%= link_to "Event Checklist", checklist_path(@checklists.find_by(event_id: event.id)), class: "btn btn-danger" %>
-                  <% else %>
-                  No Checklist Completed
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to "Show Event #{event.id}", event_path(event), class: "btn btn-danger" %>
-                </td>
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-          <%= paginate @events%>
-        </div>
-        <div class="card-footer d-flex justify-content-between align-items-center">
-          <%= link_to "Back To Vehicle", vehicle_path(@vehicle), class: "btn btn-danger"%>
-          <%= link_to "Vehicle Dashboard", vehicles_path, class: "btn btn-danger"%>
-          <%= link_to "Event Dashboard", dashboard_events_path, class: "btn btn-danger" %>
-        </div>
+      <br />
+      <div class="table-responsive">
+        <table class="table table-hover table-borderless">
+          <thead>
+            <tr>
+              <th scope="col"> Event ID </th>
+              <th scope="col"> Event Mileage </th>
+              <th scope="col"> Event Date </th>
+              <th colspan="2"> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @events.order(date: :desc).each do |event|%>
+            <tr>
+              <th scope="row"> <%= event.id%> </th>
+              <td>
+                <span class='badge badge-light text-dark'>
+                  <%= event.event_mileage %>
+                </span>
+              </td>
+              <td>
+                <span class='badge badge-danger'>
+                  <%= event.date %>
+                </span>
+              </td>
+              <td> 
+                <%= check_for_checklists event, @vehicle %>
+              </td>
+              <td>
+                <%= link_to "Show Event #{event.id}", event_path(event), class: "btn btn-danger" %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= paginate @events%>
+      </div>
+      <div class="card-footer d-flex justify-content-between align-items-center">
+        <%= link_to "Back To Vehicle", vehicle_path(@vehicle), class: "btn btn-danger" %>
+        <%= link_to "Vehicle Dashboard", vehicles_path, class: "btn btn-danger" %>
+        <%= link_to "Event Dashboard", dashboard_events_path, class: "btn btn-danger" %>
       </div>
     </div>
+  </div>
+</div>

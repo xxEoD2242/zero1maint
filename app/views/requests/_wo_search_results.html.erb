@@ -4,7 +4,7 @@
       <table class="table table-borderless table-hover">
         <thead>
           <tr>
-            <th>Work Order Number</th>
+            <th>Work Order ID</th>
             <th>Work Order Status</th>
             <th>Work Order Type</th>
             <th>Vehicle</th>
@@ -18,16 +18,20 @@
           <% request.order(id: :desc).each do |request| %>
           <tr>
             <td><%= link_to request.id, request_path(request), class: "badge #{badge_color request}" %></td>
-            <td><%= request.status %></td>
+            <td>
+              <span class='badge <%= show_work_order_status_badge request %>'>
+                <%= request.status %>
+              </span>
+            </td>
             <td><%= request.program.name %></td>
             <td>
               <% if !request.vehicle.nil? %>
               <%=request.vehicle.car_id %>
               <% end %>
             </td>
-            <td><%=request.created_at.strftime('%D') %></td>
+            <td><%=request.created_at.strftime('%v') %></td>
             <% if request.completion_date %>
-            <td><%= request.completion_date.strftime('%D') %></td>
+            <td><%= request.completion_date.strftime('%v') %></td>
             <% end %>
             <td>
               <h6>

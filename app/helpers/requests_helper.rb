@@ -20,6 +20,8 @@ module RequestsHelper
   def badge_color(request)
     if request.completed?
       'badge-success'
+    elsif request.overdue?
+      'badge-warning'
     else
       'badge-danger'
     end
@@ -52,6 +54,8 @@ module RequestsHelper
   def show_work_order_status_badge(work_order)
     if work_order.completed?
       'badge-success'
+    elsif work_order.overdue?
+      'badge-warning'
     else
       'badge-danger'
     end

@@ -37,18 +37,26 @@
       <td>
         <h5>
           <% if defect.fixed %>
-          Fixed
+          <span style="color: green">
+            Fixed
+          </span>
           <% else %>
-          Not Fixed
+          <span style='color: red'>
+            Not Fixed
+          </span>
           <% end %>
         </h5>
       </td>
       <td>
         <h5>
           <% if defect.fixed %>
-          <%= defect.date_fixed.strftime('%v') %>
+          <span style="color: green">
+            <%= defect.date_fixed.strftime('%v') %>
+          </span>
           <% else %>
-          Not Fixed
+          <span style='color: red'>
+            Not Fixed
+          </span>
           <% end %>
         </h5>
       </td>

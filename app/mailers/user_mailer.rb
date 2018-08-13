@@ -101,10 +101,10 @@ class UserMailer < ApplicationMailer
       emails << user.email
     end
     @set_defects = Program.find_by(name: 'Defect')
-    @new_work_orders = Request.is_a_defect.is_new
-    @in_progress_work_orders = Request.is_a_defect.is_in_progress
-    @completed_work_orders = Request.is_a_defect.is_completed
-    @overdue_work_orders = Request.is_a_defect.is_overdue
+    @new_work_orders = Request.is_a_defect.one_week?.is_new
+    @in_progress_work_orders = Request.is_a_defect.one_week?.is_in_progress
+    @completed_work_orders = Request.is_a_defect.one_week?.is_completed
+    @overdue_work_orders = Request.is_a_defect.one_week?.is_overdue
     mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
   
@@ -114,10 +114,10 @@ class UserMailer < ApplicationMailer
       emails << user.email
     end
     @set_repairs = Program.find_by(name: 'Repairs')
-    @new_work_orders = Request.is_a_repair.is_new
-    @in_progress_work_orders = Request.is_a_repair.is_in_progress
-    @completed_work_orders = Request.is_a_repair.is_completed
-    @overdue_work_orders = Request.is_a_repair.is_overdue
+    @new_work_orders = Request.is_a_repair.one_week?.is_new
+    @in_progress_work_orders = Request.is_a_repair.one_week?.is_in_progress
+    @completed_work_orders = Request.is_a_repair.one_week?.is_completed
+    @overdue_work_orders = Request.is_a_repair.one_week?.is_overdue
     mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
 
@@ -138,5 +138,15 @@ class UserMailer < ApplicationMailer
     @completed = @requests.is_completed
     @overdue = @requests.is_overdue
     mail(to: emails, subject: "Weekly Work Order Report for #{Date.current.strftime('%D')}")
+  end
+  
+  def weekly_defects_reported
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    
+    @defects = Defect.all.where('created_at > ? AND created_at <= ?', (Date.current - 7.days), Date.current)
+    mail(to: emails, subject: "Weekly Defects that have been reported for #{Date.current.strftime('%D')}")
   end
 end

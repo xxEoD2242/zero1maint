@@ -1,0 +1,2 @@
+<%= render 'email_title_box', title: "All Defects Reported for #{(Date.current - 7.days).strftime('%v')} to #{Date.current.strftime('%v')}" %>
+<%= render 'defects_table', defects: @defects %>

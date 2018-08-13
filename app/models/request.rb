@@ -86,6 +86,10 @@ class Request < ApplicationRecord
     program_id == Program.tour_car_prep.id
   end
   
+  def self.one_week?
+    where('created_at >= ?', (Date.current - 7.days))
+  end
+  
   def update_service_mileage
     vehicle = self.vehicle
     veh_mileage = self.vehicle.mileage

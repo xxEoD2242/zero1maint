@@ -3,7 +3,9 @@
 desc 'send weekly rzr report'
 task send_weekly_rzr_report: :environment do
   UserMailer.weekly_rzr_report_email.deliver!
-  Report.create(title: "Weekly Razor Report For #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}", description: 'Overview of all Razors currently In and Out of Service. Contact **** for any questiosn.', report_type: 'Weekly-RZR', status: 'Created')
+  Report.create(title: "Weekly Razor Report For #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}",
+                description: 'Overview of all Razors currently In and Out of Service. Contact **** for any questiosn.',
+                report_type: 'Weekly-RZR', status: 'Created')
 end
 
 desc 'send weekly tour car report'
@@ -40,4 +42,9 @@ desc 'send weekly checklist report'
 task send_weekly_checklist_report: :environment do
   UserMailer.weekly_event_checklists_email.deliver!
   Report.create(title: "Weekly Events Checklist Report For #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}", description: 'Overview of all defect work orders created or in-progress. Contact **** for any questiosn.', report_type: 'Weekly-Checklist', status: 'Created')
+end
+
+desc 'send weekly defects reported'
+task send_weekly_defects_reported: :environment do
+  UserMailer.weekly_defects_reported.deliver!
 end

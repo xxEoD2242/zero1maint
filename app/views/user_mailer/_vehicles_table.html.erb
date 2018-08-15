@@ -22,8 +22,8 @@
       <td><%= vehicle.location %></td>
       <td>
         <% vehicle.requests.where(status: "New").limit(3).each do |request| %>
-        <%=request.number%>
-        <%= request.status%>
+        <%= request.id %>
+        <%= request.status %>
         <% end %>
       </td>
       <td>

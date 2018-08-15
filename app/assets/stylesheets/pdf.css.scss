@@ -16,3 +16,9 @@ tr { page-break-inside: avoid }
 #event_location {
   margin-right: 10px;
 }
+
+.page-break {
+  display: block;
+  clear: both;
+  page-break-before: always;
+}

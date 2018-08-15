@@ -11,68 +11,70 @@
     <h4>Date: <%= event.date.strftime('%D')%></h4>
   </div>
   <div class="card-body">
-    <table class="table table-borderless table-hover table-sm">
-      <thead>
-      <tr>
-        <th scope="row">ID</th>
-        <th scope="row">Created On</th>
-        <th scope="row">Vehicle</th>
-        <th scope="row">Last Reported</th>
-        <th scope="row">Event</th>
-        <th scope="row">Category</th>
-        <th scope="row">Description</th>
-        <th scope="row">Status</th>
-        <th scope="row">Date Fixed</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Defect.where(last_event_reported: event.id).each do |defect|%>
-      <tr>
-        <th scope='col'>
-          <h5>
-            <%= link_to "#{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
-          </h5>
-        </th>
-        <th scope="col">
-          <h6>
-            <span class="badge badge-danger">
-              <%= defect.created_at.strftime('%v') %>
-            </span>
-          </h6>
-        </th>
-        <td><%= link_to defect.vehicle.car_id, vehicle_path(defect.vehicle.id), class: "badge badge-danger" %></td>
-        <td><%= defect.times_reported %></td>
-        <td><%= last_event defect %>
-        <td><%= category_words defect %></td>
-        <td><%= defect.description %></td>
-        <td>
-          <h6>
-            <span class="badge <%= fixed_defect_badge defect %>">
-              <%= fixed_defect_word defect %>
-            </span>
-          </h6>
-        </td>
-        <td>
-          <h6>
-            <span class="badge <%= fixed_defect_badge defect %>">
-              <%= defect_date defect %>
-            </span>
-          </h6>
-        </td>
-        <td>
-          <%= defect_checklist defect %>
-        </td>
-        <td>
-          <%= work_order_link defect %>
-        </td>
-        <td>
-          <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-    </table>
+    <div class='table-responsive'>
+      <table class="table table-borderless table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="row">ID</th>
+            <th scope="row">Created On</th>
+            <th scope="row">Vehicle</th>
+            <th scope="row">Last Reported</th>
+            <th scope="row">Event</th>
+            <th scope="row">Category</th>
+            <th scope="row">Description</th>
+            <th scope="row">Status</th>
+            <th scope="row">Date Fixed</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Defect.where(last_event_reported: event.id).each do |defect|%>
+          <tr>
+            <th scope='col'>
+              <h5>
+                <%= link_to "#{defect.id}", defect_path(defect), class: 'badge badge-danger' %>
+              </h5>
+            </th>
+            <th scope="col">
+              <h6>
+                <span class="badge badge-danger">
+                  <%= defect.created_at.strftime('%v') %>
+                </span>
+              </h6>
+            </th>
+            <td><%= link_to defect.vehicle.car_id, vehicle_path(defect.vehicle.id), class: "badge badge-danger" %></td>
+            <td><%= defect.times_reported %></td>
+            <td><%= last_event defect %></td>
+            <td><%= category_words defect %></td>
+            <td><%= defect.description %></td>
+            <td>
+              <h6>
+                <span class="badge <%= fixed_defect_badge defect %>">
+                  <%= fixed_defect_word defect %>
+                </span>
+              </h6>
+            </td>
+            <td>
+              <h6>
+                <span class="badge <%= fixed_defect_badge defect %>">
+                  <%= defect_date defect %>
+                </span>
+              </h6>
+            </td>
+            <td>
+              <%= defect_checklist defect %>
+            </td>
+            <td>
+              <%= work_order_link defect %>
+            </td>
+            <td>
+              <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <% end %>

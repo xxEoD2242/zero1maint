@@ -24,8 +24,11 @@
     No Data
     <% elsif @vehicle.a_service %>
     <strong style="color: red;">NEEDS SERVICE</strong> 
+    <span class='badge badge-danger'>
+      <%= @vehicle.near_a_serivce_mileage %> Miles
+    </span>
     <% else %>
-    <span class="text-success">
+    <span class='badge badge-success badge-pill'>
       <%= @vehicle.near_a_service_mileage %> Miles
     </span>
     <% end%>
@@ -37,8 +40,11 @@
     No Data
     <% elsif @vehicle.shock_service %>
     <strong style="color:red;">NEEDS SERVICE</strong>
+    <span class='badge badge-danger'>
+      <%= @vehicle.near_shock_service_mileage %> Miles
+    </span>
     <% else %>
-    <span style="color: green;">
+    <span class='badge badge-success badge-pill'>
       <%= @vehicle.near_shock_service_mileage %> Miles
     </span>
     <% end %>
@@ -50,8 +56,11 @@
     No Data
     <% elsif @vehicle.air_filter_service %>
     <strong style="color: red;">NEEDS SERVICE</strong>
+    <span class='badge badge-danger'>
+      <%= @vehicle.near_air_filter_service_mileage %> Miles
+    </span>
     <% else %>
-    <span style="color: green;">
+    <span class='badge badge-success badge-pill'>
       <%= @vehicle.near_air_filter_service_mileage %> Miles
     </span>
     <% end %>
@@ -63,8 +72,11 @@
     No Data
     <% elsif @vehicle.tour_car_prep %>
     <strong style="color: red;">NEEDS SERVICE</strong>
+    <span class='badge badge-danger'>
+      <%= @vehicle.near_tour_car_prep_mileage %> Miles
+    </span>
     <% else %>
-    <span style="color: green;">
+    <span class='badge badge-success badge-pill'>
       <%= @vehicle.near_tour_car_prep_mileage %> Miles
     </span>
     <% end %>
@@ -76,7 +88,9 @@
     <% if @vehicle.repair_needed == nil %>
     No Data
     <% elsif @vehicle.repair_needed %>
-    Repairs-In-Progress
+    <span class='badge badge-danger'>
+      Repairs-In-Progress
+    </span>
     <% else %>
     No Repairs Needed
     <% end %>
@@ -87,16 +101,21 @@
     <% if @vehicle.defect == nil %>
     No Data
     <% elsif @vehicle.defect %>
-    Vehicle has Defect
-    <% end %>
+    <span class='badge badge-danger'>
+      Defects Reported
+    </span>
     <% else %>
     No Defects Reported
     <% end %>
   </li>
 </ul>
-    
-<div class="container-fluid bg-light border border-danger p-2 mt-3 rounded">
-  <h4 class="text-center">All Defects Reported</h4>
-</div>
 
-<%= render 'defects_table', defects: @defects %>
+<% if @vehicle.defect %>
+<div class='page-break'>
+  <div class="container-fluid bg-light border border-danger p-2 mt-3 rounded">
+    <h4 class="text-center">All Defects Reported</h4>
+  </div>
+
+  <%= render 'defects_table', defects: @defects %>
+</div>
+<% end %>

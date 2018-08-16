@@ -1,4 +1,4 @@
 <%= render 'vehicle_page_layout',
     action: :needs_service, title: 'Vehicles that Need Service',
-    url: needs_service_vehicles_path(params.merge(format: "pdf").permit!),
+    url: needs_service_vehicles_path(params.merge(format: 'pdf').permit!),
     status: 'active' %>

@@ -138,7 +138,7 @@ module Vehicle_Rotation
   def air_filter_service_check(vehicle)
     vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
     if vehicle.near_air_filter_service_mileage < 0
-      vehicle.update(needs_service: true, air_filter_service: true)
+      vehicle.update(needs_service: true, air_filter_service: true, near_air_filter_service: false)
     elsif vehicle.near_air_filter_service_mileage <= @set_air_filter_service.threshold_numb
       vehicle.update(near_air_filter_service: true, near_service: true)
     else
@@ -149,7 +149,7 @@ module Vehicle_Rotation
   def shock_service_check(vehicle)
     vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
     if vehicle.near_shock_service_mileage < 0
-      vehicle.update(needs_service: true, shock_service: true)
+      vehicle.update(needs_service: true, shock_service: true, near_shock_service: false)
     elsif vehicle.near_shock_service_mileage <= @set_shock_service.threshold_numb
       vehicle.update(near_shock_service: true, near_service: true)
     else
@@ -160,7 +160,7 @@ module Vehicle_Rotation
   def a_service_check(vehicle)
     vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
     if vehicle.near_a_service_mileage < 0
-      vehicle.update(needs_service: true, a_service: true)
+      vehicle.update(needs_service: true, a_service: true, near_a_serivce: false)
     elsif vehicle.near_a_service_mileage <= @set_a_service.threshold_numb
       vehicle.update(near_a_service: true, near_service: true)
     else
@@ -172,7 +172,7 @@ module Vehicle_Rotation
     if vehicle.veh_category == 'Tour Car'
       vehicle.update(near_tour_car_prep_mileage: (vehicle.tour_car_prep_interval - (vehicle.mileage - vehicle.last_tour_car_prep_mileage)))
       if vehicle.near_tour_car_prep_mileage < 0
-        vehicle.update(needs_service: true, tour_car_prep: true)
+        vehicle.update(needs_service: true, tour_car_prep: true, near_tour_car_prep: false)
       elsif vehicle.near_tour_car_prep_mileage < 100
         vehicle.update(near_service: true, near_tour_car_prep: true)
       else

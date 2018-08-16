@@ -116,7 +116,7 @@ class EventsController < ApplicationController
   
   def multi_day(event)
     numb_days = (event.end_date.mjd - event.date.mjd)
-    est_mileage = (event.est_mileage / numb_days)
+    est_mileage = (event.est_mileage / (numb_days + 1)).round(2)
     numb_days.times do
       Event.create(date: Event.last.date + 1.day, end_date: Event.last.end_date + 1.day,
                    customers: event.customers, status: 'Scheduled', location: event.location, 
@@ -125,6 +125,7 @@ class EventsController < ApplicationController
                    shares: event.shares, event_mileage: 0, duration: event.duration, 
                    event_time: event.event_time, duration_word: event.duration_word)
     end
+    event.update(est_mileage: est_mileage)
   end
 
   def create

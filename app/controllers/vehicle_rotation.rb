@@ -160,7 +160,7 @@ module Vehicle_Rotation
   def a_service_check(vehicle)
     vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
     if vehicle.near_a_service_mileage < 0
-      vehicle.update(needs_service: true, a_service: true, near_a_serivce: false)
+      vehicle.update(needs_service: true, a_service: true, near_a_service: false)
     elsif vehicle.near_a_service_mileage <= @set_a_service.threshold_numb
       vehicle.update(near_a_service: true, near_service: true)
     else

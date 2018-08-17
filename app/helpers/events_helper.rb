@@ -51,12 +51,62 @@ module EventsHelper
     end
   end
   
-  def vehicle_rotation_services_badges(vehicle)
-    return 'A-Service' if vehicle.dont_use_a_service
-    return 'Shock Service' if vehicle.dont_use_shock_service
-    return 'Air Filter Service' if vehicle.dont_use_air_filter_service
+  def vehicle_rotation_a_service_badge(vehicle)
+    render 'service_badge', service: 'A-Service' if vehicle.dont_use_a_service
   end
   
+  def vehicle_rotation_shock_service_badge(vehicle)
+    render 'service_badge', service: 'Shock Service' if vehicle.dont_use_shock_service
+  end
+
+  def vehicle_rotation_air_filter_service_badge(vehicle)
+    render 'service_badge', service: 'Air Filter Service' if vehicle.dont_use_air_filter_service
+  end
+  
+  def vehicle_rotation_tour_car_prep_badge(vehicle)
+    render 'service_badge', service: 'Tour Car Prep' if vehicle.dont_use_tour_car_prep
+  end
+  
+  def vehicle_rotation_near_a_service_badge(vehicle)
+    if vehicle.dont_use_near_a_service
+      render 'near_service_badge', vehicle_mileage: vehicle.dont_use_near_a_service_mileage, service: 'A-Service'
+    end
+  end
+  
+  def vehicle_rotation_near_shock_service_badge(vehicle)
+    if vehicle.dont_use_near_shock_service
+      render 'near_service_badge', vehicle_mileage: vehicle.dont_use_near_shock_service_mileage, service: 'Shock Service'
+    end
+  end
+
+  def vehicle_rotation_near_air_filter_service_badge(vehicle)
+    if vehicle.dont_use_near_air_filter_service
+      render 'near_service_badge', vehicle_mileage: vehicle.dont_use_near_air_filter_service_mileage, service: 'Air Filter Service'
+    end
+  end
+  
+  def vehicle_rotation_near_tour_car_prep_badge(vehicle)
+    if vehicle.dont_use_near_tour_car_prep
+      render 'near_service_badge', vehicle_mileage: vehicle.dont_use_near_tour_car_prep_mileage, service: 'Tour Car Prep'
+    end
+  end
+  
+  def vehicle_status_badge_color(vehicle)
+    if vehicle.is_in_service?
+      'badge-success'
+    else
+      'badge-danger'
+    end
+  end
+
+  def near_service_badge_color(mileage)
+    if mileage < 0
+      'badge-danger'
+    else
+      'badge-warning'
+    end
+  end
+
   def event_status_badge(event)
     if event.is_completed?
       'badge-success'

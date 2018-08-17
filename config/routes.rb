@@ -57,7 +57,6 @@ Rails.application.routes.draw do
 
   get 'all_users' => 'show_users#all_users'
   get 'homepage' => 'welcome#homepage'
-  get 'fare_harbor' => 'welcome#fare_harbor_data'
   get 'show' => 'show_users#show'
   get 'assigned_work_orders' => 'show_users#assigned_work_orders'
   get 'completed_work_orders' => 'show_users#completed_work_orders'
@@ -114,5 +113,4 @@ Rails.application.routes.draw do
   end
   devise_for :users, controllers: { registrations: 'users/registrations' }
   root 'welcome#homepage'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

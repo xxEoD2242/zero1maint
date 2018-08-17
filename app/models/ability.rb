@@ -33,10 +33,13 @@ class Ability
 
     if user.admin?
       can :manage, :all
-    else
+    elsif user.employee?
       can :manage, [Request, Event, Vehicle, Program, Part, PartItem, PartOrder, PartRequest, RequestPartOrder, EventsVehicle, Report, ReportVehicle]
     end
 
-    can :view, :all if user.ghost?
+    if user.ghost?
+      can :view, :all
+      cannot :manage, :all
+    end
   end
 end

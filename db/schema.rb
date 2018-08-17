@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180811202517) do
+ActiveRecord::Schema.define(version: 20180817015858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -363,6 +363,15 @@ ActiveRecord::Schema.define(version: 20180811202517) do
     t.float "tour_car_prep_interval", default: 0.0
     t.boolean "near_tour_car_prep", default: false
     t.float "near_tour_car_prep_mileage", default: 0.0
+    t.boolean "dont_use_near_a_service", default: false
+    t.boolean "dont_use_near_shock_service", default: false
+    t.boolean "dont_use_near_air_filter_service", default: false
+    t.boolean "dont_use_near_tour_car_prep", default: false
+    t.float "dont_use_near_a_service_mileage", default: 0.0
+    t.float "dont_use_near_shock_service_mileage", default: 0.0
+    t.float "dont_use_near_air_filter_service_mileage", default: 0.0
+    t.float "dont_use_near_tour_car_prep_mileage", default: 0.0
+    t.boolean "dont_use_tour_car_prep", default: false
   end
 
   create_table "web_hooks", force: :cascade do |t|

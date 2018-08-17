@@ -21,11 +21,16 @@ class EventsController < ApplicationController
     @event.set_defects_reported
     @checklists = Checklist.where(event_id: @event.id)
     @vehicles = @event.vehicles
+    to_pdf "Event #\: #{@event.id} "
+  end
+  
+  def to_pdf(file_name)
     respond_to do |format|
       format.html
-      format.xls
       format.pdf do
-        render pdf: "Event #\: #{@event.id} ", layout: 'pdf.pdf.erb', title: "Event #\: #{@event.id}"
+        render pdf: file_name,
+               layout: 'pdf.pdf.erb',
+               title: file_name
       end
     end
   end

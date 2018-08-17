@@ -30,19 +30,17 @@
       </td>
       <td>
         <ul style='list_style_type: none; padding: 0; margin: 0;'>
-          <%= near_a_service_badge vehicle %>
-          <%= near_shock_service_badge vehicle %>
-          <%= near_air_filter_service_badge vehicle %>
-          <%= near_tour_car_prep_badge vehicle %>
+          <%= vehicle_rotation_near_a_service_badge vehicle %>
+          <%= vehicle_rotation_near_shock_service_badge vehicle %>
+          <%= vehicle_rotation_near_air_filter_service_badge vehicle %>
+          <%= vehicle_rotation_near_tour_car_prep_badge vehicle %>
         </ul>
       </td>
       <td>
-       <%= a_service_badge vehicle %>
-       <%= shock_service_badge vehicle %>
-       <%= air_filter_service_badge vehicle %>
-       <%= repairs_badge vehicle %>
-       <%= defects_badge vehicle %>
-       <%= tour_car_prep_badge vehicle %>
+       <%= vehicle_rotation_a_service_badge vehicle %>
+       <%= vehicle_rotation_shock_service_badge vehicle %>
+       <%= vehicle_rotation_air_filter_service_badge vehicle %>
+       <%= vehicle_rotation_tour_car_prep_badge vehicle %>
       </td>
       <td>
         <%= link_to 'Show', vehicle, class: "btn btn-danger btn-sm" %>

@@ -2,28 +2,29 @@
 
 module Vehicle_Rotation
   def vehicle_rotation
-    @events = Event.where('date >= ?', Time.now)
-    @events_2 = @events.where('date <= ?', Time.now + 7.days)
-    @scheduled_events = @events_2.all.where(status: 'Scheduled')
+    current_events = Event.where('date >= ? AND date <= ?', Date.current, (Date.current + 7.days))
+    @scheduled_events = current_events.are_scheduled?
+    @vehicles_assigned = current_events.are_vehicles_assigned?
     event_mileage = 0
     new_event_mileage = 0
     @total_miles_added = 0
-    if @scheduled_events != []
+
+    unless @scheduled_events.empty?
       @scheduled_events.each do |event|
         event_mileage += event.est_mileage
       end
-      @total_miles = event_mileage
+      @total_miles = event_mileage.round(2)
     end
-    @vehicles_assigned = @events.all.where(status: 'Vehicles Assigned')
 
     @vehicles = Vehicle.all
-    @vehicles.update(use_a: true, use_b: false, use_near_service: false)
-    if @total_miles.nil?
-      @vehicles.update(est_mileage: 0)
-    else
-      @vehicles.update(est_mileage: @total_miles)
+
+    @vehicles.update(use_a: true, use_b: false, dont_use_near_a_service: false, dont_use_near_shock_service: false, dont_use_near_air_filter_service: false, est_mileage: 0)
+    
+    @vehicles.each do |vehicle|
+      vehicle.update(est_mileage: (vehicle.mileage + @total_miles))
     end
-    if @vehicles_assigned != []
+    
+    unless @vehicles_assigned.empty?
       @vehicles_assigned.each do |event|
         @total_miles_added += event.est_mileage
         event.vehicles.each do |vehicle|
@@ -32,42 +33,60 @@ module Vehicle_Rotation
       end
     end
 
-    @vehicles.all.each do |vehicle|
-      unless vehicle.last_a_service.nil?
-        vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
-        x = vehicle.near_a_service_mileage
+    vehicle_rotation_determination @vehicles
+
+    @q = Vehicle.all.ransack(params[:q])
+    @vehicle_results = @q.result
+
+    to_pdf "Vehicle Rotation for #{Time.now.strftime('%D')}"
+  end
+
+  def vehicle_rotation_determination(vehicles)
+    vehicles.all.each do |vehicle|
+
+        vehicle.update(dont_use_near_a_service_mileage: (vehicle.a_service_interval - (vehicle.est_mileage - vehicle.last_a_service)))
+        x = vehicle.dont_use_near_a_service_mileage
         if x <= 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
         elsif x <= @set_a_service.threshold_numb
-          vehicle.update(use_near_service: true, dont_use_a_service: false)
+          vehicle.update(dont_use_near_a_service: true)
         else
-          vehicle.update(dont_use_a_service: false)
+          vehicle.update(dont_use_a_service: false, dont_use_near_a_service: false)
         end
-      end
 
-      unless vehicle.last_shock_service.nil?
-        vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
-        y = vehicle.near_shock_service_mileage
+        vehicle.update(dont_use_near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.est_mileage - vehicle.last_shock_service)))
+        y = vehicle.dont_use_near_shock_service_mileage
         if y < 0
           vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
         elsif y <= @set_shock_service.threshold_numb
-          vehicle.update(use_near_service: true, dont_use_shock_service: false)
+          vehicle.update(dont_use_near_shock_service: true)
         else
           vehicle.update(dont_use_shock_service: false)
         end
-      end
 
-      unless vehicle.last_air_filter_service.nil?
-        vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
-        z = vehicle.near_air_filter_service_mileage
+        vehicle.update(dont_use_near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.est_mileage - vehicle.last_air_filter_service)))
+        z = vehicle.dont_use_near_air_filter_service_mileage
         if z < 0
           vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
         elsif z <= @set_air_filter_service.threshold_numb
-          vehicle.update(use_near_service: true, dont_use_air_filter_service: false)
+          vehicle.update(dont_use_near_air_filter_service: true)
         else
-          vehicle.update(dont_use_air_filter_service: false)
+          vehicle.update(dont_use_air_filter_service: false, dont_use_near_air_filter_service: false)
         end
-      end
+        
+        if vehicle.tour_car?
+          vehicle.update(dont_use_near_tour_car_prep: false)
+          
+          vehicle.update(dont_use_near_tour_car_prep_mileage: (vehicle.tour_car_prep_interval - (vehicle.est_mileage - vehicle.last_air_filter_service)))
+          a = vehicle.dont_use_near_tour_car_prep_mileage
+          if a < 0
+            vehicle.update(use_b: true, use_a: false, dont_use_tour_car_prep: true)
+          elsif a <= 100
+            vehicle.update(dont_use_near_tour_car_prep: true)
+          else
+            vehicle.update(dont_use_tour_car_prep: false, dont_use_near_tour_car_prep: false)
+          end
+        end
 
       unless vehicle.times_used.nil?
         if vehicle.use_a && vehicle.times_used >= 5 && vehicle.high_use == false
@@ -83,17 +102,6 @@ module Vehicle_Rotation
 
       if vehicle.vehicle_status == 'Out-of-Service'
         vehicle.update(use_a: false, use_b: false)
-      end
-    end
-
-    @q = Vehicle.all.ransack(params[:q])
-    @vehicle_results = @q.result
-
-    respond_to do |format|
-      format.html
-      format.xls
-      format.pdf do
-        render pdf: "Vehicle Rotation for #{Time.now.strftime('%D')}", layout: 'pdf.pdf.erb', title: "Vehicle Rotation for #{Time.now.strftime('%D')}"
       end
     end
   end

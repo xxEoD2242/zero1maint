@@ -133,6 +133,7 @@ class DefectsController < ApplicationController
 
   def defect_params
     params.require(:defect).permit(:date_fixed, :vehicle_id, :request_id, :fixed, :description,
-                                   :manually_reported, :category, checklist_ids: [])
+                                   :manually_reported, :category, :repair, :notes, :creator, :mechanic, :user_id,
+                                   :times_completed, :times_reported, checklist_ids: [])
   end
 end

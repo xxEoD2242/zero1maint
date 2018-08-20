@@ -1,13 +1,12 @@
-<div class="jumbotron">
-<h3 class="display-3 text-center">Parts Inventory</h3>
-<%= render 'parts_needed_form', part: @part_results%>
-<br \>
-<%= render 'results', q: @q, action: :index%>
-
+<div class="jumbotron bg-secondary text-white">
+  <h3 class="display-3 text-center">Parts Inventory</h3>
+  <%= render 'parts_search_results', part: @part_results%>
+  <br />
+  <%= render 'parts_search_box', q: @q, action: :index%>
 </div>
-  <div class="container">
-	  <%= form_tag import_parts_path, multipart: true do%>
-	  <%= file_field_tag :file%>
-	  <%= submit_tag "Import CSV"%>
-	  <% end %>
-  </div>
+<div class="container">
+  <%= form_tag import_parts_path, multipart: true do%>
+  <%= file_field_tag :file%>
+  <%= submit_tag "Import CSV"%>
+  <% end %>
+</div>

@@ -1,58 +1,23 @@
-<div class='jumbotron'>
-	
-<div class="card">
-	<div class="card-header">
-</h1>
-  <strong>Part:</strong>
-  <%= @part.part_numb %>
-</h1>
-</div>
-<div class="card-body">
-
-<p>
-  <strong>Description:</strong>
-  <%= @part.description %>
-</p>
-
-<p>
-  <strong>Brand:</strong>
-  <%= @part.brand %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @part.category %>
-</p>
-
-<p>
-  <strong>Cost:</strong>
-  $<%= sprintf('%.2f', @part.cost) %>
-</p>
-
-<p>
-  <strong>Quantity:</strong>
-  <%= @part.quantity %>
-</p>
-
-<p>
-	<strong>Work Orders</strong>
-	<% if @part.requests != []%>
-	<ul style="list-style-type:none;">
-	<% @part.requests.order(created_at: :desc).all.each do |request|%>
-  
-		<li><%= link_to request.id, request_path(request), class: "badge badge-dark"%> <%= request.vehicle.car_id%></li>
-		<% end %></ul>
-		
-	<% end %>
-</p>
-
-<p>
-	<strong>Application:</strong>
-	<%= @part.vehicle_category%>
-</p>
-
-<%= link_to 'Edit', edit_part_path(@part), class: "btn btn-warning" %> |
-<%= link_to 'Back', dashboard_parts_path, class: "btn btn-info" %>
-</div>
-</div>
+<div class='jumbotron bg-secondary text-white'>
+  <div class="card bg-dark text-white">
+    <div class="card-header">
+      <h1 class='text-center'>
+        <strong>Part:</strong>
+        <span class='badge badge-light text-dark'>
+          <%= @part.part_numb %>
+        </span>
+      </h1>
+    </div>
+    <div class="card-body">
+      <%= render 'show_row', title: 'Description', data: @part.description %>
+      <%= render 'show_row', title: 'Brand', data: @part.brand %>
+      <%= render 'show_row', title: 'Category', data: @part.category %>
+      <%= render 'show_row_badge', title: 'Cost', data: "$#{sprintf('%.2f', @part.cost)}" %>
+      <%= render 'show_row_badge', title: 'Quantity', data: @part.quantity %>
+      <%= render 'show_row', title: 'Application', data: @part.vehicle_category %>
+      <br />
+      <%= link_to 'Edit', edit_part_path(@part), class: "btn btn-danger" %> |
+      <%= link_to 'Back', dashboard_parts_path, class: "btn btn-danger" %>
+    </div>
+  </div>
 </div>

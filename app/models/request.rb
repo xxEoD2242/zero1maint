@@ -26,6 +26,7 @@ class Request < ApplicationRecord
   
   after_save :set_defects_fixed, only: [:update]
   after_save :update_service_mileage
+  before_save :track_times_completed
 
   STATUS = ['New', 'In-Progress', 'Completed', 'Overdue'].freeze
 
@@ -42,7 +43,8 @@ class Request < ApplicationRecord
 
   def set_defects_fixed
     if self.completed?
-      self.defects.update(fixed: true, date_fixed: self.completed_date)
+      self.defects.update(fixed: true, date_fixed: self.completed_date, user_id: self.mechanic_id,
+                          repair: self.description)
     end
   end
   
@@ -116,6 +118,15 @@ class Request < ApplicationRecord
         defect_emails << user.email
       end
       UserMailer.new_request_email(defect_emails, self).deliver_now
+    end
+  end
+
+  def track_times_completed
+    if self.completed? && self.times_completed == 0
+      self.times_completed = (self.times_completed + 1)
+      self.mechanic = User.find(self.mechanic_id).name
+    elsif self.completed?
+      self.times_completed = (self.times_completed + 1)
     end
   end
 end

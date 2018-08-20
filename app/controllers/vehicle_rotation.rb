@@ -18,7 +18,8 @@ module Vehicle_Rotation
 
     @vehicles = Vehicle.all
 
-    @vehicles.update(use_a: true, use_b: false, dont_use_near_a_service: false, dont_use_near_shock_service: false, dont_use_near_air_filter_service: false, est_mileage: 0)
+    @vehicles.update(use_a: true, use_b: false, dont_use_near_a_service: false,
+                     dont_use_near_shock_service: false, dont_use_near_air_filter_service: false, est_mileage: 0)
     
     @vehicles.each do |vehicle|
       vehicle.update(est_mileage: (vehicle.mileage + @total_miles))

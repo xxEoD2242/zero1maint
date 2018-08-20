@@ -60,4 +60,20 @@ module RequestsHelper
       'badge-danger'
     end
   end
+  
+  def user_for_title(work_order)
+    if work_order.completed?
+      'Completed By:'
+    else
+      'Created By:'
+    end
+  end
+  
+  def user_for_work_order(work_order)
+    if work_order.completed?
+      work_order.mechanic
+    else
+      work_order.creator
+    end
+  end
 end

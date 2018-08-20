@@ -270,7 +270,7 @@ class RequestsController < ApplicationController
   def request_params
     params.require(:request).permit(:number, :description, :special_requets, :completion_date,
                                     :completed_date, :poc, :checklist_numb, :creator, :vehicle_id,
-                                    :status, :image, :creator, :request_mileage, :program_id,
-                                    part_ids: [], user_ids: [], defect_ids: [])
+                                    :status, :image, :creator, :request_mileage, :program_id, :mechanic,
+                                    :mechanic_id, :notes, :times_completed, part_ids: [], user_ids: [], defect_ids: [])
   end
 end

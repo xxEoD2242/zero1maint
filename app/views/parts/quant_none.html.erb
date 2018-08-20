@@ -1,7 +1,6 @@
-<div class="jumbotron">
-<h3 class="display-3 text-center">Quantity: None</h3>
-<%= render 'parts_needed_form', part: @part_results%>
-<br \>
-<%= render 'results', q: @q, action: :quant_none%>
-
+<div class="jumbotron bg-secondary text-white">
+  <h3 class="display-3 text-center">Out of Stock</h3>
+  <%= render 'parts_search_results', part: @part_results%>
+  <br />
+  <%= render 'parts_search_box', q: @q, action: :quant_none%>
 </div>

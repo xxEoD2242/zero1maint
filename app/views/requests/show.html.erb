@@ -1,6 +1,10 @@
 <div class="jumbotron bg-secondary text-white">
   <h2 class="display-3 text-center">
-    Work Order <%= @request.id %> for 
+    Work Order 
+    <span class='badge badge-danger'>
+      <%= @request.id %>
+    </span>
+      for 
     <% if !@request.vehicle.nil? %>
     <%= link_to @request.vehicle.car_id, vehicle_path(@request.vehicle.id), class: "badge badge-danger"%>
     <% end %>
@@ -9,9 +13,9 @@
     <div class="card-header d-flex justify-content-between align-itmes-center">
       <h3>
         <strong>
-          Submitted By:
-          <span class="badge badge-danger">
-            <%= @request.creator%>
+          <%= user_for_title @request %>
+          <span class="badge <%= show_work_order_status_badge @request %>">
+            <%= user_for_work_order @request %>
           </span>
         </strong>
       </h3>
@@ -99,7 +103,7 @@
           </div>
           <% end %>
           
-          <% if @request.users.exists?%>
+          <% if @request.users.exists? %>
           <div class="row">
             <div class="col-md-5">
               <p>
@@ -108,9 +112,9 @@
             </div>
             <div class="col-md-6">
               <div class="row">
-                <% @request.users.each do |user|%>
+                <% @request.users.each do |user| %>
                 <div class="col-md-6">
-                  <%= user.name%>
+                  <%= user.name %>
                 </div>
                 <div class="col-md-6">
                 </div>
@@ -143,7 +147,7 @@
                 </div>
               </div>
               <br /> 
-              <% @request.defects.each do |defect|%>
+              <% @request.defects.each do |defect| %>
               <div class="row">
                 <div class="col-md-1">
                   <span class="badge badge-danger">
@@ -151,7 +155,7 @@
                   </span>
                 </div>
                 <div class="col-md-2">
-                  <%= last_event defect%>
+                  <%= last_event defect %>
                 </div>
                 <div class="col-md-9">
                   <%= defect.description %>
@@ -161,7 +165,7 @@
             </div>
           </div>
           <% end %>
-          <% unless @part_order.empty?%>
+          <% unless @part_order.empty? %>
           <div class="card bg-secondary text-white">
             <div class="card-header">
               <strong>Parts: </strong>
@@ -207,7 +211,18 @@
           </div>
           <% end %>
         </div>
-      </div>
+        <div class='row bg-secondary border border-danger my-3 p-3 text-white rounded'>
+          <div class='col-md-2'>
+            <h5>
+              Notes
+            </h5>
+          </div>
+          <div class='col-md-10'>
+            <p>
+              <%= @request.notes %>
+            </p>
+          </div>
+        </div>
     </div>
     <div class="card-footer">
       <div class="row">

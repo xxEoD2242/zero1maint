@@ -1,0 +1,25 @@
+<div class="container d-flex justify-content-between align-items-center">
+  <form class="form-inline">
+    <%= search_form_for q, :url => {:action => action } do |f|%>
+    <div class="form-group">
+      <%= f.select :category_eq, Part::CATEGORIES, {include_blank: "Select Part Category"}, class: "form-control" %>
+    </div>
+
+    <div class="form-group ml-2">
+      <%= f.select :vehicle_category_eq, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+    </div>
+
+    <div class="form-group ml-2">
+      <%= f.search_field :description_cont, placeholder: "Description Contains", class: 'form-control'%>
+    </div>
+
+
+    <div class="form-group ml-2">
+      <%= f.submit "Find part", class: "btn btn-danger"%>
+    </div>
+    <% end %>
+  </form>
+  <br \>
+  <%= link_to 'Parts Dashboard', dashboard_parts_path, class: "btn btn-danger " %>
+</div>
+<%= paginate @part_results%>

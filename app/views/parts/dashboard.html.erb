@@ -1,56 +1,69 @@
-<div class="jumbotron text-center mt-2">
-	<h1 class="display-3">Parts Dashboard</h1>
+<div class="jumbotron bg-secondary text-white text-center mt-2">
+  <h1 class="display-3">Parts Dashboard</h1>
 </div>
 
 <div class="row">
-	<div class="col-md-3">
-		<div class="list-group">
-			<a class="list-group-item list-group-item-action" href="../parts/new">New Part</a>
-				<a class="list-group-item list-group-item-action" href="../parts">All Parts</a>
-				<a class="list-group-item list-group-item-action" 					href="../requests/a_service">Part Orders</a>
-				<a class="list-group-item list-group-item-action" 					href="../parts/quant_low">Quantity Low</a>
-				<a class="list-group-item list-group-item-action" 					href="../parts/quant_none">Quantity None</a>
-			
-				<a class="list-group-item list-group-item-action" 					href="../parts/individual_financial_report">Financial Report for Individual Requests</a>
-				<a class="list-group-item list-group-item-action" 					href="../parts/monthly_financial_report">Monthly Financial Reports</a>
-			
-			</div>
-			
-	</div>
-	<div class="col-md-6">
-					<% @parts.all.order(created_at: :desc).limit(5).each do |part|%>
-					<div class="card m-2">
-						<div class="card-header">
-							<h4><%=link_to part.description, part_path(id: part.id), class: "badge 					badge-warning" %></h4></div>
-							
-				<div class="card-body">
-					<ul class="list-group">
-					<li class="list-group-item d-flex justify-content-between 						align-items-center">Requested At
-						<span class="badge 						badge-info"><%=part.created_at.strftime('%D')%></span>Brand
-					<span class="badge badge-info"><%= part.brand%></span></li>
-				
-					<li class="list-group-item d-flex justify-content-between 						align-items-center">Quantity on Hand
-					<span class="badge badge-info"><%= part.quantity%></span>Cost
-					<span class="badge badge-info"><%= number_to_currency part.cost%></span></li>
-					
-				</ul>
-			
-			</div>
-				</div>
-			
-			<% end %>
-		</div>
-	
-	
-	<div class="col-md-3">
-				<ul class="list-group">
-					
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Total Parts: <span class="badge badge-dark"><%= 							@parts.count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Inventory None: <span class="badge 					badge-dark"><%= @parts.where(quant_none: true).count%></span></li>
-				<li class="list-group-item d-flex justify-content-between 					align-items-center">Inventory Low: <span><%= link_to @parts.where(quant_low: 					true).count, quant_low_parts_path, class: "badge badge-dark"%></span></li>
-			</ul>
-				
-		</div>
+  <div class="col-md-3">
+    <div class="list-group">
+      <%= render 'dashboard_link', title: 'New Part', url: new_part_path %>
+      <%= render 'dashboard_link', title: 'All Parts', url: parts_path %>
+      <%= render 'dashboard_link', title: 'Part orders', url: parts_path %>
+      <%= render 'dashboard_link', title: 'Quantity Low', url: quant_low_parts_path %>
+      <%= render 'dashboard_link', title: 'Out-of-Stock', url: quant_none_parts_path %>
+    </div>	
+  </div>
+  <div class="col-md-6">
+    <% @parts.all.order(created_at: :desc).limit(5).each do |part|%>
+    <div class="card bg-dark text-white m-2">
+      <div class="card-header">
+        <h4 class='text-center'>
+          <%= link_to part.id, part_path(id: part.id), class: "badge badge-danger" %> |
+          <%= link_to part.description, part_path(id: part.id), class: "badge badge-danger" %>
+          <span class='float-right'>
+            <%= link_to 'View', part_path(id: part.id), class: "btn btn-danger" %>
+          </span>
+        </h4>
+      </div>			
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+            Requested At
+            <span class="badge badge-danger"><%=part.created_at.strftime('%D')%></span>
+            Brand
+            <span class="badge badge-danger"><%= part.brand%></span>
+          </li>
+          <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+            Quantity on Hand
+            <span class="badge badge-danger"><%= part.quantity%></span>
+            Cost
+            <span class="badge badge-danger"><%= number_to_currency part.cost%></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% end %>
+  </div>
 
-	
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+        Total Parts:
+        <span class="badge badge-danger">
+          <%= @parts.count%>
+        </span>
+      </li>
+      <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+        Inventory None:
+        <span class="badge badge-danger">
+          <%= @parts.where(quant_none: true).count%>
+        </span>
+      </li>
+      <li class="list-group-item bg-secondary text-white d-flex justify-content-between align-items-center">
+        Inventory Low:
+        <span>
+          <%= link_to @parts.where(quant_low: true).count, quant_low_parts_path, class: "badge badge-danger"%>
+        </span>
+      </li>
+    </ul>
+  </div>
 </div>

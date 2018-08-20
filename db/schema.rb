@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180817015858) do
+ActiveRecord::Schema.define(version: 20180820000721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,11 @@ ActiveRecord::Schema.define(version: 20180817015858) do
     t.integer "times_reported"
     t.integer "last_event_reported"
     t.boolean "manually_reported"
+    t.text "repair", default: ""
+    t.text "notes", default: ""
+    t.string "mechanic", default: ""
+    t.integer "times_completed"
+    t.integer "user_id"
     t.index ["vehicle_id"], name: "index_defects_on_vehicle_id"
   end
 
@@ -268,6 +273,10 @@ ActiveRecord::Schema.define(version: 20180817015858) do
     t.date "completed_date"
     t.string "status"
     t.integer "checklist_id", default: 0
+    t.string "mechanic", default: ""
+    t.integer "times_completed", default: 0
+    t.integer "mechanic_id"
+    t.text "notes"
   end
 
   create_table "rotation_metrics", force: :cascade do |t|

@@ -11,6 +11,8 @@ class Defect < ApplicationRecord
   
   paginates_per 20
   
+  before_save :track_times_completed
+  
   scope :are_fixed?, -> { where(fixed: true) }
   scope :are_not_fixed?, -> { where(fixed: false) }
   
@@ -25,5 +27,14 @@ class Defect < ApplicationRecord
   
   def fixed?
     fixed == true
+  end
+
+  def track_times_completed
+    if self.fixed? && self.times_completed == 0
+      self.times_completed = (self.times_completed + 1)
+      self.mechanic = User.find(self.user_id).name
+    elsif self.fixed? && self.times_completed != 0
+      self.times_completed = (self.times_completed + 1)
+    end
   end
 end

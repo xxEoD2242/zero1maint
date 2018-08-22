@@ -73,6 +73,8 @@ class VehiclesController < ApplicationController
   def defects_check(vehicle)
     if vehicle.defects.where(fixed: false).exists?
       vehicle.update(defect: true)
+    else
+      vehicle.update(defect: false)
     end
   end
 

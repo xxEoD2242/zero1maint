@@ -129,6 +129,7 @@ module Vehicle_Rotation
       end
       need_service_check vehicle
       near_service_check vehicle
+      defects_check vehicle
     end
   end
 

@@ -2,7 +2,11 @@
 
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[show edit update destroy]
-  before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, :set_tour_car_prep, only: %i[a_service_calculation mileage_calculation shock_service_calculation air_filter_calculation show needs_service near_service_required all_vehicles vehicle_mileage in_service out_of_service]
+  before_action :set_a_service, :set_shock_service, :set_air_filter_service, 
+                :set_repairs, :set_defects, :set_tour_car_prep, 
+                only: %i[a_service_calculation mileage_calculation shock_service_calculation
+                         air_filter_calculation show needs_service near_service_required all_vehicles
+                         vehicle_mileage in_service out_of_service]
   include Vehicle_Rotation
 
   def index
@@ -26,14 +30,17 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.find(params[:id])
     @events = @vehicle.events.where('date >= ?', Date.current - 1.year).page(params[:page])
     @events_month = @vehicle.events.where('date >= ?', Date.current - 1.month)
+
+    # Calculate the year-to-date and month-to-date mileage
     @ytd_mileage = 0
     @mtd_mileage = 0
-    @events.all.each do |event|
+    @vehicle.events.where('date >= ?', (Date.current - 1.year)).all.each do |event|
       @ytd_mileage += event.event_mileage
     end
     @events_month.all.each do |event|
       @mtd_mileage += event.event_mileage
     end
+
     @times_used = @events.size
     @times_used_month = @events_month.size
     @last_a_service = @vehicle.requests.is_an_a_service.last

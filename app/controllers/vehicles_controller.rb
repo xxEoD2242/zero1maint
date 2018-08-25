@@ -30,18 +30,19 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.find(params[:id])
     @events = @vehicle.events.where('date >= ?', Date.current - 1.year).page(params[:page])
     @events_month = @vehicle.events.where('date >= ?', Date.current - 1.month)
+    @events_for_calculation = @vehicle.events.where('date >= ?', (Date.current - 1.year)).all
 
     # Calculate the year-to-date and month-to-date mileage
     @ytd_mileage = 0
     @mtd_mileage = 0
-    @vehicle.events.where('date >= ?', (Date.current - 1.year)).all.each do |event|
+    @events_for_calculation.each do |event|
       @ytd_mileage += event.event_mileage
     end
     @events_month.all.each do |event|
       @mtd_mileage += event.event_mileage
     end
 
-    @times_used = @events.size
+    @times_used = @events_for_calculation.size
     @times_used_month = @events_month.size
     @last_a_service = @vehicle.requests.is_an_a_service.last
     @last_shock_service = @vehicle.requests.is_a_shock_service.last

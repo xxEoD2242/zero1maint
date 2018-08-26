@@ -23,7 +23,6 @@ module Vehicle_Rotation
                      dont_use_near_shock_service: false, dont_use_near_air_filter_service: false, est_mileage: 0)
     
     @vehicles.each do |vehicle|
-      debugger.log "#{@total_miles}"
       vehicle.update(est_mileage: (vehicle.mileage + @total_miles))
     end
     

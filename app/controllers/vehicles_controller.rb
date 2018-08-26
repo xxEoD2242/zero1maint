@@ -65,19 +65,21 @@ class VehiclesController < ApplicationController
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc).are_not_fixed?
     @request = Request.all
-
-    a_service_check @vehicle
-    shock_service_check @vehicle 
-    air_filter_service_check @vehicle
-    if @vehicle.veh_category == 'Tour Car'
-      tour_car_prep_check @vehicle
-    end
-    defects_check @vehicle
-    need_service_check @vehicle
-    near_service_check @vehicle
     to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
   end
-  
+
+  def services_check(vehicle)
+    a_service_check vehicle
+    shock_service_check vehicle 
+    air_filter_service_check vehicle
+    if vehicle.veh_category == 'Tour Car'
+      tour_car_prep_check vehicle
+    end
+    defects_check vehicle
+    need_service_check vehicle
+    near_service_check vehicle
+  end
+
   def defects_check(vehicle)
     if vehicle.defects.where(fixed: false).exists?
       vehicle.update(defect: true)

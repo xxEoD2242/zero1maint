@@ -2,12 +2,13 @@
 
 module Vehicle_Rotation
   def vehicle_rotation
-    current_events = Event.where('date >= ? AND date <= ?', Date.current, (Date.current + 7.days))
+    current_events = Event.where('date >= ? AND date <= ?', (Date.current), (Date.current + 7.days))
     @scheduled_events = current_events.are_scheduled?
     @vehicles_assigned = current_events.are_vehicles_assigned?
     event_mileage = 0
     new_event_mileage = 0
     @total_miles_added = 0
+    @total_miles = 0
 
     unless @scheduled_events.empty?
       @scheduled_events.each do |event|
@@ -22,6 +23,7 @@ module Vehicle_Rotation
                      dont_use_near_shock_service: false, dont_use_near_air_filter_service: false, est_mileage: 0)
     
     @vehicles.each do |vehicle|
+      debugger.log "#{@total_miles}"
       vehicle.update(est_mileage: (vehicle.mileage + @total_miles))
     end
     

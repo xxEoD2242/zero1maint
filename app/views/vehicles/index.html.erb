@@ -12,22 +12,6 @@
       link_title: 'All Vehicles',
       number: @vehicles.count %>
       <%= render 'dashboard_link',
-      url: '../vehicles/in_service',
-      link_title: 'In-Service Vehicles',
-      number: @in_service.count %>
-      <%= render 'dashboard_link',
-      url: '../vehicles/out_of_service',
-      link_title: 'Out of Service Vehicles',
-      number: @out_of_service.count %>
-      <%= render 'dashboard_link',
-      url: '../vehicles/needs_service',
-      link_title: 'Needs Service Vehicles',
-      number: @vehicles.where(needs_service: true).count %>
-      <%= render 'dashboard_link',
-      url: '../vehicles/near_service_required',
-      link_title: 'Near Service Vehicles',
-      number: @vehicles.where(near_service: true).count %>
-      <%= render 'dashboard_link',
       url: '../vehicles/sold_vehicles',
       link_title: 'Sold Vehicles',
       number: @vehicles.where(vehicle_status: 'Sold').count %>
@@ -36,6 +20,24 @@
   <div class="col-md-6">	
   </div>
   <div class="col-md-3">
+     <div class="list-group">
+       <%= render 'dashboard_link',
+       url: '../vehicles/in_service',
+       link_title: 'In-Service Vehicles',
+       number: @in_service.count %>
+       <%= render 'dashboard_link',
+       url: '../vehicles/out_of_service',
+       link_title: 'Out of Service Vehicles',
+       number: @out_of_service.count %>
+       <%= render 'dashboard_link',
+       url: '../vehicles/needs_service',
+       link_title: 'Needs Service Vehicles',
+       number: @vehicles.where(needs_service: true).count %>
+       <%= render 'dashboard_link',
+       url: '../vehicles/near_service_required',
+       link_title: 'Near Service Vehicles',
+       number: @vehicles.where(near_service: true).count %>
+     </div>
   </div>
 </div>
           <div class="row my-3">

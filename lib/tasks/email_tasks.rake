@@ -48,3 +48,8 @@ desc 'send weekly defects reported'
 task send_weekly_defects_reported: :environment do
   UserMailer.weekly_defects_reported.deliver!
 end
+
+desc 'send weekly defects outstanding'
+task send_weekly_defects_outstanding: :environment do
+   UserMailer.weekly_defects_outstanding.deliver!
+end

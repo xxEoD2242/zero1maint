@@ -1,0 +1,9 @@
+<%= render 'email_title_box',
+    title: "All Vehicles With Outstanding Defects" %>
+
+<% @vehicles.each do |vehicle| %>
+  <h2><%= vehicle.car_id %></h2>
+  <%= render 'defects_table', defects: vehicle.defects.where(fixed: false) %>
+  </div>
+  <br />
+<% end %>

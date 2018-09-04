@@ -149,4 +149,15 @@ class UserMailer < ApplicationMailer
     @defects = Defect.all.where('created_at > ? AND created_at <= ?', (Date.current - 7.days), Date.current)
     mail(to: emails, subject: "Weekly Defects that have been reported for #{Date.current.strftime('%D')}")
   end
+
+  def weekly_defects_outstanding
+    emails = []
+    User.all.each do |user|
+      emails << user.email
+    end
+    
+   @vehicles = Vehicle.where(defect: true)
+    
+    mail(to: emails, subject: "Vehicles that have defects reported for #{Date.current.strftime('%D')}")
+  end
 end

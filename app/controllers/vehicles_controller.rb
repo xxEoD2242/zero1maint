@@ -14,6 +14,7 @@ class VehiclesController < ApplicationController
     @request = Request.all
     @in_service = Vehicle.in_service?
     @out_of_service = Vehicle.out_of_service?
+    @defects_outstanding = Vehicle.where(defect: true)
   end
 
   def sold_vehicles
@@ -110,6 +111,10 @@ class VehiclesController < ApplicationController
     @q = Vehicle.where(needs_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
     to_pdf @search_results, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
+  end
+
+  def defects_outstanding
+    @vehicles = Vehicle.where(defect: true)
   end
 
   def new

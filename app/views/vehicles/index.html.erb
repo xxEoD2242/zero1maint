@@ -15,6 +15,10 @@
       url: '../vehicles/sold_vehicles',
       link_title: 'Sold Vehicles',
       number: @vehicles.where(vehicle_status: 'Sold').count %>
+      <%= render 'dashboard_link',
+      url: '../vehicles/defects_outstanding',
+      link_title: 'Vehicles With Defects',
+      number: @defects_outstanding.count %>
     </div>
   </div>
   <div class="col-md-6">	

@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       get 'near_service_required'
       get 'sold_vehicles'
       get 'vehicle_mileage'
+      get 'defects_outstanding'
       post :import
     end
   end

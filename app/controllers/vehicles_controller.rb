@@ -114,7 +114,8 @@ class VehiclesController < ApplicationController
   end
 
   def defects_outstanding
-    @vehicles = Vehicle.where(defect: true)
+    @q = Vehicle.where(defect: true).ransack(params[:q])
+    @vehicles = @q.result.page(params[:page])
   end
 
   def new

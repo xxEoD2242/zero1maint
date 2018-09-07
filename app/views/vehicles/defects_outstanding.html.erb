@@ -4,27 +4,49 @@
   </h2>
   <%= render 'vehicle_nav_bar', url: defects_outstanding_vehicles_path(format: 'pdf'), status: 'disabled' %>
   <% @vehicles.each do |vehicle| %>
-    <div class='card my-3 bg-dark text-white'>
-      <div class='card-header d-flex justify-content-between align-items-center'>
-        <h3>
-          Status
-          <span class='badge badge-danger'>
-            <%= vehicle.vehicle_status %>
-          </span>
-          </h3>
-        <h2>
-          <%= link_to vehicle.car_id, vehicle_path(vehicle), class: 'badge badge-danger' %>
-        </h2>
-        <h3>
-          Location:
-          <span class='badge badge-danger'>
-            <%= vehicle.location %>
-          </span>
-          </h3>
-      </div>
-      <div class='card-body'>
-        <%= render 'defects_table', defects: vehicle.defects.where(fixed: false) %>
-      </div>
+  <div class='card my-3 bg-dark text-white'>
+    <div class='card-header d-flex justify-content-between align-items-center'>
+      <h3>
+        Status
+        <span class='badge badge-danger'>
+          <%= vehicle.vehicle_status %>
+        </span>
+      </h3>
+      <h2>
+        <%= link_to vehicle.car_id, vehicle_path(vehicle), class: 'badge badge-danger' %>
+      </h2>
+      <h3>
+        Location:
+        <span class='badge badge-danger'>
+          <%= vehicle.location %>
+        </span>
+      </h3>
     </div>
-    <% end %>
+    <div class='card-body'>
+      <%= render 'defects_table', defects: vehicle.defects.where(fixed: false) %>
+    </div>
+  </div>
+  <% end %>
+  <br />
+  <%= paginate @vehicles %>
+  <div class="container bg-dark text-white d-flex justify-content-between align-items-center mt-2" style="padding: 10px; border: 2px solid red; border-radius: 6px;">
+	
+    <form class="form-inline">
+      <%= search_form_for @q, :url => {:action => :defects_outstanding} do |f| %>
+      <div class="form-group">
+        <%= f.label "Vehicle Category", class: "mr-2 font-weight-bold" %>
+        <%= f.select :veh_category_eq, Vehicle::CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control" %>
+      </div>
+
+      <div class="form-group ml-3">
+        <%= f.label "Vehicle Location", class: "mr-2 font-weight-bold" %>
+        <%= f.select :location_eq, Vehicle::LOCATION, {include_blank: "Select Location"}, class: "form-control" %>
+      </div>
+
+      <div class="form-group ml-3">
+        <%= f.submit "Find Vehicles", class: "btn btn-danger" %>
+      </div>
+      <% end %>
+    </form>
+  </div>
 </div>

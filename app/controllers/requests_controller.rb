@@ -102,6 +102,7 @@ class RequestsController < ApplicationController
     @repairs_wo_numb = Request.is_a_repair.size
     @defect_wo_numb = Request.is_a_defect.size
     @tour_car_prep_wo_numb = Request.is_a_tour_car_prep.size
+    @defects_outstanding = Vehicle.where(defect: true).size
   end
 
   def create_work_order

@@ -63,6 +63,7 @@ class VehiclesController < ApplicationController
 
   def show
     @vehicle.set_thresholds
+    services_check @vehicle
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc).are_not_fixed?
     @request = Request.all

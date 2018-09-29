@@ -44,48 +44,48 @@
      </div>
   </div>
 </div>
-          <div class="row my-3">
-            <% Vehicle::LOCATION.each do |location|%>
-            <div class="col-md-4 mb-3">
-              <div class="card bg-dark text-white">
-                <div class="card-header">
-                  <h5 style="text-align: center;"><%= location %></h5>
-                </div>
-                <div class="card-body">
-                  <% if Vehicle.where(location: location, vehicle_status: "In-Service") != [] %>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h5> In-Service  </h5> <span class="badge badge-success"> <%= Vehicle.where(location: location, vehicle_status: "In-Service").count %> </span>
-                  </div>
-                  <hr>
-                  <% Vehicle::CATEGORIES.each do |category|%>
-                  <% if Vehicle.where(veh_category: category, location: location) != []%>
-                  <strong> <%= category %> </strong>
-                  <br />
-                  <% Vehicle.where(veh_category: category, location: location, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle|%>
-                  <%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-success"%>
+<div class="row my-3">
+  <% Vehicle::LOCATION.each do |location|%>
+  <div class="col-md-4 mb-3">
+    <div class="card bg-dark text-white">
+      <div class="card-header">
+        <h5 style="text-align: center;"><%= location %></h5>
+      </div>
+      <div class="card-body">
+        <% if Vehicle.where(location: location, vehicle_status: "In-Service") != [] %>
+        <div class="d-flex justify-content-between align-items-center">
+          <h5> In-Service  </h5> <span class="badge badge-success"> <%= Vehicle.where(location: location, vehicle_status: "In-Service").count %> </span>
+        </div>
+        <hr>
+        <% Vehicle::CATEGORIES.each do |category|%>
+        <% if Vehicle.where(veh_category: category, location: location) != []%>
+        <strong> <%= category %> </strong>
+        <br />
+        <% Vehicle.where(veh_category: category, location: location, vehicle_status: "In-Service").order(car_id: :asc).each do |vehicle|%>
+        <%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-success"%>
 			
-                  <% end %>
-                  <br />
-                  <% end %>
-                  <% end %>
-                  <% else %>
-                  No Vehicles at this Location!
+        <% end %>
+        <br />
+        <% end %>
+        <% end %>
+        <% else %>
+        No Vehicles at this Location!
 			
-                  <% end %>
-                  <% if Vehicle.where(location: location, vehicle_status: "Out-of-Service") != [] %>
-                  <br />
-                  <br />
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h5> Out of Service </h5> <span class="badge badge-danger"> <%= Vehicle.where(location: location, vehicle_status: "Out-of-Service").count %> </span>
-                  </div>
-                  <hr>
-                  <% Vehicle.where(location: location, vehicle_status: "Out-of-Service").order(veh_category: :asc).each do |vehicle|%>
-                  <%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-danger"%>
+        <% end %>
+        <% if Vehicle.where(location: location, vehicle_status: "Out-of-Service") != [] %>
+        <br />
+        <br />
+        <div class="d-flex justify-content-between align-items-center">
+          <h5> Out of Service </h5> <span class="badge badge-danger"> <%= Vehicle.where(location: location, vehicle_status: "Out-of-Service").count %> </span>
+        </div>
+        <hr>
+        <% Vehicle.where(location: location, vehicle_status: "Out-of-Service").order(veh_category: :asc).each do |vehicle|%>
+        <%= link_to vehicle.car_id, vehicle_path(id: vehicle.id), class: "badge badge-danger"%>
 			
-                  <% end %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-            <% end %>
-          </div>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

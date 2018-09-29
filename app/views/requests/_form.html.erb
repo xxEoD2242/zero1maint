@@ -20,12 +20,12 @@
         </div>
       </div>
       <div class="col-md-8">
-        <div class="form-group">
+        <div class="form-group bg-secondary border border-danger p-3 rounded">
           <strong style="margin-bottom: 2px;">Assign &/OR Email Request To: </strong>
           <br />
           <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
           <br />
-          <span class="text-danger">*If you are the mechanic for this work order, select yourself please.*</span>
+          *If you are the mechanic for this work order, please select yourself.*
         </div>
       </div>
     </div>

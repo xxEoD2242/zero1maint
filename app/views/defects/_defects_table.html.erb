@@ -67,6 +67,9 @@
             <td>
               <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
             </td>
+            <td>
+              <%= link_to 'Destroy',defect_path(vehicle), method: :delete, data: {confirm: "Are you sure you wish to delete this defect?"}, class: "btn btn-danger btn-sm"%>
+            </td>
           </tr>
           <% end %>
         </tbody>

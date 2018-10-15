@@ -37,8 +37,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <%= f.label :current_password %> <i>(To confirm your changes)</i><br />
-          <%= f.password_field :current_password, autocomplete: "off", class: "form-control" %>
-          
+          <%= f.password_field :current_password, autocomplete: "off", class: "form-control" %> 
         </div>
       </div>
       <div class="col-md-6">
@@ -64,21 +63,33 @@
       </div>
       <% end %>
     </div>
-
-    <div class="row">
+    <div class="form-row">
       <div class="col-md-2">
-        <h4>
+        <h5>
           <%= f.label :role %>:
-        </h4>
+        </h5>
       </div>
       <div class="col-md-2">
-        <h4>
+        <h5>
           <span class="badge badge-danger">
             <%= current_user.role.capitalize %>
           </span>
-        </h4>
+        </h5>
       </div>
       <div class="col-md-8">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-2">
+        <h5> Subscribe to reports</h5>
+      </div>
+      <div class="col-md-4">
+        <div class='form-check'>
+        <%= f.check_box :subscribe, class: "form-check-input" %>
+        <%= f.label "Subscribe?", class: "form-check-label "%>
+        </div>
+      </div>
+      <div class="col-md-3">
       </div>
     </div>
     <%= f.submit "Update", class: "btn btn-success btn-lg" %>

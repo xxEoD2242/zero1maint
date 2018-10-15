@@ -46,7 +46,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_events_report
     emails = []
-    User.all.each do |user|
+     User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @completed = Events.where(event_status: 'Completed')
@@ -55,7 +55,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_event_checklists_email
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @eve = Event.where('date >= ?', Time.now - 7.days)
@@ -67,7 +67,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_rzr_report_email
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @out_of_service = Vehicle.are_rzr.out_of_service?
@@ -77,7 +77,7 @@ class UserMailer < ApplicationMailer
   
   def weekly_tour_car_report
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @out_of_service = Vehicle.are_tour_cars.out_of_service?
@@ -87,7 +87,7 @@ class UserMailer < ApplicationMailer
   
   def weekly_other_vehicles_report
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @out_of_service = Vehicle.where('veh_category != ? AND veh_category != ?', 'RZR', 'Tour Car').out_of_service?
@@ -97,7 +97,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_defects_report_email
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @set_defects = Program.find_by(name: 'Defect')
@@ -110,7 +110,7 @@ class UserMailer < ApplicationMailer
   
   def weekly_repairs_report
     emails = []
-    User.all.each do |user|
+     User.where(subscribe: true).each do |user|
       emails << user.email
     end
     @set_repairs = Program.find_by(name: 'Repairs')
@@ -123,7 +123,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_work_order_report_email
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
 
@@ -142,7 +142,7 @@ class UserMailer < ApplicationMailer
   
   def weekly_defects_reported
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     
@@ -152,7 +152,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_defects_outstanding
     emails = []
-    User.all.each do |user|
+    User.where(subscribe: true).each do |user|
       emails << user.email
     end
     

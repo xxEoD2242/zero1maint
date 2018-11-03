@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181015191334) do
+ActiveRecord::Schema.define(version: 20181103134953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20181015191334) do
     t.string "drive_train"
     t.string "body"
     t.string "engine"
-    t.string "brake"
+    t.string "brakes"
     t.string "safety_equipment"
     t.string "chassis"
     t.string "electrical"
@@ -48,6 +48,20 @@ ActiveRecord::Schema.define(version: 20181015191334) do
     t.integer "event_id"
     t.boolean "deadline"
     t.boolean "defect"
+    t.string "wash_old"
+    t.string "suspension_old"
+    t.string "drive_train_old"
+    t.string "body_old"
+    t.string "engine_old"
+    t.string "brakes_old"
+    t.string "safety_equipment_old"
+    t.string "chassis_old"
+    t.string "electrical_old"
+    t.string "cooling_system_old"
+    t.string "tires_old"
+    t.string "radio_old"
+    t.string "exhaust_old"
+    t.string "steering_old"
   end
 
   create_table "defect_requests", force: :cascade do |t|

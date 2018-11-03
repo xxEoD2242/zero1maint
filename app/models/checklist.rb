@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Checklist < ApplicationRecord
-  before_save :set_fuel_level, :set_date, :set_wash,
+  before_create :set_fuel_level, :set_date, :set_wash,
               :set_suspension, :set_drive_train, :set_body,
               :set_engine, :set_brake, :set_safety_equipment,
               :set_chassis, :set_electrcial, :set_cooling_system,

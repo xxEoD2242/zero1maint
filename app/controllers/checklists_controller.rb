@@ -70,7 +70,7 @@ class ChecklistsController < ApplicationController
     @last_defect_id = Defect.last.id
     maintenance = %w[engine suspension steering tires
                      radio chassis exhaust cooling_system
-                     electrical safety_equipment brake body
+                     electrical safety_equipment brakes body
                      drive_train suspension]
     checklist.attributes.each do |k, v|
       if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
@@ -106,7 +106,7 @@ class ChecklistsController < ApplicationController
     @last_defect_id = Defect.last.id
     maintenance = %w[engine suspension steering tires
                      radio chassis exhaust cooling_system
-                     electrical safety_equipment brake body
+                     electrical safety_equipment brakes body
                      drive_train suspension]
     checklist.attributes.each do |k, v|
       if maintenance.include?(k)

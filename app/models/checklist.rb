@@ -3,7 +3,7 @@
 class Checklist < ApplicationRecord
   before_create :set_fuel_level, :set_date, :set_wash,
               :set_suspension, :set_drive_train, :set_body,
-              :set_engine, :set_brake, :set_safety_equipment,
+              :set_engine, :set_brakes, :set_safety_equipment,
               :set_chassis, :set_electrcial, :set_cooling_system,
               :set_tires, :set_radio, :set_exhaust, :set_steering,
               :defects_detected, :completed
@@ -43,8 +43,8 @@ class Checklist < ApplicationRecord
     self.body = 'Checked' if body.blank?
     end
 
-  def set_brake
-    self.brake = 'Checked' if brake.blank?
+  def set_brakes
+    self.brakes = 'Checked' if brakes.blank?
     end
 
   def set_safety_equipment
@@ -90,7 +90,7 @@ class Checklist < ApplicationRecord
   def defects_detected
     maintenance = %w[engine suspension steering tires
                      radio chassis exhaust cooling_system
-                     electrical safety_equipment brake body
+                     electrical safety_equipment brakes body
                      drive_train suspension]
     attributes.each do |k, v|
       self.defect = true if v != 'Checked' && maintenance.include?(k)

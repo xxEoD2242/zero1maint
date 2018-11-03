@@ -62,7 +62,7 @@
 <p>
   <strong> Defects:</strong>
   <ul style="list-style-type: none;">
-  <% @request.users.each do |user| %>
+  <% @request.defects.each do |user| %>
   <li><%= defect.description %> | <%= defect.created_at.strftime('%v') %></li>
 	  <% end %>
   </ul>

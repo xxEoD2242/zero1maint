@@ -48,43 +48,32 @@ class RequestsController < ApplicationController
   end
 
   def a_service
-    @a_service_requests = Request.is_an_a_service
     @q = Request.is_an_a_service.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
   def shock_service
-    @shock_service = Program.shock_service
-    @shock_service_requests = Request.where(program_id: @shock_service.id)
-    @q = Request.where(program_id: @shock_service.id).ransack(params[:q])
+    @q = Request.is_a_shock_service.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
   def air_filter_service
-    @air_filter_service = Program.find_by(name: 'Air Filter Change')
-    @air_filter_requests = Request.where(program_id: @air_filter_service.id)
-    @q = Request.where(program_id: @air_filter_service).ransack(params[:q])
+    @q = Request.is_a_air_filter_service.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
   def repairs
-    @repairs = Program.find_by(name: 'Repairs')
-    @repair_requests = Request.where(program_id: @repairs.id)
-    @q = Request.where(program_id: @repairs.id).ransack(params[:q])
+    @q = Request.is_a_repair.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
   def defects
-    @defects = Program.find_by(name: 'Defect')
-    @defect_requests = Request.where(program_id: @defects.id)
-    @q = Request.where(program_id: @defects.id).ransack(params[:q])
+    @q = Request.is_a_defect.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
   def tour_car_prep
-    @tour_car_prep = Program.find_by(name: 'Tour Car Prep')
-    @tour_car_prep_requests = Request.where(program_id: @tour_car_prep.id)
-    @q = Request.where(program_id: @tour_car_prep.id).ransack(params[:q])
+    @q = Request.is_a_defect.ransack(params[:q])
     @request_results = @q.result.includes(:vehicle).page(params[:page])
   end
 
@@ -271,7 +260,8 @@ class RequestsController < ApplicationController
   def request_params
     params.require(:request).permit(:number, :description, :special_requets, :completion_date,
                                     :completed_date, :poc, :checklist_numb, :creator, :vehicle_id,
-                                    :status, :image, :creator, :request_mileage, :program_id, :mechanic,
-                                    :mechanic_id, :notes, :times_completed, part_ids: [], user_ids: [], defect_ids: [])
+                                    :status, :image, :creator, :request_mileage, :mechanic,
+                                    :mechanic_id, :notes, :times_completed, part_ids: [], user_ids: [],
+                                    defect_ids: [], program_ids: [])
   end
 end

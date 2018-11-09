@@ -55,6 +55,6 @@ class ProgramsController < ApplicationController
   def program_params
     params.require(:program).permit(:name, :rzr_interval, :completed, :threshold, :threshold_numb,
                                     :fleet_interval, :tour_car_interval, :db_interval, :other_interval,
-                                    :training_interval)
+                                    :training_interval, request_ids: [])
   end
 end

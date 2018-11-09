@@ -34,7 +34,10 @@
 <p>
 	<strong>Service Type:</strong>
   <br />
-	<%= @request.program.name %>
+  <% request.programs.each do |program|%>
+    <% program.name %>
+    <br \>
+  <% end %>
 </p>
 <% end %>
 

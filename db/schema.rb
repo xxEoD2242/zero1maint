@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181103134953) do
+ActiveRecord::Schema.define(version: 20181109155011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,6 +186,13 @@ ActiveRecord::Schema.define(version: 20181103134953) do
     t.string "vehicle_category"
   end
 
+  create_table "program_requests", force: :cascade do |t|
+    t.integer "program_id"
+    t.integer "request_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "programs", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -291,6 +298,12 @@ ActiveRecord::Schema.define(version: 20181103134953) do
     t.integer "times_completed", default: 0
     t.integer "mechanic_id"
     t.text "notes"
+    t.boolean "a_service", default: false
+    t.boolean "shock_service", default: false
+    t.boolean "air_filter_service", default: false
+    t.boolean "tour_car_prep", default: false
+    t.boolean "defect", default: false
+    t.boolean "repairs", default: false
   end
 
   create_table "rotation_metrics", force: :cascade do |t|

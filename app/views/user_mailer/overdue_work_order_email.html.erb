@@ -33,7 +33,10 @@
 <% if @request.program != nil %>
 <p>
   <strong>Service Type:</strong>
-  <%= @request.program.name %>
+  <% request.programs.each do |program|%>
+    <% program.name %>
+    <br \>
+  <% end %>
 </p>
 <% end %>
 
@@ -62,9 +65,9 @@
 <p>
   <strong> Defects:</strong>
   <ul style="list-style-type: none;">
-  <% @request.defects.each do |defect| %>
-  <li><%= defect.description %> | <%= defect.created_at.strftime('%v') %></li>
-	  <% end %>
+    <% @request.defects.each do |defect| %>
+    <li><%= defect.description %> | <%= defect.created_at.strftime('%v') %></li>
+    <% end %>
   </ul>
 </p>
 <% end %>

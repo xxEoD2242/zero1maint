@@ -28,7 +28,10 @@
 <% if @request.program %>
 <p>
   <strong>Service Type:</strong>
-  <%= @request.program.name %>
+  <% request.programs.each do |program|%>
+    <% program.name %>
+    <br \>
+  <% end %>
 </p>
 <% end %>
 

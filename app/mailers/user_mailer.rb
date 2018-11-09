@@ -102,9 +102,9 @@ class UserMailer < ApplicationMailer
     end
     @set_defects = Program.find_by(name: 'Defect')
     @new_work_orders = Request.is_a_defect.one_week?.is_new
-    @in_progress_work_orders = Request.is_a_defect.one_week?.is_in_progress
-    @completed_work_orders = Request.is_a_defect.one_week?.is_completed
-    @overdue_work_orders = Request.is_a_defect.one_week?.is_overdue
+    @in_progress_work_orders = Request.programs.ids.include?(Program.defect.id).one_week?.is_in_progress
+    @completed_work_orders = Request.programs.ids.include?(Program.defect.id).one_week?.is_completed
+    @overdue_work_orders = Request.programs.ids.include?(Program.defect.id).one_week?.is_overdue
     mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
   
@@ -115,9 +115,9 @@ class UserMailer < ApplicationMailer
     end
     @set_repairs = Program.find_by(name: 'Repairs')
     @new_work_orders = Request.is_a_repair.one_week?.is_new
-    @in_progress_work_orders = Request.is_a_repair.one_week?.is_in_progress
-    @completed_work_orders = Request.is_a_repair.one_week?.is_completed
-    @overdue_work_orders = Request.is_a_repair.one_week?.is_overdue
+    @in_progress_work_orders = Request.programs.ids.include?(Program.repairs.id).one_week?.is_in_progress
+    @completed_work_orders = Request.programs.ids.include?(Program.repairs.id).one_week?.is_completed
+    @overdue_work_orders = Request.programs.ids.include?(Program.repairs.id).one_week?.is_overdue
     mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
 
@@ -132,7 +132,7 @@ class UserMailer < ApplicationMailer
     @set_air_filter_service = Program.find_by(name: 'Air Filter Change')
     @set_repairs = Program.find_by(name: 'Repairs')
     @set_defects = Program.find_by(name: 'Defect')
-    @requests = Request.where('created_at > ? AND program_id != ?', 1.month.ago, @set_defects.id)
+    @requests = Request.where('created_at > ?', 1.month.ago)
     @new = @requests.is_new
     @in_progress = @requests.is_in_progress
     @completed = @requests.is_completed

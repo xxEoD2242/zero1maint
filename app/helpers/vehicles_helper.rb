@@ -13,8 +13,8 @@ module VehiclesHelper
   end
   
   def last_a_service_badge(vehicle)
-    unless @vehicle.requests.where(program_id: @set_a_service.id).empty?
-      link_to "(#{@vehicle.requests.where(program_id: @set_a_service.id).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_a_service.id).last), class: "badge badge-danger"
+    unless @vehicle.requests.where(a_service: true).empty?
+      link_to "(#{@vehicle.requests.where(a_service true).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_a_service.id).last), class: "badge badge-danger"
     else
       'None'
     end
@@ -31,7 +31,7 @@ module VehiclesHelper
   end
   
   def last_shock_service_badge(vehicle)
-    unless @vehicle.requests.where(program_id: @set_shock_service.id).empty?
+    unless @vehicle.requests.where(shock_service: true).empty?
       link_to "(#{@vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_shock_service.id).last), class: "badge badge-danger"
     else
       'None'
@@ -49,8 +49,8 @@ module VehiclesHelper
   end
   
   def last_air_filter_service_badge(vehicle)
-    unless @vehicle.requests.where(program_id: @set_air_filter_service.id).empty?
-      link_to "(#{@vehicle.requests.where(program_id: @set_air_filter_service.id).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_air_filter_service.id).last), class: "badge badge-danger"
+    unless @vehicle.requests.where(air_filter_service: true).empty?
+      link_to "(#{@vehicle.requests.where(air_filter_service: true).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_air_filter_service.id).last), class: "badge badge-danger"
     else
       'None'
     end
@@ -67,8 +67,8 @@ module VehiclesHelper
   end
   
   def last_tour_car_prep_badge(vehicle)
-    unless @vehicle.requests.where(program_id: @set_tour_car_prep.id).empty?
-      link_to "(#{@vehicle.requests.where(program_id: @set_tour_car_prep.id).last.completed_date.strftime('%v')}) | View", request_path(@vehicle.requests.where(program_id: @set_tour_car_prep.id).last), class: "badge badge-danger"
+    unless @vehicle.requests.where(tour_car_prep: true).empty?
+      link_to "(#{@vehicle.requests.where(tour_car_prep: true).last.completed_date.strftime('%v')}) | View", request_path(@vehicle.requests.where(program_id: @set_tour_car_prep.id).last), class: "badge badge-danger"
     else
       'None'
     end

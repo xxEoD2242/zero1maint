@@ -23,7 +23,11 @@
                 <%= request.status %>
               </span>
             </td>
-            <td><%= request.program.name %></td>
+            <td>
+              <% request.programs.each do |program| %>
+                <%= program.name %>
+              <% end %>
+            </td>
             <td>
               <% if !request.vehicle.nil? %>
               <%=request.vehicle.car_id %>

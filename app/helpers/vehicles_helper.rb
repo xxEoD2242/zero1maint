@@ -14,7 +14,7 @@ module VehiclesHelper
   
   def last_a_service_badge(vehicle)
     unless @vehicle.requests.where(a_service: true).empty?
-      link_to "(#{@vehicle.requests.where(a_service true).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_a_service.id).last), class: "badge badge-danger"
+      link_to "(#{@vehicle.requests.where(a_service: true).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(program_id: @set_a_service.id).last), class: "badge badge-danger"
     else
       'None'
     end

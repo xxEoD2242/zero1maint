@@ -76,4 +76,10 @@ module RequestsHelper
       work_order.creator
     end
   end
+  
+  def program_ids?(request)
+    if request.programs.empty?
+      Program.find(request.program_id).name
+    end
+  end
 end

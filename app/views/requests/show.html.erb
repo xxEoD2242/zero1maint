@@ -120,6 +120,21 @@
             <div class="col-md-3">
             </div>
           </div>
+          <% else %>
+          <div class="row">
+            <div class="col-md-5">
+              <p>
+                <strong>Service Type:</strong>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p>
+                <%= Program.find(@request.program_id).name %>
+              </p>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
           <% end %>
           
           <% if @request.users.exists? %>

@@ -24,7 +24,10 @@
         <% program.name %>
         <br \>
       <% end %>
-      </td>
+      <% if request.programs.empty %>
+        <%= Program.find(request.program_id).name %>
+      <% end %>
+    </td>
 		<td><%= request.vehicle.car_id %></td>
 		<td><%= request.description %>
 		<td><%= request.created_at.strftime('%D') %>

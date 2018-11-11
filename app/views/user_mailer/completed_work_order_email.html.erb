@@ -25,13 +25,18 @@
   <strong>Status:</strong>
   <%= @request.status %>
 </p>
-<% if @request.program %>
+<% if !@request.programs.empty? %>
 <p>
   <strong>Service Type:</strong>
   <% request.programs.each do |program|%>
     <% program.name %>
     <br \>
   <% end %>
+</p>
+<% else %>
+<p>
+  <strong>Service Type:</strong>
+  <% Program.find(request.program_id).name %>
 </p>
 <% end %>
 

@@ -26,11 +26,13 @@
             <td>
               <% request.programs.each do |program| %>
                 <%= program.name %>
+                <br />
               <% end %>
+              <%= program_ids? request %>
             </td>
             <td>
               <% if !request.vehicle.nil? %>
-              <%=request.vehicle.car_id %>
+              <%= request.vehicle.car_id %>
               <% end %>
             </td>
             <td><%=request.created_at.strftime('%v') %></td>

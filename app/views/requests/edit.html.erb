@@ -24,7 +24,8 @@
   
         <div class="form-group">
           <strong>Service</strong>
-          <%= f.select :program_id, Program.all.collect {|s| [s.name, s.id]}, {include_blank: "Select Service"}, class: "form-control", id: :request_program_id%>
+          <br />
+         <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
         </div>
       
         <div class="form-group">

@@ -16,9 +16,6 @@
 
   <% if Event.last %>
     <div class="form-group">
-      <h4>
-        Event Number: <%= Event.all.last.id + 1%>
-	    </h4>
       <div class="form-group form-check">
         	<%= f.check_box :multi_day, id: :event_multi_day, class: "form-check-input" %>
           <%= f.label "Multi Day", class: "form-check-label"%>

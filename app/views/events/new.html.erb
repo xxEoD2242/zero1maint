@@ -1,7 +1,11 @@
-<div class="jumbotron mt-3">
-<h1 class="display-3 text-center">New Event</h1>
-
+<div class="jumbotron bg-secondary text-white mt-3">
+<h1 class="display-3 text-center">
+  New Event #
+  <% if Event.last %>
+  <span class="badge badge-danger">
+    <%= Event.last.id + 1 %>
+  </span>
+  <% end %>
+</h1>
 <%= render 'form', event: @event %>
-
-
 </div>

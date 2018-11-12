@@ -24,7 +24,7 @@
         <% program.name %>
         <br \>
       <% end %>
-      <% if request.programs.empty %>
+      <% if request.programs.empty? && !request.program_id.blank? %>
         <%= Program.find(request.program_id).name %>
       <% end %>
     </td>

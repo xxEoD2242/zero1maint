@@ -102,9 +102,9 @@ class UserMailer < ApplicationMailer
     end
     @set_defects = Program.find_by(name: 'Defect')
     @new_work_orders = Request.is_a_defect.one_week?.is_new
-    @in_progress_work_orders = Request.programs.ids.include?(Program.defect.id).one_week?.is_in_progress
-    @completed_work_orders = Request.programs.ids.include?(Program.defect.id).one_week?.is_completed
-    @overdue_work_orders = Request.programs.ids.include?(Program.defect.id).one_week?.is_overdue
+    @in_progress_work_orders = Request.is_a_defect.one_week?.is_in_progress
+    @completed_work_orders = Request.is_a_defect.one_week?.is_completed
+    @overdue_work_orders = Request.is_a_defect.one_week?.is_overdue
     mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
   
@@ -115,9 +115,9 @@ class UserMailer < ApplicationMailer
     end
     @set_repairs = Program.find_by(name: 'Repairs')
     @new_work_orders = Request.is_a_repair.one_week?.is_new
-    @in_progress_work_orders = Request.programs.ids.include?(Program.repairs.id).one_week?.is_in_progress
-    @completed_work_orders = Request.programs.ids.include?(Program.repairs.id).one_week?.is_completed
-    @overdue_work_orders = Request.programs.ids.include?(Program.repairs.id).one_week?.is_overdue
+    @in_progress_work_orders = Request.is_a_repair.one_week?.is_in_progress
+    @completed_work_orders = Request.is_a_repair.one_week?.is_completed
+    @overdue_work_orders = Request.is_a_repair.one_week?.is_overdue
     mail(to: emails, subject: "Weekly Defect Work Order Report for #{Date.current.strftime('%D')}")
   end
 

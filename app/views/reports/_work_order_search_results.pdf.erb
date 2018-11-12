@@ -17,7 +17,14 @@
     <tr>
       <td><%= link_to request.id, request_path(request), class: "badge badge-danger" %></td>
       <td><%= request.status %></td>
-      <td><%= request.program.name %></td>
+      <td>
+        <% request.programs.each do |program| %>
+          <%= program.name %>
+        <% end %>
+        <% if request.programs.empty? && !request.program_id.blank? %>
+          <%= Program.find(request.program_id).name %>
+        <% end %>
+      </td>
       <td><%= request.vehicle.car_id %></td>
       <td>
         <span class='badge badge-danger'>

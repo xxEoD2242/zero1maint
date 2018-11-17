@@ -17,7 +17,7 @@ module Vehicle_Rotation
       @total_miles = event_mileage.round(2)
     end
 
-    @vehicles = Vehicle.all
+    @vehicles = Vehicle.where(veh_category: "RZR")
 
     @vehicles.update(use_a: true, use_b: false, dont_use_near_a_service: false,
                      dont_use_near_shock_service: false, dont_use_near_air_filter_service: false, est_mileage: 0)
@@ -42,6 +42,8 @@ module Vehicle_Rotation
 
     to_pdf "Vehicle Rotation for #{Time.now.strftime('%D')}"
   end
+
+  # Create a filed in the Vehicles table that would track if the vehicle has been used within the last week and then update that vehicle
 
   def vehicle_rotation_determination(vehicles)
     vehicles.all.each do |vehicle|

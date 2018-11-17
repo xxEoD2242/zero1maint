@@ -28,7 +28,7 @@
 <% if !@request.programs.empty? %>
 <p>
   <strong>Service Type:</strong>
-  <% request.programs.each do |program|%>
+  <% @request.programs.each do |program|%>
     <% program.name %>
     <br \>
   <% end %>

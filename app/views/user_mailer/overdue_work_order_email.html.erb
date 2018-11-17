@@ -30,10 +30,10 @@
   <strong>Status:</strong>
   <span style="color: red;"> <%= @request.status %> </span>
 </p>
-<% if @request.program != nil %>
+<% if @request.programs.exists? %>
 <p>
   <strong>Service Type:</strong>
-  <% request.programs.each do |program|%>
+  <% @request.programs.each do |program|%>
     <% program.name %>
     <br \>
   <% end %>

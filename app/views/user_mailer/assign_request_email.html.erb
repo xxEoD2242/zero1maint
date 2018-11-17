@@ -30,11 +30,11 @@
   <%= @request.status %>
 </p>
 
-<% if @request.program %>
+<% if @request.programs.exists? %>
 <p>
 	<strong>Service Type:</strong>
   <br />
-  <% request.programs.each do |program|%>
+  <% @request.programs.each do |program|%>
     <% program.name %>
     <br \>
   <% end %>

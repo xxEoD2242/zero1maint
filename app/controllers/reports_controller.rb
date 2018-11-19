@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_report, only: %i[show edit update destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, :set_repairs, :set_defects, only: %i[show a_service_calculation shock_service_calculation air_filter_calculation rzr_report tour_car_report other_vehicles_report work_order_defects_report]
 

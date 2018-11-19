@@ -105,7 +105,56 @@
         This will ensure that no duplicates are reported. <br />
         Thank you.
       </div>
-      <%= render 'defects_table', defects: @defects %>
+     <div class="container-fluid bg-secondary text-white p-2 rounded border mb-3">
+       <h4 class="text-center">Current Defects</h4>
+     </div>
+     <div class="table-responsive">
+       <table class="table table-borderless table-hover table-sm bg-secondary text-white">
+         <thead>
+           <tr>
+             <th scope="row">ID</th>
+             <th scope="row">Created On</th>
+             <th scope="row">Times Reported</th>
+             <th scope="row">Event</th>
+             <th scope="row">Category</th>
+             <th scope="row">Description</th>
+             <th colspan="2"></th>
+           </tr>
+         </thead>
+         <tbody>
+           <%= f.collection_check_boxes :defect_ids, @defects.all.order(id: :asc), :id, :id do |b|%>
+           <tr>
+             <th scope='col'>
+               <div class="collection-check-box">
+                 <%= b.check_box %>
+                 <%= b.label %>
+               </div>
+             </th>
+             <td>
+               <h5>
+                 <span class="badge badge-danger">
+                   <%= @defects.find(b.object.id).created_at.strftime('%v') %>
+                 </span>
+               </h5>
+             </td>
+             <td><%= @defects.find(b.object.id).times_reported %></td>
+             <td><%= last_event @defects.find(b.object.id) %>
+             <td>
+               <%= category_words @defects.find(b.object.id) %>
+             </td>
+             <td><%= @defects.find(b.object.id).description %></td>
+             <td>
+               <%= defect_checklist @defects.find(b.object.id) %>
+             </td>
+             <td>
+               <%= link_to "Show", defect_path(@defects.find(b.object.id)), class: 'badge badge-danger' %>
+             </td>
+           </tr>
+           <% end %>
+         </tbody>
+       </table>
+     </div>
+     
     </div>
   </div>
 			

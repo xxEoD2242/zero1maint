@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ProgramsController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_program, only: %i[show edit update destroy]
 
   def index

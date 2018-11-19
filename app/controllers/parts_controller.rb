@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class PartsController < ApplicationController
-  before_action :authenticate_user!
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_requests, only: [:dashboard]
   before_action :set_part, only: %i[show edit update destroy]
   before_action :quant_calculation, only: %i[quant_none quant_low show dashboard]

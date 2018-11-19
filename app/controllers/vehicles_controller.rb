@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class VehiclesController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_vehicle, only: %i[show edit update destroy]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, 
                 :set_repairs, :set_defects, :set_tour_car_prep, 

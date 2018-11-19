@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class RequestsController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_request, only: %i[show edit update destroy]
   before_action :set_vehicle, only: %i[index show edit new]
   before_action :check_quant, only: [:show]

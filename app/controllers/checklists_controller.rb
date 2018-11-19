@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class ChecklistsController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_checklist, only: %i[show edit update destroy]
 
   def index; end
 
   def new
     @vehicle = Vehicle.find(params[:id])
-    @defects = @vehicle.defects.where(fixed: false).page(params[:page])
+    @defects = @vehicle.defects.where(fixed: false)
     @event = Event.find(params[:event_id])
     @checklist = Checklist.new
   end
@@ -94,7 +97,25 @@ class ChecklistsController < ApplicationController
     checklist.update(wash_old: checklist.wash, suspension_old: checklist.suspension, drive_train_old: checklist.drive_train, 
                      body_old: checklist.body, engine_old: checklist.engine, brakes_old: checklist.brakes, safety_equipment_old: checklist.safety_equipment,
                      chassis_old: checklist.chassis, electrical_old: checklist.electrical, cooling_system_old: checklist.cooling_system,
-                     tires_old: checklist.tires, radio_old: checklist.radio, exhaust_old: checklist.exhaust, steering_old: checklist.steering)
+                     tires_old: checklist.tires, radio_old: checklist.radio, exhaust_old: checklist.exhaust, steering_old: checklist.steering, defect_ids_old: checklist.defect_ids)
+  end
+  
+  def update_count_defects(checklist)
+    if !checklist.defects.empty? 
+      checklist.defects.each do |defect|
+        if !checklist.defect_ids_old.include?(defect.id.to_s)
+          defect.update(times_reported: (defect.times_reported + 1), last_event_reported: checklist.event_id, checklist_ids: [checklist.id])
+        end
+      end
+    end
+  end
+  
+  def count_defects(checklist)
+    if !checklist.defects.empty? 
+      checklist.defects.each do |defect|
+        defect.update(times_reported: (defect.times_reported + 1), last_event_reported: checklist.event_id, checklist_ids: [checklist.id])
+      end
+    end
   end
   
   def update_defects(checklist)
@@ -137,6 +158,7 @@ class ChecklistsController < ApplicationController
       if @checklist.save
         deadlined @checklist
         create_defect @checklist
+        count_defects @checklist
         copy_parameters @checklist
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }
@@ -151,6 +173,7 @@ class ChecklistsController < ApplicationController
       if @checklist.update(checklist_params)
         update_defects @checklist
         copy_parameters @checklist
+        update_count_defects @checklist
         format.html { redirect_to @checklist, notice: 'Checklist was successfully updated.' }
       else
         format.html { render :edit }

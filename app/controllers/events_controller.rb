@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_event, only: %i[show edit update destroy calc_mileage]
   before_action :set_location, only: %i[index show edit new create update]
   before_action :set_vehicles, only: %i[index show edit new create update]

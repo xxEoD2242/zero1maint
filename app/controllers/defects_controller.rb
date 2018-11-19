@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class DefectsController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   before_action :set_all_vehicles, only: [:by_event, :new, :edit, :index]
   before_action :set_defect, only: [:show, :edit, :update, :destroy]
 

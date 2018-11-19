@@ -10,10 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181109155011) do
+ActiveRecord::Schema.define(version: 20181119210205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "a_services", force: :cascade do |t|
+    t.integer "vehicle_id"
+    t.float "interval", default: 0.0
+    t.float "last"
+    t.float "near_mileage"
+    t.float "dont_use_mileage"
+    t.boolean "dont_use_near", default: false
+    t.boolean "dont_use", default: false
+    t.boolean "service_needed", default: false
+  end
+
+  create_table "air_filter_changes", force: :cascade do |t|
+    t.integer "vehicle_id"
+    t.float "interval", default: 0.0
+    t.float "last"
+    t.float "near_mileage"
+    t.float "dont_use_mileage"
+    t.boolean "dont_use_near", default: false
+    t.boolean "dont_use", default: false
+    t.boolean "service_needed", default: false
+  end
 
   create_table "checklist_defects", force: :cascade do |t|
     t.integer "checklist_id"
@@ -62,6 +84,7 @@ ActiveRecord::Schema.define(version: 20181109155011) do
     t.string "radio_old"
     t.string "exhaust_old"
     t.string "steering_old"
+    t.string "defect_ids_old", default: [], array: true
   end
 
   create_table "defect_requests", force: :cascade do |t|
@@ -313,6 +336,29 @@ ActiveRecord::Schema.define(version: 20181109155011) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shock_services", force: :cascade do |t|
+    t.integer "vehicle_id"
+    t.float "interval", default: 0.0
+    t.float "last"
+    t.float "near_mileage"
+    t.float "dont_use_mileage"
+    t.boolean "dont_use_near", default: false
+    t.boolean "dont_use", default: false
+    t.boolean "service_needed", default: false
+  end
+
+  create_table "tour_car_preps", force: :cascade do |t|
+    t.integer "vehicle_id"
+    t.float "interval", default: 0.0
+    t.float "last"
+    t.float "near_mileage"
+    t.float "dont_use_mileage"
+    t.boolean "dont_use_near", default: false
+    t.boolean "dont_use", default: false
+    t.boolean "service_needed", default: false
+    t.boolean "near", default: false
+  end
+
   create_table "trackers", force: :cascade do |t|
     t.string "track"
     t.datetime "created_at", null: false
@@ -360,7 +406,6 @@ ActiveRecord::Schema.define(version: 20181109155011) do
     t.string "vehicle_status", default: "In-Service"
     t.boolean "needs_service", default: false
     t.boolean "near_service", default: false
-    t.boolean "a_service", default: false
     t.boolean "shock_service", default: false
     t.boolean "air_filter_service", default: false
     t.boolean "repair_needed", default: false

@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   get 'show' => 'show_users#show'
   get 'assigned_work_orders' => 'show_users#assigned_work_orders'
   get 'completed_work_orders' => 'show_users#completed_work_orders'
+  get 'manage_users' => 'show_users#manage_users'
+  post 'update_user' => 'show_users#update_user'
 
   resources :requests do
     collection do

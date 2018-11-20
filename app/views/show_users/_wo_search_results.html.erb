@@ -17,7 +17,14 @@
       <tr>
         <td><%= link_to request.id, request_path(request), class: "badge #{badge_color request}" %></td>
         <td><%= request.status %></td>
-        <td><%= request.program.name %></td>
+        <td>
+          <% request.programs.each do |program| %>
+            <%= program.name %>
+          <% end %>
+          <% if request.programs.empty? && request.program_id %>
+            <%= Program.find(request.program_id).name %>
+          <% end %>
+        </td>
         <td>
           <% if !request.vehicle.nil? %>
           <%=request.vehicle.car_id %>

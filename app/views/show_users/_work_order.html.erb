@@ -15,7 +15,9 @@
       <li class="list-group-item bg-secondary text-white">
         Service Type: 
         <span class="ml-2"> 
-          <%= request.program.name%>
+          <% request.programs.each do |program| %>
+            <%= program.name %>
+          <% end %>
         </span>
       </li>
       <li class="list-group-item bg-secondary text-white">

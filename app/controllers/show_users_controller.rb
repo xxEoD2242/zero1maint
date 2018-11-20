@@ -1,8 +1,23 @@
 # frozen_string_literal: true
 
 class ShowUsersController < ApplicationController
+  load_and_authorize_resource
+  check_authorization
+
   def all_users
     @users = User.all
+  end
+  
+  def manage_users
+    @users = User.all
+  end
+
+  def update_user
+    @user = User.find(params[:user_id])
+    @user.update(role: params[:role])
+    
+    flash[:alert] = 'Role Successfully Updated!!'
+    redirect_back(fallback_location: root_path)
   end
 
   def show

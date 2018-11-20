@@ -9,11 +9,10 @@ class ApplicationController < ActionController::Base
 
   protected
   
-  # CanCan has to actually be turned on first
-  # rescue_from CanCan::AccessDenied do |exception|
-  #  flash[:error] = exception.message
-  #  redirect_to root_url
-  # end
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:alert] = exception.message
+    redirect_to root_url
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[username name bio location role emplyid labor subscribe])

@@ -105,6 +105,7 @@
             <% if can? :create, User %>
               <%= link_to 'Sign In', new_user_session_path, class: "dropdown-item" %>
               <%= link_to 'Create User', new_user_registration_path, class: "dropdown-item" %>
+              <%= link_to 'Manage Users', manage_users_path, class: "dropdown-item" %>
             <% end %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
             <%= link_to "All Users", all_users_path, class: "dropdown-item" %>

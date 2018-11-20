@@ -35,10 +35,13 @@ class Ability
       can :manage, :all
     elsif user.employee?
       can :manage, [Request, Event, Vehicle, Program, Part, PartItem, 
-                    PartOrder, PartRequest, RequestPartOrder, EventsVehicle,
-                    Report, ReportVehicle, Defect, Checklist, Calendar, ChecklistDefect,
-                    DefectRequest, ProgramRequest, ReportUser, ReportVehicleOrder, ReportVehicle,
-                    RequestReport, RequestUser, Tracker, RotationMetric]
+        PartOrder, PartRequest, RequestPartOrder, EventsVehicle,
+        Report, ReportVehicle, Defect, Checklist, Calendar, ChecklistDefect,
+        DefectRequest, ProgramRequest, ReportUser, ReportVehicleOrder, ReportVehicle,
+        RequestReport, RequestUser, Tracker, RotationMetric]
+    elsif user.deactivate?
+      cannot :manage, :all
+      can :view, :welcome
     end
 
     if user.ghost?

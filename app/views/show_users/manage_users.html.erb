@@ -1,6 +1,7 @@
 <div class="jumbotron bg-secondary text-white text-center">
   <h1 class="display-3">Zero 1 Employees</h1>
 </div>
+<%= render 'users_nav_bar', status: 'disabled' %>
 <div class="card bg-dark text-white">
   <div class="table-responsive">
     <table class="table table-hover table-borderless">
@@ -9,9 +10,9 @@
           <th>Employee ID</th>
           <th>Name</th>
           <th>Email</th>
-          <th>Date Joined</th>
-          <th>Labor Hours</th>
+          <th>Role</th>
           <th colspan="1"></th>
+          <th>Update Role</th>
         </tr>
       </thead>
       <tbody>
@@ -20,24 +21,29 @@
           <td><%= user.emplyid %></td>
           <td><%= user.name %></td>
           <td><%= user.email %></td>
-          <td><%= user.created_at.strftime("%D")%></td>
-          <td><%= user.labor%></td>
           <td>
             <% if user.role %>
             <%= user.role.capitalize %>
             <% end %>
           </td>
-          <td><%= link_to "Profile", show_path(id: user.id), class: "btn btn-danger"%></td>
+          <td>
+            <%= link_to "Profile", show_path(id: user.id), class: "btn btn-danger"%>
+          </td>
+          <% if can? :create, User %>
           <td>
             <%= form_with(url: :update_user, method: :post, local: true, format: :html) do |form| %>
             <%= form.hidden_field :user_id, value: user.id %>
-            <div class='form-group'>
-              <%= form.select :role, User::ROLES, id: :role, class: 'form-control' %>
+            <div class='row'>
+              <div class='col-md-4'>
+                <%= form.select :role, User::ROLES, id: :role, class: 'form-control' %>
+              </div>
+              <div class='col-md-8'>
+                <%= form.submit 'Update Role', class: 'btn btn-danger' %>
+              </div>
             </div>
-            
-            <%= form.submit 'Update Role', class: 'btn btn-danger' %>
             <% end %>
           </td>	
+          <% end %>
         </tr>
         <% end %>
       </tbody>

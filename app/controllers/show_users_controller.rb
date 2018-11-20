@@ -11,6 +11,10 @@ class ShowUsersController < ApplicationController
   def manage_users
     @users = User.all
   end
+  
+  def dashboard
+    
+  end
 
   def update_user
     @user = User.find(params[:user_id])

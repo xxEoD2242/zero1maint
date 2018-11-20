@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  ROLES = %w[admin employee ghost].freeze
+  ROLES = %w[admin employee ghost deactivate].freeze
 
   has_many :request_users
 

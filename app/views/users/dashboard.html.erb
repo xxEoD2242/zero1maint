@@ -1,2 +1,48 @@
 <%= render 'user_header', title: 'Users Dashboard'%>
-<%= render 'users_nav_bar', status: 'disabled' %>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="list-group">
+      <% if current_user.admin? %>
+      <%= link_to "Create a User", new_user_registration_path, class: 'list-group-item bg-secondary text-white list-group-item-action' %>
+      <% end %>
+      <%= link_to "Edit Profile", edit_user_registration_path, class: 'list-group-item bg-secondary text-white list-group-item-action' %>
+      <%= render 'dashboard_link',
+      url: '../all_users',
+      link_title: 'All Users',
+      number: @all_users %>
+      <% if current_user.admin? %>
+      <%= render 'dashboard_link',
+      url: '../manage_users',
+      link_title: 'Manage Users',
+      number: @all_users %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">	
+  </div>
+  <div class="col-md-3">
+     <div class="list-group">
+       <%= render 'dashboard_link',
+       url: '../assigned_work_orders',
+       link_title: 'Assigned Work Orders',
+       number: @assigned %>
+       <%= render 'dashboard_link',
+       url: '../completed_work_orders',
+       link_title: 'Completed Work Orders',
+       number: @completed %>
+     </div>
+  </div>
+</div>
+
+<div class='container-fluid p-2 my-3 border border-danger bg-dark text-white rounded'>
+  <h2 class='text-center'>
+    Overdue Work Orders
+  </h2>
+</div>
+
+<div class='card bg-dark text-white'>
+  <div class='card-body'>
+    <%= render 'wo_search_results', requests: @overdue %>
+  </div>
+</div>

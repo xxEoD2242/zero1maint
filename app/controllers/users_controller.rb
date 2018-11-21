@@ -13,7 +13,10 @@ class UsersController < ApplicationController
   end
   
   def dashboard
-    
+    @all_users = User.all.size
+    @assigned = User.find(current_user.id).requests.where("status != ?", "Completed").size
+    @completed = User.find(current_user.id).requests.is_completed.size
+    @overdue = User.find(current_user.id).requests.is_overdue.page(params[:page])
   end
 
   def update_user

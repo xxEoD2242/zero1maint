@@ -1,6 +1,4 @@
-<div class="jumbotron bg-secondary text-white text-center">
-  <h1 class="display-3">Zero 1 Employees</h1>
-</div>
+<%= render 'user_header', title: 'Zero 1 Employees'%>
 <%= render 'users_nav_bar', status: 'disabled' %>
 <div class="card bg-dark text-white">
   <div class="table-responsive">
@@ -35,7 +33,7 @@
             <%= form.hidden_field :user_id, value: user.id %>
             <div class='row'>
               <div class='col-md-4'>
-                <%= form.select :role, User::ROLES, id: :role, class: 'form-control' %>
+                <%= form.select :role, User::ROLES, {include_blank: "#{user.role.capitalize}"}, id: :role, class: 'form-control' %>
               </div>
               <div class='col-md-8'>
                 <%= form.submit 'Update Role', class: 'btn btn-danger' %>

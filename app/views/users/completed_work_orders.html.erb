@@ -1,16 +1,5 @@
-<div class="jumbotron bg-secondary text-white">
-  <h3 class="display-3 text-center">
-    <%= @user.name %>'s Completed Work Orders
-    <span class="badge badge-danger"> 
-      <%= @requests.size %>
-    </span> 
-  </h3>
-</div>
-<div class="container d-flex justify-content-center">
-  <%= link_to "#{@user.name}'s Assigned Work Orders", assigned_work_orders_path, class: "btn btn-danger btn-lg" %>
-  <%= link_to "Home", homepage_path, class: "btn btn-danger btn-lg ml-4" %>
-  <%= link_to 'Back', :back, class: "btn btn-danger btn-lg ml-4" %>
-</div>
+<%= render 'user_header', title: "#{@user.name}'s Completed Work Orders"%>
+<%= render 'users_nav_bar', status: 'disabled' %>
 <br />
 <div class="card bg-dark text-white">
   <div class="card-body">

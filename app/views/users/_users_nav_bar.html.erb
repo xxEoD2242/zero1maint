@@ -4,5 +4,7 @@
   <% if can? :create, User %>
   <%= link_to 'Manage Users', manage_users_path, class: 'btn btn-danger nav-link nav-item' %>
   <% end %>
+   <%= link_to 'Completed WOs', completed_work_orders_path, class: 'btn btn-danger nav-link nav-item' %>
+    <%= link_to 'Assigned WOs', assigned_work_orders_path, class: 'btn btn-danger nav-link nav-item' %>
   <%= link_to 'Back', :back, class: 'btn btn-danger nav-item nav-link' %>
 </ul>

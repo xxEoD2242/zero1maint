@@ -55,14 +55,15 @@ Rails.application.routes.draw do
 
   resources :programs
 
-  get 'all_users' => 'show_users#all_users'
-  get 'homepage' => 'welcome#homepage'
-  get 'show' => 'show_users#show'
-  get 'assigned_work_orders' => 'show_users#assigned_work_orders'
-  get 'completed_work_orders' => 'show_users#completed_work_orders'
-  get 'manage_users' => 'show_users#manage_users'
-  post 'update_user' => 'show_users#update_user'
-  get 'users/dashboard' => 'show_users#dashboard'
+  get 'all_users'             => 'users#all_users'
+  post 'update_user'          => 'users#update_user'
+  get 'dashboard'             => 'users#dashboard'
+  get 'completed_work_orders' => 'users#completed_work_orders'
+  get 'assigned_work_orders'  => 'users#assigned_work_orders'
+  get 'manage_users'          => 'users#manage_users'
+  get 'profile'               => 'users#profile'
+
+  get 'homepage'              => 'welcome#homepage'
 
   resources :requests do
     collection do

@@ -27,7 +27,7 @@
             <% end %>
           </td>
           <td>
-            <%= link_to "Profile", show_path(id: user.id), class: "btn btn-danger"%>
+            <%= link_to "Profile", profile_path(id: user.id), class: "btn btn-danger"%>
           </td>
           <% if can? :create, User %>
           <td>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ShowUsersController < ApplicationController
+class UsersController < ApplicationController
   load_and_authorize_resource
   check_authorization
 
@@ -24,7 +24,7 @@ class ShowUsersController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def show
+  def profile
     @user = User.find(params[:id])
     @requests = @user.requests
   end

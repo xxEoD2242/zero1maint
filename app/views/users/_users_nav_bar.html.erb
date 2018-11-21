@@ -1,5 +1,5 @@
 <ul class='nav nav-pills nav-fill rounded mb-3 bg-danger'>
-  <%= link_to 'User Dashboard', users_dashboard_path, class: 'btn btn-danger nav-link nav-item #{status}' %>
+  <%= link_to 'User Dashboard', dashboard_path, class: 'btn btn-danger nav-link nav-item #{status}' %>
   <%= link_to 'All Users', all_users_path, class: 'btn btn-danger nav-link nav-item' %>
   <% if can? :create, User %>
   <%= link_to 'Manage Users', manage_users_path, class: 'btn btn-danger nav-link nav-item' %>

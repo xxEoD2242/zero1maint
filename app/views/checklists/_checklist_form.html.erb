@@ -124,7 +124,7 @@
          <tbody>
            <%= f.collection_check_boxes :defect_ids, @defects.all.order(id: :asc), :id, :id do |b|%>
            <tr>
-             <th scope='col'>
+             <th scope='row'>
                <div class="collection-check-box">
                  <%= b.check_box %>
                  <%= b.label %>

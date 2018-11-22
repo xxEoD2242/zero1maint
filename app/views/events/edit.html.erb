@@ -36,59 +36,7 @@
         <%= f.select :status, Event::STATUSES, {include_blank: "Select Status"}, id: :event_status, class: "form-control"%>	
       </div>
       <hr>
-      <% Event::LOCATIONS.each do |location|%>
-	
-      <div class="container bg-secondary" style="border: 2px solid black; border-radius: 6px 6px 6px 6px; padding: 2px 2px 2px 2px">
-        <h3 class="text-center"> <%= location%></h3>
-      </div>
-  
-      <div class="card bg-secondary text-white mt-3" style='background-color: lightgreen;'>
-        <div class="card-header">
-          <h4 class="text-center">Select A Priority Vehicles</h4>
-        </div>
-        <div class="card-body">
-          <h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
-          <div class="row">
-		
-            <% Vehicle::CATEGORIES.each do |vehicle_category| %>
-            <div class="col-6">
-              <strong>	<%= vehicle_category%>: </strong>
-              <br \>
-              <%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_a: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "col-md-2" %>
-		
-            </div>
-	
-            <% end %>
-		
-          </div>
-        </div>
-      </div>
 
-      <div class="card bg-secondary text-white my-3" >
-        <div class="card-header">
-          <h4 class="text-center">Select B Priority Vehicles</h4>
-        </div>
-        <div class="card-body">
-          <h6 class="text-center">Vehicles are sorted by number of times used in the previous month. <br \> The first vehicle in the list will be the least used vehicle in the previous 30 days.</h6>
-          <div class="row">
-		
-            <% Vehicle::CATEGORIES.each do |vehicle_category| %>
-            <div class="col-6">
-              <strong>	<%= vehicle_category%>: </strong>
-              <br \>
-              <%= f.collection_check_boxes :vehicle_ids, Vehicle.where(veh_category: vehicle_category, vehicle_status: "In-Service", use_b: true, location: location).order(times_used: :asc), "id", :vehicle_naming, class: "form-controls" %>
-		
-            </div>
-	
-            <% end %>
-		
-          </div>
-        </div>
-      </div>
-      <hr>
-      <% end %>
-  
-	
       <div class="form-group">
         <strong><%=f.label "Number of Customers"%></strong>
         <%= f.number_field :customers, id: :customers, class: "form-control" %>
@@ -143,6 +91,50 @@
             <%= f.select :class_type, Event::CLASS_TYPES, {include_blank: "Select Class Type"}, id: :event_class_type, class: "form-control"%>
           </div>
         </div>
+      </div>
+      
+      <div class='container-fluid rounded p-2 my-2 border border-danger bg-secondary text-white'>
+        <h2 class='text-center'>
+          Select Vehicles
+        </h2>
+      </div>
+      <div class='row'>
+        <% Vehicle::LOCATION.each do |location|%>
+        <div class='col-md-4'>
+          <h4 class='text-center'>
+            <%= location %>
+          </h4>
+          <div class='table-responsive'>
+            <table class='table table-sm table-striped table-borderless bg-secondary text-white rounded'>
+              <thead>
+                <tr>
+                  <th scope='col'> ID </th>
+                  <th scope='col'> Mileage </th>
+                  <th scope='col'> Times Used </th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= f.collection_check_boxes :vehicle_ids, @vehicles.where(location: location).order(car_id: :asc), :id, :car_id do |b| %>
+                <tr>
+                  <th scope='row'>
+                    <div class="collection-check-box">
+                      <%= b.check_box %>
+                      <%= b.label %>
+                    </div>
+                  </th>
+                  <td>
+                    <%= Vehicle.find(b.object.id).mileage %>
+                  </td>
+                  <td>
+                    Times Used
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <% end %>
       </div>
 
       <div class="form-group">

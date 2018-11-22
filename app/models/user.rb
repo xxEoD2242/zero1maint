@@ -26,6 +26,10 @@ class User < ApplicationRecord
   def ghost?
     role == 'ghost'
   end
+  
+  def deactivate?
+    role == 'deactivate'
+  end
 
   def user_naming
     "&nbsp #{name} &nbsp".html_safe

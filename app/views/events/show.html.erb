@@ -9,7 +9,7 @@
           <div class="col-md-5">
             <p>
               <% if @event.multi_day %>
-              <strong>
+              <strong> <i> Date: (year-month-day) (xxxx-xx-xx)</i>
                 Scheduled Start Date:
               </strong>
               <% else %>
@@ -200,6 +200,11 @@
               </strong>
             </div>
             <div class="col-md-5">
+              <h6 class='text-center'>
+                <b>
+                Current Mileage:
+              </b>
+              </h6>
             </div>
           </div>
           <div class="row mt-2">
@@ -217,12 +222,8 @@
               <%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1"%> 
               <% end %>
             </div>
-            <div class="col-md-3 mb-2">
-              <% if vehicle.is_out_of_service? %>
-              <h5 style="color: black;border: 2px solid red;border-radius: 6px; background: white; padding: 2px">
-                Vehicle Is Deadlined
-              </h5>
-              <% end %>
+            <div class='col-md-3'>
+              <%= vehicle.mileage %>
             </div>
             <br />
             <% end %>

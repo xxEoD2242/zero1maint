@@ -19,7 +19,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <strong> <%= f.label :date %></strong>
-            <%= f.date_field :date, id: :event_date, class: "form-control", datepicker: true %>
+            <%= f.date_select :date, id: :event_date, class: "form-control" %>
           </div>
         </div>
         <div class="col-md-8">
@@ -98,7 +98,7 @@
           Select Vehicles
         </h2>
       </div>
-      <div class='row'>
+      <div class='form-row'>
         <% Vehicle::LOCATION.each do |location|%>
         <div class='col-md-4'>
           <h4 class='text-center'>

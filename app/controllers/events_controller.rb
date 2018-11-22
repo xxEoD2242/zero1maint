@@ -114,7 +114,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @vehicles = Vehicle.all
+    @vehicles = Vehicle.where("vehicle_status != ?", "Sold")
   end
 
   def calc_mileage

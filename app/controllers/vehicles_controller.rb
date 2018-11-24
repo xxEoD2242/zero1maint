@@ -28,7 +28,7 @@ class VehiclesController < ApplicationController
   def defects
     @vehicle = Vehicle.find(params[:id])
     @q = @vehicle.defects.ransack(params[:q])
-    @defects = @q.result.order(fixed: :desc).page(params[:page])
+    @defects = @q.result.order(fixed: :asc).page(params[:page])
   end
 
   def import

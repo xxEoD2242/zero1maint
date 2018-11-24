@@ -359,7 +359,7 @@
       </span>
       <span> 
         <%= link_to 'Vehicle Mileage Report', vehicle_mileage_vehicles_path(id: @vehicle.id), class: "btn btn-danger"%>
-        <%= link_to 'View All Defects', by_vehicle_defects_path(id: @vehicle.id), class: 'btn btn-danger' %>
+        <%= link_to 'View All Defects', defects_vehicles_path(id: @vehicle.id), class: 'btn btn-danger' %>
         <%= link_to 'Report a Defect', report_defects_path(vehicle_id: @vehicle.id), class: 'btn btn-danger'%>
       </span>
       <strong>

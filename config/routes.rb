@@ -19,7 +19,6 @@ Rails.application.routes.draw do
       get 'create_defect_work_order'
       get 'create_manual_defect_work_order'
       get 'fixed'
-      get 'by_vehicle'
       get 'report'
     end
   end
@@ -113,6 +112,7 @@ Rails.application.routes.draw do
       get 'sold_vehicles'
       get 'vehicle_mileage'
       get 'defects_outstanding'
+      get 'defects'
       post :import
     end
   end

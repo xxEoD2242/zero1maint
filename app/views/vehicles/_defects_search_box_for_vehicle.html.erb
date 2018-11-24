@@ -1,0 +1,39 @@
+<div class="card bg-dark text-white mt-3">
+  <div class="card-header">
+    <strong> Search for Defects</strong>
+  </div>
+  <div class="card-body">
+    <form>
+      <%= search_form_for q, :url => {:action => action } do |f|%>
+      <div class="row">
+        <div class="col-md-2">
+          <br />
+          <div class="form-check mt-3">
+            <%= f.check_box :fixed_eq, class: "form-check-input"  %>
+            <%= f.label "Is Fixed", class: "form-check-label"%>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <%= f.label "Date Fixed From", class: "mr-1"%>
+            <%= f.date_field :date_fixed_gteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <%= f.label "Date Fixed To", class: "mr-1"%>
+            <%= f.date_field :date_fixed_lteq, class: "form-control", datepicker: true  %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <br />
+          <div class="form-group">
+            <%= f.submit "Find Defects", class: "btn btn-danger mt-2"%>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </form>
+  </div>
+</div>
+<br />

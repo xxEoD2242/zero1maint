@@ -20,12 +20,6 @@ class DefectsController < ApplicationController
     @defects = Defect.where(fixed: true)
   end
 
-  def by_vehicle
-    @vehicle = Vehicle.find(params[:id])
-    @q = @vehicle.defects.ransack(params[:q])
-    @defects = @q.result.order(fixed: :desc).page(params[:page])
-  end
-  
   def report
     @vehicle = Vehicle.find(params[:vehicle_id])
     @defect = Defect.create(description: '**** Please fill this in! ****', vehicle_id: @vehicle.id, fixed: false,

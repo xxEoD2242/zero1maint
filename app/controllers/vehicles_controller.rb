@@ -4,7 +4,7 @@ class VehiclesController < ApplicationController
   load_and_authorize_resource
   check_authorization
 
-  before_action :set_vehicle, only: %i[show edit update destroy]
+  before_action :set_vehicle, only: %i[show edit update destroy defects]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, 
                 :set_repairs, :set_defects, :set_tour_car_prep, 
                 only: %i[a_service_calculation mileage_calculation shock_service_calculation
@@ -23,6 +23,12 @@ class VehiclesController < ApplicationController
   def sold_vehicles
     @q = Vehicle.where(vehicle_status: 'Sold').ransack(params[:q])
     @search_results = @q.result.page(params[:page])
+  end
+
+  def defects
+    @vehicle = Vehicle.find(params[:id])
+    @q = @vehicle.defects.ransack(params[:q])
+    @defects = @q.result.order(fixed: :desc).page(params[:page])
   end
 
   def import

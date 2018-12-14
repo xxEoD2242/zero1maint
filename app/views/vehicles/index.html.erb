@@ -10,15 +10,15 @@
       <%= render 'dashboard_link',
       url: '../vehicles/all_vehicles',
       link_title: 'All Vehicles',
-      number: @vehicles.count %>
+      number: @vehicles %>
       <%= render 'dashboard_link',
       url: '../vehicles/sold_vehicles',
       link_title: 'Sold Vehicles',
-      number: @vehicles.where(vehicle_status: 'Sold').count %>
+      number: @sold %>
       <%= render 'dashboard_link',
       url: '../vehicles/defects_outstanding',
       link_title: 'Vehicles With Defects',
-      number: @defects_outstanding.count %>
+      number: @defects_outstanding %>
     </div>
   </div>
   <div class="col-md-6">	
@@ -28,19 +28,19 @@
        <%= render 'dashboard_link',
        url: '../vehicles/in_service',
        link_title: 'In-Service Vehicles',
-       number: @in_service.count %>
+       number: @in_service %>
        <%= render 'dashboard_link',
        url: '../vehicles/out_of_service',
        link_title: 'Out of Service Vehicles',
-       number: @out_of_service.count %>
+       number: @out_of_service %>
        <%= render 'dashboard_link',
        url: '../vehicles/needs_service',
        link_title: 'Needs Service Vehicles',
-       number: @vehicles.where(needs_service: true).count %>
+       number: @needs_service %>
        <%= render 'dashboard_link',
        url: '../vehicles/near_service_required',
        link_title: 'Near Service Vehicles',
-       number: @vehicles.where(near_service: true).count %>
+       number: @near_service %>
      </div>
   </div>
 </div>
@@ -52,9 +52,12 @@
         <h5 style="text-align: center;"><%= location %></h5>
       </div>
       <div class="card-body">
-        <% if Vehicle.where(location: location, vehicle_status: "In-Service") != [] %>
+        <% unless Vehicle.where(location: location, vehicle_status: "In-Service").empty? %>
         <div class="d-flex justify-content-between align-items-center">
-          <h5> In-Service  </h5> <span class="badge badge-success"> <%= Vehicle.where(location: location, vehicle_status: "In-Service").count %> </span>
+          <h5> In-Service  </h5>
+          <span class="badge badge-success"> 
+            <%= Vehicle.where(location: location, vehicle_status: "In-Service").count %>
+          </span>
         </div>
         <hr>
         <% Vehicle::CATEGORIES.each do |category|%>

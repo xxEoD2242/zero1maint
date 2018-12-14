@@ -6,18 +6,20 @@ class VehiclesController < ApplicationController
 
   before_action :set_vehicle, only: %i[show edit update destroy defects]
   before_action :set_a_service, :set_shock_service, :set_air_filter_service, 
-                :set_repairs, :set_defects, :set_tour_car_prep, 
+                :set_tour_car_prep, 
                 only: %i[a_service_calculation mileage_calculation shock_service_calculation
                          air_filter_calculation show needs_service near_service_required all_vehicles
                          vehicle_mileage in_service out_of_service]
   include Vehicle_Rotation
 
   def index
-    @vehicles = Vehicle.all
-    @request = Request.all
-    @in_service = Vehicle.in_service?
-    @out_of_service = Vehicle.out_of_service?
-    @defects_outstanding = Vehicle.where(defect: true)
+    @vehicles = Vehicle.all.size
+    @in_service = Vehicle.in_service?.size
+    @out_of_service = Vehicle.out_of_service?.size
+    @defects_outstanding = Vehicle.where(defect: true).size
+    @sold = Vehicle.where(vehicle_status: 'Sold').size
+    @needs_service = Vehicle.where(needs_service: true).size
+    @near_service = Vehicle.where(near_service: true).size
   end
 
   def sold_vehicles

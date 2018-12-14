@@ -40,47 +40,50 @@
           <%= render "checklist_row", field: "Exhaust", attribute: @checklist.exhaust %>
           <%= render "checklist_row", field: "Steering", attribute: @checklist.steering %>
         </div>
-        <div class="container bg-secondary p-2 rounded border text-white">
-          <strong>Comments </strong>
-          <%= @checklist.comments%>
+      </div>
+      <div class="container bg-secondary p-2 rounded border text-white">
+        <strong>Comments </strong>
+        <%= @checklist.comments%>
+      </div>
+      <br />
+      <h4 class='text-center'>
+        <%= link_to "Report Another Defect", another_defects_path(vehicle_id: @checklist.vehicle.id), class: "badge badge-danger badge-pill" %>
+      </h4>
+      <% unless !@checklist.defects.exists? %>
+      <div class='container-fluid bg-dark text-dark my-3 p-2 rounded'>
+        <div class="container-fluid bg-secondary text-white p-2 rounded border mb-3">
+          <h4 class="text-center">Attached Defects</h4>
         </div>
-        <br />
-        <br />
-        <% unless !@checklist.defects.exists? %>
-        <div class='container-fluid bg-dark text-dark my-3 p-2 rounded'>
-          <div class="container-fluid bg-secondary text-white p-2 rounded border mb-3">
-            <h4 class="text-center">Attached Defects</h4>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-borderless table-hover table-sm bg-secondary text-white">
-              <thead>
-                <tr>
-                  <th scope="row">ID</th>
-                  <th scope="row">Created On</th>
-                  <th scope="row">Times Reported</th>
-                  <th scope="row">Event</th>
-                  <th scope="row">Category</th>
-                  <th scope="row">Description</th>
-                  <th colspan="2"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @checklist.defects.each do |defect|%>
-                <tr>
-                  <th scope='col'>
-                   <h5>
-                     <%= link_to "#{defect.id}", defect_path(defect), class: "badge #{fixed_defect_badge defect}" %>
-                   </h5>
-                  </th>
-                  <td>
-                    <h5>
-                      <span class="badge badge-danger">
-                        <%= defect.created_at.strftime('%v') %>
-                      </span>
-                    </h5>
-                  </td>
-                  <td><%= defect.times_reported %></td>
-                  <td><%= last_event defect %>
+        <div class="table-responsive">
+          <table class="table table-borderless table-hover table-sm bg-secondary text-white">
+            <thead>
+              <tr>
+                <th scope="row">ID</th>
+                <th scope="row">Created On</th>
+                <th scope="row">Times Reported</th>
+                <th scope="row">Event</th>
+                <th scope="row">Category</th>
+                <th scope="row">Description</th>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @checklist.defects.each do |defect|%>
+              <tr>
+                <th scope='col'>
+                  <h5>
+                    <%= link_to "#{defect.id}", defect_path(defect), class: "badge #{fixed_defect_badge defect}" %>
+                  </h5>
+                </th>
+                <td>
+                  <h5>
+                    <span class="badge badge-danger">
+                      <%= defect.created_at.strftime('%v') %>
+                    </span>
+                  </h5>
+                </td>
+                <td><%= defect.times_reported %></td>
+                <td><%= last_event defect %>
                   <td>
                     <%= category_words defect %>
                   </td>
@@ -97,17 +100,17 @@
             </table>
           </div>
         </div>
-         <% end %>
+        <% end %>
         <div class="container d-flex justify-content-between align-items-center mt-4">
           <%= link_to "Back to Event", event_path(@checklist.event.id), class: "btn btn-danger" %>
           <%= link_to "Back to Records", records_checklists_path, class: "btn btn-danger" %>
           <%= link_to "Create a Work Order",
-              create_work_order_checklists_path(vehicle_id: @checklist.vehicle.id, checklist_id: @checklist.id),
-              class: "btn btn-danger" %>
-          <%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-danger" %>
-          <%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-danger" %>
+          create_work_order_checklists_path(vehicle_id: @checklist.vehicle.id, checklist_id: @checklist.id),
+          class: "btn btn-danger" %>
+            <%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-danger" %>
+            <%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-danger" %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>

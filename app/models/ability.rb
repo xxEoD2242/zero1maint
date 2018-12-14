@@ -30,6 +30,8 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    
+    # Make sure to delete a model if it isn't in the program anymore.
 
     if user.admin?
       can :manage, :all

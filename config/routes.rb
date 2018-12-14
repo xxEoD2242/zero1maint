@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       get 'create_manual_defect_work_order'
       get 'fixed'
       get 'report'
+      get 'another'
     end
   end
 

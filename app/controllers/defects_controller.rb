@@ -20,6 +20,19 @@ class DefectsController < ApplicationController
     @defects = Defect.where(fixed: true)
   end
 
+  def another
+    @vehicle = Vehicle.find(params[:vehicle_id])
+    @defect = Defect.create(description: '**** Please fill this in! ****', vehicle_id: @vehicle.id, fixed: false,
+                            manually_reported: true, times_reported: 0)
+    
+    if @defect.save
+      flash[:notice] = 'Defect Created! Please fill in the remaining information'
+    else
+      flash[:alert] = 'Could not create Defect!'
+    end              
+    redirect_to edit_defect_path(id: @defect.id)                       
+  end
+
   def report
     @vehicle = Vehicle.find(params[:vehicle_id])
     @defect = Defect.create(description: '**** Please fill this in! ****', vehicle_id: @vehicle.id, fixed: false,

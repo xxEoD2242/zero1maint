@@ -27,11 +27,13 @@
     <div class="col-md-4">
       <div class="form-group">
         <strong class="mr-1"> Scheduled Start Date </strong>
+        <i> (year-month-day) (xxxx-xx-xx)</i>
         <%= f.date_select :date, id: :event_date, class: "form-control" %>
       </div>
 
       <div class="form-group">
-        <strong class="mr-3"> Scheduled End Date </strong>
+        <strong class="mr-3"> Scheduled End Date </strong> 
+        <i> (year-month-day) (xxxx-xx-xx)</i>
         <%= f.date_select :end_date, id: :event_end_date, class: "form-control" %>
       </div>
     </div>

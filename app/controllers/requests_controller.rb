@@ -187,6 +187,12 @@ class RequestsController < ApplicationController
       end
     end
   end
+  
+  def program_ids(request)
+    if request.program_ids.empty?
+      request.update(program_ids: [6])
+    end
+  end
 
   def create
     @request = Request.new(request_params)
@@ -196,6 +202,7 @@ class RequestsController < ApplicationController
         vehicle = @request.vehicle
         @request.update(request_mileage: vehicle.mileage)
         request_email @request
+        program_ids @request
         format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
@@ -206,13 +213,6 @@ class RequestsController < ApplicationController
   end
 
   def update
-    @repairs = Program.find_by(name: 'Repairs')
-    @a_service = Program.a_service
-    @shock_service = Program.shock_service
-    @air_filter_service = Program.air_filter_service
-    @tour_car_prep = Program.tour_car_prep
-    @repairs = Program.repairs
-    @defects = Program.defect
     respond_to do |format|
       if @request.update(request_params)
         if @request.users.exists? && @request.status == 'New'

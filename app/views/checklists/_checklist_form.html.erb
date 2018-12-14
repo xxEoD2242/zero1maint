@@ -1,170 +1,168 @@
 <div class="card bg-dark text-white">
-	<div class="card-body">
+  <div class="card-body">
 		
-		<p style="font-size: 18px;border: 1px solid white;border-radius: 6px 6px 6px 6px;text-align: center;">
-			Only input data into the fields below if an item needs to be notated.
+    <p style="font-size: 18px;border: 1px solid white;border-radius: 6px 6px 6px 6px;text-align: center;">
+      Only input data into the fields below if an item needs to be notated.
 			
-			All fields left blank will be filled with 
+      All fields left blank will be filled with 
       <span style="color: white;"> 
         "Checked 
         <i class="fa fa-check-square" aria-hidden="true"></i>"</span>
-		</p>
-		<%= simple_form_for checklist do |f|%>
+      </p>
+      <%= simple_form_for checklist do |f|%>
 
-		<%= f.hidden_field :vehicle_id, value: @vehicle.id %>
-		<%= f.hidden_field :event_id, value: @event.id%>
+      <%= f.hidden_field :vehicle_id, value: @vehicle.id %>
+      <%= f.hidden_field :event_id, value: @event.id%>
     
-    <div class="row">
-      <div class="col-md-5">
+      <div class="row">
+        <div class="col-md-5">
 
-		<div class="form-group">
-			<strong>
-        Created By: 
-        <span class="text-danger">
-          <%= current_user.name %>
-        </span>
-      </strong>
-			<%=f.hidden_field :user_id, value: current_user.id%>
-		</div>
+          <div class="form-group">
+            <strong>
+              Created By: 
+              <span class="text-danger">
+                <%= current_user.name %>
+              </span>
+            </strong>
+            <%=f.hidden_field :user_id, value: current_user.id%>
+          </div>
 
-        <div class="form-group">
-          <strong><%=f.label "Date Completed:"%></strong>
-          <%=f.date_field :date, class: "form-control", datepicker: true%>
-        </div>
+          <div class="form-group">
+            <strong><%=f.label "Date Completed:"%></strong>
+            <%=f.date_field :date, class: "form-control", datepicker: true%>
+          </div>
 
-			<div class="form-group">
-				<%= f.select :fuel_level, Checklist::FUEL_LEVELS, {include_blank: "Select Vehicle Fuel Level"}, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.select :fuel_level, Checklist::FUEL_LEVELS, {include_blank: "Select Vehicle Fuel Level"}, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :wash, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :wash, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :suspension, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :suspension, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
+          <div class="form-group">
 				
-				<%= f.input :drive_train, class: "form-control" %>
-			</div>
+            <%= f.input :drive_train, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :body, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :body, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :engine, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :engine, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :brakes, label: "Brakes", class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :brakes, label: "Brakes", class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :safety_equipment, label: "Safety Equipment", class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :safety_equipment, label: "Safety Equipment", class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%=f.input :chassis, class: "form-control"%>
-			</div>
+          <div class="form-group">
+            <%=f.input :chassis, class: "form-control"%>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :electrical, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :electrical, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :cooling_system, label: "Cooling System", class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :cooling_system, label: "Cooling System", class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :radio, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :radio, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :exhaust, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :exhaust, class: "form-control" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :steering, class: "form-control" %>
-			</div>
+          <div class="form-group">
+            <%= f.input :steering, class: "form-control" %>
+          </div>
 			
-			<div class='form-group form-check'>
-			<%= f.check_box :deadline, class: "form-check-input" %>
-      <%= f.label "Deadline", class: "form-check-label font-weight-bold text-danger" %>
-			</div>
+          <div class='form-group form-check'>
+            <%= f.check_box :deadline, class: "form-check-input" %>
+            <%= f.label "Deadline", class: "form-check-label font-weight-bold text-danger" %>
+          </div>
 			
-			<div class="form-group">
-				<%= f.input :comments, class: "form-control" %>
-			</div>
-    </div>
-    <div class="col-md-7">
-      <div class="container-fluid p-4 rounded border border-danger bg-secondary text-white mb-3">
-        These are the currently reported defects for this vehicle. If a defect is found, please
-        annotate the defect by putting the ID number of the defect in the appropriate category.
-        This will ensure that no duplicates are reported. <br />
-        Thank you.
+          <div class="form-group">
+            <%= f.input :comments, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="container-fluid p-4 rounded border border-danger bg-secondary text-white mb-3">
+            These are the currently reported defects for this vehicle. You can attach a defect here by clicking the box next to the defect number. <br />
+            <b> If there are multiple defects for the same category, put the first defect in the appropriate field. Then, submit the checklist and look at the bottom of the page, where it says report a defect. This will allow you to create a defect, which will automatically be associated with this vehicle. </b>
+            <br />
+            Thank you.
+          </div>
+          <div class="container-fluid bg-secondary text-white p-2 rounded border mb-3">
+            <h4 class="text-center">Current Defects</h4>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-borderless table-hover table-sm bg-secondary text-white">
+              <thead>
+                <tr>
+                  <th scope="row">ID</th>
+                  <th scope="row">Created On</th>
+                  <th scope="row">Times Reported</th>
+                  <th scope="row">Event</th>
+                  <th scope="row">Category</th>
+                  <th scope="row">Description</th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= f.collection_check_boxes :defect_ids, @defects.all.order(id: :asc), :id, :id do |b|%>
+                <tr>
+                  <th scope='row'>
+                    <div class="collection-check-box">
+                      <%= b.check_box %>
+                      <%= b.label %>
+                    </div>
+                  </th>
+                  <td>
+                    <h5>
+                      <span class="badge badge-danger">
+                        <%= @defects.find(b.object.id).created_at.strftime('%v') %>
+                      </span>
+                    </h5>
+                  </td>
+                  <td><%= @defects.find(b.object.id).times_reported %></td>
+                  <td><%= last_event @defects.find(b.object.id) %>
+                    <td>
+                      <%= category_words @defects.find(b.object.id) %>
+                    </td>
+                    <td><%= @defects.find(b.object.id).description %></td>
+                    <td>
+                      <%= defect_checklist @defects.find(b.object.id) %>
+                    </td>
+                    <td>
+                      <%= link_to "Show", defect_path(@defects.find(b.object.id)), class: 'badge badge-danger' %>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.submit "Complete Checklist", class: "btn btn-danger" %>
+        </div>
+			
+        <% end %>
       </div>
-     <div class="container-fluid bg-secondary text-white p-2 rounded border mb-3">
-       <h4 class="text-center">Current Defects</h4>
-     </div>
-     <div class="table-responsive">
-       <table class="table table-borderless table-hover table-sm bg-secondary text-white">
-         <thead>
-           <tr>
-             <th scope="row">ID</th>
-             <th scope="row">Created On</th>
-             <th scope="row">Times Reported</th>
-             <th scope="row">Event</th>
-             <th scope="row">Category</th>
-             <th scope="row">Description</th>
-             <th colspan="2"></th>
-           </tr>
-         </thead>
-         <tbody>
-           <%= f.collection_check_boxes :defect_ids, @defects.all.order(id: :asc), :id, :id do |b|%>
-           <tr>
-             <th scope='row'>
-               <div class="collection-check-box">
-                 <%= b.check_box %>
-                 <%= b.label %>
-               </div>
-             </th>
-             <td>
-               <h5>
-                 <span class="badge badge-danger">
-                   <%= @defects.find(b.object.id).created_at.strftime('%v') %>
-                 </span>
-               </h5>
-             </td>
-             <td><%= @defects.find(b.object.id).times_reported %></td>
-             <td><%= last_event @defects.find(b.object.id) %>
-             <td>
-               <%= category_words @defects.find(b.object.id) %>
-             </td>
-             <td><%= @defects.find(b.object.id).description %></td>
-             <td>
-               <%= defect_checklist @defects.find(b.object.id) %>
-             </td>
-             <td>
-               <%= link_to "Show", defect_path(@defects.find(b.object.id)), class: 'badge badge-danger' %>
-             </td>
-           </tr>
-           <% end %>
-         </tbody>
-       </table>
-     </div>
-     
+      <div class="card-footer">
+        <%= link_to "Back", :back, class: "btn btn-danger" %>
+      </div>
     </div>
-  </div>
-			
-			<div class="form-group">
-				<%= f.submit "Complete Checklist", class: "btn btn-danger" %>
-			</div>
-			
-		<% end %>
-	</div>
-  <div class="card-footer">
-    <%= link_to "Back", :back, class: "btn btn-danger" %>
-  </div>
-</div>

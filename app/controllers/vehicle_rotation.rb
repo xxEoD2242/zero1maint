@@ -115,6 +115,9 @@ module Vehicle_Rotation
     @events = @eve.where('date <= ?', Time.now)
     Vehicle.all.update(times_used: 0)
     @events.each do |event|
+      if event.vehicles.exists?
+        event.vehicles.update(times_used: 0)
+      end
       next unless event.vehicles.exists?
       event.vehicles.each do |vehicle|
         vehicle.update(times_used: (vehicle.times_used + 1))

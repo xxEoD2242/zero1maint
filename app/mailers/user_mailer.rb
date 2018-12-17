@@ -76,13 +76,15 @@ class UserMailer < ApplicationMailer
   end
   
   def weekly_tour_car_report
-    emails = []
-    User.where(subscribe: true).each do |user|
-      emails << user.email
+    if Date.today.monday?
+      emails = []
+      User.where(subscribe: true).each do |user|
+        emails << user.email
+      end
+      @out_of_service = Vehicle.are_tour_cars.out_of_service?
+      @in_service = Vehicle.are_tour_cars.in_service?
+      mail(to: emails, subject: "Weekly Tour Car Report for #{Date.current.strftime('%D')}")
     end
-    @out_of_service = Vehicle.are_tour_cars.out_of_service?
-    @in_service = Vehicle.are_tour_cars.in_service?
-    mail(to: emails, subject: "Weekly Tour Car Report for #{Date.current.strftime('%D')}")
   end
   
   def weekly_other_vehicles_report

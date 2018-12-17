@@ -9,14 +9,14 @@ task check_work_orders_overdue: :environment do
     email = User.find_by(name: work_order.creator).email
     if Time.now > work_order.completion_date
       work_order.update(overdue: true, status: 'Overdue')
-      UserMailer.overdue_work_order(email, work_order)
+      UserMailer.overdue_work_order_email(email, work_order)
     end
   end
   @overdue_2.each do |work_order|
     email = User.find_by(name: work_order.creator).email
     if Time.now > work_order.completion_date
       work_order.update(overdue: true, status: 'Overdue')
-      UserMailer.overdue_work_order(email, work_order)
+      UserMailer.overdue_work_order_email(email, work_order)
     end
   end
 end

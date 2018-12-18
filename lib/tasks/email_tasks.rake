@@ -2,7 +2,7 @@
 
 desc 'send weekly rzr report'
 task send_weekly_rzr_report: :environment do
-  if Date.today.tuesday?
+  if Date.today.monday?
     UserMailer.weekly_rzr_report_email.deliver!
     Report.create(title: "Weekly Razor Report For #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}",
                   description: 'Overview of all Razors currently In and Out of Service. Contact Ryan for any questiosn.',

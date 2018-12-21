@@ -9,10 +9,16 @@ class ChecklistsController < ApplicationController
   def index; end
 
   def new
+    defect_method_notice
     @vehicle = Vehicle.find(params[:id])
     @defects = @vehicle.defects.where(fixed: false)
     @event = Event.find(params[:event_id])
     @checklist = Checklist.new
+  end
+  
+  def defect_method_notice
+    flash[:notice] = "Please be advised. The method to add defects to a checklist has been changed.
+                      Please view the informational message above the defects table."
   end
 
   def show
@@ -45,6 +51,7 @@ class ChecklistsController < ApplicationController
   end
 
   def edit
+    defect_method_notice
     @vehicle = @checklist.vehicle
     @event = @checklist.event
     @defects = @vehicle.defects.where(fixed: false).page(params[:page])
@@ -65,16 +72,9 @@ class ChecklistsController < ApplicationController
   end
   
   def create_defect(checklist)
-    current_ids = []
-    (1..100000).each do |numb|
-      string = numb.to_s
-      current_ids << string
-    end
     @last_defect_id = Defect.last.id
-    maintenance = %w[engine suspension steering tires
-                     radio chassis exhaust cooling_system
-                     electrical safety_equipment brakes body
-                     drive_train suspension]
+    current_ids = create_id_comparator                  # Builds an array with 1..100000 which is used as a comparator to ensure that ids entered are numbers
+    maintenance = create_maint_categories # Builds an array with the categories that are needed to create defects
     checklist.attributes.each do |k, v|
       if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
         @new_defect = Defect.create(description: v, checklist_ids: [checklist.id], vehicle_id: checklist.vehicle.id,
@@ -92,7 +92,10 @@ class ChecklistsController < ApplicationController
     @q = Event.all.ransack(params[:q])
     @events = @q.result.page(params[:page])
   end
-  
+
+  # This function copies the information that was entered into the completed checklist for the vehicle.
+  # The duplicate set of data is then used for comparison when determining if any information was added
+  # to a checklist after the initial creation.
   def copy_parameters(checklist)
     checklist.update(wash_old: checklist.wash, suspension_old: checklist.suspension, drive_train_old: checklist.drive_train, 
                      body_old: checklist.body, engine_old: checklist.engine, brakes_old: checklist.brakes, safety_equipment_old: checklist.safety_equipment,
@@ -104,31 +107,45 @@ class ChecklistsController < ApplicationController
     if !checklist.defects.empty? 
       checklist.defects.each do |defect|
         if !checklist.defect_ids_old.include?(defect.id.to_s)
-          defect.update(times_reported: (defect.times_reported + 1), last_event_reported: checklist.event_id, checklist_ids: [checklist.id])
+          defects_count_update defect, checklist
         end
       end
     end
   end
   
+  def defects_count_update(defect, checklist)
+     defect.update(times_reported: (defect.times_reported + 1), last_event_reported: checklist.event_id, checklist_ids: [checklist.id])
+  end
+  
   def count_defects(checklist)
     if !checklist.defects.empty? 
       checklist.defects.each do |defect|
-        defect.update(times_reported: (defect.times_reported + 1), last_event_reported: checklist.event_id, checklist_ids: [checklist.id])
+        defects_count_update defect, checklist
       end
     end
   end
   
-  def update_defects(checklist)
+  def create_id_comparator
     current_ids = []
     (1..100000).each do |numb|
       string = numb.to_s
       current_ids << string
     end
+    return current_ids
+  end
+  
+  def create_maint_categories
+    %w[engine suspension steering tires
+      radio chassis exhaust cooling_system
+      electrical safety_equipment brakes body
+      drive_train]
+  end
+  
+  def update_defects(checklist)
     @last_defect_id = Defect.last.id
-    maintenance = %w[engine suspension steering tires
-                     radio chassis exhaust cooling_system
-                     electrical safety_equipment brakes body
-                     drive_train suspension]
+    current_ids = create_id_comparator
+    maintenance = create_maint_categories
+
     checklist.attributes.each do |k, v|
       if maintenance.include?(k)
         checklist_key = (k + "_old")
@@ -156,12 +173,11 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.new(checklist_params)
     respond_to do |format|
       if @checklist.save
-        deadlined @checklist
-        create_defect @checklist
-        count_defects @checklist
-        copy_parameters @checklist
+        deadlined @checklist        # If the vehicle is deadlined, create a new work order automatically
+        create_defect @checklist    # Look at all fields and see if there is a new defect that needs to be created
+        count_defects @checklist    # Update times reported for any defect that was attached
+        copy_parameters @checklist  # Copy all fields to be able to perform checking
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
-        format.json { render :show, status: :created, location: @checklist }
       else
         format.html { render :new }
       end
@@ -171,9 +187,9 @@ class ChecklistsController < ApplicationController
   def update
     respond_to do |format|
       if @checklist.update(checklist_params)
-        update_defects @checklist
-        copy_parameters @checklist
-        update_count_defects @checklist
+        update_defects @checklist       # Create a new defect or update old defects if new information was entered
+        update_count_defects @checklist # Update the number of times reported for any newly attached defects
+        copy_parameters @checklist      # Copy the new information into records for comparison
         format.html { redirect_to @checklist, notice: 'Checklist was successfully updated.' }
       else
         format.html { render :edit }

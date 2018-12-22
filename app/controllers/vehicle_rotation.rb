@@ -52,7 +52,7 @@ module Vehicle_Rotation
         x = vehicle.dont_use_near_a_service_mileage
         if x <= 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
-        elsif x <= @set_a_service.threshold_numb
+        elsif x <= Program.a_service.threshold_numb
           vehicle.update(dont_use_near_a_service: true)
         else
           vehicle.update(dont_use_a_service: false, dont_use_near_a_service: false)
@@ -62,7 +62,7 @@ module Vehicle_Rotation
         y = vehicle.dont_use_near_shock_service_mileage
         if y < 0
           vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
-        elsif y <= @set_shock_service.threshold_numb
+        elsif y <= Program.shock_service.threshold_numb
           vehicle.update(dont_use_near_shock_service: true)
         else
           vehicle.update(dont_use_shock_service: false)
@@ -72,7 +72,7 @@ module Vehicle_Rotation
         z = vehicle.dont_use_near_air_filter_service_mileage
         if z < 0
           vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
-        elsif z <= @set_air_filter_service.threshold_numb
+        elsif z <= Program.air_filter_service.threshold_numb
           vehicle.update(dont_use_near_air_filter_service: true)
         else
           vehicle.update(dont_use_air_filter_service: false, dont_use_near_air_filter_service: false)
@@ -85,7 +85,7 @@ module Vehicle_Rotation
           a = vehicle.dont_use_near_tour_car_prep_mileage
           if a < 0
             vehicle.update(use_b: true, use_a: false, dont_use_tour_car_prep: true)
-          elsif a <= 100
+          elsif a <= Program.tour_car_prep.threshold_numb
             vehicle.update(dont_use_near_tour_car_prep: true)
           else
             vehicle.update(dont_use_tour_car_prep: false, dont_use_near_tour_car_prep: false)

@@ -70,10 +70,15 @@ class ChecklistsController < ApplicationController
                      checklist_id: checklist.id, completed_date: Date.current)
     end
   end
-  
+
+  def records
+    @q = Event.all.ransack(params[:q])
+    @events = @q.result.page(params[:page])
+  end
+
   def create_defect(checklist)
     @last_defect_id = Defect.last.id
-    current_ids = create_id_comparator                  # Builds an array with 1..100000 which is used as a comparator to ensure that ids entered are numbers
+    current_ids = create_id_comparator    # Builds an array with 1..100000 which is used as a comparator to ensure that ids entered are numbers
     maintenance = create_maint_categories # Builds an array with the categories that are needed to create defects
     checklist.attributes.each do |k, v|
       if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
@@ -86,11 +91,6 @@ class ChecklistsController < ApplicationController
         end
       end
     end
-  end
-
-  def records
-    @q = Event.all.ransack(params[:q])
-    @events = @q.result.page(params[:page])
   end
 
   # This function copies the information that was entered into the completed checklist for the vehicle.

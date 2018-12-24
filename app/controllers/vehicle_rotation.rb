@@ -43,16 +43,21 @@ module Vehicle_Rotation
     to_pdf "Vehicle Rotation for #{Time.now.strftime('%D')}"
   end
 
-  # Create a filed in the Vehicles table that would track if the vehicle has been used within the last week and then update that vehicle
+  # Create a field in the Vehicles table that would track if the vehicle has been used within the last week and then update that vehicle
 
   def vehicle_rotation_determination(vehicles)
+    @a_service_thresh = Program.a_service.threshold_numb
+    @shock_service_thresh = Program.shock_service.threshold_numb
+    @air_filter_service_thresh = Program.air_filter_service.threshold_numb
+    @tour_car_prep_thresh = Program.tour_car_prep.threshold_numb
+
     vehicles.all.each do |vehicle|
 
         vehicle.update(dont_use_near_a_service_mileage: (vehicle.a_service_interval - (vehicle.est_mileage - vehicle.last_a_service)))
         x = vehicle.dont_use_near_a_service_mileage
         if x <= 0
           vehicle.update(use_b: true, use_a: false, dont_use_a_service: true)
-        elsif x <= Program.a_service.threshold_numb
+        elsif x <= @a_service_thresh
           vehicle.update(dont_use_near_a_service: true)
         else
           vehicle.update(dont_use_a_service: false, dont_use_near_a_service: false)
@@ -62,7 +67,7 @@ module Vehicle_Rotation
         y = vehicle.dont_use_near_shock_service_mileage
         if y < 0
           vehicle.update(use_b: true, use_a: false, dont_use_shock_service: true)
-        elsif y <= Program.shock_service.threshold_numb
+        elsif y <= @shock_service_thresh
           vehicle.update(dont_use_near_shock_service: true)
         else
           vehicle.update(dont_use_shock_service: false)
@@ -72,7 +77,7 @@ module Vehicle_Rotation
         z = vehicle.dont_use_near_air_filter_service_mileage
         if z < 0
           vehicle.update(use_b: true, use_a: false, dont_use_air_filter_service: true)
-        elsif z <= Program.air_filter_service.threshold_numb
+        elsif z <= @air_filter_service_thresh
           vehicle.update(dont_use_near_air_filter_service: true)
         else
           vehicle.update(dont_use_air_filter_service: false, dont_use_near_air_filter_service: false)
@@ -85,7 +90,7 @@ module Vehicle_Rotation
           a = vehicle.dont_use_near_tour_car_prep_mileage
           if a < 0
             vehicle.update(use_b: true, use_a: false, dont_use_tour_car_prep: true)
-          elsif a <= Program.tour_car_prep.threshold_numb
+          elsif a <= @tour_car_prep_thresh
             vehicle.update(dont_use_near_tour_car_prep: true)
           else
             vehicle.update(dont_use_tour_car_prep: false, dont_use_near_tour_car_prep: false)
@@ -155,7 +160,7 @@ module Vehicle_Rotation
     vehicle.update(near_air_filter_service_mileage: (vehicle.air_filter_service_interval - (vehicle.mileage - vehicle.last_air_filter_service)))
     if vehicle.near_air_filter_service_mileage < 0
       vehicle.update(needs_service: true, air_filter_service: true, near_air_filter_service: false)
-    elsif vehicle.near_air_filter_service_mileage <= @set_air_filter_service.threshold_numb
+    elsif vehicle.near_air_filter_service_mileage <= Program.air_filter_service.threshold_numb
       vehicle.update(near_air_filter_service: true, near_service: true)
     else
       vehicle.update(air_filter_service: false, near_air_filter_service: false)
@@ -166,7 +171,7 @@ module Vehicle_Rotation
     vehicle.update(near_shock_service_mileage: (vehicle.shock_service_interval - (vehicle.mileage - vehicle.last_shock_service)))
     if vehicle.near_shock_service_mileage < 0
       vehicle.update(needs_service: true, shock_service: true, near_shock_service: false)
-    elsif vehicle.near_shock_service_mileage <= @set_shock_service.threshold_numb
+    elsif vehicle.near_shock_service_mileage <= Program.shock_service.threshold_numb
       vehicle.update(near_shock_service: true, near_service: true)
     else
       vehicle.update(shock_service: false, near_shock_service: false)
@@ -177,7 +182,7 @@ module Vehicle_Rotation
     vehicle.update(near_a_service_mileage: (vehicle.a_service_interval - (vehicle.mileage - vehicle.last_a_service)))
     if vehicle.near_a_service_mileage < 0
       vehicle.update(needs_service: true, a_service: true, near_a_service: false)
-    elsif vehicle.near_a_service_mileage <= @set_a_service.threshold_numb
+    elsif vehicle.near_a_service_mileage <= Program.a_service.threshold_numb
       vehicle.update(near_a_service: true, near_service: true)
     else
       vehicle.update(a_service: false, near_a_service: false)
@@ -189,11 +194,19 @@ module Vehicle_Rotation
       vehicle.update(near_tour_car_prep_mileage: (vehicle.tour_car_prep_interval - (vehicle.mileage - vehicle.last_tour_car_prep_mileage)))
       if vehicle.near_tour_car_prep_mileage < 0
         vehicle.update(needs_service: true, tour_car_prep: true, near_tour_car_prep: false)
-      elsif vehicle.near_tour_car_prep_mileage < 100
+      elsif vehicle.near_tour_car_prep_mileage < Program.tour_car_prep.threshold_numb
         vehicle.update(near_service: true, near_tour_car_prep: true)
       else
         vehicle.update(tour_car_prep: false, near_tour_car_prep: false)
       end
+    end
+  end
+
+  def defects_check(vehicle)
+    if vehicle.defects.where(fixed: false).exists?
+      vehicle.update(defect: true)
+    else
+      vehicle.update(defect: false)
     end
   end
 end

@@ -66,7 +66,6 @@ class VehiclesController < ApplicationController
   end
 
   def near_service_required
-    mileage_calculation
     @q = Vehicle.where(near_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
     to_pdf @search_results, "Near Service Vehicles for #{Date.current.strftime('%D')}"
@@ -74,7 +73,9 @@ class VehiclesController < ApplicationController
 
   def show
     @vehicle.set_thresholds
-    services_check @vehicle
+    unless @vehicle.events.one_day_ago?.empty?
+      services_check @vehicle
+    end
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc).are_not_fixed?
     @request = Request.where(vehicle_id: @vehicle.id)
@@ -91,14 +92,6 @@ class VehiclesController < ApplicationController
     defects_check vehicle
     need_service_check vehicle
     near_service_check vehicle
-  end
-
-  def defects_check(vehicle)
-    if vehicle.defects.where(fixed: false).exists?
-      vehicle.update(defect: true)
-    else
-      vehicle.update(defect: false)
-    end
   end
 
   def in_service
@@ -119,7 +112,6 @@ class VehiclesController < ApplicationController
   end
 
   def needs_service
-    mileage_calculation
     @q = Vehicle.where(needs_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
     to_pdf @search_results, "Vehicles That Need Service for #{Date.current.strftime('%D')}"

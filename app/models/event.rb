@@ -26,6 +26,7 @@ class Event < ApplicationRecord
   scope :are_in_progress?, -> { where(status: 'In-Progress') }
   scope :are_cancelled?, -> { where(status: 'Cancelled') }
   scope :defects_reported?, -> { where(defects_reported: true) }
+  scope :one_day_ago?, -> { where('date > ?', Date.today - 1.day) }
 
   STATUSES = ['Scheduled', 'Vehicles Assigned', 'In-Progress', 'Completed', 'Cancelled'].freeze
   EVENT_TYPES = ['Odyssey', 'RZR', 'Military Training', 'Race Event', 'Filming', 'Special Event', 'Training Non-NSW', 'Demonstration'].freeze

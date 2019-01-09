@@ -131,7 +131,7 @@ module Vehicle_Rotation
   end
 
   def mileage_calculation
-    Vehicle.in_service?.each do |vehicle|
+    Vehicle.all.each do |vehicle|
       a_service_check vehicle
       shock_service_check vehicle 
       air_filter_service_check vehicle

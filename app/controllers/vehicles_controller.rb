@@ -10,6 +10,7 @@ class VehiclesController < ApplicationController
                 only: %i[a_service_calculation mileage_calculation shock_service_calculation
                          air_filter_calculation show needs_service near_service_required all_vehicles
                          vehicle_mileage in_service out_of_service]
+  before_action :mileage_calculation, only: %i[needs_service near_service_required]
   include Vehicle_Rotation
 
   def index
@@ -35,7 +36,7 @@ class VehiclesController < ApplicationController
 
   def import
     Vehicle.import(params[:file])
-    redirect_to root_url, notice: 'Activity Data Imported!'
+    redirect_to root_url, notice: 'Vehicle Data Imported!'
   end
 
   def vehicle_mileage
@@ -73,9 +74,7 @@ class VehiclesController < ApplicationController
 
   def show
     @vehicle.set_thresholds
-    unless @vehicle.events.one_day_ago?.empty?
-      services_check @vehicle
-    end
+    services_check @vehicle
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc).are_not_fixed?
     @request = Request.where(vehicle_id: @vehicle.id)

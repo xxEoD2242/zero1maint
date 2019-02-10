@@ -11,3 +11,12 @@ task check_work_orders_overdue: :environment do
     end
   end
 end
+
+desc 'Deadline vehicles for overdue work orders'
+task deadline_vehicles_overdue_work_orders: :environment do
+  Vehicle.all.each do |vehicle|
+    unless vehicle.requests.where(status: "Overdue").empty?
+      vehicle.update(vehicle_status: "Out-Of-Service")
+    end
+  end
+end

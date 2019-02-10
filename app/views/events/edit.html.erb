@@ -134,6 +134,7 @@
                   <th scope='col'> Mileage </th>
                   <th scope='col'> Times Used </th>
                   <th scope='col'> Status </th>
+                  <th scope='col'> Defects Reported (ID / Description) </th>
                 </tr>
               </thead>
               <tbody>
@@ -155,7 +156,17 @@
                     <span class='badge <%= vehicle_status_badge_color Vehicle.find(b.object.id) %>'>
                     <%= Vehicle.find(b.object.id).vehicle_status %>
                   </td>
+                  <td>
+                    <ul class='list-unstyled'>
+                    <% Vehicle.find(b.object.id).defects.where(fixed: false).each do |defect| %>
+                        <li>
+                          <%= link_to defect.id, defect_path(defect), class: 'badge badge-danger' %> / <%= defect.description[0..50] %>...
+                        </li>
+                    <% end %>
+                    </ul>
+                  </td>
                 </tr>
+                
                 <% end %>
               </tbody>
             </table>

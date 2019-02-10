@@ -8,7 +8,6 @@ class EventsController < ApplicationController
   before_action :set_location, only: %i[index show edit new create update]
   before_action :set_vehicles, only: %i[index show edit new create update]
   after_action :calc_mileage, only: %i[update event_completed]
-  before_action :vehicle_use_count, only: %i[edit]
   include Multi_Day
   include Vehicle_Rotation
   include Auto_Select

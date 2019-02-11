@@ -83,7 +83,7 @@ class ChecklistsController < ApplicationController
     checklist.attributes.each do |k, v|
       if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v)
         @new_defect = Defect.create(description: v, checklist_ids: [checklist.id], vehicle_id: checklist.vehicle.id,
-                                    manually_reported: false, category: k, times_reported: 0, last_event_reported: checklist.event_id)
+                                    manually_reported: false, category: k, times_reported: 0, times_completed: 0, last_event_reported: checklist.event_id)
       elsif v != 'Checked' && maintenance.include?(k) && current_ids.include?(v)
         if v.to_i < @last_defect_id
         @defect = Defect.where(id: v).last
@@ -153,7 +153,7 @@ class ChecklistsController < ApplicationController
       end
       if v != 'Checked' && maintenance.include?(k) && !current_ids.include?(v) && v != old_checklist && v != ""
         @new_defect = Defect.create(description: v, checklist_ids: [checklist.id], vehicle_id: checklist.vehicle.id,
-                                    manually_reported: false, category: k, times_reported: 0, last_event_reported: checklist.event_id)
+                                    manually_reported: false, category: k, times_completed: 0, times_reported: 0, last_event_reported: checklist.event_id)
       elsif v != 'Checked' && maintenance.include?(k) && current_ids.include?(v) && v != old_checklist && v != ""
         if v.to_i < @last_defect_id
         @defect = Defect.where(id: v).last

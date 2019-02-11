@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190209231315) do
+ActiveRecord::Schema.define(version: 20190210231417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -327,6 +327,7 @@ ActiveRecord::Schema.define(version: 20190209231315) do
     t.boolean "tour_car_prep", default: false
     t.boolean "defect", default: false
     t.boolean "repairs", default: false
+    t.boolean "deadline", default: false
   end
 
   create_table "rotation_metrics", force: :cascade do |t|
@@ -456,6 +457,7 @@ ActiveRecord::Schema.define(version: 20190209231315) do
     t.boolean "dont_use_tour_car_prep", default: false
     t.boolean "a_service", default: false
     t.integer "times_used_year", default: 0
+    t.boolean "work_orders_overdue", default: false
   end
 
   create_table "web_hooks", force: :cascade do |t|

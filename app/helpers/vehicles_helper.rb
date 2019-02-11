@@ -101,4 +101,10 @@ module VehiclesHelper
     'No Checklist Completed'
     end
   end
+  
+  def vehicle_deadlined(vehicle)
+    if vehicle.requests.where("status != 'Completed'").where(deadline: true).exists?
+      render "deadlined",vehicle: vehicle
+    end
+  end
 end

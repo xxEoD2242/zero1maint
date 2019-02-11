@@ -220,6 +220,6 @@ class VehiclesController < ApplicationController
                                     :veh_category, :location, :shock_service, :times_used, :est_mileage,
                                     :a_service_interval, :shock_service_interval, :air_filter_service_interval,
                                     :air_filter_service, :tour_car_prep, :near_tour_car_prep, :near_tour_car_prep_mileage,
-                                    :last_tour_car_prep_mileage, :location_id, :event_id, vehicle_ids: [])
+                                    :last_tour_car_prep_mileage, :work_orders_overdue, :times_used_year, :location_id, :event_id, vehicle_ids: [])
   end
 end

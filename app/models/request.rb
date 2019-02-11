@@ -27,7 +27,8 @@ class Request < ApplicationRecord
   accepts_nested_attributes_for :vehicle, :parts
   
   after_save :set_defects_fixed, only: [:update]
-  after_save :a_service_update, :shock_service_update, :air_filter_service_update, :tour_car_prep_update, :defect_update, :repairs_update
+  after_save :a_service_update, :shock_service_update, :air_filter_service_update, 
+            :tour_car_prep_update, :defect_update, :repairs_update, :deadline_update
   before_save :track_times_completed
 
   STATUS = ['New', 'In-Progress', 'Completed', 'Overdue'].freeze
@@ -155,7 +156,14 @@ class Request < ApplicationRecord
     veh_mileage = vehicle.mileage
     if self.programs.ids.include?(Program.repairs.id) && self.completed?
       vehicle.update(vehicle_status: "In-Service", repair_needed: false, needs_service: false)
-    elsif self.programs.ids.include?(Program.repairs.id)
+    elsif self.programs.ids.include?(Program.repairs.id) && self.deadline
+      vehicle.update(vehicle_status: "Out-of-Service", repair_needed: true, needs_service: true)
+    end
+  end
+  
+  def deadline_update
+    vehicle = self.vehicle
+    if self.deadline && !self.completed?
       vehicle.update(vehicle_status: "Out-of-Service", repair_needed: true, needs_service: true)
     end
   end
@@ -174,7 +182,7 @@ class Request < ApplicationRecord
     if self.completed? && self.times_completed == 0
       self.times_completed = (self.times_completed + 1)
       self.mechanic = User.find(self.mechanic_id).name
-    elsif self.completed?
+    elsif self.completed? && self.time_completed == 0
       self.times_completed = (self.times_completed + 1)
     end
   end

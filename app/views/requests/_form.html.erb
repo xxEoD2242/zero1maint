@@ -39,6 +39,18 @@
       <br />
       <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
     </div>
+    
+    <div class='row'>
+      <div class='col-md-2'>
+        <div class='form-check'>
+          <%= f.check_box :deadline, class: 'form-check-input' %>
+          <strong> <%= f.label "Vehicle Deadlined?", class: 'form-check-label' %> </strong>
+        </div>
+      </div>
+      <div class='col-md-10 border border-white p-3 rounded'>
+        <h6> Please check this box if the defect or repair that is being reported places the vehicle out-of-service. </h6>
+      </div>
+    </div>
     <div class="form-group">
       <strong><%= f.label "Description" %></strong>
       <%= f.text_area :description, id: :request_description, class: "form-control"%>

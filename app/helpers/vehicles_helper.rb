@@ -32,7 +32,7 @@ module VehiclesHelper
   
   def last_shock_service_badge(vehicle)
     unless @vehicle.requests.where(shock_service: true).empty?
-      link_to "(#{@vehicle.requests.where(program_id: @set_shock_service.id).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(shock_service: true).last), class: "badge badge-danger"
+      link_to "(#{@vehicle.requests.where(shock_service: true).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(shock_service: true).last), class: "badge badge-danger"
     else
       'None'
     end

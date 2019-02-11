@@ -8,6 +8,14 @@
     </span>
     <% end %>
   </h2>
+  
+  <% if @vehicle.work_orders_overdue %>
+    <div class='container-fluid border border-danger rounded bg-dark text-white'>
+      <h2 class='display-5 text-center'>
+        This vehicle has work orders overdue!
+      </h2>
+    </div>
+  <% end %>
 
   <div class="card bg-dark text-white mt-3">
     <div class="card-header">

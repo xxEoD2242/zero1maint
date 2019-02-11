@@ -73,6 +73,9 @@ class VehiclesController < ApplicationController
   end
 
   def show
+    if @vehicle.requests.where(status: "Overdue").exists?
+      flash[:alert] = "This vehicle has overdue work orders!"
+    end
     @vehicle.set_thresholds
     services_check @vehicle
     @set_defects = Program.find_by(name: 'Defect')

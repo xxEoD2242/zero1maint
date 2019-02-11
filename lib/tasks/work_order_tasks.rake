@@ -16,7 +16,7 @@ desc 'Deadline vehicles for overdue work orders'
 task deadline_vehicles_overdue_work_orders: :environment do
   Vehicle.all.each do |vehicle|
     unless vehicle.requests.where(status: "Overdue").empty?
-      vehicle.update(vehicle_status: "Out-of-Service")
+      vehicle.update(work_orders_overdue: true)
     end
   end
 end

@@ -182,7 +182,7 @@ class Request < ApplicationRecord
     if self.completed? && self.times_completed == 0
       self.times_completed = (self.times_completed + 1)
       self.mechanic = User.find(self.mechanic_id).name
-    elsif self.completed? && self.time_completed == 0
+    elsif self.completed?
       self.times_completed = (self.times_completed + 1)
     end
   end

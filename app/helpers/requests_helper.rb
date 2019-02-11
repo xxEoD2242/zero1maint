@@ -82,4 +82,10 @@ module RequestsHelper
       Program.find(request.program_id).name
     end
   end
+  
+  def vehicle_deadline_badge(request)
+    if request.deadline
+      render 'deadline_badge'
+    end
+  end
 end

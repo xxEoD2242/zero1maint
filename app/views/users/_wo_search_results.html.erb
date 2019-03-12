@@ -26,8 +26,13 @@
           <% end %>
         </td>
         <td>
-          <% if !request.vehicle.nil? %>
-          <%=request.vehicle.car_id %>
+          <% if request.vehicle_id %>
+          <%= Vehicle.find(request.vehicle_id).car_id %>
+          <% elsif request.multi_vehicle %>
+          <% request.vehicles.each do |vehicle| %>
+            <%= vehicle.car_id %>
+            <br />
+          <% end %>
           <% end %>
         </td>
         <td><%=request.created_at.strftime('%D') %></td>

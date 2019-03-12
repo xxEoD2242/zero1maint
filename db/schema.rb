@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190210231417) do
+ActiveRecord::Schema.define(version: 20190311200646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20190210231417) do
     t.string "exhaust_old"
     t.string "steering_old"
     t.string "defect_ids_old", default: [], array: true
+    t.string "name"
   end
 
   create_table "defect_requests", force: :cascade do |t|
@@ -297,6 +298,13 @@ ActiveRecord::Schema.define(version: 20190210231417) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "request_vehicles", force: :cascade do |t|
+    t.integer "request_id"
+    t.integer "vehicle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "requests", force: :cascade do |t|
     t.integer "number"
     t.text "description"
@@ -328,6 +336,7 @@ ActiveRecord::Schema.define(version: 20190210231417) do
     t.boolean "defect", default: false
     t.boolean "repairs", default: false
     t.boolean "deadline", default: false
+    t.boolean "multi_vehicle", default: false
   end
 
   create_table "rotation_metrics", force: :cascade do |t|
@@ -386,12 +395,6 @@ ActiveRecord::Schema.define(version: 20190210231417) do
     t.boolean "subscribe", default: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "vehicle_categories", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "vehicles", force: :cascade do |t|

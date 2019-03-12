@@ -1,0 +1,19 @@
+<div class='jumbotron bg-secondary text-white'>
+  <h1 class='text-center'>
+    Please choose which type of work order this is.
+  </h1>
+  <br />
+  <div class='row'>
+    <div class='col-md-6'>
+      <h1 class='text-center'>
+        <%= link_to "Single Vehicle Work Order", new_request_path, class: 'badge badge-danger'%>
+      </h1>
+    </div>
+    <div class='col-md-6'>
+      <h1 class='text-center'>
+        <%= link_to "Multi-Vehicle Work Order", multi_vehicle_requests_path, class: 'badge badge-danger'%>
+      </h1>
+    </div>
+  </div>
+</div>
+

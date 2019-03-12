@@ -31,13 +31,19 @@
               <%= program_ids? request %>
             </td>
             <td>
-              <% if !request.vehicle.nil? %>
-              <%= request.vehicle.car_id %>
+              <% if !request.vehicles.nil? %>
+                <% request.vehicles.each do |vehicle| %>
+                  <%= vehicle.car_id %>
+                <% end %>
               <% end %>
             </td>
-            <td><%=request.created_at.strftime('%v') %></td>
+            <td> 
+              <%=request.created_at.strftime('%v') %>
+            </td>
             <% if request.completion_date %>
-            <td><%= request.completion_date.strftime('%v') %></td>
+            <td>
+              <%= request.completion_date.strftime('%v') %>
+            </td>
             <% end %>
             <td>
               <h6>

@@ -1,15 +1,37 @@
 <div class="jumbotron">
-   <h1 class="text-center" >Work Order Number: <%= @request.id %> for <%= @request.vehicle.car_id%> </h1>
+   <h1 class="text-center" >Work Order Number: <%= @request.id %> </h1>
    
 </div>
 <p>
   <strong>Submitted By:</strong>
-  <%= @request.creator%>
+  <%= @request.creator %>
 </p>
 
 <p>
-  <strong>Current Vehicle Mileage:</strong>
-  <%= @request.vehicle.mileage%>
+  <strong>Vehicles:</strong>
+
+<% if request.vehicle_id %>
+  <p>
+    <strong>Vehicle ID</strong>
+    <%= Vehicle.find(request.vehicle_id).car_id %>
+  </p>
+<% elsif request.multi_vehicle %>
+<% request.vehicles.each do |vehicle| %>
+<div class='row'>
+  <div class='col-md-2'>
+    <span class='badge badge-danger'>
+      <%= vehicle.car_id %>
+    </span>
+  </div>
+  <div class='col-md-2'>
+    <span class='badge badge-light'>
+      <%= vehicle.mileage %>
+    </span>
+  </div>
+</div>
+<% end %>
+<% end %>
+
 </p>
 
 <p>

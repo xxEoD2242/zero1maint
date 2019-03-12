@@ -7,10 +7,22 @@
 		You have been assigned to this work order. If you have any questions, please contact <%= @request.creator%>.
 	</p>
 	
-	<p>
-	  <strong>Vehicle Name:</strong>
-	  <%= @request.vehicle.car_id%>
-	</p>
+  <% if @request.vehicle_id %>
+  <p>
+    <strong>Vehicle ID:</strong>
+    <%= Vehicle.find(@request.vehicle_id).car_id %>
+  </p>
+
+  <% elsif @request.multi_vehicle %>
+
+  <p>
+    <strong>Vehicles:</strong>
+    <% @request.vehicle.each do |vehicle|%>
+      <%= vehicle.car_id %> Mileage: <%= vehicle.mileage %>
+      <br />
+    <% end %>
+  </p>
+  <% end %>
 
 	<p>
 	  <strong>Submitted By:</strong>
@@ -40,12 +52,6 @@
     <% end %>
 	</p>
 	<% end %>
-
-
-	<p>
-	  <strong> Work Order Mileage:</strong>
-	  <%= @request.request_mileage%>
-	</p>
 
 	<p>
 	  <strong>Completion date:</strong>

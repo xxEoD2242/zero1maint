@@ -7,6 +7,10 @@ class ChecklistsController < ApplicationController
   before_action :set_checklist, only: %i[show edit update destroy]
 
   def index; end
+  
+  def build_new_checklist
+    
+  end
 
   def new
     defect_method_notice

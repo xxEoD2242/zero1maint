@@ -2,7 +2,7 @@
   <form class="form-inline">
     <%= search_form_for q, :url => {:action => action } do |f|%>
     <div class="form-group mr-3">
-      <%= f.select :vehicle_id_eq, options_from_collection_for_select(Vehicle.all.order(car_id: :asc), "id", "car_id", @q.vehicle_id_eq), {include_blank: "Select Vehicle"}, class: "form-control" %>
+      
     </div>
   	<div class="form-group">
   		<%= f.select :program_id_eq, options_from_collection_for_select(Program.all, "id", "name", @q.program_id_eq), {include_blank: "Select Service Type"}, class: "form-control" %>

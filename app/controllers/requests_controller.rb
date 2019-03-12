@@ -4,34 +4,33 @@ class RequestsController < ApplicationController
   load_and_authorize_resource
   check_authorization
 
-  before_action :set_request, only: %i[show edit update destroy]
-  before_action :set_vehicle, only: %i[index show edit new]
+  before_action :set_request, only: %i[show edit update destroy] 
   before_action :check_quant, only: [:show]
 
   def index
     @requests = Request.all.page(params[:page])
     @q = Request.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def overdue
     @q = Request.where(status: 'Overdue').ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def completed
     @q = Request.where(status: 'Completed').ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def new_requests
     @q = Request.where(status: 'New').ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def in_progress
     @q = Request.where(status: 'In-Progress').ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def show
@@ -52,32 +51,32 @@ class RequestsController < ApplicationController
 
   def a_service
     @q = Request.is_an_a_service.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def shock_service
     @q = Request.is_a_shock_service.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def air_filter_service
     @q = Request.is_a_air_filter_service.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def repairs
     @q = Request.is_a_repair.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def defects
     @q = Request.is_a_defect.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def tour_car_prep
     @q = Request.is_a_defect.ransack(params[:q])
-    @request_results = @q.result.includes(:vehicle).page(params[:page])
+    @request_results = @q.result.page(params[:page])
   end
 
   def dashboard
@@ -171,9 +170,17 @@ class RequestsController < ApplicationController
   end
 
   def edit
-    @defects = Vehicle.find(@request.vehicle.id).defects.where(fixed: false)
+    if @request.vehicle_id != 'nil'
+      @defects = Vehicle.find(@request.vehicle_id).defects.where(fixed: false)
+    elsif !@request.multi_vehicle
+       @defects = Vehicle.find(@request.vehicles.last.id).defects.where(fixed: false)
+    end
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])
+  end
+  
+  def edit_multi_vehicle
+    @request = Request.find(params[:id])
   end
 
   def request_email(_request)
@@ -187,10 +194,92 @@ class RequestsController < ApplicationController
       end
     end
   end
+
+  def decide
+    
+  end
+
+  def multi_vehicle
+    @request = Request.new
+  end
   
+  def tour_car_service(request)
+    if request.programs.ids.include?(Program.tour_car_prep.id) && request.completed?
+      request.vehicles.each do |vehicle|
+        vehicle.update(tour_car_prep: false, needs_service: false, vehicle_status: 'In-Service', last_tour_car_prep_mileage: vehicle.mileage)
+      end
+    end
+    if request.programs.ids.include?(Program.tour_car_prep.id)
+      request.update(tour_car_prep: true)
+    end
+  end
+
+  def defect_update(request)
+    if request.programs.ids.include?(Program.defect.id) && request.completed?
+      request.vehicles.each do |vehicle|
+        vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
+      end
+      defect_email
+    end
+    if request.programs.ids.include?(Program.defect.id)
+      request.update(defect: true)
+    end
+  end
+  
+  def a_service_update(request)
+    if request.programs.ids.include?(Program.a_service.id) && request.completed? 
+      request.vehicles.each do |vehicle|
+        vehicle.update(last_a_service: vehicle.mileage)
+      end
+    end
+    if request.programs.ids.include?(Program.a_service.id)
+      request.update(a_service: true)
+    end
+  end
+  
+  def shock_service_update(request)
+    if request.programs.ids.include?(Program.shock_service.id) && request.completed?
+      request.vehicles.each do |vehicle|
+        vehicle.update(last_shock_service: vehicle.mileage)
+      end
+    end
+    if request.programs.ids.include?(Program.shock_service.id)
+      request.update(shock_service: true)
+    end
+  end
+  
+  def air_filter_service_update(request)
+    if request.programs.ids.include?(Program.air_filter_service.id) && request.completed?
+      request.vehicles.each do |vehicle|
+        vehicle.update(last_air_filter_service: vehicle.mileage)
+      end
+    end
+    if request.programs.ids.include?(Program.air_filter_service.id)
+      request.update(air_filter_service: true)
+    end
+  end
+
+  def repairs_update(request)
+    if request.programs.ids.include?(Program.repairs.id) && request.completed?
+      request.vehicles.each do |vehicle|
+        vehicle.update(vehicle_status: "In-Service", repair_needed: false, needs_service: false)
+      end
+    elsif request.programs.ids.include?(Program.repairs.id) && request.deadline
+      request.vehicles.each do |vehicle|
+        vehicle.update(vehicle_status: "Out-of-Service", repair_needed: true, needs_service: true)
+      end
+    end
+  end
+
   def program_ids(request)
     if request.program_ids.empty?
       request.update(program_ids: [6])
+    end
+  end
+  
+  def singular_vehicle(request)
+    unless request.multi_vehicle
+      request.update(vehicle_ids: request.vehicle_id)
     end
   end
 
@@ -199,15 +288,22 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.save
-        vehicle = @request.vehicle
-        @request.update(request_mileage: vehicle.mileage)
         request_email @request
         program_ids @request
+        a_service_update @request
+        shock_service_update @request
+        air_filter_service_update @request
+        repairs_update @request
+        tour_car_service @request
+        defect_update @request
+        singular_vehicle @request
         format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
       else
-        format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        if !@request.multi_vehicle
+          format.html { render :new }
+        else
+          format.html {render :multi_vehicle }
+        end
       end
     end
   end
@@ -232,6 +328,12 @@ class RequestsController < ApplicationController
           email = User.find_by(name: @request.creator).email
           UserMailer.overdue_work_order_email(email, @request).deliver_now
         end
+        a_service_update @request
+        shock_service_update @request
+        air_filter_service_update @request
+        repairs_update @request
+        tour_car_service @request
+        defect_update @request
 
         format.html { redirect_to @request, notice: 'Work Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
@@ -264,7 +366,7 @@ class RequestsController < ApplicationController
     params.require(:request).permit(:number, :description, :special_requets, :completion_date,
                                     :completed_date, :poc, :checklist_numb, :creator, :vehicle_id,
                                     :status, :image, :creator, :request_mileage, :mechanic, :deadline,
-                                    :mechanic_id, :notes, :times_completed, part_ids: [], user_ids: [],
-                                    defect_ids: [], program_ids: [])
+                                    :mechanic_id, :notes, :times_completed, :multi_vehicle, part_ids: [], 
+                                    user_ids: [], defect_ids: [], program_ids: [], vehicle_ids: [])
   end
 end

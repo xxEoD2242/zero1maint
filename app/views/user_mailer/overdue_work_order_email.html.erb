@@ -1,24 +1,30 @@
 <div>
-  <h1 style="text-align: center;">Work Order <%= @request.id %> for <%= @request.vehicle.car_id %></h1>
+  <h1 style="text-align: center;">Work Order <%= @request.id %></h1>
 </div>	
 
 <div style="border: 2px solid red; border-radius: 6px 6px 6px 6px; background-color: lightgrey;">
   <h2 style="color: red;text-align: center;">Overdue</h2>
 </div>
 	
+<% if @request.vehicle_id %>
 <p>
-  <strong>Vehicle Name:</strong>
-  <%= @request.vehicle.car_id%>
+  <strong>Vehicle ID:</strong>
+  <%= Vehicle.find(@request.vehicle_id).car_id %>
 </p>
+
+<% elsif @request.multi_vehicle %>
+<p>
+  <strong>Vehicles:</strong>
+  <% @request.vehicle.each do |vehicle|%>
+    <%= vehicle.car_id %> Mileage: <%= vehicle.mileage %>
+    <br />
+  <% end %>
+</p>
+<% end %>
 
 <p>
   <strong>Submitted By:</strong>
   <%= @request.creator%>
-</p>
-
-<p>
-  <strong>Current Vehicle Mileage:</strong>
-  <%= @request.vehicle.mileage%>
 </p>
 
 <p>
@@ -39,11 +45,6 @@
   <% end %>
 </p>
 <% end %>
-
-<p>
-  <strong> Work Order Mileage:</strong>
-  <%= @request.request_mileage%>
-</p>
 
 <p>
   <strong>Estimated Completion date:</strong>

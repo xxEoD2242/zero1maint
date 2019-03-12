@@ -85,6 +85,9 @@ Rails.application.routes.draw do
       get 'tour_car_prep'
       get 'new_requests'
       get 'create_work_order'
+      get 'decision'
+      get 'multi_vehicle'
+      get 'edit_multi_vehicle'
     end
   end
 

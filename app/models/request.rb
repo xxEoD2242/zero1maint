@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Request < ApplicationRecord
-  belongs_to :vehicle
+  has_many :request_vehicles
+  has_many :vehicles, through: :request_vehicles
 
   has_many :request_users
   has_many :users, through: :request_users
@@ -24,11 +25,10 @@ class Request < ApplicationRecord
 
   paginates_per 10
 
-  accepts_nested_attributes_for :vehicle, :parts
+  accepts_nested_attributes_for :parts
   
   after_save :set_defects_fixed, only: [:update]
-  after_save :a_service_update, :shock_service_update, :air_filter_service_update, 
-            :tour_car_prep_update, :defect_update, :repairs_update, :deadline_update
+  
   before_save :track_times_completed
 
   STATUS = ['New', 'In-Progress', 'Completed', 'Overdue'].freeze
@@ -94,80 +94,7 @@ class Request < ApplicationRecord
   def self.one_week?
     where('created_at >= ?', (Date.current - 7.days))
   end
-  
-  def a_service_update
-    vehicle = self.vehicle
-    veh_mileage = self.vehicle.mileage
-    if self.programs.ids.include?(Program.a_service.id) && self.completed? 
-      vehicle.update(last_a_service: veh_mileage)
-    end
-    if self.programs.ids.include?(Program.a_service.id)
-      self.a_service = true
-    end
-  end
-  
-  def shock_service_update
-    vehicle = self.vehicle
-    veh_mileage = self.vehicle.mileage
-    if self.programs.ids.include?(Program.shock_service.id) && self.completed?
-      vehicle.update(last_shock_service: veh_mileage)
-    end
-    if self.programs.ids.include?(Program.shock_service.id)
-      self.shock_service = true
-    end
-  end
-  
-  def air_filter_service_update
-    vehicle = self.vehicle
-    veh_mileage = self.vehicle.mileage
-    if self.programs.ids.include?(Program.air_filter_service.id) && self.completed?
-      vehicle.update(last_air_filter_service: veh_mileage)
-    end
-    if self.programs.ids.include?(Program.air_filter_service.id)
-      self.air_filter_service = true
-    end
-  end
-  
-  def tour_car_prep_update
-    vehicle = self.vehicle
-    veh_mileage = self.vehicle.mileage
-    if self.programs.ids.include?(Program.tour_car_prep.id) && self.completed?
-      vehicle.update(tour_car_prep: false, needs_service: false, vehicle_status: 'In-Service', last_tour_car_prep_mileage: veh_mileage)
-    end
-    if self.programs.ids.include?(Program.tour_car_prep.id)
-      self.tour_car_prep = true
-    end
-  end
-  
-  def defect_update
-    vehicle = self.vehicle
-    veh_mileage = vehicle.mileage
-    if self.programs.ids.include?(Program.defect.id) && self.completed?
-      vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
-      defect_email
-    end
-    if self.programs.ids.include?(Program.defect.id)
-      self.defect = true
-    end
-  end
-  
-  def repairs_update
-    vehicle = self.vehicle
-    veh_mileage = vehicle.mileage
-    if self.programs.ids.include?(Program.repairs.id) && self.completed?
-      vehicle.update(vehicle_status: "In-Service", repair_needed: false, needs_service: false)
-    elsif self.programs.ids.include?(Program.repairs.id) && self.deadline
-      vehicle.update(vehicle_status: "Out-of-Service", repair_needed: true, needs_service: true)
-    end
-  end
-  
-  def deadline_update
-    vehicle = self.vehicle
-    if self.deadline && !self.completed?
-      vehicle.update(vehicle_status: "Out-of-Service", repair_needed: true, needs_service: true)
-    end
-  end
-  
+
   def defect_email
     if self.users.exists?
       defect_emails = []

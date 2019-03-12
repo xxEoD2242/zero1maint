@@ -1,21 +1,33 @@
 <div>
-   <h1 style="text-align: center;">Work Order #<%= @request.id %> for <%= @request.vehicle.car_id %></h1>
+   <h1 style="text-align: center;">Work Order #<%= @request.id %></h1>
 </div>	
 
 <p>
 	You have been assigned &/OR CC'd this work order. If you have any questions, please contact <%= @request.creator%>.
 </p>
 
+<% if @request.multi_vehicle %>
+<p>
+  <strong>Vehicles</strong>
+  <ul>
+  <% @request.vehicles.each do |vehicle| %>
+      <li><%= vehicle.car_id %>
+  <% end %>
+  </ul>
+</p>
+
+<% elsif @request.vehicle_id %>
+<p>
+  <strong>Vehicle ID</strong>
+  <br />
+  <%= Vehicle.find(@request.vehicle_id).car_id %>
+</p>
+<% end %>
+
 <p>
   <strong>Submitted By:</strong>
   <br />
   <%= @request.creator%>
-</p>
-
-<p>
-  <strong>Current Vehicle Mileage:</strong>
-  <br />
-  <%= @request.vehicle.mileage%>
 </p>
 
 <p>

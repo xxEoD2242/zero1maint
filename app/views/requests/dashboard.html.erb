@@ -5,7 +5,7 @@
 <div class="row mb-3">
   <div class="col-md-3">
     <div class="list-group">
-      <%= link_to "Create A Work Order", new_request_path, class: "list-group-item bg-secondary text-white list-group-item-action" %>
+      <%= link_to "Create A Work Order", decision_requests_path, class: "list-group-item bg-secondary text-white list-group-item-action" %>
       <%= render 'dashboard_link', title: "All Work Orders", numb: @all_wo_numb, url: "../requests" %>
       <%= render 'dashboard_link', title: "New Work Orders", numb: @new_wo_numb, url: "../requests/new_requests" %>
       <%= render 'dashboard_link', title: "In-Progress Work Orders", numb: @in_progress_wo_numb, url: "../requests/in_progress" %>
@@ -108,8 +108,13 @@
               <%= program_ids? request %>
             </td>
             <td>
-              <% if !request.vehicle.nil? %>
-                <%=request.vehicle.car_id %>
+              <% if request.vehicle_id %>
+              <%= Vehicle.find(request.vehicle_id).car_id %>
+              <% elsif request.multi_vehicle %>
+                <% request.vehicles.each do |vehicle| %>
+                  <%= link_to vehicle.car_id, vehicle_path(vehicle), class: 'badge badge-danger' %>
+                  <br />
+                <% end %>
               <% end %>
             </td>
             <td><%=request.created_at.strftime('%v') %></td>

@@ -1,20 +1,29 @@
 <div>
-  <h1 style="text-align: center;">Work Order <%= @request.id %> for <%= @request.vehicle.car_id %></h1>
+  <h1 style="text-align: center;">Work Order <%= @request.id %></h1>
 </div>	
 
 <p>
   This work order has been completed. If you have any questions, please contact <%= @request.creator %>
 </p>
 	
+
+<% if @request.vehicle_id %>
 <p>
-  <strong>Vehicle Name:</strong>
-  <%= @request.vehicle.car_id %>
+  <strong>Vehicle ID:</strong>
+  <%= Vehicle.find(@request.vehicle_id).car_id %>
 </p>
 
+<% elsif @request.multi_vehicle %>
+
 <p>
-  <strong>Current Vehicle Mileage:</strong>
-  <%= @request.vehicle.mileage %>
+  <strong>Vehicles: </strong>
+  <br />
+  <% @request.vehicles.each do |vehicle|%>
+    <%= vehicle.car_id %> Mileage: <%= vehicle.mileage %>
+    <br />
+  <% end %>
 </p>
+<% end %>
 
 <p>
   <strong>Description:</strong>
@@ -29,7 +38,7 @@
 <p>
   <strong>Service Type:</strong>
   <% @request.programs.each do |program|%>
-    <% program.name %>
+    <%= program.name %>
     <br \>
   <% end %>
 </p>

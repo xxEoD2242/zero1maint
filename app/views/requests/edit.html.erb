@@ -1,97 +1,106 @@
 <div class="jumbotron bg-secondary text-white">
   <h1 class="display-3 text-center">Edit Work Order: <%= @request.id%></h1>
   <div class="card bg-dark text-white">
-      <%= simple_form_for @request do |f| %>
-      <% if @request.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@request.errors.count, "error") %> prohibited this event from being saved:</h2>
-        <ul>
-          <% @request.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-          <% end %>
-        </ul>
+    <%= simple_form_for @request do |f| %>
+    <% if @request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@request.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <ul>
+        <% @request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+    <div class='card-header d-flex justify-content-between align-items-center'>
+      <h3>Vehicle ID: 
+        <span class='badge badge-danger'>
+          <%= Vehicle.find(@request.vehicle_id).car_id %>
+        </span>
+      </h3>
+      <h3>
+        Creator: 
+        <span class='badge badge-danger'>
+          <%= @request.creator%>
+        </span>
+      </h3>
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <strong>Current Status </strong> <br />
+        <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, class: "form-control" %>
+      </div>
+  
+      <div class="form-group">
+        <strong>Service</strong>
+        <br />
+        <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
+      </div>
+        
+      <div class='row'>
+        <div class='col-md-2'>
+          <div class='form-check'>
+            <%= f.check_box :deadline, class: 'form-check-input' %>
+            <strong> <%= f.label "Vehicle Deadlined?", class: 'form-check-label' %> </strong>
+          </div>
+        </div>
+        <div class='col-md-10 border border-white p-3 rounded'>
+          <h6> Please check this box if the defect or repair that is being reported places the vehicle out-of-service. </h6>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <%= f.input :description, class: "form-control", required: true %>
+      </div>
+	
+      <div class="form-group">
+        <%= f.input :request_mileage, label: "Work Order Mileage", class: "form-control"%>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong class='my-2'>Estimated Completion Date</strong>
+            <%= f.date_field :completion_date, id: :request_completion_date, class: "form-control", datepicker: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <strong class='my-2'>Actual Completion Date</strong>
+            <%= f.date_field :completed_date, id: :request_completion_date, class: "form-control", datepicker: true %>
+          </div>
+        </div>
+      </div>
+
+      <div class='form-group'>
+        <%= f.input :notes, label: 'Notes', class: 'form-control font-weight-bold' %>
+      </div>
+
+      <div class="form-group p-3 border border-danger bg-secondary text-white rounded">
+        <strong class="mb-2">Assign &/OR Email Request To: </strong>
+        <br />
+        <br />
+        <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
+      </div>
+
+      <div class="form-group p-3 border border-danger bg-secondary text-white rounded">
+        <strong>Attach Defects:</strong>
+        <br />
+        <br />
+        <%= f.collection_check_boxes :defect_ids, @defects, "id", :user_naming, class: "form-control" %>
+      </div>
+  
+      <div class="form-group">
+        <strong class="mr-3">Upload Work Order Images: </strong>
+        <%= f.file_field :image %>
+      </div>
+
+      <%= f.hidden_field :mechanic_id, value: current_user.id %>
+
+      <div class="form-group">
+        <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-danger" %>
       </div>
       <% end %>
-      <div class="card-body">
-        <div class="form-group">
-          <strong>Creator: <%= @request.creator%></strong>
-        </div>
-
-        <div class="form-group">
-          <strong>Current Status </strong> <br />
-          <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, class: "form-control" %>
-        </div>
-  
-        <div class="form-group">
-          <strong>Service</strong>
-          <br />
-         <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
-        </div>
-        
-        <div class='row'>
-          <div class='col-md-2'>
-            <div class='form-check'>
-              <%= f.check_box :deadline, class: 'form-check-input' %>
-              <strong> <%= f.label "Vehicle Deadlined?", class: 'form-check-label' %> </strong>
-            </div>
-          </div>
-          <div class='col-md-10 border border-white p-3 rounded'>
-            <h6> Please check this box if the defect or repair that is being reported places the vehicle out-of-service. </h6>
-          </div>
-        </div>
-      
-        <div class="form-group">
-          <%= f.input :description, class: "form-control", required: true %>
-        </div>
-	
-        <div class="form-group">
-          <%= f.input :request_mileage, label: "Work Order Mileage", class: "form-control"%>
-        </div>
-      
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <strong class='my-2'>Estimated Completion Date</strong>
-              <%= f.date_field :completion_date, id: :request_completion_date, class: "form-control", datepicker: true %>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <strong class='my-2'>Actual Completion Date</strong>
-              <%= f.date_field :completed_date, id: :request_completion_date, class: "form-control", datepicker: true %>
-            </div>
-          </div>
-        </div>
-
-        <div class='form-group'>
-          <%= f.input :notes, label: 'Notes', class: 'form-control font-weight-bold' %>
-        </div>
-
-        <div class="form-group p-3 border border-danger bg-secondary text-white rounded">
-          <strong class="mb-2">Assign &/OR Email Request To: </strong>
-          <br />
-          <br />
-          <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
-        </div>
-
-        <div class="form-group p-3 border border-danger bg-secondary text-white rounded">
-          <strong>Attach Defects:</strong>
-          <br />
-          <br />
-          <%= f.collection_check_boxes :defect_ids, @defects, "id", :user_naming, class: "form-control" %>
-        </div>
-  
-        <div class="form-group">
-          <strong class="mr-3">Upload Work Order Images: </strong>
-          <%= f.file_field :image %>
-        </div>
-
-        <%= f.hidden_field :mechanic_id, value: current_user.id %>
-
-        <div class="form-group">
-          <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-danger" %>
-        </div>
-        <% end %>
       <div class="container d-flex justify-content-between align-items-center">
         <%= link_to 'Back', requests_path, class: "btn btn-danger" %>
         <%= link_to 'Show', @request, class: "btn btn-danger" %>

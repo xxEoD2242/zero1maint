@@ -9,7 +9,9 @@ class Vehicle < ApplicationRecord
   has_many :events_vehicles
   has_many :events, through: :events_vehicles
 
-  has_many :requests, inverse_of: :vehicle
+  has_many :request_vehicles
+  has_many :requests, through: :request_vehicles
+  
   has_many :programs, through: :requests
 
   has_many :report_vehicles

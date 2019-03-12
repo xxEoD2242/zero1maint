@@ -127,17 +127,11 @@
             <div class="col-md-7">
               <p>
                 <%= @request.description %>
-                <% if !@request.vehicles.empty? %>
-                <% if !@request.multi_vehicle %>
-                <% if @request.vehicles.last.checklists.exists? %>
                 <% if @request.checklist_id %>
                 <% if @request.checklist_id != 0 %>
                 <br />
-                <%= link_to "Checklist", checklist_path(@request.checklist_id), class: "btn btn-danger mb-2" %>
+                <%= link_to "View Checklist", checklist_path(@request.checklist_id), class: "btn btn-danger mb-2" %>
                 <% end %>	
-                <% end %>
-                <% end %>
-                <% end %>
                 <% end %>
               </p>
             </div>

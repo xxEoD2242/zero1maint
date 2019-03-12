@@ -19,6 +19,12 @@
       <% if @checklist.deadline %>
       <div class="container bg-white text-dark mb-3 p-2 rounded border border-danger">
         <h3 class="text-center">Deadlined</h3>
+        <br />
+        <h5 class='text-center'>
+        A work order has been automatically created for this vehicle.
+        <br />
+        <%= link_to "View Work Order \##{Request.where(checklist_id: @checklist.id).last.id}", request_path(Request.where(checklist_id: @checklist.id).last.id), class: 'badge badge-danger badge-lg'%>
+        </h5>
       </div>
       <% end %>
       <div class="row">

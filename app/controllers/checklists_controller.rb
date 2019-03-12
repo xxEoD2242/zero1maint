@@ -67,10 +67,10 @@ class ChecklistsController < ApplicationController
     @vehicle = checklist.vehicle
     if checklist.deadline
       @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
-      Request.create(status: 'New',
+      @request = Request.create(status: 'New',
                      description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
                      vehicle_id: @vehicle.id, creator: User.find(checklist.user_id).name, program_ids: [@set_repairs.id],
-                     completion_date: (Time.now + 7.days), deadline: true, request_mileage: @vehicle.mileage,
+                     completion_date: (Time.now + 7.days), deadline: true, repairs: true,
                      checklist_id: checklist.id, completed_date: Date.current)
     end
   end
@@ -177,8 +177,8 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.new(checklist_params)
     respond_to do |format|
       if @checklist.save
-        deadlined @checklist        # If the vehicle is deadlined, create a new work order automatically
         create_defect @checklist    # Look at all fields and see if there is a new defect that needs to be created
+        deadlined @checklist        # If the vehicle is deadlined, create a new work order automatically
         count_defects @checklist    # Update times reported for any defect that was attached
         copy_parameters @checklist  # Copy all fields to be able to perform checking
         format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }

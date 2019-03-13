@@ -1,6 +1,9 @@
 <div class="jumbotron bg-secondary text-white">
 <h1 class="display-3 text-center">
-  Create A Work Order
+  <span class='badge badge-danger badge-pill'>
+  Work Order Number: 
+  #<%= @last_work_order %>
+  </span>
 </h1> 
 <%= render 'form', request: @request %>
 	

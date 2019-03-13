@@ -167,6 +167,11 @@ class RequestsController < ApplicationController
 
   def new
     @request = Request.new
+    if Request.last
+      @last_work_order = Request.last.id
+    else
+      @last_work_order = 0
+    end 
   end
 
   def edit
@@ -196,11 +201,15 @@ class RequestsController < ApplicationController
   end
 
   def decide
-    
   end
 
   def multi_vehicle
     @request = Request.new
+    if Request.last
+      @last_work_order = Request.last.id
+    else
+      @last_work_order = 0
+    end
   end
   
   def tour_car_service(request)

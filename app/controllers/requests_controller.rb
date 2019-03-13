@@ -328,6 +328,7 @@ class RequestsController < ApplicationController
           email = User.find_by(name: @request.creator).email
           UserMailer.overdue_work_order_email(email, @request).deliver_now
         end
+
         a_service_update @request
         shock_service_update @request
         air_filter_service_update @request
@@ -336,10 +337,8 @@ class RequestsController < ApplicationController
         defect_update @request
 
         format.html { redirect_to @request, notice: 'Work Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @request }
       else
         format.html { render :edit }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -348,7 +347,6 @@ class RequestsController < ApplicationController
     @request.destroy
     respond_to do |format|
       format.html { redirect_to requests_url, notice: 'Work Order was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

@@ -24,14 +24,13 @@
           <a class="nav-item nav-link text-secondary active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Info</a>
           <a class="nav-item text-secondary nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Defects</a>
           <a class="nav-item text-secondary nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Maintenance History</a>
+          <a class="nav-item text-secondary nav-link" id="nav-multi-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-multi" aria-selected="false">Mult-Vehicle Work Order History</a>
         </div>
       </nav>
     </div>
     <div class="card-body">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-         
-         
           <div class="row">
             <div class="col-sm-6">
               <%= vehicle_deadlined @vehicle %>
@@ -341,7 +340,7 @@
                 </div>
               </div>
             </li>
-
+            
             <% Request.where(vehicle_id: @vehicle.id).reorder(completed_date: :desc).each do |work_order|%>
             <li class="list-group-item bg-secondary text-white">
               <div class="row">
@@ -350,7 +349,7 @@
                 </div>
                 <div class="col-md-3"><%= work_order.status %> </div>
                 <div class="col-md-3"><%= work_order.description%> </div>
-                <div class="col-md-3"> <%= work_order.completed_date%></div>
+                <div class="col-md-3"><%= work_order.completed_date%></div>
                 <div class="col-md-1">
                   <%= link_to "Show", request_path(work_order), class: "badge badge-danger"%>
                 </div>
@@ -359,7 +358,51 @@
             <% end %>
           </ul>
           <% end %>
-        
+        </div>
+        <div class="tab-pane fade" id="nav-multi" role="tabpanel" aria-labelledby="nav-multi-tab">
+          <div class="container-fluid bg-secondary text-white border border-danger rounded p-3">
+            <h3 class="text-center"><%= @vehicle.car_id %>Multi-Vehicle Work Order Maintenance History </h3>
+          </div>
+          <% if !@vehicle.requests.empty? %>
+          <ul class="list-group">
+            <li class="list-group-item bg-secondary text-white">
+              <div class="row">
+                <div class="col-md-2">
+                  <strong> ID </strong>
+                </div>
+                <div class="col-md-3">
+                  <strong> Status </strong>
+                </div>
+                <div class="col-md-3">
+                  <strong> Description </strong>
+                </div>
+                <div class="col-md-3">
+                  <strong> Completed Date </strong>
+                </div>
+                <div class="col-md-1">
+                </div>
+              </div>
+            </li>
+            
+              <% Request.where(multi_vehicle: true).reorder(completed_date: :desc).each do |work_order|%>
+              <% if work_order.vehicles.include?(@vehicle)%>
+              <li class="list-group-item bg-secondary text-white">
+                <div class="row">
+                  <div class="col-md-2"> 
+                    <%= link_to work_order.id, request_path(work_order), class: "badge badge-danger"%>
+                  </div>
+                  <div class="col-md-3"><%= work_order.status %> </div>
+                  <div class="col-md-3"><%= work_order.description%> </div>
+                  <div class="col-md-3"><%= work_order.completed_date%></div>
+                  <div class="col-md-1">
+                    <%= link_to "Show", request_path(work_order), class: "badge badge-danger badge-pill"%>
+                  </div>
+                </div>
+              </li>
+              <% end %>
+              <% end %>
+          </ul>
+          <% end %>
         </div>
       </div>
     </div>

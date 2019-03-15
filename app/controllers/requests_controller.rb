@@ -297,6 +297,7 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.save
+        singular_vehicle @request
         request_email @request
         program_ids @request
         a_service_update @request
@@ -305,7 +306,7 @@ class RequestsController < ApplicationController
         repairs_update @request
         tour_car_service @request
         defect_update @request
-        singular_vehicle @request
+        
         format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
       else
         if !@request.multi_vehicle

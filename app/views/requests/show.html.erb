@@ -69,18 +69,6 @@
             </div>
           </div>
           <% end %>
-          <br />
-        <% else %>
-          <div class='row'>
-            <div class='col-md-5'>
-              <p>
-                <strong>Vehicle ID:</strong>
-              </p>
-            </div>
-            <div class='col-md-7'>
-                <%= link_to @request.vehicles.last.car_id, vehicle_path(@request.vehicles.last.id), class: 'badge badge-danger' %>
-            </div>
-          </div>
         <% end %>
           
           <% if @request.programs.exists? %>

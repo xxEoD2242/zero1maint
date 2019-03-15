@@ -228,7 +228,6 @@ class RequestsController < ApplicationController
       request.vehicles.each do |vehicle|
         vehicle.update(defect: false, needs_service: false, vehicle_status: 'In-Service')
       end
-      defect_email
     end
     if request.programs.ids.include?(Program.defect.id)
       request.update(defect: true)

@@ -30,6 +30,8 @@ class Request < ApplicationRecord
   after_save :set_defects_fixed, only: [:update]
   
   before_save :track_times_completed
+  
+  after_save :defect_email
 
   STATUS = ['New', 'In-Progress', 'Completed', 'Overdue'].freeze
 
@@ -96,7 +98,7 @@ class Request < ApplicationRecord
   end
 
   def defect_email
-    if self.users.exists?
+    if self.users.exists? && self.program_ids.include?(Program.defect.id) && self.completed?
       defect_emails = []
       self.users.all.each do |user|
         defect_emails << user.email

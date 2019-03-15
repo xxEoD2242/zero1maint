@@ -18,8 +18,8 @@
 <p>
   <strong>Vehicles: </strong>
   <br />
-  <% @request.vehicles.each do |vehicle|%>
-    <%= vehicle.car_id %> Mileage: <%= vehicle.mileage %>
+  <% @request.vehicles.each do |vehicle| %>
+    <%= vehicle.car_id %> -> Mileage: <%= vehicle.mileage %>
     <br />
   <% end %>
 </p>

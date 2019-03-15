@@ -24,7 +24,7 @@
           <a class="nav-item nav-link text-secondary active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Info</a>
           <a class="nav-item text-secondary nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Defects</a>
           <a class="nav-item text-secondary nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Maintenance History</a>
-          <a class="nav-item text-secondary nav-link" id="nav-multi-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-multi" aria-selected="false">Mult-Vehicle Work Order History</a>
+          <a class="nav-item text-secondary nav-link" id="nav-multi-tab" data-toggle="tab" href="#nav-multi" role="tab" aria-controls="nav-multi" aria-selected="false">Mult-Vehicle Work Order History</a>
         </div>
       </nav>
     </div>
@@ -341,7 +341,7 @@
               </div>
             </li>
             
-            <% Request.where(vehicle_id: @vehicle.id).reorder(completed_date: :desc).each do |work_order|%>
+            <% Request.where(vehicle_id: @vehicle.id, multi_vehicle: false).reorder(completed_date: :desc).each do |work_order|%>
             <li class="list-group-item bg-secondary text-white">
               <div class="row">
                 <div class="col-md-2"> 
@@ -385,7 +385,7 @@
             </li>
             
               <% Request.where(multi_vehicle: true).reorder(completed_date: :desc).each do |work_order|%>
-              <% if work_order.vehicles.include?(@vehicle)%>
+              <% if work_order.vehicles.include?(@vehicle) %>
               <li class="list-group-item bg-secondary text-white">
                 <div class="row">
                   <div class="col-md-2"> 

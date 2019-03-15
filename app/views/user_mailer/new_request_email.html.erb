@@ -38,7 +38,7 @@
 	  <strong>Status:</strong>
 	  <%= @request.status %>
 	</p>
-	<% if @request.program != nil %>
+	<% if !@request.programs.empty? %>
 	<p>
 		<strong>Service Type:</strong>
     <% @request.programs.each do |program|%>

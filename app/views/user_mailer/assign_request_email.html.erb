@@ -11,7 +11,7 @@
   <strong>Vehicles</strong>
   <ul>
   <% @request.vehicles.each do |vehicle| %>
-      <li><%= vehicle.car_id %>
+      <li><%= vehicle.car_id %></li>
   <% end %>
   </ul>
 </p>
@@ -47,7 +47,7 @@
 	<strong>Service Type:</strong>
   <br />
   <% @request.programs.each do |program|%>
-    <% program.name %>
+    <%= program.name %>
     <br \>
   <% end %>
 </p>
@@ -62,11 +62,10 @@
 <% if @request.users.exists?%>
 <p>
   <strong> Recipents:</strong>
-  <ul style="list-style-type: none;">
   <% @request.users.each do |user|%>
-  <li><%= user.name%></li>
-	  <% end %>
-  </ul>
+    <%= user.name%>
+    <br />
+	<% end %>
 </p>
 <% end %>
 

@@ -109,7 +109,9 @@
             </td>
             <td>
               <% if request.vehicle_id %>
-              <%= Vehicle.find(request.vehicle_id).car_id %>
+                 <%= link_to Vehicle.find(request.vehicle_id).car_id,
+                     vehicle_path(Vehicle.find(request.vehicle_id)),
+                     class: 'badge badge-danger' %>
               <% elsif request.multi_vehicle %>
                 <% request.vehicles.each do |vehicle| %>
                   <%= link_to vehicle.car_id, vehicle_path(vehicle), class: 'badge badge-danger' %>

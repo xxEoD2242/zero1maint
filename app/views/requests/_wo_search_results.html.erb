@@ -31,9 +31,16 @@
               <%= program_ids? request %>
             </td>
             <td>
-              <% if !request.vehicles.nil? %>
+              <% if request.vehicle_id %>
+                  <%= link_to Vehicle.find(request.vehicle_id).car_id,
+                      vehicle_path(Vehicle.find(request.vehicle_id)),
+                      class: 'badge badge-light badge-pill' %>
+              <% elsif request.multi_vehicle %>
                 <% request.vehicles.each do |vehicle| %>
-                  <%= vehicle.car_id %>
+                  <%= link_to vehicle.car_id,
+                     vehicle_path(vehicle),
+                     class: 'badge badge-light badge-pill' %>
+                  <br />
                 <% end %>
               <% end %>
             </td>

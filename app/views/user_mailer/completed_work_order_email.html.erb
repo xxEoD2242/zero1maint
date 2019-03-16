@@ -5,8 +5,12 @@
 <p>
   This work order has been completed. If you have any questions, please contact <%= @request.creator %>.
 </p>
-	
 
+<p>
+  <strong>Completed date:</strong>
+  <span style="color: green;"> <%= @request.completed_date %> </span>
+</p>
+	
 <% if @request.vehicle_id %>
 <p>
   <strong>Vehicle ID:</strong>
@@ -34,7 +38,7 @@
   <strong>Status:</strong>
   <%= @request.status %>
 </p>
-<% unless @request.programs.empty? %>
+<% if !@request.programs.empty? %>
 <p>
   <strong>Service Type:</strong>
   <% @request.programs.each do |program|%>
@@ -48,11 +52,6 @@
   <% Program.find(@request.program_id).name %>
 </p>
 <% end %>
-
-<p>
-  <strong>Completed date:</strong>
-  <span style="color: green;"> <%= @request.completed_date %> </span>
-</p>
 	
 <% if @request.users.exists?%>
 <p>

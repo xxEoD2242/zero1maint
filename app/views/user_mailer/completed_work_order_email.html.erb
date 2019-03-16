@@ -68,11 +68,13 @@
 <% if @request.defects.exists? %>
 <p>
   <strong> Defects:</strong>
-  <ul style="list-style-type: none;">
+  <br />
+  <h5>Description: <span style='margin-right: 5'> Created At: </span> </h5>
+  <br />
   <% @request.defects.each do |defect| %>
-  <li><%= defect.description %> | <%= defect.created_at.strftime('%v') %></li>
-	  <% end %>
-  </ul>
+    <%= defect.description %> | <%= defect.created_at.strftime('%v') %>
+    <br />
+	<% end %>
 </p>
 <% end %>
 

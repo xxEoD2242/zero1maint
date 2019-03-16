@@ -286,8 +286,10 @@ class RequestsController < ApplicationController
   end
   
   def singular_vehicle(request)
+    if request.times_completed < 1
     unless request.multi_vehicle
       request.update(vehicle_ids: request.vehicle_id)
+    end
     end
   end
 

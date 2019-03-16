@@ -36,6 +36,7 @@
   <strong>Status:</strong>
   <span style="color: red;"> <%= @request.status %> </span>
 </p>
+
 <% if @request.programs.exists? %>
 <p>
   <strong>Service Type:</strong>
@@ -43,6 +44,11 @@
     <% program.name %>
     <br \>
   <% end %>
+</p>
+<% elsif @request.program_id %>
+<p>
+  <strong>Service Type:</strong>
+  <%= Program.find(@request.program_id).name %>
 </p>
 <% end %>
 

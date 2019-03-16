@@ -3,7 +3,7 @@
 </div>	
 
 <p>
-  This work order has been completed. If you have any questions, please contact <%= @request.creator %>
+  This work order has been completed. If you have any questions, please contact <%= @request.creator %>.
 </p>
 	
 
@@ -34,7 +34,7 @@
   <strong>Status:</strong>
   <%= @request.status %>
 </p>
-<% if !@request.programs.empty? %>
+<% unless @request.programs.empty? %>
 <p>
   <strong>Service Type:</strong>
   <% @request.programs.each do |program|%>
@@ -42,10 +42,10 @@
     <br \>
   <% end %>
 </p>
-<% else %>
+<% elsif @request.program_id %>
 <p>
   <strong>Service Type:</strong>
-  <% Program.find(request.program_id).name %>
+  <% Program.find(@request.program_id).name %>
 </p>
 <% end %>
 
@@ -65,11 +65,11 @@
 </p>
 <% end %>
 
-<% if @request.defects.exists?%>
+<% if @request.defects.exists? %>
 <p>
   <strong> Defects:</strong>
   <ul style="list-style-type: none;">
-  <% @request.users.each do |user| %>
+  <% @request.defects.each do |defect| %>
   <li><%= defect.description %> | <%= defect.created_at.strftime('%v') %></li>
 	  <% end %>
   </ul>

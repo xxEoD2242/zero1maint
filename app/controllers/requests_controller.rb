@@ -286,10 +286,8 @@ class RequestsController < ApplicationController
   end
   
   def singular_vehicle(request)
-    if request.times_completed < 1
     unless request.multi_vehicle
       request.update(vehicle_ids: request.vehicle_id)
-    end
     end
   end
 
@@ -307,7 +305,6 @@ class RequestsController < ApplicationController
         repairs_update @request
         tour_car_service @request
         defect_update @request
-        
         format.html { redirect_to @request, notice: 'Work Order was successfully created.' }
       else
         if !@request.multi_vehicle

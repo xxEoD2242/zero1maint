@@ -29,7 +29,7 @@ class Request < ApplicationRecord
   
   after_save :set_defects_fixed, only: [:update]
   
-  before_save :track_times_completed
+  before_save :track_times_completed, only: [:update, :create]
   
   after_save :defect_email
 

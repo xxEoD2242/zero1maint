@@ -7,7 +7,7 @@
 		You have been assigned to this work order. If you have any questions, please contact <%= @request.creator%>.
 	</p>
 	
-  <% if @request.vehicle_id %>
+  <% if @request.vehicle_id >= 0 %>
   <p>
     <strong>Vehicle ID:</strong>
     <%= Vehicle.find(@request.vehicle_id).car_id %>

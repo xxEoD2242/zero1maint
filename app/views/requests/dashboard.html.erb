@@ -108,7 +108,7 @@
               <%= program_ids? request %>
             </td>
             <td>
-              <% if request.vehicle_id %>
+              <% if request.vehicle_id >= 0 %>
                  <%= link_to Vehicle.find(request.vehicle_id).car_id,
                      vehicle_path(Vehicle.find(request.vehicle_id)),
                      class: 'badge badge-danger' %>
@@ -119,7 +119,7 @@
                 <% end %>
               <% end %>
             </td>
-            <td><%=request.created_at.strftime('%v') %></td>
+            <td><%= request.created_at.strftime('%v') %></td>
             <% if request.completion_date %>
             <td><%= request.completion_date.strftime('%v') %></td>
             <% end %>

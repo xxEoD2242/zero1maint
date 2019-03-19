@@ -25,7 +25,20 @@
           <%= Program.find(request.program_id).name %>
         <% end %>
       </td>
-      <td><%= request.vehicle.car_id %></td>
+      <td>
+        <% if request.vehicle_id >= 0 %>
+          <span class='badge badge-danger badge-pill'>
+            <%= Vehicle.find(request.vehicle_id).car_id %>
+          </span>
+        <% elsif request.multi_vehicle %>
+          <% request.vehicles.each do |vehicle|%>
+            <span class='badge badge-danger badge-pill'>
+              <%= vehicle.car_id %>
+            </span>
+            <br />
+          <% end %>
+        <% end %>
+      </td>
       <td>
         <span class='badge badge-danger'>
           <%= request.created_at.strftime('%D') %>

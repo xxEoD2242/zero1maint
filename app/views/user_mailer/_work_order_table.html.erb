@@ -29,7 +29,7 @@
       <% end %>
     </td>
 		<td>
-      <% if request.vehicle_id %>
+      <% if request.vehicle_id >= 0 %>
         <%= Vehicle.find(request.vehicle_id).car_id %>
       <% elsif request.multi_vehicle %>
         <% request.vehicles.each do |vehicle| %>

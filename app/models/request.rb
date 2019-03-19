@@ -17,9 +17,13 @@ class Request < ApplicationRecord
   
   has_many :program_requests
   has_many :programs, through: :program_requests
+  
+  before_save :set_vehicle_id, only: [:create]
 
   validates :description, presence: true
   validates :completion_date, presence: true
+  validates :vehicle_id, presence: true, on: :create
+  validates :status, presence: true
 
   mount_uploader :image, ImageUploader
 
@@ -113,6 +117,12 @@ class Request < ApplicationRecord
       self.mechanic = User.find(self.mechanic_id).name
     elsif self.completed?
       self.times_completed = (self.times_completed + 1)
+    end
+  end
+  
+  def set_vehicle_id
+    if self.multi_vehicle
+      self.vehicle_id = -1
     end
   end
 end

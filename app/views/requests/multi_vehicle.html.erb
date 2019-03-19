@@ -72,9 +72,6 @@
     <div class='form-group'>
       <%= f.input :notes, label: 'Notes', class: 'form-control' %>
     </div>
-    <%= f.hidden_field :completed_date, value: Date.today %>
-    <%= f.hidden_field :mechanic_id, value: current_user.id %>
-    <%= f.hidden_field :multi_vehicle, value: true %>
     <br />
         
     <% Vehicle::LOCATION.each do |location|%>
@@ -128,6 +125,12 @@
         </div>
       </div>
       <% end %>
+      
+      <%= f.hidden_field :completed_date, value: Date.today %>
+      <%= f.hidden_field :mechanic_id, value: current_user.id %>
+      <%= f.hidden_field :multi_vehicle, value: true %>
+      <%= f.hidden_field :vehicle_id, value: -1 %>
+      
       <div class="form-group">
         <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-danger" %>
       </div>

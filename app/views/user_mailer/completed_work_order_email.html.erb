@@ -11,7 +11,7 @@
   <span style="color: green;"> <%= @request.completed_date %> </span>
 </p>
 	
-<% if @request.vehicle_id %>
+<% if @request.vehicle_id >= 0 %>
 <p>
   <strong>Vehicle ID:</strong>
   <%= Vehicle.find(@request.vehicle_id).car_id %>

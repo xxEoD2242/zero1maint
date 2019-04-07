@@ -68,7 +68,7 @@ module VehiclesHelper
   
   def last_tour_car_prep_badge(vehicle)
     unless @vehicle.requests.where(tour_car_prep: true).empty?
-      link_to "(#{@vehicle.requests.where(tour_car_prep: true).last.completed_date.strftime('%v')}) | View", request_path(@vehicle.requests.where(tour_car_prep: true).last), class: "badge badge-danger"
+      link_to "(#{@vehicle.requests.where(tour_car_prep: true).last.completed_date.strftime('%D')}) | View", request_path(@vehicle.requests.where(tour_car_prep: true).last), class: "badge badge-danger"
     else
       'None'
     end

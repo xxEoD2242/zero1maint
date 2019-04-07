@@ -15,6 +15,7 @@ class Event < ApplicationRecord
   validates :event_type, presence: true
   validates :class_type, presence: true
   validates :est_mileage, presence: true
+  validates :location, presence: true
 
   paginates_per 10
 

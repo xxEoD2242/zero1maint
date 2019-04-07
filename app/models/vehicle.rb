@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Vehicle < ApplicationRecord
+  # Write a hook that allows updates the vehicle services and needs service column after
+  # every update action.
+  
+  # before_save :set_service_requirements, only: [:update]
+  
   before_save :set_last_a_service, :set_last_shock_service, :set_last_air_filter_service
   after_save :set_thresholds
   validates_uniqueness_of :car_id

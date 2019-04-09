@@ -15,7 +15,7 @@
 <% elsif @request.multi_vehicle %>
 <p>
   <strong>Vehicles:</strong>
-  <% @request.vehicle.each do |vehicle|%>
+  <% @request.vehicles.each do |vehicle|%>
     <%= vehicle.car_id %> Mileage: <%= vehicle.mileage %>
     <br />
   <% end %>

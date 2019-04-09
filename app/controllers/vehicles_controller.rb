@@ -78,10 +78,23 @@ class VehiclesController < ApplicationController
     end
     @vehicle.set_thresholds
     services_check @vehicle
+    check_overdue @vehicle
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc).are_not_fixed?
     @request = Request.where(vehicle_id: @vehicle.id)
     to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
+  end
+
+  # This function checks to see if the vehicle has overdue work orders that would be needed
+  # to be completed before performing actions in the system.
+  # FUTURE FEATURE: Have it so that when there is an overdue work order that is given to them,
+  # there is both a notification and the system loads to that work order.
+  def check_overdue(vehicle)
+    if vehicle.requests.where(status: "Overdue").exists?
+      vehicle.update(work_orders_overdue: true)
+    else
+      vehicle.update(work_orders_overdue: false)
+    end
   end
 
   def services_check(vehicle)

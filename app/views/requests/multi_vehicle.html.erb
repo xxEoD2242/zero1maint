@@ -91,7 +91,7 @@
             </tr>
           </thead>
           <tbody>
-            <%= f.collection_check_boxes :vehicle_ids, Vehicle.where(location: location).order(car_id: :asc), :id, :car_id do |b| %> 
+            <%= f.collection_check_boxes :vehicle_ids, Vehicle.where('location = ? AND vehicle_status != ?', location, "Sold").order(car_id: :asc), :id, :car_id do |b| %> 
             <tr>
               <th scope='row'>
                 <div class="collection-check-box">

@@ -503,7 +503,7 @@ DEPENDENCIES
   carrierwave
   carrierwave-imageoptimizer
   coffee-rails (~> 4.2)
-  devise (>= 4.6.0)
+  devise
   figaro
   fog
   font-awesome-rails

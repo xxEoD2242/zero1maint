@@ -13,13 +13,22 @@ class ChecklistsController < ApplicationController
   end
 
   def new
-    defect_method_notice
+    # defect_method_notice
     @vehicle = Vehicle.find(params[:id])
     @defects = @vehicle.defects.where(fixed: false)
     @event = Event.find(params[:event_id])
     @checklist = Checklist.new
   end
   
+  
+  # This method creates a notification on a page, letting the user know that the
+  # method to create and attach defects to a checklist has changed from the previous
+  # version. IT WOULD BE NICE TO HAVE AN 'UPDATE' EMAIL GO OUT TO CUSTOMERS EXPLAINING
+  # THESE CHANGES, WITH A WALKTHROUGH GUIDE ON HOW TO UTILIZE THESE CHANGES EFFECTIVELY.
+  
+  # This method shoul realistically be put in the create or update actions, with a hook
+  # that allows the notice be called only on those actions and not be viewed on the follow on
+  # webpage.
   def defect_method_notice
     flash[:notice] = "Please be advised. The method to add defects to a checklist has been changed.
                       Please view the informational message above the defects table."
@@ -55,7 +64,7 @@ class ChecklistsController < ApplicationController
   end
 
   def edit
-    defect_method_notice
+    # defect_method_notice
     @vehicle = @checklist.vehicle
     @event = @checklist.event
     @defects = @vehicle.defects.where(fixed: false).page(params[:page])

@@ -19,7 +19,7 @@ gem 'cancancan'
 gem 'carrierwave'
 gem 'carrierwave-imageoptimizer'
 gem 'coffee-rails', '~> 4.2'
-gem "devise", ">= 4.6.0"
+gem "devise"
 gem 'figaro'
 gem 'fog'
 gem 'font-awesome-rails'

@@ -13,6 +13,9 @@ Rails.application.configure do
     authentication:  'plain',
     enable_starttls_auto: true
   }
+  
+  config.action_mailer.default_url_options = { :host => 'zero-1-maint.herokuapp.com' }
+  
   # Code is not reloaded between requests.
   config.cache_classes = true
 

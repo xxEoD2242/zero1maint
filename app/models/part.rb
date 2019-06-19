@@ -16,7 +16,7 @@ class Part < ApplicationRecord
   validates :description, presence: true
   validates :category, presence: true
   validates :quantity, presence: true
-  validates :quantity, numericality: { greater_than: 0, message: 'must have a quantity greater than 0' }
+  # validates :quantity, numericality: { greater_than: 0, message: 'must have a quantity greater than 0' }
   validates :cost, presence: true
   validates :cost, numericality: { greater_than: 0, message: 'must have a cost. If no cost is associated, put 0.01!' }
 
@@ -29,4 +29,6 @@ class Part < ApplicationRecord
   CATEGORIES = ['Body', 'Brakes', 'Chassis', 'Cooling System', 'Driveline', 'Engine', 'Electrical', 'Steering', 'Radio-Communication', 'Wheel-Tires', 'Exhaust'].freeze
 
   VEHICLE_CATEGORIES = ['RZR', 'Fleet Vehicle', 'Tour Car', 'Dirt Bike', 'Training Vehicle', 'Other'].freeze
+  
+  LOCATION = ['RZR Basecamp', 'The Ranch', 'Speedway', 'Uvalde', 'Other '].freeze
 end

@@ -9,12 +9,13 @@
       </h1>
     </div>
     <div class="card-body">
-      <%= render 'show_row', title: 'Description', data: @part.description %>
-      <%= render 'show_row', title: 'Brand', data: @part.brand %>
-      <%= render 'show_row', title: 'Category', data: @part.category %>
-      <%= render 'show_row_badge', title: 'Cost', data: "$#{sprintf('%.2f', @part.cost)}" %>
-      <%= render 'show_row_badge', title: 'Quantity', data: @part.quantity %>
-      <%= render 'show_row', title: 'Application', data: @part.vehicle_category %>
+      <%= render 'show_row', title: 'Description:', data: @part.description %>
+      <%= render 'show_row', title: 'Location:', data: @part.location %>
+      <%= render 'show_row', title: 'Brand:', data: @part.brand %>
+      <%= render 'show_row', title: 'Category:', data: @part.category %>
+      <%= render 'show_row_badge', title: 'Cost:', data: "$#{sprintf('%.2f', @part.cost)}" %>
+      <%= render 'show_row_badge', title: 'Quantity:', data: @part.quantity %>
+      <%= render 'show_row', title: 'Application:', data: @part.vehicle_category %>
       <br />
       <%= link_to 'Edit', edit_part_path(@part), class: "btn btn-danger" %> |
       <%= link_to 'Back', dashboard_parts_path, class: "btn btn-danger" %>

@@ -1,11 +1,11 @@
-<div class="jumbotron">
+<div class="jumbotron bg-secondary text-white">
 
-<h1 class="display-3 text-center">Edit Part: <%= @part.part_numb %></h1>
+<h1 class="display-3 text-center">Edit Part: <span class='badge badge-danger'><%= @part.part_numb %> </span></h1>
 
 <%= render 'form', part: @part %>
 <br \>
 
-<%= link_to 'Show', @part, class: "btn btn-info" %> |
-<%= link_to 'Back', dashboard_parts_path, class: "btn btn-warning" %>
+<%= link_to 'Show', @part, class: "btn btn-danger" %> |
+<%= link_to 'Back', dashboard_parts_path, class: "btn btn-danger" %>
 
 </div>

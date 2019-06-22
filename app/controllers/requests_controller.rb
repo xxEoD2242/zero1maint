@@ -120,7 +120,6 @@ class RequestsController < ApplicationController
     else
       flash[:alert] = 'Part Out of Stock!'
     end
-
     redirect_back(fallback_location: root_path)
   end
 
@@ -131,30 +130,62 @@ class RequestsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def remove_parts_from_request
-    @part_orders = RequestPartOrder.where(request_id: params[:request_id])
-    @part_orders.each do |part_order|
-      part_order.destroy if part_order.order_items.key?(params[:key])
+  def remove_order_item
+    @part_order = RequestPartOrder.find(params[:order_id])
+    @part = Part.find(params[:key])
+    @part_order.order_total = @part_order.order_total - @part.cost
+    new_order_item_hash = @part_order.order_items.reject {|k,v| k == params[:key]}
+    @part_order.update(order_items: new_order_item_hash)
+    respond_to do |format|
+      format.html { redirect_to request_path(params[:request_id]), notice: 'Part was successfully removed!' }
     end
-    redirect_back(fallback_location: root_path)
   end
 
   def add_parts
-    part_items = PartItem.where(request_id: params[:request_id])
-    unless part_items.empty?
-      @part_order = RequestPartOrder.new(user_id: current_user.id, request_id: params[:request_id], order_total: 0)
-      part_items.each do |part_item|
-        part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
-        @part_order.order_items[part_item.part_id] = part_item.quantity
-        @part_order.order_total += part_item.part_item_total
+    @part_items = PartItem.where(request_id: params[:request_id])
+
+    unless @part_items.empty?
+      if RequestPartOrder.where('request_id = ? AND order_total > ?', params[:request_id], 0)
+        @part_orders = RequestPartOrder.where('request_id = ? AND order_total > ?', params[:request_id], 0)
+        @part_orders.each do |current_part_order|
+          current_part_order.order_items.each do |old_part_id, quantity|
+            @part_items.each do |part_item|
+              if old_part_id == part_item.part.id
+                part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
+                current_part_order.order_items[old_part_id] = quantity + part_item.quantity
+                current_part_order.order_total += part_item.part_item_total
+                current_part_order.save       
+                part_item.destroy
+              end
+            end
+          end
+          @part_items = PartItem.where(request_id: params[:request_id])
+          unless @part_items.empty?
+            @part_items.each do |part_item|
+              part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
+              current_part_order.order_items[part_item.part_id] = part_item.quantity
+              current_part_order.order_total += part_item.part_item_total
+              current_part_order.save
+              PartRequest.create(part_id: part_item.part_id, request_id: params[:request_id])
+            end
+          end
+        end
+        @part_items.destroy_all 
+      else
+        @part_order = RequestPartOrder.new(user_id: current_user.id, request_id: params[:request_id], order_total: 0)
+        part_items.each do |part_item|
+          part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
+          @part_order.order_items[part_item.part_id] = part_item.quantity
+          current_part_order.order_total += part_item.part_item_total
+        end
+        @part_order.save
+        unless @part_order.order_items.empty?
+          @part_order.order_items.each do |key, value|
+            PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)
+          end
+        end
+        @part_items.destroy_all
       end
-      @part_order.save
-      @part_order.order_items.each do |key, _value|
-        PartRequest.create(part_id: Part.find(key).id, request_id: @part_order.request_id)
-      end
-      part_items.destroy_all
-    end
-    unless @part_order.nil?
       flash[:notice] = 'Parts successfully added to work order!'
     end
     redirect_back(fallback_location: root_path)

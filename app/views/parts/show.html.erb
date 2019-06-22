@@ -21,7 +21,7 @@
         </div>
         <div class='col-md-6'>
           <% if @part.image.url.nil? == false %>
-              <%= image_tag @part.image.part_display.url %>
+              <%= image_tag @part.image.part_display.url, class: 'img-fluid' %>
           <% end %> 
         </div>
       </div>

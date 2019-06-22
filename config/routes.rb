@@ -64,6 +64,8 @@ Rails.application.routes.draw do
   get 'profile'               => 'users#profile'
 
   get 'homepage'              => 'welcome#homepage'
+  
+  resources :request_part_orders
 
   resources :requests do
     collection do
@@ -80,7 +82,7 @@ Rails.application.routes.draw do
       get 'search_for_parts'
       get 'delete_parts'
       get 'in_progress'
-      get 'remove_parts_from_request'
+      get 'remove_order_item'
       get 'overdue'
       get 'tour_car_prep'
       get 'new_requests'

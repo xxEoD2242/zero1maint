@@ -191,7 +191,7 @@
           </div>
           <% end %>
           <% unless @part_order.empty? %>
-          <div class="card bg-secondary text-white">
+          <div class="card bg-secondary text-white my-4">
             <div class="card-header">
               <strong>Parts: </strong>
             </div>
@@ -213,7 +213,13 @@
                     <td><%= Part.find(key).description%></td>
                     <td><%= value %></td>
                     <td><%= number_to_currency (value * Part.find(key).cost) %></td>
-                    <td> <%= link_to 'Delete', remove_parts_from_request_requests_path(key: key, request_id: @request.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %> </td>
+                    <!-- 
+                    <td> <%= link_to 'Remove Item', 
+                             remove_order_item_requests_path(key: key, request_id: @request.id,
+                             order_id: order.id), data: { confirm: 'Are you sure?' }, 
+                             class: "btn btn-sm btn-danger" %>
+                    </td>
+                  -->
                   </tr>
                   <% end %>
                   <% end %>
@@ -224,9 +230,9 @@
             <div class="card-footer">
               <% total = [] %>
               <% @request.request_part_orders.each do |order| %>
-              <% if order.order_total %>
-              <% total << order.order_total %>
-              <% end %>
+                <% if order.order_total %>
+                  <% total << order.order_total %>
+                <% end %>
               <% end %>
               Work Order Total Cost:
               <span class="badge badge-success ml-3">

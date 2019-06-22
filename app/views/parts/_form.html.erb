@@ -14,38 +14,121 @@
     <% end %>
 
     <div class="form-inputs">
-      <b> <%= f.input :part_numb, label: "Part Number" %> </b>
-      <b> <%= f.input :description, label: "Part Description" %> </b>
-      
-      <b>  <%= f.input :brand, label: "Brand" %> </b>
-      <b>  <%= f.input :cost, label: "Part Cost" %> </b>
-      <b>  <%= f.input :quantity, label: "Quantity on Hand" %> </b>
       <div class='row'>
+        <div class='col-md-4'>
+        </div>
+        <div class='col-md-4'>
+         <b> <%= f.input :part_numb, label: "Part Number" %> </b>
+        </div>
+        <div class='col-md-4'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>
+        </div>
+        <div class='col-md-4'>
+         <b> <%= f.input :description, label: "Part Description" %> </b>
+        </div>
+        <div class='col-md-4'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>
+        </div>
+        <div class='col-md-4'>
+        <b>  <%= f.input :brand, label: "Brand" %> </b>
+        </div>
+        <div class='col-md-4'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>
+        </div>
+        <div class='col-md-4'>
+         <b>  <%= f.input :cost, label: "Part Cost" %> </b>
+        </div>
+        <div class='col-md-4'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>
+        </div>
+        <div class='col-md-4'>
+          <b>  <%= f.input :quantity, label: "Quantity on Hand" %> </b>
+        </div>
+        <div class='col-md-4'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>
+        </div>
         <div class='col-md-4'>
           <b>  <%= f.select :location, Part::LOCATION, {include_blank: "Select Part Location:"}, class: "form-control my-2" %></b>
         </div>
-        <div class='col-md-8'>
+        <div class='col-md-4'>
         </div>
       </div>
       <div class='row'>
+        <div class='col-md-4'>
+        </div>
         <div class='col-md-4'>
           <b>  <%= f.select :category, Part::CATEGORIES, {include_blank: "Select Mechanical Category"}, class: "form-control my-2" %></b>
         </div>
-        <div class='col-md-8'>
+        <div class='col-md-4'>
         </div>
       </div>
       <div class='row'>
         <div class='col-md-4'>
+        </div>
+        <div class='col-md-4'>
           <b>  <%= f.select :vehicle_category, Part::VEHICLE_CATEGORIES, {include_blank: "Select Vehicle Category"}, class: "form-control my-2"%></b>
         </div>
-        <div class='col-md-8'>
+        <div class='col-md-4'>
         </div>
       </div>
     </div>
-    <br />
-    <div class="form-actions">
-      <%= f.button :submit, class: "btn btn-danger" %>
+    
+    <div class='row'>
+      <div class='col-md-4'>
+      </div>
+      <div class='col-md-4'>
+        <div class="input-group my-3">
+          <div class='input-group-prepend'>
+            <span class='input-group-text' id="inputGroupFileAddon01">Upload Part Image:</span>
+          </div>
+          <div class='custom-file'>
+            <%= f.file_field :image, class: 'custom-file-input', id: "inputGroupFile01" %>
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+          </div>
+        </div>
+      </div>
+      <div class='col-md-4'>
+      </div>
     </div>
+    <div class='form-row'>
+      <div class='col-md-4'>
+      </div>
+      <div class='col-md-4'>
+        <div class='form-check'>
+          <%= f.check_box :remove_image, class: 'form-check-input' %>
+          <span class='form-check-label'>Remove attached image</span>
+        </div>
+      </div>
+      <div class='col-md-4'>
+      </div>
+    </div>
+    <br />
+    <div class='form-row'>
+      <div class='col-md-4'>
+      </div>
+      <div class='col-md-4 d-flex justify-content-center'>
+        <div class="form-actions">
+          <%= f.button :submit, class: "btn btn-danger btn-lg" %>
+        </div>
+      </div>
+      <div class='col-md-4'>
+      </div>
+    </div>   
     <% end %>
   </div>
 </div>

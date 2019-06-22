@@ -151,6 +151,7 @@ class PartsController < ApplicationController
   end
 
   def part_params
-    params.require(:part).permit(:part_numb, :description, :brand, :category, :vehicle_category, :location, :cost, :quantity)
+    params.require(:part).permit(:part_numb, :description, :brand, :category,
+                                 :vehicle_category, :location, :cost, :quantity, :image, :remove_image)
   end
 end

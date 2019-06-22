@@ -37,7 +37,7 @@ class RequestsController < ApplicationController
     @number = Part.count
     @part_items = PartItem.where(request_id: @request.id)
     @q = Part.ransack(params[:q])
-    @parts = @q.result
+    @parts = @q.result.page(params[:page])
     @part_order = RequestPartOrder.where(request_id: @request.id)
     respond_to do |format|
       format.html

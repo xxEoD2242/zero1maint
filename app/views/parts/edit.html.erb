@@ -4,8 +4,9 @@
 
 <%= render 'form', part: @part %>
 <br \>
-
-<%= link_to 'Show', @part, class: "btn btn-danger" %> |
-<%= link_to 'Back', dashboard_parts_path, class: "btn btn-danger" %>
+<div class='d-flex justify-content-center'>
+  <%= link_to 'Show', @part, class: "btn btn-danger" %> |
+  <%= link_to 'Back', dashboard_parts_path, class: "btn btn-danger" %>
+</div>
 
 </div>

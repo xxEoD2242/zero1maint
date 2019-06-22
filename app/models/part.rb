@@ -16,11 +16,13 @@ class Part < ApplicationRecord
   validates :description, presence: true
   validates :category, presence: true
   validates :quantity, presence: true
-  # validates :quantity, numericality: { greater_than: 0, message: 'must have a quantity greater than 0' }
+  validates :quantity, numericality: { greater_than: 0, message: 'must have a quantity greater than 0' }, on: :create
   validates :cost, presence: true
   validates :cost, numericality: { greater_than: 0, message: 'must have a cost. If no cost is associated, put 0.01!' }
+  
+  mount_uploader :image, ImageUploader
 
-  paginates_per 7
+  paginates_per 15
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
       Part.create! row.to_hash

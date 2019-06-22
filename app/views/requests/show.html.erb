@@ -313,7 +313,7 @@
     </div>
     <div class="card-body">
       <%= render 'custom_form'%>
-		  
+      <%= paginate @parts %>
       <br \>
       <% if @parts.count != @number %>
 			
@@ -322,7 +322,7 @@
 			 
       <strong><%= label_tag category %></strong>
       <div class="row">
-        <% @parts.where(category: category).limit(15).each do |part|%>
+        <% @parts.where(category: category).each do |part|%>
         <div class="col-md-4">
           <%= form_tag add_to_request_part_order_requests_path do |f|%>
           <%= hidden_field_tag :part_id, part.id%>

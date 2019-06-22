@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190619010105) do
+ActiveRecord::Schema.define(version: 20190622111550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20190619010105) do
     t.string "part_numb"
     t.string "vehicle_category"
     t.string "location", default: "RZR Basecamp"
+    t.string "image"
   end
 
   create_table "program_requests", force: :cascade do |t|

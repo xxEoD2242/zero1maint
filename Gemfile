@@ -39,6 +39,7 @@ gem 'puma'
 gem 'rails', '~> 5.1.6'
 gem 'rack', '>= 2.0.6'
 gem 'ransack', github: 'activerecord-hackery/ransack'
+# gem 'rmagick', '~> 2.15', '>= 2.15.4'
 gem 'rubocop', require: false
 gem 'sass-rails', '~> 5.0'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form.git'

@@ -23,8 +23,8 @@ Bundler.require(*Rails.groups)
 module Zero1Maint
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.1
-
+    config.load_defaults 5.1 
+    config.autoload_paths += %W(#{config.root}/app/uploaders)
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.assets.enabled = true

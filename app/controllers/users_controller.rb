@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def profile
     @user = User.find(params[:id])
-    @requests = @user.requests
+    @requests = @user.requests.page(params[:page])
   end
 
   def assigned_work_orders

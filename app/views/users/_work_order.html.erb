@@ -1,10 +1,10 @@
 <div class="card bg-secondary text-white">
   <div class="card-header d-flex justify-content-between align-items-center ">
     <strong>
-      <%= link_to request.id, request_path(request), class: "badge badge-danger" %> 
-      <span class="ml-2"> 
-        Vehicle <%= link_to request.vehicle.car_id, vehicle_path(request.vehicle.id), class: "badge badge-danger"%>
-      </span >
+      <%= link_to request.id, request_path(request), class: "badge badge-danger" %>
+      <!-- 
+      
+        -->
     </strong> 
     <strong> 
       Status: <span class="badge badge-danger"> <%= request.status%> </span>

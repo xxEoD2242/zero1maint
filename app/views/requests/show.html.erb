@@ -329,14 +329,14 @@
       <strong><%= label_tag category %></strong>
       <div class="row">
         <% @parts.where(category: category).each do |part|%>
-        <% @counter = @counter + 1 %>
         <div class="col-md-4">
           <%= form_tag add_to_request_part_order_requests_path do |f|%>
           <%= hidden_field_tag :part_id, part.id%>
           <%= hidden_field_tag :request_id, @request.id%>
           <div class="form-group">
-            [<%= label_tag part.part_numb%>] - <%= label_tag part.description %>
-            <button type="button" class="btn btn-danger btn-sm ml-4" data-toggle="modal" data-target="#modal<%= part.id.to_s %>">
+            [<%= label_tag part.part_numb%>] - <%= label_tag part.description[0..35] %>...
+            <br />
+            <button type="button" class="btn btn-danger btn-sm mb-2" data-toggle="modal" data-target="#modal<%= part.id.to_s %>">
               View Picture
             </button>
             <div class="modal fade bd-example-modal-lg" id="modal<%= part.id.to_s %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -334,7 +334,30 @@
           <%= hidden_field_tag :part_id, part.id%>
           <%= hidden_field_tag :request_id, @request.id%>
           <div class="form-group">
-            [<%= label_tag part.part_numb%>] - <%= label_tag part.description %> 
+            [<%= label_tag part.part_numb%>] - <%= label_tag part.description %>
+            <button type="button" class="btn btn-danger btn-sm ml-4" data-toggle="modal" data-target="#exampleModal">
+              View Picture
+            </button>
+            <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header bg-secondary">
+                    <h4 class="modal-title" id="exampleModal"><%= part.description %></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body bg-secondary d-flex justify-content-center">
+                    <% if part.image.url.nil? == false %>
+                        <%= image_tag part.image.part_display.url, class: 'img-fluid' %>
+                    <% end %>
+                  </div>
+                  <div class="modal-footer bg-secondary">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="input-group">
               <div class="input-group-prepend bg-secondary text-white">
                 <div class="input-group-text form-control">

@@ -35,6 +35,7 @@ class RequestsController < ApplicationController
 
   def show
     @number = Part.count
+    @counter = 0
     @part_items = PartItem.where(request_id: @request.id)
     @q = Part.ransack(params[:q])
     @parts = @q.result.page(params[:page])

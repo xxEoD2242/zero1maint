@@ -329,21 +329,21 @@
       <strong><%= label_tag category %></strong>
       <div class="row">
         <% @parts.where(category: category).each do |part|%>
+        <% @counter = @counter + 1 %>
         <div class="col-md-4">
           <%= form_tag add_to_request_part_order_requests_path do |f|%>
           <%= hidden_field_tag :part_id, part.id%>
           <%= hidden_field_tag :request_id, @request.id%>
           <div class="form-group">
             [<%= label_tag part.part_numb%>] - <%= label_tag part.description %>
-            <!-- 
-            <button type="button" class="btn btn-danger btn-sm ml-4" data-toggle="modal" data-target="#exampleModal">
+            <button type="button" class="btn btn-danger btn-sm ml-4" data-toggle="modal" data-target="#modal<%= part.id.to_s %>">
               View Picture
             </button>
-            <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade bd-example-modal-lg" id="modal<%= part.id.to_s %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header bg-secondary">
-                    <h4 class="modal-title" id="exampleModal"><%= part.description %></h4>
+                    <h4 class="modal-title" id="modal<%= part.id.to_s %>"><%= part.description %></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -359,7 +359,6 @@
                 </div>
               </div>
             </div>
-            -->
             <div class="input-group">
               <div class="input-group-prepend bg-secondary text-white">
                 <div class="input-group-text form-control">

@@ -51,6 +51,12 @@ class ReportsController < ApplicationController
     @tour_cars = @q.result
     to_pdf "Tour Car Report for #{Date.current.strftime('%v')}"
   end
+  
+  def vin_number_report
+    @q = Vehicle.all.ransack(params[:q])
+    @vehicles = @q.result
+    to_pdf "Vin Number Report for #{Date.current.strftime('%D')}"
+  end
 
   def other_vehicles_report
     @q = Vehicle.where('veh_category != ? AND veh_category != ?', 'RZR', 'Tour Car').ransack(params[:q])

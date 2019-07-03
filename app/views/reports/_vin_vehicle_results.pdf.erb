@@ -1,0 +1,18 @@
+<h3 class='text-center'><%= table_title %></h3>
+<table class="table table-borderless mb-4">
+  <thead>
+    <tr>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Vin Number</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% vehicles.each do |vehicle| %>
+    <tr>
+      <th scope="row"><%= vehicle.car_id %></th>
+      <td><%= vehicle.vin_number %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

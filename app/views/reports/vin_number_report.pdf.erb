@@ -1,0 +1,6 @@
+<%= render 'report_title_box', title: "Vin Number Report for #{(Time.now - 7.days).strftime('%D')} - #{Time.now.strftime('%D')}" %>
+
+<%= render 'vin_vehicle_results', vehicles: @vehicles.in_service?, table_title: 'In-Service Vehicles' %>
+
+<%= render 'vin_vehicle_results', vehicles: @vehicles.out_of_service?, table_title: 'Out-of-Service Vehicles' %>
+<%= render 'vin_vehicle_results', vehicles: @vehicles.sold?, table_title: 'Vehicles that are Sold' %>

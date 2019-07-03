@@ -31,6 +31,7 @@ class Vehicle < ApplicationRecord
 
   scope :in_service?, -> { where(vehicle_status: 'In-Service') }
   scope :out_of_service?, -> { where(vehicle_status: 'Out-of-Service') }
+  scope :sold?, -> { where(vehicle_status: 'Sold') }
   scope :are_rzr, -> { where(veh_category: 'RZR') }
   scope :are_tour_cars, -> { where(veh_category: 'Tour Car') }
 

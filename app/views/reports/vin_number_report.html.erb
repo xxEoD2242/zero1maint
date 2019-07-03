@@ -1,0 +1,7 @@
+<%= render 'report_title_box', title: "Vehicle Identification Report for #{Time.now.strftime('%D')}" %>
+<%= render 'report_page_links', url: vin_number_report_reports_path(params.merge(format: 'pdf').permit!) %>
+<%= render 'vehicle_search_box', q: @q, action: :vin_number_report %>
+<br />
+<%= render 'vin_vehicle_results', vehicles: @vehicles.in_service?.order(car_id: :asc), table_title: 'In-Service Vehicles' %>
+<%= render 'vin_vehicle_results', vehicles: @vehicles.out_of_service?.order(car_id: :asc), table_title: 'Out-of-Service Vehicles' %>
+<%= render 'vin_vehicle_results', vehicles: @vehicles.sold?.order(car_id: :asc), table_title: 'Out-of-Service Vehicles' %>

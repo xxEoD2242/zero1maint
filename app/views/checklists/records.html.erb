@@ -68,6 +68,7 @@
         <tr>
           <th scope="col">Vehicle Id</th>
           <th>Status</th>
+          <th>Type</th>
           <th>Date Completed</th>
           <th>Deadlined</th>
           <th colspan="1">
@@ -81,6 +82,12 @@
             <td>
               <span class=<%= status_word_color vehicle, event %>>
                 <%= status_word vehicle, event %>
+                <i class="fa <%= status_symbol vehicle, event %> ml-1" aria-hidden="true"></i>
+              </span>
+            </td>
+            <td>
+              <span class=<%= status_word_color vehicle, event %>>
+                <%= type_word vehicle, event %>
                 <i class="fa <%= status_symbol vehicle, event %> ml-1" aria-hidden="true"></i>
               </span>
             </td>

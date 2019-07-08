@@ -18,18 +18,22 @@
         <div class="col-md-5">
 
           <div class="form-group">
-            <strong>
+            <h5>
               Created By: 
-              <span class="text-danger">
+              <span class="badge badge-danger ">
                 <%= current_user.name %>
               </span>
-            </strong>
+            </h5>
             <%=f.hidden_field :user_id, value: current_user.id%>
           </div>
 
           <div class="form-group">
             <strong><%=f.label "Date Completed:"%></strong>
             <%=f.date_field :date, class: "form-control", datepicker: true%>
+          </div>
+          
+          <div class="form-group">
+            <%= f.select :checklist_type, Checklist::TYPES, {include_blank: "Select Checklist Type"}, class: "form-control" %>
           </div>
 
           <div class="form-group">

@@ -8,7 +8,6 @@ class EventsController < ApplicationController
   before_action :set_location, only: %i[index show edit new create update]
   before_action :set_vehicles, only: %i[index show edit new create update]
   after_action :calc_mileage, only: %i[update event_completed]
-  include Multi_Day
   include Vehicle_Rotation
   include Auto_Select
 
@@ -152,22 +151,18 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-
         event_mileage = @event.event_mileage
         calc_mileage = @event.calc_mileage
-
         if calc_mileage == 0
           @event.vehicles.each do |vehicle|
             vehicle.update(mileage: (vehicle.mileage + event_mileage))
           end
         end
-
         if calc_mileage != 0
           @event.vehicles.each do |vehicle|
             vehicle.update(mileage: (vehicle.mileage + (event_mileage - calc_mileage)))
           end
         end
-
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
       else
         format.html { render :edit }

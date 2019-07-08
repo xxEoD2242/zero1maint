@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <div class="row">
           <div class="col-md-5">
             <p>
@@ -180,7 +180,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
+      <div class="col-md-7" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
         <div class="d-flex justify-content-between align-items-center">
           <h4 class="text-center">
             <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-danger" %>
@@ -196,15 +196,13 @@
             </div>
             <div class="col-md-4">
               <strong>
-                Checklists:
+                Pre-Event:
               </strong>
             </div>
-            <div class="col-md-5">
-              <h6 class='text-center'>
+            <div class="col-md-5">        
                 <b>
-                Current Mileage:
+                Post-Event:
               </b>
-              </h6>
             </div>
           </div>
           <div class="row mt-2">
@@ -212,22 +210,23 @@
             <div class="col-md-3 mb-2">
               <%= vehicle.car_id %> 
             </div>
-            <div class="col-md-6 mb-2">
-              <% if @checklists.exists?(vehicle_id: vehicle.id) %>
+            <div class="col-md-4 mb-2">
+              <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Pre-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
-                Completed
               </i>
-              <%= checklist_button_color @checklists, vehicle%>
+              <%= checklist_button_color @checklists, vehicle %>
               <% else %>
-              <%= link_to "Complete Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1"%> 
+              <%= link_to "Complete Pre-Event Checks", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
               <% end %>
             </div>
-            <div class='col-md-3'>
-              <h5>
-                <span class='badge badge-danger'>
-                  <%= vehicle.mileage %>
-                </span>
-              </h5>
+            <div class="col-md-5 mb-2">
+              <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Post-Event') %>
+              <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
+              </i>
+              <%= checklist_button_color @checklists, vehicle %>
+              <% else %>
+              <%= link_to "Complete Post-Event Checks", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
+              <% end %>
             </div>
             <br />
             <% end %>

@@ -17,15 +17,11 @@
         </span>
       </div>
       <div class="card-body">
-			   
         <%= calendar @date do |date| %>
         <%= date.day %>
-	 
-	 
         <% if @events_by_date[date] %>
         <ul style="list-style-type: none; margin: 0; padding: 0;">
           <% @events_by_date[date].each do |event| %>
-          
           <li>
             <%= link_to event.id, event, class: "badge #{event_link_color event}" %> 
             <span>
@@ -38,7 +34,6 @@
           <% end %>
         </ul>
         <% end %>
-      
         <% end %>
       </div>
       <div class="card-footer d-flex justify-content-center">
@@ -51,17 +46,17 @@
             <i class="fa fa-exclamation-triangle mr-1" aria-hidden="true"></i>
             Checklists Not Completed 
           </span>
-                
+    
           <span class=" badge badge-light text-dark mr-4 text-light" style="color: white">
             <i class="fa fa-car mr-1" aria-hidden="true">
             </i>
             No Vehicles Added!
           </span>
-              
+
           <span class="badge badge-light text-dark mr-4">
             <span class="badge badge-danger"> # </span> Event Not Completed
           </span>
-               
+  
           <span class="badge badge-light text-dark mr-4">
             <span class="badge badge-success"> # </span> Event Completed
           </span>

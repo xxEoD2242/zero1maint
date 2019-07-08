@@ -24,6 +24,20 @@ module ChecklistsHelper
       end
     end
   end
+  
+  def type_word(vehicle, event)
+    if vehicle.checklists.empty?
+      'Not Created'
+    else
+      if vehicle.checklists.where(event_id: event.id, checklist_type: 'Pre-Event').exists?
+        'Pre-Event'
+      elsif vehicle.checklists.where(event_id: event.id, checklist_type: 'Post-Event').exists?
+        'Post-Event'
+      else
+        'Not Completed'
+      end
+    end
+  end
 
   def status_word_color(vehicle, event)
     if vehicle.checklists.empty?

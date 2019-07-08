@@ -7,6 +7,12 @@
   </h3>
   <div class="card bg-dark text-white">
     <div class="card-header d-flex justify-content-between align-items-center">
+      <h4>
+        Type:
+        <span class='badge badge-danger'>
+          <%= @checklist.checklist_type %>
+        </span>
+      </h4>
       <strong>Completed By: <%= @checklist.user.name%> </strong>
       <span>
         Date Completed: 

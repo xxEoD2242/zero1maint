@@ -14,10 +14,14 @@ class Checklist < ApplicationRecord
   has_many :checklist_defects
   has_many :defects, through: :checklist_defects
   
+  validates :checklist_type, presence: true
+  
   scope :completed?, -> { where(defect: true) }
   scope :have_defects?, -> { where(defect: true) }
 
   FUEL_LEVELS = ['Full', '3/4', '1/2', '1/4', 'None'].freeze
+  
+  TYPES = ['Pre-Event', 'Post-Event'].freeze
 
   def set_date
     self.date = Time.current if date.blank?

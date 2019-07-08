@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190622111550) do
+ActiveRecord::Schema.define(version: 20190707235035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20190622111550) do
     t.string "steering_old"
     t.string "defect_ids_old", default: [], array: true
     t.string "name"
+    t.string "checklist_type"
   end
 
   create_table "defect_requests", force: :cascade do |t|

@@ -237,6 +237,6 @@ class ChecklistsController < ApplicationController
                                       :wash, :deadline, :suspension, :drive_train, :body,
                                       :engine, :brakes, :safety_equipment, :chassis, :electrical,
                                       :cooling_system, :tires, :radio, :exhaust, :steering,
-                                      :comments, :completed, :defect, defect_ids: [])
+                                      :comments, :completed, :defect, :checklist_type, defect_ids: [])
   end
 end

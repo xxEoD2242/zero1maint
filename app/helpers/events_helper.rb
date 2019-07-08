@@ -15,9 +15,9 @@ module EventsHelper
 
   def checklist_button_color(checklists, vehicle)
     if checklists.find_by(vehicle_id: vehicle.id).has_defects?
-      link_to 'Checklist', checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: 'btn btn-warning ml-1'
+      link_to 'View Checklist', checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: 'btn btn-warning ml-1'
     else
-      link_to 'Checklist', checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: 'btn btn-danger ml-1'
+      link_to 'View Checklist', checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: 'btn btn-success ml-1'
     end
   end
 

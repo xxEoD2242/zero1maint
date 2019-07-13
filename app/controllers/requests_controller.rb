@@ -144,10 +144,10 @@ class RequestsController < ApplicationController
 
   def add_parts
     @part_items = PartItem.where(request_id: params[:request_id])
+    @part_orders = RequestPartOrder.where('request_id = ?', params[:request_id])
 
     unless @part_items.empty?
-      if RequestPartOrder.where('request_id = ? AND order_total > ?', params[:request_id], 0)
-        @part_orders = RequestPartOrder.where('request_id = ? AND order_total > ?', params[:request_id], 0)
+      if !@part_orders.empty?
         @part_orders.each do |current_part_order|
           current_part_order.order_items.each do |old_part_id, quantity|
             @part_items.each do |part_item|
@@ -174,10 +174,10 @@ class RequestsController < ApplicationController
         @part_items.destroy_all 
       else
         @part_order = RequestPartOrder.new(user_id: current_user.id, request_id: params[:request_id], order_total: 0)
-        part_items.each do |part_item|
+        @part_items.each do |part_item|
           part_item.part.update(quantity: (part_item.part.quantity - part_item.quantity))
           @part_order.order_items[part_item.part_id] = part_item.quantity
-          current_part_order.order_total += part_item.part_item_total
+          @part_order.order_total += part_item.part_item_total
         end
         @part_order.save
         unless @part_order.order_items.empty?

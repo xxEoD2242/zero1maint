@@ -6,7 +6,7 @@ class Checklist < ApplicationRecord
               :set_engine, :set_brakes, :set_safety_equipment,
               :set_chassis, :set_electrcial, :set_cooling_system,
               :set_tires, :set_radio, :set_exhaust, :set_steering,
-              :defects_detected, :completed
+              :defects_detected, :completed, :has_defects?
   belongs_to :vehicle
   belongs_to :user
   belongs_to :event
@@ -102,6 +102,6 @@ class Checklist < ApplicationRecord
   end
 
   def has_defects?
-    defect == true
+    self.defect = true if !self.defect_ids.empty?
   end
 end

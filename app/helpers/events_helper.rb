@@ -13,13 +13,32 @@ module EventsHelper
     end
   end
 
-  def checklist_button_color(checklists, vehicle)
-    if checklists.find_by(vehicle_id: vehicle.id).has_defects?
-      link_to 'View Checklist', checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: 'btn btn-warning ml-1'
+  def pre_event_checklist_button_color(checklists, vehicle)
+    @pre_checklist = checklists.find_by(vehicle_id: vehicle.id, checklist_type: 'Pre-Event')
+    if @pre_checklist
+      if @pre_checklist.defects.empty?
+        link_to 'View Checklist', checklist_path(@pre_checklist.id), class: 'btn btn-success ml-1'
+      else
+        link_to 'View Checklist', checklist_path(@pre_checklist.id), class: 'btn btn-warning ml-1'
+      end
     else
-      link_to 'View Checklist', checklist_path(checklists.find_by(vehicle_id: vehicle.id).id), class: 'btn btn-success ml-1'
+      'No Checklist Completed'
     end
   end
+
+  def post_event_checklist_button_color(checklists, vehicle)
+    @post_checklist = checklists.find_by(vehicle_id: vehicle.id, checklist_type: 'Post-Event')
+    if @post_checklist
+      if @post_checklist.defects.empty?
+        link_to 'View Checklist', checklist_path(@post_checklist.id), class: 'btn btn-success ml-1'
+      else
+        link_to 'View Checklist', checklist_path(@pre_checklist.id), class: 'btn btn-warning ml-1'
+      end
+    else
+      'No Checklist Completed'
+    end
+  end
+
 
   def calendar_symbol(event)
     if event.vehicles.exists? && event.checklists_completed

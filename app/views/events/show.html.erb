@@ -214,7 +214,7 @@
               <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Pre-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
               </i>
-              <%= checklist_button_color @checklists, vehicle %>
+              <%= pre_event_checklist_button_color @checklists, vehicle %>
               <% else %>
               <%= link_to "Complete Pre-Event Checks", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
               <% end %>
@@ -223,7 +223,7 @@
               <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Post-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
               </i>
-              <%= checklist_button_color @checklists, vehicle %>
+              <%= post_event_checklist_button_color @checklists, vehicle %>
               <% else %>
               <%= link_to "Complete Post-Event Checks", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
               <% end %>

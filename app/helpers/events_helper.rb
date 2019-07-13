@@ -32,7 +32,7 @@ module EventsHelper
       if @post_checklist.defects.empty?
         link_to 'View Checklist', checklist_path(@post_checklist.id), class: 'btn btn-success ml-1'
       else
-        link_to 'View Checklist', checklist_path(@pre_checklist.id), class: 'btn btn-warning ml-1'
+        link_to 'View Checklist', checklist_path(@post_checklist.id), class: 'btn btn-warning ml-1'
       end
     else
       'No Checklist Completed'

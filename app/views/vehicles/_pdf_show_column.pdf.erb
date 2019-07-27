@@ -1,4 +1,12 @@
-<p>
-  <strong><%= title %></strong>
-  <span><%= data %></span>
-</p>
+<strong>
+  <%= title %>
+</strong>
+<div style='text-align: justify'>
+  <% if data != 'Blank' %>
+    <span class='badge badge-danger'>
+      <%= data %>
+    </span>
+  <% else %>
+    No Data
+  <% end %>
+</div>

@@ -76,6 +76,7 @@ class VehiclesController < ApplicationController
     if @vehicle.requests.where(status: "Overdue").exists?
       flash[:alert] = "This vehicle has overdue work orders!"
     end
+    @work_orders = Request.where(vehicle_id: @vehicle.id).reorder(completed_date: :desc)
     @vehicle.set_thresholds
     services_check @vehicle
     check_overdue @vehicle

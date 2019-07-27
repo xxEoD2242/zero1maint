@@ -1,121 +1,68 @@
+<style>
+
+.rowtitle {
+  font-size: 30px;
+}
+
+</style>
 <%= render 'pdf_title', title: "Vehicle: #{@vehicle.car_id}" %>
-<br />
-<%= render 'pdf_show_column', title: 'Vehicle category:', data: @vehicle.veh_category %>
-<%= render 'pdf_show_column', title: 'Location:', data: @vehicle.location %>
-<%= render 'pdf_show_column', title: 'Manufacturer:', data: @vehicle.manufacturer %>
-<%= render 'pdf_show_column', title: 'Status:', data: @vehicle.vehicle_status %>
-<%= render 'pdf_show_column', title: 'VIN Number:', data: @vehicle.vin_number %>
-<%= render 'pdf_show_column', title: 'Registration Date:', data: @vehicle.registration_date %>
-<%= render 'pdf_show_column', title: 'Plate Number:', data: @vehicle.plate_number %>
-<%= render 'pdf_show_column', title: 'Current Mileage', data: @vehicle.mileage %>
-<strong>Work Orders: </strong>
-<div>
-  <% @vehicle.requests.order(created_at: :asc).limit(5).each do |request| %>
-  <span class="badge badge-dark">	<%= request.id %></span>
-  (<%= request.status%>)
-  <% end %>
+<div class='rowtitle'>
+  <%= render 'vehicle_title_box', data: 'Vehicle Info'%>
+  <%= render 'pdf_show_column', title: 'Vehicle category:', data: @vehicle.veh_category %>
+  <%= render 'pdf_show_column', title: 'Location:', data: @vehicle.location %>
+  <%= render 'pdf_show_column', title: 'Manufacturer:', data: @vehicle.manufacturer %>
+  <%= render 'pdf_show_column', title: 'Status:', data: @vehicle.vehicle_status %>
+  <%= render 'pdf_show_column', title: 'VIN Number:', data: @vehicle.vin_number %>
+  <%= render 'pdf_show_column', title: 'Registration Date:', data: @vehicle.registration_date %>
+  <%= render 'pdf_show_column', title: 'Plate Number:', data: @vehicle.plate_number %>
+  <%= render 'pdf_show_column', title: 'Current Mileage', data: @vehicle.mileage %>
 </div>
-<br />
-<strong>Mileage Until:</strong>
-<ul class="list-group">
-  <li class="list-group-item">
-    <strong class="mr-4">A-Service:</strong>
-    <% if @vehicle.a_service == nil %>
-    No Data
-    <% elsif @vehicle.a_service %>
-    <strong style="color: red;">NEEDS SERVICE</strong> 
-    <span class='badge badge-danger'>
-      <%= @vehicle.near_a_service_mileage %> Miles
-    </span>
-    <% else %>
-    <span class='badge badge-success badge-pill'>
-      <%= @vehicle.near_a_service_mileage %> Miles
-    </span>
-    <% end%>
-  </li>
+<div class='page-break rowtitle'>
+  <%= render 'vehicle_title_box', data: 'Services Mileage Information' %>
+<% if @vehicle.a_service == nil %>
+  No Data
+<% elsif @vehicle.shock_service %>
+  <%= render 'pdf_show_column', title: 'A-Service:', data: @vehicle.near_a_service_mileage %>
+<% else %>
+  <%= render 'pdf_show_column', title: 'A-Service:', data: @vehicle.near_a_service_mileage %>
+<% end %>
 
-  <li class="list-group-item">
-    <strong class="mr-4">Shock Service:</strong> 
-    <% if @vehicle.shock_service == nil %>
-    No Data
-    <% elsif @vehicle.shock_service %>
-    <strong style="color:red;">NEEDS SERVICE</strong>
-    <span class='badge badge-danger'>
-      <%= @vehicle.near_shock_service_mileage %> Miles
-    </span>
-    <% else %>
-    <span class='badge badge-success badge-pill'>
-      <%= @vehicle.near_shock_service_mileage %> Miles
-    </span>
-    <% end %>
-  </li>
+<% if @vehicle.shock_service == nil %>
+  No Data
+<% elsif @vehicle.shock_service %>
+  <%= render 'pdf_show_column', title: 'Shock Service:', data: @vehicle.near_shock_service_mileage %>
+<% else %>
+  <%= render 'pdf_show_column', title: 'Shock Service:', data: @vehicle.near_shock_service_mileage %>
+<% end %>
 
-  <li class="list-group-item">
-    <strong class="mr-4">Air Filter Service:</strong>
-    <% if @vehicle.air_filter_service == nil %>
+<% if @vehicle.air_filter_service == nil %>
+  No Data
+<% elsif @vehicle.air_filter_service %>
+  <%= render 'pdf_show_column', title: 'Air Filter Service:', data: @vehicle.near_air_filter_service_mileage %>
+<% else %>
+  <%= render 'pdf_show_column', title: 'Air Filter Service:', data: @vehicle.near_air_filter_service_mileage %>
+<% end %>
+
+<% if @vehicle.tour_car? %>
+  <% if @vehicle.tour_car_prep == nil %>
     No Data
-    <% elsif @vehicle.air_filter_service %>
-    <strong style="color: red;">NEEDS SERVICE</strong>
-    <span class='badge badge-danger'>
-      <%= @vehicle.near_air_filter_service_mileage %> Miles
-    </span>
-    <% else %>
-    <span class='badge badge-success badge-pill'>
-      <%= @vehicle.near_air_filter_service_mileage %> Miles
-    </span>
-    <% end %>
-  </li>
-  <% if @vehicle.tour_car? %>
-  <li class="list-group-item">
-    <strong class="mr-4">Tour Car Prep:</strong>
-    <% if @vehicle.tour_car_prep == nil %>
-    No Data
-    <% elsif @vehicle.tour_car_prep %>
-    <strong style="color: red;">NEEDS SERVICE</strong>
-    <span class='badge badge-danger'>
-      <%= @vehicle.near_tour_car_prep_mileage %> Miles
-    </span>
-    <% else %>
-    <span class='badge badge-success badge-pill'>
-      <%= @vehicle.near_tour_car_prep_mileage %> Miles
-    </span>
-    <% end %>
-  </li>
+  <% elsif @vehicle.tour_car_prep %>
+    <%= render 'pdf_show_column', title: 'Tour Car Service:', data: @vehicle.near_tour_car_prep_mileage %>
+  <% else %>
+    <%= render 'pdf_show_column', title: 'Tour Car Service:', data: @vehicle.near_tour_car_prep_mileage %>
   <% end %>
-
-  <li class="list-group-item">
-    <strong>Repairs:</strong>
-    <% if @vehicle.repair_needed == nil %>
-    No Data
-    <% elsif @vehicle.repair_needed %>
-    <span class='badge badge-danger'>
-      Repairs-In-Progress
-    </span>
-    <% else %>
-    No Repairs Needed
-    <% end %>
-  </li>
-
-  <li class="list-group-item">
-    <strong>Defects:</strong>
-    <% if @vehicle.defect == nil %>
-    No Data
-    <% elsif @vehicle.defect %>
-    <span class='badge badge-danger'>
-      Defects Reported
-    </span>
-    <% else %>
-    No Defects Reported
-    <% end %>
-  </li>
-</ul>
+<% end %>
+</div>
+<% if @vehicle.defect %>
+<div class='page-break'>
+  <%= render 'vehicle_title_box', data: 'Completed Work Orders '%>
+  <%= render 'work_orders', work_orders: @work_orders %>
+</div>
+<% end %>
 
 <% if @vehicle.defect %>
 <div class='page-break'>
-  <div class="container-fluid bg-light border border-danger p-2 mt-3 rounded">
-    <h4 class="text-center">All Defects Reported</h4>
-  </div>
-
+  <%= render 'vehicle_title_box', data: 'Current Vehicle Defects' %>
   <%= render 'defects_table', defects: @defects %>
 </div>
 <% end %>

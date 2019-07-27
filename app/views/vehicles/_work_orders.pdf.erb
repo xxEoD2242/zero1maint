@@ -1,0 +1,50 @@
+<div class="card bg-light">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th>Work Order ID</th>
+            <th>Work Order Status</th>
+            <th>Work Order Type</th>
+            <th>Work Order Created At</th>
+            <th>Completed Date</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% work_orders.order(id: :desc).each do |request| %>
+          <tr>
+            <td> <%= request.id %></td>
+            <td>
+              <span class='badge <%= show_work_order_status_badge request %>'>
+                <%= request.status %>
+              </span>
+            </td>
+            <td>
+              <% request.programs.each do |program| %>
+                <%= program.name %>
+                <br />
+              <% end %>
+            </td>
+            <td> 
+              <%= request.created_at.strftime('%v') %>
+            </td>
+            <td>
+              <h6>
+                <span class="badge badge-danger %>">
+                  <%= request.completed_date.strftime('%v') %>
+                </span>
+              </h6>
+            </td>
+            <td>
+              <%= request.description %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <br />
+    </div>
+  </div>
+</div>

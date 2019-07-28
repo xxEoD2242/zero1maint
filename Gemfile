@@ -36,6 +36,7 @@ gem 'pg', '~> 0.18'
 gem 'popper_js', '~> 1.12.9', '>= 1.11.1'
 gem 'pry-rails', group: :development
 gem 'puma'
+gem 'rabl'
 gem 'rails', '~> 5.1.6'
 gem 'rack', '>= 2.0.6'
 gem 'ransack', github: 'activerecord-hackery/ransack'

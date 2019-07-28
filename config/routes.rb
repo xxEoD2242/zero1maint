@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   post 'bookings' => 'web_hooks#receive', as: :receive_webhooks
   get 'web_hooks/view_bookings'
+  # get 'json_test_page' => 'welcome#json_test_page'
 
   resource :calendar, only: [:show], controller: :calendar
 

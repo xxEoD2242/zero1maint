@@ -18,7 +18,7 @@
   <%= render 'pdf_show_column', title: 'Current Mileage', data: @vehicle.mileage %>
 </div>
 <div class='page-break rowtitle'>
-  <%= render 'vehicle_title_box', data: 'Services Mileage Information' %>
+  <%= render 'vehicle_title_box', data: 'Miles Until Next Service' %>
 <% if @vehicle.a_service == nil %>
   No Data
 <% elsif @vehicle.shock_service %>
@@ -53,12 +53,11 @@
   <% end %>
 <% end %>
 </div>
-<% if @vehicle.defect %>
+
 <div class='page-break'>
   <%= render 'vehicle_title_box', data: 'Completed Work Orders '%>
   <%= render 'work_orders', work_orders: @work_orders %>
 </div>
-<% end %>
 
 <% if @vehicle.defect %>
 <div class='page-break'>

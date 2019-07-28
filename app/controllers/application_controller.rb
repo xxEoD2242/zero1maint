@@ -18,4 +18,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[username name bio location role emplyid labor subscribe])
     devise_parameter_sanitizer.permit(:account_update, keys: %i[username name bio location role emplyid labor subscribe])
   end
+  
+  include Response
+  include ExceptionHandler
 end

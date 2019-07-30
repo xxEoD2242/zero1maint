@@ -54,11 +54,6 @@
 <% end %>
 </div>
 
-<div class='page-break'>
-  <%= render 'vehicle_title_box', data: 'Completed Work Orders '%>
-  <%= render 'work_orders', work_orders: @work_orders %>
-</div>
-
 <% if @vehicle.defect %>
 <div class='page-break'>
   <%= render 'vehicle_title_box', data: 'Current Vehicle Defects' %>

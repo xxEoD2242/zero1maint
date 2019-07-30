@@ -121,6 +121,7 @@ Rails.application.routes.draw do
       get 'vehicle_mileage'
       get 'defects_outstanding'
       get 'defects'
+      get 'download_work_orders'
       post :import
     end
   end

@@ -9,18 +9,18 @@ end
 
 ruby '2.5.1'
 
-gem "actionview", ">= 5.1.6"
+gem "actionview", ">= 5.1.6.2"
 gem 'aws-sdk-rails'
 gem 'aws-sdk-s3'
 gem 'better_errors', group: :development
 gem 'binding_of_caller'
-gem 'bootstrap', '~> 4.1.0'
+gem 'bootstrap', '~> 4.3.1'
 gem 'bootstrap_form'
 gem 'cancancan'
 gem 'carrierwave'
 gem 'carrierwave-imageoptimizer'
 gem 'coffee-rails', '~> 4.2'
-#gem 'faker'
+gem 'faker'
 gem 'devise'
 gem 'figaro'
 gem 'fog'
@@ -31,14 +31,14 @@ gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails', '~> 4.3.1'
 gem 'kaminari'
 gem "loofah", ">= 2.2.3"
-gem 'mini_magick'
+gem "mini_magick", ">= 4.9.4"
 gem 'minitest'
 gem 'pg', '~> 0.18'
-gem 'popper_js', '~> 1.12.9', '>= 1.11.1'
+gem 'popper_js'
 gem 'pry-rails', group: :development
 gem 'puma'
 gem 'rabl'
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.2.3'
 gem 'rack', '>= 2.0.6'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 # gem 'rmagick', '~> 2.15', '>= 2.15.4'

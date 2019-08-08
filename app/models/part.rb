@@ -23,9 +23,16 @@ class Part < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   paginates_per 15
+  
+  # Write code to update quantity/location/category if the part is already in the system.
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
-      Part.create! row.to_hash
+      row_hash = row.to_hash
+      if old_part = Part.find_by(part_numb: row_hash["part_numb"])
+        old_part.update(description: row_hash["description"], quantity: row_hash["quantity"], category: row_hash["category"], location: row_hash["location"], cost: row_hash["cost"], vehicle_category: row_hash["vehicle_category"], quant_none: false, brand: row_hash["brand"])
+      else
+       Part.create! row_hash
+    end
     end
   end
   CATEGORIES = ['Body', 'Brakes', 'Chassis', 'Cooling System', 'Driveline', 'Engine', 'Electrical', 'Steering', 'Radio-Communication', 'Wheel-Tires', 'Exhaust'].freeze

@@ -384,7 +384,7 @@
               </div>
             </li>
             
-              <% @work_orders.where(multi_vehicle: true).reorder(completed_date: :desc).each do |work_order|%>
+              <% @work_orders.where(multi_vehicle: true).reorder(completed_date: :desc).each do |work_order| %>
               <% if work_order.vehicles.include?(@vehicle) %>
               <li class="list-group-item bg-secondary text-white">
                 <div class="row">

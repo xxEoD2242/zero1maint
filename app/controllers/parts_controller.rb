@@ -19,7 +19,7 @@ class PartsController < ApplicationController
 
   def import
     Part.import(params[:file])
-    redirect_to root_url, notice: 'Activity Data Imported!'
+    redirect_to root_url, notice: 'The parts have been uploaded!!'
   end
 
   def individual_financial_report

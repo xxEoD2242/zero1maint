@@ -1,0 +1,75 @@
+{
+  "addons": [
+    "heroku-postgresql",
+    "heroku-postgresql",
+    "scheduler",
+    "sendgrid"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "env": {
+    "AWS_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "devise_key": {
+      "required": true
+    },
+    "gmail_pw": {
+      "required": true
+    },
+    "gmail_un": {
+      "required": true
+    },
+    "HEROKU_POSTGRESQL_BROWN_URL": {
+      "required": true
+    },
+    "HEROKU_POSTGRESQL_MAUVE_URL": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "S3_BUCKET_NAME": {
+      "required": true
+    },
+    "S3_REGION": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SENDGRID_PASSWORD": {
+      "required": true
+    },
+    "SENDGRID_USERNAME": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "zero1maint",
+  "scripts": {
+  },
+  "stack": "heroku-16"
+}

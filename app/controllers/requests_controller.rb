@@ -368,14 +368,12 @@ class RequestsController < ApplicationController
           email = User.find_by(name: @request.creator).email
           UserMailer.overdue_work_order_email(email, @request).deliver_now
         end
-
         a_service_update @request
         shock_service_update @request
         air_filter_service_update @request
         repairs_update @request
         tour_car_service @request
         defect_update @request
-
         format.html { redirect_to @request, notice: 'Work Order was successfully updated.' }
       else
         format.html { render :edit }

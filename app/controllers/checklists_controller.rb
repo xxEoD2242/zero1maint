@@ -78,8 +78,8 @@ class ChecklistsController < ApplicationController
       @vehicle.update(vehicle_status: 'Out-of-Service', repair_needed: true)
       @request = Request.create(status: 'New',
                      description: 'Vehicle failed pre-operation inspection. Please refer to checklist for defects detected or repairs needed.',
-                     vehicle_id: @vehicle.id, creator: User.find(checklist.user_id).name, program_ids: [@set_repairs.id],
-                     completion_date: (Time.now + 7.days), deadline: true, repairs: true,
+                     vehicle_ids: [@vehicle.id], vehicle_id: @vehicle.id, creator: User.find(checklist.user_id).name, program_ids: [@set_repairs.id],
+                     completion_date: (Time.now + 7.days), deadline: true, repairs: true, mechanic_id: User.find(checklist.user_id), 
                      checklist_id: checklist.id, completed_date: Date.current)
     end
   end

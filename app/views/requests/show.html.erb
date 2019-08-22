@@ -1,11 +1,21 @@
 <div class="jumbotron bg-secondary text-white">
-  <h2 class="display-3 text-center">
-    Work Order 
-    <span class='badge badge-danger'>
-      <%= @request.id %>
-    </span>
-  </h2>
-  <div class="card bg-dark text-white">
+  <div class='row'>
+    <div class='col-lg-3'>
+    </div>
+    <div class='col-lg-6'>
+    <div class='container-fluid bg-dark p-2 mb-2 rounded shadow shadow-lg'>
+      <h2 class="display-3 text-center">
+        Work Order 
+        <span class='badge badge-danger badge-pill'>
+          <%= @request.id %>
+        </span>
+      </h2>
+    </div>
+    </div>
+    <div class='col-lg-3'>
+    </div>
+  </div>
+  <div class="card bg-dark text-white shadow shadow-lg">
     <div class="card-header d-flex justify-content-between align-itmes-center">
       <h3>
         <strong>
@@ -243,16 +253,16 @@
           <% end %>
         </div>
       </div>
-      <div class='row bg-secondary border border-danger my-3 p-3 text-white rounded'>
-        <div class='col-md-2'>
-          <h5>
-            Notes
-          </h5>
+      <div class='row'>
+        <div class='col-md-6'>
+          <div class='container-fluid p-3 border border-danger rounded bg-secondary text-white'>
+            <strong>
+              Notes:
+            </strong>
+              <%= @request.notes %>
+          </div>
         </div>
-        <div class='col-md-10'>
-          <p>
-            <%= @request.notes %>
-          </p>
+        <div class='col-md-6'>
         </div>
       </div>
     </div>
@@ -320,9 +330,15 @@
     <div class="card-body">
       <%= render 'custom_form'%>
       <%= paginate @parts %>
-      <br \>
       <% if @parts.count != @number %>
-			
+      <div class='container-fluid border rounded shadow border-danger p-3 d-flex justify-content-center bg-secondary'>
+        <h5>
+          Please select the part that you want, entering in the quantity of the part that is needed in the white box beside the button.
+          <br />
+          Then click "Add Part" to add the part to your cart.
+        </h5>
+      </div>
+      <br />
       <% Part::CATEGORIES.each do |category|%>
       <% unless @parts.where(category: category).empty? %>
 			 

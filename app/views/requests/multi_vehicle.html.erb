@@ -5,141 +5,154 @@
       #<%= @last_work_order %>
     </span>
   </h1>
-<div class="card bg-dark text-white">
-  <div class="card-body">
-    <%= simple_form_for @request, html: {multipart: true} do |f| %>
-    <% if @request.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@request.errors.count, "error") %> prohibited this event from being saved:</h2>
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <%= simple_form_for @request, html: {multipart: true} do |f| %>
+      <% if @request.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@request.errors.count, "error") %> prohibited this event from being saved:</h2>
 
-      <ul>
-        <% @request.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-    <% end %>
-
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= f.input :completion_date, as: :date, label: "Estimated Completion Date", class: "form-control", required: true %>
-        </div>
-      </div>
-      <div class="col-md-8">
-        <div class="form-group bg-secondary border border-danger p-3 rounded">
-          <strong style="margin-bottom: 2px;">Assign &/OR Email Request To: </strong>
-          <br />
-          <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
-        </div>
-      </div>
-    </div>
-	
-    <div class="form-group">
-      <strong>Current Status: </strong> <br />
-      <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, id: :request_status, class: "form-control" %>
-    </div>
-    <div class="form-group">
-      <strong> <%= f.label "Service:"%> </strong>
-      <br />
-      <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
-    </div>
-    
-    <div class='row'>
-      <div class='col-md-2'>
-        <div class='form-check'>
-          <%= f.check_box :deadline, class: 'form-check-input' %>
-          <strong> <%= f.label "Vehicle Deadlined?", class: 'form-check-label' %> </strong>
-        </div>
-      </div>
-      <div class='col-md-10 border border-white p-3 rounded'>
-        <h6> Please check this box if the defect or repair that is being reported places the vehicle out-of-service. </h6>
-      </div>
-    </div>
-    <div class="form-group">
-      <strong><%= f.label "Description" %></strong>
-      <%= f.text_area :description, id: :request_description, class: "form-control"%>
-    </div>
-        
-    <%= f.hidden_field :creator, value: current_user.name %>
-    <div class="form-group">
-      <strong>Upload Images for Work Order: </strong>
-      <br />
-      <br />
-      <%= f.file_field :image, class: "form-group" %>
-    </div>
-    
-    <div class='form-group'>
-      <%= f.input :notes, label: 'Notes', class: 'form-control' %>
-    </div>
-    <br />
-        
-    <% Vehicle::LOCATION.each do |location|%>
-    <div class='form-row'>
-      <h4 class='text-center'>
-        <%= location %>
-      </h4>
-      <div class='table-responsive'>
-        <table class='table table-sm table-striped table-borderless bg-secondary text-white rounded'>
-          <thead>
-            <tr>
-              <th scope='col'> ID </th>
-              <th scope='col'> Mileage </th>
-              <th scope='col'> Times Used This Month </th>
-              <th scope='col'> Status </th>
-              <th scope='col'> Defects Reported (ID / Description) </th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= f.collection_check_boxes :vehicle_ids, Vehicle.where('location = ? AND vehicle_status != ?', location, "Sold").order(car_id: :asc), :id, :car_id do |b| %> 
-            <tr>
-              <th scope='row'>
-                <div class="collection-check-box">
-                  <%= b.check_box %>
-                  <%= b.label %>
-                </div>
-              </th>
-              <td>
-                <%= Vehicle.find(b.object.id).mileage %>
-              </td>
-              <td>
-                <%= Vehicle.find(b.object.id).times_used %>
-              </td>
-              <td>
-                <span class='badge <%= vehicle_status_badge_color Vehicle.find(b.object.id) %>'>
-                  <%= Vehicle.find(b.object.id).vehicle_status %>
-                </td>
-                <td>
-                  <ul class='list-unstyled'>
-                    <% Vehicle.find(b.object.id).defects.where(fixed: false).each do |defect| %>
-                    <li>
-                      <%= link_to defect.id, defect_path(defect), class: 'badge badge-danger' %> / <%= defect.description[0..50] %>...
-                    </li>
-                    <% end %>
-                  </ul>
-                </td>
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <ul>
+          <% @request.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
       </div>
       <% end %>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.input :completion_date, as: :date, label: "Estimated Completion Date", class: "form-control", required: true %>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group bg-secondary border border-danger p-3 rounded">
+            <strong style="margin-bottom: 2px;">Assign &/OR Email Work Order To: </strong>
+            <br />
+            <%= f.collection_check_boxes :user_ids, User.all.order(emplyid: :asc), "id", :user_naming, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+	
+      <div class="form-group">
+        <strong>Current Status: </strong> <br />
+        <%= f.select :status, Request::STATUS, {include_blank: "Update Status" }, id: :request_status, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <strong> <%= f.label "Service:"%> </strong>
+        <br />
+        <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
+      </div>
       
+      <div class='form-group'>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn text-white btn-lg mb-3 bg-danger" data-toggle="modal" data-target="#exampleModal">
+          Select Vehicles
+        </button>
+        <strong>
+          Please use this button to open the list of vehicles.
+        </strong>
+      </div>
+
+      <div class="form-group">
+        <strong><%= f.label "Description" %></strong>
+        <%= f.text_area :description, id: :request_description, class: "form-control"%>
+      </div>
+
+      <div class="form-group">
+        <strong>Upload Images for Work Order: </strong>
+        <br />
+        <br />
+        <%= f.file_field :image, class: "form-group" %>
+      </div>
+    
+      <div class='form-group'>
+        <%= f.input :notes, label: 'Notes', class: 'form-control' %>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Vehicle List</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <% Vehicle::LOCATION.each do |location|%>
+              <div class='form-row'>
+                <h4 class='text-center'>
+                  <%= location %>
+                </h4>
+                <div class='table-responsive'>
+                  <table class='table table-sm table-striped table-borderless bg-secondary text-white rounded'>
+                    <thead>
+                      <tr>
+                        <th scope='col'> ID </th>
+                        <th scope='col'> Mileage </th>
+                        <th scope='col'> Times Used This Month </th>
+                        <th scope='col'> Status </th>
+                        <th scope='col'> Defects Reported (ID / Description) </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%= f.collection_check_boxes :vehicle_ids, Vehicle.where('location = ? AND vehicle_status != ?', location, "Sold").order(car_id: :asc), :id, :car_id do |b| %> 
+                      <tr>
+                        <th scope='row'>
+                          <div class="collection-check-box">
+                            <%= b.check_box %>
+                            <%= b.label %>
+                          </div>
+                        </th>
+                        <td>
+                          <%= Vehicle.find(b.object.id).mileage %>
+                        </td>
+                        <td>
+                          <%= Vehicle.find(b.object.id).times_used %>
+                        </td>
+                        <td>
+                          <span class='badge <%= vehicle_status_badge_color Vehicle.find(b.object.id) %>'>
+                            <%= Vehicle.find(b.object.id).vehicle_status %>
+                          </span>
+                        </td>
+                        <td>
+                          <ul class='list-unstyled'>
+                            <% Vehicle.find(b.object.id).defects.where(fixed: false).each do |defect| %>
+                            <li>
+                              <%= link_to defect.id, defect_path(defect), class: 'badge badge-danger' %> / <%= defect.description[0..50] %>...
+                            </li>
+                            <% end %>
+                          </ul>
+                        </td>
+                      </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <% end %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <%= f.hidden_field :completed_date, value: Date.today %>
       <%= f.hidden_field :mechanic_id, value: current_user.id %>
       <%= f.hidden_field :multi_vehicle, value: true %>
       <%= f.hidden_field :vehicle_id, value: -1 %>
-      
+      <%= f.hidden_field :creator, value: current_user.name %>
       <div class="form-group">
         <%= f.button :submit, "Submit Work Order", class: "btn btn-lg btn-danger" %>
       </div>
       <% end %>
-      <hr>
-      <div>
-        <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger" %>
-      </div>
+    </div>
+    <div class='card-footer'>
+      <%= link_to 'Back', dashboard_requests_path, class: "btn btn-danger" %>
     </div>
   </div>
-</div>
 </div>

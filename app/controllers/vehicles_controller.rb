@@ -136,7 +136,7 @@ class VehiclesController < ApplicationController
   def needs_service
     @q = Vehicle.where(needs_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
-    to_pdf @search_results, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
+    to_pdf @q.result, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
   end
 
   def defects_outstanding

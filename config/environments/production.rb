@@ -9,7 +9,6 @@ Rails.application.configure do
     domain:      'gmail.com',
     user_name:   "#{ENV['gmail_un']}@gmail.com",
     password:     (ENV['gmail_pw']).to_s,
-    # we want to use the Figaro gem to hide our UN & PW!
     authentication:  'plain',
     enable_starttls_auto: true
   }

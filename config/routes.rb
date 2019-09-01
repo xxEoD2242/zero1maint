@@ -94,7 +94,6 @@ Rails.application.routes.draw do
       get 'edit_multi_vehicle'
     end
   end
-
   resources :events do
     collection do
       get 'dashboard'
@@ -116,6 +115,7 @@ Rails.application.routes.draw do
       get 'out_of_service'
       get 'all_vehicles'
       get 'needs_service'
+      get 'needs_service_pdf'
       get 'near_service_required'
       get 'sold_vehicles'
       get 'vehicle_mileage'

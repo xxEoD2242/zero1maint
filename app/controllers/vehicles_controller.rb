@@ -136,7 +136,21 @@ class VehiclesController < ApplicationController
   def needs_service
     @q = Vehicle.where(needs_service: true).ransack(params[:q])
     @search_results = @q.result.page(params[:page])
-    to_pdf @q.result, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
+    vehicle_ids = []
+    @q.result.each do |vehicle|
+      vehicle_ids << vehicle.id
+    end
+    @full_results = vehicle_ids
+  end
+  
+  def needs_service_pdf
+    full_results = params[:full_results]
+    vehicles = []
+    full_results.each do |vehicle_id|
+      vehicles << Vehicle.find(vehicle_id)
+    end
+    @search_results = vehicles
+    to_pdf @search_results, "Vehicles That Need Service for #{Date.current.strftime('%D')}"
   end
 
   def defects_outstanding
@@ -154,7 +168,6 @@ class VehiclesController < ApplicationController
 
   def to_pdf(vehicles, file_name)
     respond_to do |format|
-      format.html
       format.csv { send_data vehicles.to_csv }
       format.xls
       format.pdf do

@@ -341,9 +341,10 @@
       <br />
       <% Part::CATEGORIES.each do |category|%>
       <% unless @parts.where(category: category).empty? %>
-			 
-      <strong><%= label_tag category %></strong>
-      <div class="row">
+			<div class='container-fluid border border-light bg-secondary p-2 my-3 rounded'>
+        <h3 class='text-center'><%= label_tag category %></h3>
+      </div>
+      <div class="row border border-round border-light bg-secondary p-1 rounded">
         <% @parts.where(category: category).each do |part|%>
         <div class="col-md-4">
           <%= form_tag add_to_request_part_order_requests_path do |f|%>

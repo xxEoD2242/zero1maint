@@ -83,7 +83,7 @@ class VehiclesController < ApplicationController
     @set_defects = Program.find_by(name: 'Defect')
     @defects = @vehicle.defects.order(created_at: :desc).are_not_fixed?
     # @request = Request.where(vehicle_id: @vehicle.id)
-    # to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
+    to_pdf @vehicle, "Vehicle #{@vehicle.car_id}"
   end
   
   def download_work_orders
@@ -168,6 +168,7 @@ class VehiclesController < ApplicationController
 
   def to_pdf(vehicles, file_name)
     respond_to do |format|
+      format.html
       format.csv { send_data vehicles.to_csv }
       format.xls
       format.pdf do

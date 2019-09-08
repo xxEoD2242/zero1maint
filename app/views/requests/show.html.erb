@@ -311,9 +311,23 @@
       <ul class="list-group">
         <% @part_items.each do |part_item|%>
         <li class="list-group-item bg-secondary d-flex justify-content-between align-items-center">
-          <%= part_item.part.description %> | Qty: <%= part_item.quantity%> 
-          <span> 
-            <%= link_to 'Delete', delete_parts_requests_path(part_id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+          <h6>
+            |
+          <span class='badge badge-pill badge-light'>
+            ID #:
+          </span>
+          <%= part_item.part.part_numb %> |
+          <span class='badge badge-pill badge-light'>
+            Description:
+          </span>
+          <%= part_item.part.description %> |
+          <span class='badge badge-pill badge-light'>
+            Qty:
+          </span>
+          <%= part_item.quantity%> |
+          </strong>
+          <h6>
+            <%= link_to 'Delete', delete_parts_requests_path(part_id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
           </span>
         </li>
         <% end %>

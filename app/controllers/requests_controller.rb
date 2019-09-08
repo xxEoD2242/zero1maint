@@ -125,7 +125,7 @@ class RequestsController < ApplicationController
   end
 
   def delete_parts
-    part_item = PartItem.find(params[:id])
+    part_item = PartItem.find(params[:part_id])
     part_item.destroy
     flash[:notice] = 'Part successfully removed from cart!' if part_item.destroy
     redirect_back(fallback_location: root_path)

@@ -313,7 +313,7 @@
         <li class="list-group-item bg-secondary d-flex justify-content-between align-items-center">
           <%= part_item.part.description %> | Qty: <%= part_item.quantity%> 
           <span> 
-            <%= link_to 'Delete', delete_parts_requests_path(id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+            <%= link_to 'Delete', delete_parts_requests_path(part_id: part_item.id), data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
           </span>
         </li>
         <% end %>

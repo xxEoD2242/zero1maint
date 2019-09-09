@@ -4,9 +4,14 @@
 <%= render 'vehicle_nav_bar', url: url, status: status %>
 <div class='card bg-dark'>
   <div class="card-body">
-    <%= render "vehicle_search_box", q: @q, action: action %>
-    <br />
-    <%= paginate @search_results, class: 'pagination bg-secondary' %>
+    <div class='row'>
+      <div class='col-md-2'>
+      </div>
+      <%= render "vehicle_search_box", q: @q, action: action %>
+      <div class='col-md-3 d-flex justify-content-end'>
+        <%= paginate @search_results, class: 'pagination bg-secondary' %>
+      </div>
+    </div>
     <br />
     <%= render 'vehicle_search_results', vehicle: @search_results %>
   </div>

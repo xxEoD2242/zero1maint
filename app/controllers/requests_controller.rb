@@ -319,7 +319,7 @@ class RequestsController < ApplicationController
   
   def singular_vehicle(request)
     unless request.multi_vehicle
-      request.update(vehicle_ids: request.vehicle_id)
+      request.update(vehicle_ids: [request.vehicle_id])
     end
   end
 

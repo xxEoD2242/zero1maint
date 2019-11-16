@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-12 col-lg-5">
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <% if @event.multi_day %>
@@ -26,7 +26,7 @@
           </div>
         </div>
         <% if @event.multi_day %>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <% end %>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -61,7 +61,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -75,7 +75,7 @@
             </p>
           </div>
         </div>
-        <div class="row">	
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">	
           <div class="col-md-5">
             <p>
               <strong>
@@ -95,7 +95,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -109,7 +109,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -123,7 +123,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -137,7 +137,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -151,7 +151,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -165,7 +165,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row border border-light bg-secondary p-1 mx-1 rounded mt-1 mb-1">
           <div class="col-md-5">
             <p>
               <strong>
@@ -183,23 +183,22 @@
       <div class="col-md-12 col-lg-7" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
         <div class="d-flex justify-content-between align-items-center">
           <h4 class="text-center">
-            <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-danger" %>
+            <%= link_to 'Add Vehicles', edit_event_path(@event), class: "btn btn-danger" %>
           </h4> 
-          <%= auto_select_vehicles @event%>
         </div>
         <p>
           <div class="row">	
-            <div class="col-xs-2 col-md-3 col-lg-3">	
+            <div class="col-md-12 col-lg-3">	
               <strong>
                 Vehicles:
               </strong>
             </div>
-            <div class="col-xs-2 col-md-3 col-lg-4">
+            <div class="col-md-12 col-lg-4">
               <strong>
                 Pre-Event:
               </strong>
             </div>
-            <div class="col-xs-2 col-md-3 col-lg-5">        
+            <div class="col-md-12 col-lg-5">        
                 <b>
                 Post-Event:
               </b>
@@ -207,10 +206,10 @@
           </div>
           <div class="row mt-2">
             <% @vehicles.each do |vehicle|%>
-            <div class="col-md-2 col-lg-3 mb-2">
+            <div class="col-md-12 col-lg-3 mb-2">
               <%= vehicle.car_id %> 
             </div>
-            <div class="col-md-2 col-lg-4 mb-2">
+            <div class="col-md-12 col-lg-4 mb-2">
               <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Pre-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
               </i>
@@ -219,7 +218,7 @@
               <%= link_to "Pre-Op Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
               <% end %>
             </div>
-            <div class="col-md-2 col-lg-5 mb-2">
+            <div class="col-md-12 col-lg-5 mb-2">
               <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Post-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
               </i>

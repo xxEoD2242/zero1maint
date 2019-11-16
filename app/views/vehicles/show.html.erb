@@ -406,21 +406,22 @@
         </div>
       </div>
     </div>
-    <div class="card-footer d-flex justify-content-between align-items-center">
-      <span>
-        <%= link_to 'Edit', edit_vehicle_path(@vehicle), class: "btn btn-danger mr-2" %>
-        <%= link_to 'Back', vehicles_path, class: "btn btn-danger" %>
-      </span>
-      <span> 
-        <%= link_to 'Vehicle Mileage Report', vehicle_mileage_vehicles_path(id: @vehicle.id), class: "btn btn-danger"%>
-        <%= link_to 'View All Defects', defects_vehicles_path(id: @vehicle.id), class: 'btn btn-danger' %>
-        <%= link_to 'Report a Defect', report_defects_path(vehicle_id: @vehicle.id), class: 'btn btn-danger'%>
-      </span>
-      <strong>
-        Download:
-        <%= link_to "Maintenance Report", download_work_orders_vehicles_path(format: "pdf", vehicle_id: @vehicle.id), class: 'btn btn-danger mx-2' %>
-        <%= link_to "Defects Report", vehicle_path(@vehicle, params.merge(format: "pdf").permit!), class: "btn btn-danger" %>
-      </strong>
+    <div class="card-footer">
+      <div class='row'>
+        <div class='col-md-6 col-lg-3 mt-1'>
+          <%= link_to 'Edit', edit_vehicle_path(@vehicle), class: "btn btn-danger mr-1" %>
+          <%= link_to 'Back', vehicles_path, class: "btn btn-danger" %>
+        </div>
+        <div class='col-md-6 col-lg-5 mt-1'> 
+          <%= link_to 'Vehicle Mileage Report', vehicle_mileage_vehicles_path(id: @vehicle.id), class: "btn btn-danger"%>
+          <%= link_to 'View All Defects', defects_vehicles_path(id: @vehicle.id), class: 'btn btn-danger' %>
+          <%= link_to 'Report a Defect', report_defects_path(vehicle_id: @vehicle.id), class: 'btn btn-danger'%>
+        </div>
+        <div class='col-md-6 col-lg-4 d-flex justify-content-end mt-1'>
+          <%= link_to "Maintenance Report", download_work_orders_vehicles_path(format: "pdf", vehicle_id: @vehicle.id), class: 'btn btn-danger mx-1' %>
+          <%= link_to "Defects Report", vehicle_path(@vehicle, params.merge(format: "pdf").permit!), class: "btn btn-danger" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

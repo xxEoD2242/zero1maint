@@ -3,7 +3,7 @@
 </div>
 
 <div class="row mb-3">
-  <div class="col-md-3">
+  <div class="col-md-12 col-lg-6 col-xl-3">
     <div class="list-group">
       <%= link_to "Create A Work Order", decision_requests_path, class: "list-group-item bg-secondary text-white list-group-item-action" %>
       <%= render 'dashboard_link', title: "All Work Orders", numb: @all_wo_numb, url: "../requests" %>
@@ -19,7 +19,7 @@
       </a>	
     </div>		
   </div>
-  <div class="col-md-6">
+  <div class="col-md-12 col-lg-6 col-xl-6">
     <div class="list-group">
     <%= render 'dashboard_link', title: "All Defects Reported", numb: @defects, url: "../defects" %>
     <%= render 'dashboard_link', title: "Vehicles with Defects Outstanding", numb: @defects_outstanding, url: "../vehicles/defects_outstanding" %>
@@ -39,7 +39,7 @@
       </div>
     </div>			
   </div>
-  <div class="col-md-3">
+  <div class="col-md-12 col-lg-6 col-xl-3 mt-3">
     <div class="list-group">
       <%= render 'dashboard_link',
           title: "A-Service Work Orders",

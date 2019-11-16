@@ -27,9 +27,9 @@
         <h3 class="text-center">Deadlined</h3>
         <br />
         <h5 class='text-center'>
-        A work order has been automatically created for this vehicle.
-        <br />
-        <%= link_to "View Work Order \##{Request.where(checklist_id: @checklist.id).last.id}", request_path(Request.where(checklist_id: @checklist.id).last.id), class: 'badge badge-danger badge-lg'%>
+          A work order has been automatically created for this vehicle.
+          <br />
+          <%= link_to "View Work Order \##{Request.where(checklist_id: @checklist.id).last.id}", request_path(Request.where(checklist_id: @checklist.id).last.id), class: 'badge badge-danger badge-lg'%>
         </h5>
       </div>
       <% end %>
@@ -95,34 +95,48 @@
                   </h5>
                 </td>
                 <td><%= defect.times_reported %></td>
-                <td><%= last_event defect %>
-                  <td>
-                    <%= category_words defect %>
-                  </td>
-                  <td><%= defect.description %></td>
-                  <td>
-                    <%= defect_checklist defect %>
-                  </td>
-                  <td>
-                    <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
-                  </td>
-                </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
+                <td><%= last_event defect %></td>
+                <td>
+                  <%= category_words defect %>
+                </td>
+                <td><%= defect.description %></td>
+                <td>
+                  <%= defect_checklist defect %>
+                </td>
+                <td>
+                  <%= link_to "Show", defect_path(defect), class: 'badge badge-danger' %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
-        <% end %>
-        <div class="container d-flex justify-content-between align-items-center mt-4">
-          <%= link_to "Back to Event", event_path(@checklist.event.id), class: "btn btn-danger" %>
-          <%= link_to "Back to Records", records_checklists_path, class: "btn btn-danger" %>
-          <%= link_to "Create a Work Order",
-          create_work_order_checklists_path(vehicle_id: @checklist.vehicle.id, checklist_id: @checklist.id),
-          class: "btn btn-danger" %>
-            <%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-danger" %>
-            <%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-danger" %>
+      </div>
+      <% end %>
+      <div class="container mt-4">
+        <div class='row'>
+          <div class='col-md-6 col-lg-2 mt-2'>
+            <%= link_to "Back to Event", event_path(@checklist.event.id), class: "btn btn-danger" %>
+          </div>
+          <div class='col-md-6 col-lg-2 mt-2'>
+            <%= link_to "Back to Records", records_checklists_path, class: "btn btn-danger" %>
+          </div>
+          <div class='col-md-6 col-lg-2 mt-2'>
+            <%= link_to "Create a Work Order",
+            create_work_order_checklists_path(vehicle_id: @checklist.vehicle.id, checklist_id: @checklist.id),
+            class: "btn btn-danger" %>
+            </div>
+            <div class='col-md-6 col-lg-2 mt-2'>
+            </div>
+            <div class='col-md-6 col-lg-2 mt-2'>
+              <%= link_to "Edit Checklist", edit_checklist_path(@checklist), class: "btn btn-danger" %>
+            </div>
+            <div class='col-md-6 col-lg-2 mt-2'>
+              <%= link_to "Download PDF", checklist_path(format: "pdf"), class: "btn btn-danger" %>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

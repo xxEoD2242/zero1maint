@@ -109,7 +109,7 @@
       </ul>
       <% end %>
     </nav>
-    <div class="container-fluid pb-4">
+    
       <% if notice.present?%>
       <aside class="alert alert-danger alert-dismissible fade show my-3 text-center" role="alert">
         <%= notice %>
@@ -125,7 +125,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
       </aside>
+      
       <% end %>
+      <div class="container-fluid pb-4 hidden-xs">
       <%= yield %>
     </div>
   </body>

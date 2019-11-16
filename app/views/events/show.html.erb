@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-12 col-lg-5">
         <div class="row">
           <div class="col-md-5">
             <p>
@@ -180,7 +180,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-7" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
+      <div class="col-md-12 col-lg-7" style="border: 2px solid lightgrey;border-radius: 6px 6px 6px 6px; padding-top: 10px;">
         <div class="d-flex justify-content-between align-items-center">
           <h4 class="text-center">
             <%= link_to 'Add Vehicles/Mileage', edit_event_path(@event), class: "btn btn-danger" %>
@@ -189,17 +189,17 @@
         </div>
         <p>
           <div class="row">	
-            <div class="col-md-3">	
+            <div class="col-xs-2 col-md-3 col-lg-3">	
               <strong>
                 Vehicles:
               </strong>
             </div>
-            <div class="col-md-4">
+            <div class="col-xs-2 col-md-3 col-lg-4">
               <strong>
                 Pre-Event:
               </strong>
             </div>
-            <div class="col-md-5">        
+            <div class="col-xs-2 col-md-3 col-lg-5">        
                 <b>
                 Post-Event:
               </b>
@@ -207,25 +207,25 @@
           </div>
           <div class="row mt-2">
             <% @vehicles.each do |vehicle|%>
-            <div class="col-md-3 mb-2">
+            <div class="col-md-2 col-lg-3 mb-2">
               <%= vehicle.car_id %> 
             </div>
-            <div class="col-md-4 mb-2">
+            <div class="col-md-2 col-lg-4 mb-2">
               <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Pre-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
               </i>
               <%= pre_event_checklist_button_color @checklists, vehicle %>
               <% else %>
-              <%= link_to "Complete Pre-Event Checks", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
+              <%= link_to "Pre-Op Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
               <% end %>
             </div>
-            <div class="col-md-5 mb-2">
+            <div class="col-md-2 col-lg-5 mb-2">
               <% if @checklists.exists?(vehicle_id: vehicle.id, checklist_type: 'Post-Event') %>
               <i class="fa fa-check fa-lg text-white" style="color: white;" aria-hidden="true">
               </i>
               <%= post_event_checklist_button_color @checklists, vehicle %>
               <% else %>
-              <%= link_to "Complete Post-Event Checks", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
+              <%= link_to "Post-Op Checklist", new_checklist_path(id: vehicle.id, event_id: @event.id), class: "btn btn-danger ml-1" %> 
               <% end %>
             </div>
             <br />
@@ -235,31 +235,35 @@
       </div>
     </div>
   </div>
-  <div class="card-footer d-flex justify-content-between align-items-center">
-    <span>
-      <%= link_to 'Events Dashboard', dashboard_events_path, class: "btn btn-danger"%>
-    </span>
-    <% if !@event.is_completed? %>
-			
-    <%= form_tag 'event_completed' do |f| %>
-    <%= hidden_field_tag :event_id, @event.id %>
-    <div class="input-group">
-      <div class="input-group-prepend bg-secondary text-white">
-        <div class="input-group-text form-control">
-          Mileage:
-        </div>
+  <div class="card-footer">
+    <div class='row'>
+      <div class='col-md-6 col-lg-4 mt-2'>
+        <%= link_to 'Events Dashboard', dashboard_events_path, class: "btn btn-danger"%>
       </div>
-      <%= number_field_tag :event_mileage, nil, class: "form-control" %>
-      <div class="input-group-append">
-        <%= submit_tag "Complete Event", class: "btn btn-danger input-group-btn" %>
+      <div class='col-md-6 col-lg-4 mt-2'>
+        <% if !@event.is_completed? %>
+			
+        <%= form_tag 'event_completed' do |f| %>
+        <%= hidden_field_tag :event_id, @event.id %>
+        <div class="input-group">
+          <div class="input-group-prepend bg-secondary text-white">
+            <div class="input-group-text form-control">
+              Mileage:
+            </div>
+          </div>
+          <%= number_field_tag :event_mileage, nil, class: "form-control" %>
+          <div class="input-group-append">
+            <%= submit_tag "Complete Event", class: "btn btn-danger input-group-btn" %>
+          </div>
+        </div>
+        <% end %>		
+        <% end %>
+      </div>
+      <div class='col-md-6 col-lg-4 mt-2'>
+        <%= link_to 'Back', :back, class: "btn btn-danger mr-2"%>
+        <%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-danger" %>
       </div>
     </div>
-    <% end %>		
-    <% end %>
-    <span>
-      <%= link_to 'Back', :back, class: "btn btn-danger"%>
-      <%= link_to 'Download PDF', event_path(@event, format: "pdf"), class: "btn btn-danger" %>
-    </span>
   </div>
 </div>
 <% if !@event.is_completed? %>

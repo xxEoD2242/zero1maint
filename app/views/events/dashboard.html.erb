@@ -2,19 +2,27 @@
   <h1 class="display-3">Events Dashboard</h1>
 </div>
 <%= render 'dashboard_links' %>
-<div class="row mt-3">
+<div class="row mt-1">
   <div class="col-md-12">
     <div class="card bg-dark text-white">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span>
-          <%= link_to "#{(@date - 1.month).strftime('%B %Y')}", previous_month_events_path, class: "btn btn-danger"%>
-        </span>
-        <h2>
-          <%= @date.strftime('%B %Y') %>
-        </h2>
-        <span>
-          <%= link_to "#{(@date + 1.month).strftime('%B %Y')}", next_month_calendar_events_path, class: "btn btn-danger"%>
-        </span>
+      <div class="card-header">
+        <div class='row'>
+          <div class='col-md-6 col-lg-3'>
+            <h6>
+            <%= link_to "#{(@date - 1.month).strftime('%B %Y')}", previous_month_events_path, class: "btn btn-danger"%>
+          </h6>
+          </div>
+          <div class='col-md-6 col-lg-6'>
+            <h2 class='text-center'>
+              <%= @date.strftime('%B %Y') %>
+            </h2>
+          </div>
+          <div class='col-md-6 col-lg-3 d-flex justify-content-end'>
+            <h6>
+            <%= link_to "#{(@date + 1.month).strftime('%B %Y')}", next_month_calendar_events_path, class: "btn btn-danger" %>
+          </h6>
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <div class='table-responsive'>
@@ -70,9 +78,9 @@
 <% unless @search_results.empty? %>
 
 <div class="container bg-dark text-white border rounded p-3 my-3">
-<h4 class="text-center">
-  Most Recent Events
-</h4>
+  <h4 class="text-center">
+    Most Recent Events
+  </h4>
 </div>
 <%= render 'events_search_results', event: @search_results %>
 <% end %>

@@ -1,0 +1,38 @@
+<div class='table-responsive'>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th scope='col'>ID</th>
+        <th scope='col'>Services</th>
+        <th scope='col'>Status</th>
+        <th scope='col'>Description</th>
+        <th scope='col'>Completed Date</th>
+        <th colspan=1></th>
+      </tr>
+    </thead>
+    <% work_orders.each do |work_order| %>
+    <tr>
+      <th scope='row'>
+        <span class='badge badge-danger badge-pill'>
+          <%= work_order.id %>
+        </span>
+      </th>
+      <td>
+        <ul style='list-style-type: none; padding: 0; margin: 0;'>
+          <% work_order.programs.each do |program| %>
+          <li><%= program.name %></li>
+          <% end %>
+        </ul>
+      </td>
+      <td><%= work_order.status %></td>
+      <td><%= work_order.description %></td>
+      <td><%= work_order.completed_date %></td>
+      <td>
+        <%= link_to "Show", request_path(work_order), class: "badge badge-danger" %>
+      </td>
+    </tr>
+    <% end %>
+    <tbody>
+    </tbody>
+  </table>
+</div>

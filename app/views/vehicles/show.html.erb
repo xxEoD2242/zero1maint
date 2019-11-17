@@ -18,13 +18,13 @@
   <% end %>
 
   <div class="card bg-dark text-white mt-3">
-    <div class="card-header">
+    <div class="card-header ">
       <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link text-secondary active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Info</a>
-          <a class="nav-item text-secondary nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Defects</a>
-          <a class="nav-item text-secondary nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Maintenance History</a>
-          <a class="nav-item text-secondary nav-link" id="nav-multi-tab" data-toggle="tab" href="#nav-multi" role="tab" aria-controls="nav-multi" aria-selected="false">Mult-Vehicle Work Order History</a>
+        <div class="nav nav-tabs card-header-tabs " id="nav-tab" role="tablist">
+          <a class="nav-item nav-link text-light active bg-secondary border-secondary" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Info</a>
+          <a class="nav-item text-light nav-link bg-secondary border-secondary mx-1" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Defects</a>
+          <a class="nav-item text-light nav-link bg-secondary border-secondary mr-1" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Maintenance History</a>
+          <a class="nav-item text-light nav-link bg-secondary border-secondary" id="nav-multi-tab" data-toggle="tab" href="#nav-multi" role="tab" aria-controls="nav-multi" aria-selected="false">Mult-Vehicle Work Order History</a>
         </div>
       </nav>
     </div>
@@ -310,99 +310,23 @@
           </div>
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class='container-fluid bg-secondary text-white rounded border border-danger p-2'>
+          <div class='container-fluid bg-secondary text-white rounded mb-2 p-2'>
             <h4 class="text-center">Currently Reported Defects</h4>
             <p class='text-center'>To view a history of defects, please use the button at the bottom labeled 'View All Defects'</p>
           </div>
           <%= render 'defects_table', defects: @defects %>
         </div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-          <div class="container-fluid bg-secondary text-white border border-danger rounded p-3">
+          <div class="container-fluid bg-secondary text-white rounded p-3 mb-2">
             <h3 class="text-center"><%= @vehicle.car_id %> Maintenance History </h3>
           </div>
-          <% if !@vehicle.requests.empty? %>
-          <ul class="list-group">
-            <li class="list-group-item bg-secondary text-white">
-              <div class="row">
-                <div class="col-md-2">
-                  <strong> ID </strong>
-                </div>
-                <div class="col-md-3">
-                  <strong> Status </strong>
-                </div>
-                <div class="col-md-3">
-                  <strong> Description </strong>
-                </div>
-                <div class="col-md-3">
-                  <strong> Completed Date </strong>
-                </div>
-                <div class="col-md-1">
-                </div>
-              </div>
-            </li>
-            
-            <% @work_orders.where(multi_vehicle: false).reorder(completed_date: :desc).each do |work_order|%>
-            <li class="list-group-item bg-secondary text-white">
-              <div class="row">
-                <div class="col-md-2"> 
-                  <%= link_to work_order.id, request_path(work_order), class: "badge badge-danger"%>
-                </div>
-                <div class="col-md-3"><%= work_order.status %> </div>
-                <div class="col-md-3"><%= work_order.description%> </div>
-                <div class="col-md-3"><%= work_order.completed_date%></div>
-                <div class="col-md-1">
-                  <%= link_to "Show", request_path(work_order), class: "badge badge-danger"%>
-                </div>
-              </div>
-            </li>
-            <% end %>
-          </ul>
-          <% end %>
+          <%= render 'show_page_work_order_table', work_orders: @service_work_orders %>
         </div>
         <div class="tab-pane fade" id="nav-multi" role="tabpanel" aria-labelledby="nav-multi-tab">
-          <div class="container-fluid bg-secondary text-white border border-danger rounded p-3">
+          <div class="container-fluid bg-secondary text-white rounded mb-2 p-3">
             <h3 class="text-center"><%= @vehicle.car_id %>Multi-Vehicle Work Order Maintenance History </h3>
           </div>
-          <% if !@vehicle.requests.empty? %>
-          <ul class="list-group">
-            <li class="list-group-item bg-secondary text-white">
-              <div class="row">
-                <div class="col-md-2">
-                  <strong> ID </strong>
-                </div>
-                <div class="col-md-3">
-                  <strong> Status </strong>
-                </div>
-                <div class="col-md-3">
-                  <strong> Description </strong>
-                </div>
-                <div class="col-md-3">
-                  <strong> Completed Date </strong>
-                </div>
-                <div class="col-md-1">
-                </div>
-              </div>
-            </li>
-            
-              <% @work_orders.where(multi_vehicle: true).reorder(completed_date: :desc).each do |work_order| %>
-              <% if work_order.vehicles.include?(@vehicle) %>
-              <li class="list-group-item bg-secondary text-white">
-                <div class="row">
-                  <div class="col-md-2"> 
-                    <%= link_to work_order.id, request_path(work_order), class: "badge badge-danger"%>
-                  </div>
-                  <div class="col-md-3"><%= work_order.status %> </div>
-                  <div class="col-md-3"><%= work_order.description%> </div>
-                  <div class="col-md-3"><%= work_order.completed_date%></div>
-                  <div class="col-md-1">
-                    <%= link_to "Show", request_path(work_order), class: "badge badge-danger badge-pill"%>
-                  </div>
-                </div>
-              </li>
-              <% end %>
-              <% end %>
-          </ul>
-          <% end %>
+          <%= render 'show_page_work_order_table', work_orders: @multi_vehicle_work_orders %>
         </div>
       </div>
     </div>

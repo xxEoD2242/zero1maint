@@ -26,7 +26,7 @@ module ApplicationHelper
   end
   
   def defect_checklist(defect)
-    if !defect.checklists.empty?
+    if defect.checklists.exists?
       link_to "Checklist #{defect.checklists.last.id}", checklist_path(defect.checklists.last.id), class: 'btn btn-danger btn-sm'
     else
       'None'
@@ -35,11 +35,11 @@ module ApplicationHelper
   
   def work_order_link(defect)
     if defect.requests.exists?
-      link_to "Work Order", request_path(defect.requests.last.id), class: 'btn btn-danger btn-sm'
+      link_to "View Work Order #{defect.requests.last.id}", request_path(defect.requests.last.id), class: 'btn btn-danger'
     elsif defect.checklists.exists?
-      link_to 'Create W/O', create_defect_work_order_defects_path(checklist_id: defect.checklists.last.id, vehicle_id: defect.vehicle.id, defect_id: defect.id), class: 'btn btn-secondary btn-sm'
+      link_to 'Create Work Order', create_defect_work_order_defects_path(checklist_id: defect.checklists.last.id, vehicle_id: defect.vehicle.id, defect_id: defect.id), class: 'btn btn-secondary'
     elsif !defect.checklists.exists?
-      link_to link_to 'Create W/O', create_manual_defect_work_order_defects_path(vehicle_id: defect.vehicle.id, defect_id: defect.id), class: 'btn btn-secondary btn-sm'
+      link_to link_to 'Create Work Order', create_manual_defect_work_order_defects_path(vehicle_id: defect.vehicle.id, defect_id: defect.id), class: 'btn btn-secondary'
     else
       'No Checklist'
     end

@@ -41,6 +41,7 @@
       </div>
     </div>
     <%= link_to 'Edit', edit_defect_path(@defect), class: 'btn btn-danger'%>
+    <%= work_order_link @defect %>
   </div>
   <div class='card-footer'>
     <%= render 'footer_links' %>

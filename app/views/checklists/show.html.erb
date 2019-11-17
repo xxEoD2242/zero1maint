@@ -60,7 +60,7 @@
       </div>
       <br />
       <h4 class='text-center'>
-        <%= link_to "Report Another Defect", another_defects_path(vehicle_id: @checklist.vehicle.id), class: "badge badge-danger badge-pill" %>
+        <%= link_to "Report Another Defect", another_defects_path(vehicle_id: @checklist.vehicle.id, checklist_id: @checklist.id, event_id: @checklist.event.id), class: "badge badge-danger badge-pill" %>
       </h4>
       <% unless !@checklist.defects.exists? %>
       <div class='container-fluid bg-dark text-dark my-3 p-2 rounded'>

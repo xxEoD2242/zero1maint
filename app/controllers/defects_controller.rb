@@ -22,7 +22,9 @@ class DefectsController < ApplicationController
 
   def another
     @vehicle = Vehicle.find(params[:vehicle_id])
-    @defect = Defect.create(description: '**** Please fill this in! ****', vehicle_id: @vehicle.id, fixed: false,
+    @checklist = Checklist.find(params[:checklist_id])
+    @defect = Defect.create(description: '**** Please fill this in! ****', vehicle_id: @vehicle.id,
+                            fixed: false, checklist_ids: [@checklist.id],
                             manually_reported: true, times_reported: 0, times_completed: 0)
     
     if @defect.save
@@ -49,9 +51,9 @@ class DefectsController < ApplicationController
     @checklist = Checklist.find(params[:checklist_id])
     @vehicle = Vehicle.find(params[:vehicle_id])
     @defect = Program.find_by(name: 'Defect')
-    @request = Request.create(status: 'New', program_id: @defect.id,
+    @request = Request.create(status: 'New', program_id: @defect.id, program_ids: [@defect.id],
                               description: '****** Please fill this in ******',
-                              request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id,
+                              request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id, vehicle_ids: [@vehicle.id],
                               creator: User.find(current_user.id).name,
                               completion_date: (Time.now + 7.days), checklist_id: @checklist.id, 
                               defect_ids: [params[:defect_id]], completed_date: Date.current)
@@ -66,9 +68,9 @@ class DefectsController < ApplicationController
   def create_manual_defect_work_order
     @vehicle = Vehicle.find(params[:vehicle_id])
     @defect = Program.find_by(name: 'Defect')
-    @request = Request.create(status: 'New', program_id: @defect.id,
+    @request = Request.create(status: 'New', program_id: @defect.id, program_ids: [@defect.id],
                               description: '****** Please fill this in ******',
-                              request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id,
+                              request_mileage: @vehicle.mileage, vehicle_id: @vehicle.id, vehicle_ids: [@vehicle.id],
                               creator: User.find(current_user.id).name,
                               completion_date: (Time.now + 7.days), 
                               defect_ids: [params[:defect_id]], completed_date: Date.current)

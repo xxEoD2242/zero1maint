@@ -49,7 +49,7 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.find(params[:checklist_id])
     @vehicle = Vehicle.find(params[:vehicle_id])
     @repairs = Program.find_by(name: 'Repairs')
-    @request = Request.create(status: 'New', program_id: @repairs.id,
+    @request = Request.create(status: 'New', program_id: @repairs.id, program_ids: [@repairs.id],
                               description: '****** Please fill this in ******',
                               request_mileage: @vehicle.mileage,
                               vehicle_id: @vehicle.id, creator: User.find(@checklist.user.id).name,

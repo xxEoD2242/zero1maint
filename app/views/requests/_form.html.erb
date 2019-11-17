@@ -37,7 +37,7 @@
     <div class="form-group">
       <strong> <%= f.label "Service:"%> </strong>
       <br />
-      <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control", id: :request_program_id%>
+      <%= f.collection_check_boxes :program_ids, Program.all, "id", :user_naming, class: "form-control" %>
     </div>
     
     <div class='row'>

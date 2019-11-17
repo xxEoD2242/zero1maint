@@ -108,19 +108,19 @@
                           </div>
                         </th>
                         <td>
-                          <%= Vehicle.find(b.object.id).mileage %>
+                          <%= b.object.mileage %>
                         </td>
                         <td>
-                          <%= Vehicle.find(b.object.id).times_used %>
+                          <%= b.object.times_used %>
                         </td>
                         <td>
                           <span class='badge <%= vehicle_status_badge_color Vehicle.find(b.object.id) %>'>
-                            <%= Vehicle.find(b.object.id).vehicle_status %>
+                            <%= b.object.vehicle_status %>
                           </span>
                         </td>
                         <td>
                           <ul class='list-unstyled'>
-                            <% Vehicle.find(b.object.id).defects.where(fixed: false).each do |defect| %>
+                            <% b.object.defects.where(fixed: false).each do |defect| %>
                             <li>
                               <%= link_to defect.id, defect_path(defect), class: 'badge badge-danger' %> / <%= defect.description[0..50] %>...
                             </li>

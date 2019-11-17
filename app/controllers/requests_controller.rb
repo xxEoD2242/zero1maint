@@ -316,19 +316,12 @@ class RequestsController < ApplicationController
       request.update(program_ids: [6])
     end
   end
-  
-  def singular_vehicle(request)
-    unless request.multi_vehicle
-      request.update(vehicle_ids: [request.vehicle_id])
-    end
-  end
 
   def create
     @request = Request.new(request_params)
 
     respond_to do |format|
       if @request.save
-        singular_vehicle @request
         request_email @request
         program_ids @request
         a_service_update @request

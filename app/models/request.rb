@@ -36,6 +36,9 @@ class Request < ApplicationRecord
   before_save :track_times_completed, only: [:update, :create]
   
   after_save :defect_email
+  
+  after_create :update_vehicle_ids
+  after_update :update_vehicle_ids
 
   STATUS = ['New', 'In-Progress', 'Completed', 'Overdue'].freeze
 
@@ -54,6 +57,12 @@ class Request < ApplicationRecord
     if self.completed?
       self.defects.update(fixed: true, date_fixed: self.completed_date, user_id: self.mechanic_id,
                           repair: self.description)
+    end
+  end
+  
+  def update_vehicle_ids
+    unless self.multi_vehicle || self.vehicle_id == -1
+      self.vehicles = [Vehicle.find(self.vehicle_id)]
     end
   end
   

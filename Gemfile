@@ -14,7 +14,7 @@ gem 'aws-sdk-rails'
 gem 'aws-sdk-s3'
 gem 'better_errors', group: :development
 gem 'binding_of_caller'
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 gem 'bootstrap_form'
 gem 'cancancan'
 gem 'carrierwave'
